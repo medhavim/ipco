@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.neu.ipco.entity">
+
+	<class name="InstanceQuiz" table="instance_quiz">
+	
+		<id name="instanceQuizId" column="instance_quiz_id">
+			<generator class="increment"/>
+		</id>
+		
+		<set name="activityAnswers" cascade="all">
+			<key column="instance_quiz_id"/>
+			<one-to-many class="ActivityAnswer"/>
+		</set>
+
+		<property name="score" column="score"/>
+		
+		<property name="createdTs" type="timestamp" column="created_ts"/>
+		<property name="updatedTs" type="timestamp" column="updated_ts"/>
+	</class>
+</hibernate-mapping>

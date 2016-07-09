@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.neu.ipco.entity">
+
+	<class name="CustomizeInstanceUser" table="customize_instance_user">
+	
+		<id name="id" column="id">
+			<generator class="increment"/>
+		</id>
+		
+		<many-to-one name="user" class="User" column="user_id" />
+		
+		<set name="instances" cascade="all">
+			<key column="id" foreign-key="customize_instance_user_id"/>
+			<one-to-many class="Instance"/>
+		</set>
+	
+		<property name="createdTs" type="timestamp" column="created_ts"/>
+		<property name="updatedTs" type="timestamp" column="updated_ts"/>
+	</class>
+</hibernate-mapping>
