@@ -11,7 +11,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <version>4.12</version>
       <scope>test</scope>
     </dependency>
     
@@ -28,6 +28,20 @@
 	    <artifactId>spring-web</artifactId>
 	    <version>4.3.1.RELEASE</version>
 	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.springframework/spring-tx -->
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-tx</artifactId>
+	    <version>4.3.1.RELEASE</version>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/aopalliance/aopalliance -->
+<!-- 	<dependency> -->
+<!-- 	    <groupId>aopalliance</groupId> -->
+<!-- 	    <artifactId>aopalliance</artifactId> -->
+<!-- 	    <version>1.0</version> -->
+<!-- 	</dependency> -->
 		
 	<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
 	<dependency>
@@ -81,7 +95,7 @@
 	<dependency>
 	    <groupId>org.hibernate</groupId>
 	    <artifactId>hibernate-core</artifactId>
-	    <version>5.1.0.Final</version>
+	    <version>4.3.3.Final</version>
 	    <exclusions>
 	        <exclusion>
 	            <artifactId>jta</artifactId>
@@ -100,6 +114,20 @@
 	            <artifactId>dom4j</artifactId>
 	        </exclusion>
     	</exclusions>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-c3p0 -->
+	<dependency>
+	    <groupId>org.hibernate</groupId>
+	    <artifactId>hibernate-c3p0</artifactId>
+	    <version>4.3.3.Final</version>
+	</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-ehcache -->
+	<dependency>
+	    <groupId>org.hibernate</groupId>
+	    <artifactId>hibernate-ehcache</artifactId>
+	    <version>4.3.3.Final</version>
 	</dependency>
 
 <!-- https://mvnrepository.com/artifact/dom4j/dom4j -->

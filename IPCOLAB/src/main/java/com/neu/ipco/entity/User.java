@@ -27,6 +27,8 @@ public class User implements Serializable{
 	
 	private Credential credential = new Credential();
 	
+	private UserType userType;
+	
 	private Date createdTs;
 	
 	private Date updatedTs;
@@ -106,6 +108,20 @@ public class User implements Serializable{
 	}
 
 	/**
+	 * @return the userType
+	 */
+	public UserType getUserType() {
+		return userType;
+	}
+
+	/**
+	 * @param userType the userType to set
+	 */
+	public void setUserType(UserType userType) {
+		this.userType = userType;
+	}
+
+	/**
 	 * @return the createdTs
 	 */
 	public Date getCreatedTs() {
@@ -147,6 +163,7 @@ public class User implements Serializable{
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + ((updatedTs == null) ? 0 : updatedTs.hashCode());
 		result = prime * result + userId;
+		result = prime * result + ((userType == null) ? 0 : userType.hashCode());
 		return result;
 	}
 
@@ -194,6 +211,11 @@ public class User implements Serializable{
 			return false;
 		if (userId != other.userId)
 			return false;
+		if (userType == null) {
+			if (other.userType != null)
+				return false;
+		} else if (!userType.equals(other.userType))
+			return false;
 		return true;
 	}
 
@@ -203,7 +225,8 @@ public class User implements Serializable{
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", credential=" + credential + ", createdTs=" + createdTs + ", updatedTs=" + updatedTs + "]";
+				+ ", credential=" + credential + ", userType=" + userType + ", createdTs=" + createdTs + ", updatedTs="
+				+ updatedTs + "]";
 	}
 
 }
