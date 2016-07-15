@@ -20,7 +20,8 @@
 			class="Credential"
 			unique = "true"
 			column="credential_id"
-			cascade="all" />
+			cascade="all"
+			lazy="false" />
 			
 		<many-to-one
 			name="userType"

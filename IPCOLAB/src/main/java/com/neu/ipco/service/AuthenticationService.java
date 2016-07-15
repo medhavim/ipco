@@ -14,15 +14,15 @@ import com.neu.ipco.exception.AuthenticationException;
 public interface AuthenticationService {
 	
 	public boolean checkEmail(String email) throws AuthenticationException;
+
+	public User checkEmailReset(String email, String userType) throws AuthenticationException;
 	
 	public boolean checkUsername(String username) throws AuthenticationException;
 	
 	public User userRegister(User user) throws AuthenticationException;
 	
-	public User validUser(Credential userLogin) throws AuthenticationException;
+	public User validUser(Credential userLogin, String userType) throws AuthenticationException;
 	
-	public void resetCredentials(Credential newCredential) throws AuthenticationException;
-	
-	public User validAdmin(Credential adminLogin) throws AuthenticationException;
+	public User resetCredentials(Credential newCredential, String userType) throws AuthenticationException;
 
 }

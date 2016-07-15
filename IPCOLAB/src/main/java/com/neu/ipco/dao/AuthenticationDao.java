@@ -14,15 +14,13 @@ import com.neu.ipco.exception.AuthenticationException;
 public interface AuthenticationDao {
 
 	
-	public User validUser(Credential userLogin) throws AuthenticationException;
+	public User validUser(Credential userLogin, String userType) throws AuthenticationException;
 
-	public User checkEmail(String email) throws AuthenticationException;
+	public User checkEmail(String email, String userType) throws AuthenticationException;
 
 	public Credential checkUsername(String username) throws AuthenticationException;
 
 	public User userRegister(User user) throws AuthenticationException;
 
 	public void resetCredentials(Credential newCredential) throws AuthenticationException;
-
-	public User validAdmin(Credential adminLogin) throws AuthenticationException;
 }

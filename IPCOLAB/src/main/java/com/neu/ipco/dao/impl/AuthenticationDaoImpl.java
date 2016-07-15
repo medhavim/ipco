@@ -37,17 +37,18 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 	/* (non-Javadoc)
 	 * @see com.neu.ipco.dao.AuthenticationDao#validUser(com.neu.ipco.entity.Credential)
 	 */
-	public User validUser(Credential userLogin) throws AuthenticationException {
-		List<User> users = (List<User>) template.findByNamedParam("from User u where u.credential = :credential "
-				+ "and u.userType.userTypeDesc = :userType", new String[]{"credential", "userType"}, new Object[]{userLogin, "user"});
+	public User validUser(Credential userLogin, String userType) throws AuthenticationException {
+		List<User> users = (List<User>) template.findByNamedParam("from User u where u.credential.username = :username and u.credential.password = :password "
+				+ "and u.userType.userTypeDesc = :userType", new String[]{"username", "password", "userType"}, new Object[]{userLogin.getUsername(), userLogin.getPassword(), userType});
 		if(users.isEmpty())
 			return null;
 		else
 			return users.get(0);
 	}
 
-	public User checkEmail(String email) throws AuthenticationException {
-		List<User> users = (List<User>) template.findByNamedParam("from User u where u.email = :email", "email", email);
+	public User checkEmail(String email, String userType) throws AuthenticationException {
+		List<User> users = (List<User>) template.findByNamedParam("from User u where u.email = :email "
+				+ "and u.userType.userTypeDesc = :userType", new String[]{"email", "userType"}, new Object[]{email, userType});
 		if(users.isEmpty())
 			return null;
 		else
@@ -69,11 +70,6 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 
 	public void resetCredentials(Credential newCredential) throws AuthenticationException {
 		template.update(newCredential);
-	}
-
-	public User validAdmin(Credential adminLogin) throws AuthenticationException {
-		return (User) template.findByNamedParam("from User u where u.credential = :credential "
-				+ "and u.userType.userTypeDesc = :userType", new String[]{"credential", "userType"}, new Object[]{adminLogin, "admin"});
 	}
 
 }

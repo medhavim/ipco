@@ -8,6 +8,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.neu.ipco.constants.AppConstants;
 import com.neu.ipco.dao.AuthenticationDao;
 import com.neu.ipco.entity.Credential;
 import com.neu.ipco.entity.User;
@@ -32,13 +33,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		// TODO Auto-generated constructor stub
 	}
 
-	public User validUser(Credential userLogin) throws AuthenticationException {
-		return authenticationDao.validUser(userLogin);
+	public User validUser(Credential userLogin, String userType) throws AuthenticationException {
+		return authenticationDao.validUser(userLogin, userType);
 	}
 
 	public boolean checkEmail(String email) throws AuthenticationException {
-		User user = authenticationDao.checkEmail(email);
+		User user = authenticationDao.checkEmail(email, AppConstants.USER_TYPE_USER);
 		return (null == user);
+	}
+	
+	public User checkEmailReset(String email, String userType) throws AuthenticationException {
+		return authenticationDao.checkEmail(email, userType);
 	}
 
 	public boolean checkUsername(String username) throws AuthenticationException {
@@ -52,12 +57,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		return authenticationDao.userRegister(user);
 	}
 
-	public void resetCredentials(Credential newCredential) throws AuthenticationException {
+	public User resetCredentials(Credential newCredential, String userType) throws AuthenticationException {
 		authenticationDao.resetCredentials(newCredential);
-	}
-
-	public User validAdmin(Credential adminLogin) throws AuthenticationException {
-		return authenticationDao.validAdmin(adminLogin);
+		return authenticationDao.validUser(newCredential, userType);
 	}
 
 }
