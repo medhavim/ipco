@@ -18,7 +18,7 @@ public class InstanceTopic implements Serializable {
 	 */
 	private static final long serialVersionUID = -6906191818448486847L;
 	
-	private int instanceTopicId;
+	private Integer instanceTopicId;
 	
 	private Topic topic;
 	
@@ -39,14 +39,14 @@ public class InstanceTopic implements Serializable {
 	/**
 	 * @return the instanceTopicId
 	 */
-	public int getInstanceTopicId() {
+	public Integer getInstanceTopicId() {
 		return instanceTopicId;
 	}
 
 	/**
 	 * @param instanceTopicId the instanceTopicId to set
 	 */
-	public void setInstanceTopicId(int instanceTopicId) {
+	public void setInstanceTopicId(Integer instanceTopicId) {
 		this.instanceTopicId = instanceTopicId;
 	}
 

@@ -17,7 +17,7 @@ public class ActivityTemplate implements Serializable {
 	 */
 	private static final long serialVersionUID = 4730286678868951839L;
 	
-	private int activityTemplateId;
+	private Integer activityTemplateId;
 	
 	private String activityTemplateName;
 	
@@ -32,14 +32,14 @@ public class ActivityTemplate implements Serializable {
 	/**
 	 * @return the activityTemplateId
 	 */
-	public int getActivityTemplateId() {
+	public Integer getActivityTemplateId() {
 		return activityTemplateId;
 	}
 
 	/**
 	 * @param activityTemplateId the activityTemplateId to set
 	 */
-	public void setActivityTemplateId(int activityTemplateId) {
+	public void setActivityTemplateId(Integer activityTemplateId) {
 		this.activityTemplateId = activityTemplateId;
 	}
 

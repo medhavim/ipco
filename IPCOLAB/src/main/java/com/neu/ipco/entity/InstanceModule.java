@@ -18,7 +18,7 @@ public class InstanceModule implements Serializable {
 	 */
 	private static final long serialVersionUID = -6393654052425460098L;
 	
-	private int instanceModuleId;
+	private Integer instanceModuleId;
 	
 	private Module module;
 	
@@ -65,14 +65,14 @@ public class InstanceModule implements Serializable {
 	/**
 	 * @return the instanceModuleId
 	 */
-	public int getInstanceModuleId() {
+	public Integer getInstanceModuleId() {
 		return instanceModuleId;
 	}
 
 	/**
 	 * @param instanceModuleId the instanceModuleId to set
 	 */
-	public void setInstanceModuleId(int instanceModuleId) {
+	public void setInstanceModuleId(Integer instanceModuleId) {
 		this.instanceModuleId = instanceModuleId;
 	}
 

@@ -17,7 +17,7 @@ public class TopicType implements Serializable {
 	 */
 	private static final long serialVersionUID = 7236544905121876186L;
 	
-	private int typeId;
+	private Integer typeId;
 	
 	private String typeDesc;
 	
@@ -29,17 +29,21 @@ public class TopicType implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
+	public TopicType(Integer topicTypeId) {
+		this.typeId = topicTypeId;
+	}
+
 	/**
 	 * @return the typeId
 	 */
-	public int getTypeId() {
+	public Integer getTypeId() {
 		return typeId;
 	}
 
 	/**
 	 * @param typeId the typeId to set
 	 */
-	public void setTypeId(int typeId) {
+	public void setTypeId(Integer typeId) {
 		this.typeId = typeId;
 	}
 

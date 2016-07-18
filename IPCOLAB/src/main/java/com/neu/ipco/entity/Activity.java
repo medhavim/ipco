@@ -17,7 +17,7 @@ public class Activity implements Serializable {
 	 */
 	private static final long serialVersionUID = 4427875007073263205L;
 
-	private int activityId;
+	private Integer activityId;
 	
 	private String activityText;
 	
@@ -34,14 +34,14 @@ public class Activity implements Serializable {
 	/**
 	 * @return the activityId
 	 */
-	public int getActivityId() {
+	public Integer getActivityId() {
 		return activityId;
 	}
 
 	/**
 	 * @param activityId the activityId to set
 	 */
-	public void setActivityId(int activityId) {
+	public void setActivityId(Integer activityId) {
 		this.activityId = activityId;
 	}
 

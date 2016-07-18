@@ -7,18 +7,18 @@
 
 	<class name="Topic">
 	
-		<id name="topicId" column="topic_id">
+		<id name="topicId" column="topic_id" type="integer">
 			<generator class="increment"/>
 		</id>
 		
 		<property name="topicName" column="topic_name"/>
 		
-		<set name="modules" cascade="all">
+		<set name="modules" lazy="false" cascade="all">
 			<key column="topic_id"/>
 			<one-to-many class="Module"/>
 		</set>
 
-		<many-to-one name="topicType" class="TopicType" column="type_id" />
+		<many-to-one name="topicType" class="TopicType" column="type_id" lazy="false"/>
 
 		<property name="createdTs" type="timestamp" column="created_ts"/>
 		<property name="updatedTs" type="timestamp" column="updated_ts"/>

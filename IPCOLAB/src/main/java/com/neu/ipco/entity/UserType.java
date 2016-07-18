@@ -17,7 +17,7 @@ public class UserType implements Serializable {
 	 */
 	private static final long serialVersionUID = -4185306040769753636L;
 
-	private int userTypeId;
+	private Integer userTypeId;
 	
 	private String userTypeDesc;
 	
@@ -32,14 +32,14 @@ public class UserType implements Serializable {
 	/**
 	 * @return the userTypeId
 	 */
-	public int getUserTypeId() {
+	public Integer getUserTypeId() {
 		return userTypeId;
 	}
 
 	/**
 	 * @param userTypeId the userTypeId to set
 	 */
-	public void setUserTypeId(int userTypeId) {
+	public void setUserTypeId(Integer userTypeId) {
 		this.userTypeId = userTypeId;
 	}
 

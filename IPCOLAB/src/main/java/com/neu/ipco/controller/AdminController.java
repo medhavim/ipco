@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.neu.ipco.constants.AppConstants;
 import com.neu.ipco.entity.Topic;
@@ -46,6 +47,30 @@ public class AdminController {
 		}
 		
 		LOGGER.debug("AdminController: manageTutorialAction: End");
+		return AppConstants.MANAGE_TUTORIAL;
+	}
+	
+	@RequestMapping(value="/addNewTopic.action", method=RequestMethod.POST)
+	public String addNewTopicAction(@RequestParam("topicName") String topicName,
+			@RequestParam("topicTypeId") int topicTypeId, Model model, HttpSession session){
+		
+		LOGGER.debug("AdminController: addNewTopicAction: Start");
+		
+		List<Topic> allTopics = (List<Topic>) session.getAttribute("allTopics");
+		
+		Topic newTopic = new Topic(topicName, topicTypeId);
+		
+		try {
+			newTopic = adminService.addNewTopic(newTopic);
+			allTopics.add(newTopic);
+			
+			session.setAttribute("allTopics", allTopics);
+			
+		} catch (AdminException e) {
+			return AppConstants.ERROR_PAGE;
+		}
+		
+		LOGGER.debug("AdminController: addNewTopicAction: End");
 		return AppConstants.MANAGE_TUTORIAL;
 	}
 

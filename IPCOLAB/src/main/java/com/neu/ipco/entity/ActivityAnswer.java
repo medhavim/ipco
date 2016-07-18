@@ -18,7 +18,7 @@ public class ActivityAnswer implements Serializable {
 	 */
 	private static final long serialVersionUID = 6995304591188353347L;
 	
-	private int activityAnswerId;
+	private Integer activityAnswerId;
 	
 	private ActivityOption activityOption;
 	
@@ -35,14 +35,14 @@ public class ActivityAnswer implements Serializable {
 	/**
 	 * @return the activityAnswerId
 	 */
-	public int getActivityAnswerId() {
+	public Integer getActivityAnswerId() {
 		return activityAnswerId;
 	}
 
 	/**
 	 * @param activityAnswerId the activityAnswerId to set
 	 */
-	public void setActivityAnswerId(int activityAnswerId) {
+	public void setActivityAnswerId(Integer activityAnswerId) {
 		this.activityAnswerId = activityAnswerId;
 	}
 

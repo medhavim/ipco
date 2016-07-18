@@ -18,7 +18,7 @@ public class Instance implements Serializable {
 	 */
 	private static final long serialVersionUID = -6134768059102718534L;
 	
-	private int instanceId;
+	private Integer instanceId;
 	
 	private String instanceName;
 	
@@ -35,14 +35,14 @@ public class Instance implements Serializable {
 	/**
 	 * @return the instanceId
 	 */
-	public int getInstanceId() {
+	public Integer getInstanceId() {
 		return instanceId;
 	}
 
 	/**
 	 * @param instanceId the instanceId to set
 	 */
-	public void setInstanceId(int instanceId) {
+	public void setInstanceId(Integer instanceId) {
 		this.instanceId = instanceId;
 	}
 

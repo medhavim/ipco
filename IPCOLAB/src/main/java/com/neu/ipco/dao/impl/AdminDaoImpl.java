@@ -37,4 +37,11 @@ public class AdminDaoImpl implements AdminDao {
 		return template.loadAll(Topic.class);
 	}
 
+	public Topic addNewTopic(Topic newTopic) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: addNewTopic: Start");
+		int topicId = (Integer) template.save(newTopic);
+		LOGGER.debug("AdminDaoImpl: addNewTopic: Executing");
+		return template.get(Topic.class, topicId);
+	}
+
 }

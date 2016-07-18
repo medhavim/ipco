@@ -17,7 +17,7 @@ public class User implements Serializable{
 	 */
 	private static final long serialVersionUID = -958250655511260916L;
 	
-	private int userId;
+	private Integer userId;
 
 	private String email;
 	
@@ -40,14 +40,14 @@ public class User implements Serializable{
 	/**
 	 * @return the userId
 	 */
-	public int getUserId() {
+	public Integer getUserId() {
 		return userId;
 	}
 
 	/**
 	 * @param userId the userId to set
 	 */
-	public void setUserId(int userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 

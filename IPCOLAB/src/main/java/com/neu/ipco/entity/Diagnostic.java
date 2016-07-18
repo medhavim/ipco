@@ -18,7 +18,7 @@ public class Diagnostic implements Serializable {
 	 */
 	private static final long serialVersionUID = 659192540934768360L;
 	
-	private int diagnosticId;
+	private Integer diagnosticId;
 	
 	private int relatedDiagnosticId;
 	
@@ -39,14 +39,14 @@ public class Diagnostic implements Serializable {
 	/**
 	 * @return the diagnosticId
 	 */
-	public int getDiagnosticId() {
+	public Integer getDiagnosticId() {
 		return diagnosticId;
 	}
 
 	/**
 	 * @param diagnosticId the diagnosticId to set
 	 */
-	public void setDiagnosticId(int diagnosticId) {
+	public void setDiagnosticId(Integer diagnosticId) {
 		this.diagnosticId = diagnosticId;
 	}
 

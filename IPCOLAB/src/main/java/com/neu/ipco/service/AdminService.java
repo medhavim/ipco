@@ -15,4 +15,6 @@ import com.neu.ipco.exception.AdminException;
 public interface AdminService {
 
 	public List<Topic> loadAllTopics() throws AdminException;
+
+	public Topic addNewTopic(Topic newTopic) throws AdminException;
 }

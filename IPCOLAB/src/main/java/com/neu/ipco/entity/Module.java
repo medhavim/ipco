@@ -18,7 +18,7 @@ public class Module implements Serializable {
 	 */
 	private static final long serialVersionUID = 507016717308048152L;
 	
-	private int moduleId;
+	private Integer moduleId;
 	
 	private String moduleName;
 	
@@ -35,14 +35,14 @@ public class Module implements Serializable {
 	/**
 	 * @return the moduleId
 	 */
-	public int getModuleId() {
+	public Integer getModuleId() {
 		return moduleId;
 	}
 
 	/**
 	 * @param moduleId the moduleId to set
 	 */
-	public void setModuleId(int moduleId) {
+	public void setModuleId(Integer moduleId) {
 		this.moduleId = moduleId;
 	}
 

@@ -17,7 +17,7 @@ public class Status implements Serializable {
 	 */
 	private static final long serialVersionUID = -3174391732708935489L;
 	
-	private int statusId;
+	private Integer statusId;
 	
 	private String statusDesc;
 	
@@ -32,14 +32,14 @@ public class Status implements Serializable {
 	/**
 	 * @return the statusId
 	 */
-	public int getStatusId() {
+	public Integer getStatusId() {
 		return statusId;
 	}
 
 	/**
 	 * @param statusId the statusId to set
 	 */
-	public void setStatusId(int statusId) {
+	public void setStatusId(Integer statusId) {
 		this.statusId = statusId;
 	}
 

@@ -16,4 +16,6 @@ public interface AdminDao {
 	
 	public List<Topic> loadAllTopics() throws AdminException;
 
+	public Topic addNewTopic(Topic newTopic) throws AdminException;
+
 }

@@ -17,11 +17,11 @@
 <%@include file="../css/manageTutorial.css" %>
 </style>
 <script type="text/javascript">
-<%-- <%@include file="../js/manageTutorial.js" %> --%>
+<%@include file="../js/manageTutorial.js" %>
 </script>
 </head>
 <body>
-
+<jsp:include page="header.jsp"></jsp:include>
 	<div class="jumbotron title">
 		<div class="container text-center">
 			<h1>Manage Tutorial</h1>
@@ -161,5 +161,6 @@
 		</div>
 		</div>
 	</div>
+	<jsp:include page="manageTutorialModal.jsp"></jsp:include>
 </body>
 </html>

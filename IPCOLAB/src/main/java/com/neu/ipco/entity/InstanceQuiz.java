@@ -18,7 +18,7 @@ public class InstanceQuiz implements Serializable {
 	 */
 	private static final long serialVersionUID = 7543173781843855129L;
 	
-	private int instanceQuizId;
+	private Integer instanceQuizId;
 	
 	private List<ActivityAnswer> activityAnswers;
 	
@@ -35,14 +35,14 @@ public class InstanceQuiz implements Serializable {
 	/**
 	 * @return the instanceQuizId
 	 */
-	public int getInstanceQuizId() {
+	public Integer getInstanceQuizId() {
 		return instanceQuizId;
 	}
 
 	/**
 	 * @param instanceQuizId the instanceQuizId to set
 	 */
-	public void setInstanceQuizId(int instanceQuizId) {
+	public void setInstanceQuizId(Integer instanceQuizId) {
 		this.instanceQuizId = instanceQuizId;
 	}
 

@@ -7,13 +7,13 @@
 
 	<class name="Module">
 	
-		<id name="moduleId" column="module_id">
+		<id name="moduleId" column="module_id" type="integer">
 			<generator class="increment"/>
 		</id>
 		
 		<property name="moduleName" column="module_name"/>
 		
-		<set name="activityOptions" cascade="all">
+		<set name="activityOptions" lazy="false" cascade="all">
 			<key column="module_id"/>
 			<one-to-many class="ActivityOption"/>
 		</set>

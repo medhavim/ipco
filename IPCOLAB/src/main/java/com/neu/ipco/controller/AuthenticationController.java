@@ -75,14 +75,14 @@ public class AuthenticationController {
 		
 		LOGGER.debug("AuthenticationController: loadAdminAuthPage: Start");
 		
-		if(!model.containsAttribute("adminLogin")){
+//		if(!model.containsAttribute("adminLogin")){
 
 			Credential adminLogin = new Credential();
 			Credential newAdminCredential = new Credential();
 			
 			model.addAttribute("adminLogin", adminLogin);
 			model.addAttribute("newAdminCredential", newAdminCredential);
-		}
+//		}
 		
 		
 		LOGGER.debug("AuthenticationController: loadAdminAuthPage: End");

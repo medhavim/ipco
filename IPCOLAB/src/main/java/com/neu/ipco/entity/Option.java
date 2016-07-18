@@ -17,7 +17,7 @@ public class Option implements Serializable {
 	 */
 	private static final long serialVersionUID = 8916176611295390170L;
 	
-	private int optionId;
+	private Integer optionId;
 	
 	private String optionText;
 	
@@ -34,14 +34,14 @@ public class Option implements Serializable {
 	/**
 	 * @return the optionId
 	 */
-	public int getOptionId() {
+	public Integer getOptionId() {
 		return optionId;
 	}
 
 	/**
 	 * @param optionId the optionId to set
 	 */
-	public void setOptionId(int optionId) {
+	public void setOptionId(Integer optionId) {
 		this.optionId = optionId;
 	}
 

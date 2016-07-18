@@ -34,4 +34,9 @@ public class AdminServiceImpl implements AdminService {
 		return adminDao.loadAllTopics();
 	}
 
+	public Topic addNewTopic(Topic newTopic) throws AdminException {
+		LOGGER.debug("AdminService: addNewTopic: Executing");
+		return adminDao.addNewTopic(newTopic);
+	}
+
 }

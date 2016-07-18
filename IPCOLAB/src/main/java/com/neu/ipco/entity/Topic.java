@@ -5,7 +5,8 @@ package com.neu.ipco.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Harsha
@@ -18,11 +19,11 @@ public class Topic implements Serializable {
 	 */
 	private static final long serialVersionUID = 6103128993812139770L;
 	
-	private int topicId;
+	private Integer topicId;
 	
 	private String topicName;
 	
-	private List<Module> modules;
+	private Set<Module> modules = new HashSet<Module>();
 	
 	private TopicType topicType;
 	
@@ -34,17 +35,23 @@ public class Topic implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Topic(String topicName, Integer topicTypeId) {
+		this.topicName = topicName;
+		this.topicType = new TopicType(topicTypeId);
+		this.createdTs = new Date();
+	}
+
 	/**
 	 * @return the topicId
 	 */
-	public int getTopicId() {
+	public Integer getTopicId() {
 		return topicId;
 	}
 
 	/**
 	 * @param topicId the topicId to set
 	 */
-	public void setTopicId(int topicId) {
+	public void setTopicId(Integer topicId) {
 		this.topicId = topicId;
 	}
 
@@ -65,14 +72,14 @@ public class Topic implements Serializable {
 	/**
 	 * @return the modules
 	 */
-	public List<Module> getModules() {
+	public Set<Module> getModules() {
 		return modules;
 	}
 
 	/**
 	 * @param modules the modules to set
 	 */
-	public void setModules(List<Module> modules) {
+	public void setModules(Set<Module> modules) {
 		this.modules = modules;
 	}
 

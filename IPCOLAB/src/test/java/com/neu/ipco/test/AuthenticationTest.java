@@ -72,7 +72,7 @@ public class AuthenticationTest {
 		
 		try {
 			user = authenticationService.userRegister(user);
-			assertNotEquals(0, user.getUserId());
+			assertNotEquals(Integer.valueOf(0), user.getUserId());
 		} catch (AuthenticationException e) {
 			e.printStackTrace();
 		}

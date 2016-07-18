@@ -17,7 +17,7 @@ public class Credential implements Serializable{
 	 */
 	private static final long serialVersionUID = -7505173744503549385L;
 	
-	private int credentialId;
+	private Integer credentialId;
 
 	private String username;
 	
@@ -36,14 +36,14 @@ public class Credential implements Serializable{
 	/**
 	 * @return the credentialId
 	 */
-	public int getCredentialId() {
+	public Integer getCredentialId() {
 		return credentialId;
 	}
 
 	/**
 	 * @param credentialId the credentialId to set
 	 */
-	public void setCredentialId(int credentialId) {
+	public void setCredentialId(Integer credentialId) {
 		this.credentialId = credentialId;
 	}
 
