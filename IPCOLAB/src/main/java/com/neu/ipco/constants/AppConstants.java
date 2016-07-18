@@ -23,4 +23,6 @@ public class AppConstants {
 
 	public static final String ADMIN_HOME = "adminHome";
 
+	public static final String MANAGE_TUTORIAL = "manageTutorial";
+
 }

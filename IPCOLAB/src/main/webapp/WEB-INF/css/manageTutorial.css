@@ -1,0 +1,52 @@
+.container_name:after {
+	/* symbol for "opening" panels */
+	font-family: 'Glyphicons Halflings';
+	/* essential for enabling glyphicon */
+	content: "\e114"; /* adjust as needed, taken from bootstrap.css */
+	float: left; /* adjust as needed */
+	color: grey; /* adjust as needed */
+	padding-right: 15px;
+}
+.container_name.collapsed:after {
+	/* symbol for "collapsed" panels */
+	content: "\e080"; /* adjust as needed, taken from bootstrap.css */
+}
+.topic-container {
+	position: fixed;
+	top: 50px;
+	width: 100%;
+	height: 200px;
+	z-index: 50;
+}
+
+.jumbotron{
+	background-color: #ccc;
+}
+
+.jumbotron.title{
+	margin-top: 50px;
+}
+
+.topic_holder{
+/*     background-color: rgba(201, 219, 52, 0.4); */
+}
+
+.topic_holder .btn{
+	border-radius: 25px;
+}
+.activity_holder{
+/* 	background-color: rgb(214, 196, 196); */
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-radius: 10px;
+	margin-top:2px;
+	margin-bottom :2px;
+}
+.module_holder{
+/*     background-color: rgba(0, 0, 0, 0.12); */
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-radius: 10px;
+	margin-top:2px;
+	margin-bottom :2px;
+}

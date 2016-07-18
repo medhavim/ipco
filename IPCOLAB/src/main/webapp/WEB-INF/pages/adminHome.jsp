@@ -26,26 +26,27 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-sm-3 col-centered">
-				<button type="button" class="btn btn-lg btn-circle btn-raised ripple-effect btn-primary">
-				<h3><span class="glyphicon glyphicon-pencil"></span>&nbsp;Topic</h3>
+				<button id="manageTutorial.action" class="option btn btn-lg btn-circle btn-raised ripple-effect btn-primary">
+				<h3><span class="glyphicon glyphicon-pencil"></span>&nbsp;Tutorial</h3>
 				</button>
 			</div>
 			<div class="col-sm-3 col-centered">
-				<button type="button" class="btn btn-lg btn-circle btn-raised ripple-effect btn-primary">
+				<button class="btn btn-lg btn-circle btn-raised ripple-effect btn-primary">
 				<h3><span class="glyphicon glyphicon-pencil"></span>&nbsp;Diagnostic</h3>
 				</button>
 			</div>
 			<div class="col-sm-3 col-centered">
-				<button type="button" class="btn btn-lg btn-circle btn-raised ripple-effect btn-primary">
+				<button class="btn btn-lg btn-circle btn-raised ripple-effect btn-primary">
 				<h3><span class="glyphicon glyphicon-pencil"></span>&nbsp;Quiz</h3>
 				</button>
 			</div>
 			<div class="col-sm-3 col-centered">
-				<button type="button" class="btn btn-lg btn-circle btn-raised ripple-effect btn-primary">
+				<button class="btn btn-lg btn-circle btn-raised ripple-effect btn-primary">
 				<h3><span class="glyphicon glyphicon-pencil"></span>&nbsp;User</h3>
 				</button>
 			</div>
 		</div>
+		<form action="#" id="customForm" method="post"></form>
 	</div>
 	</div>
 </body>

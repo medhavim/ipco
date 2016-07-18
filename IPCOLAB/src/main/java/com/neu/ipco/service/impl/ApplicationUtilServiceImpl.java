@@ -3,6 +3,7 @@
  */
 package com.neu.ipco.service.impl;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,8 @@ import com.neu.ipco.service.ApplicationUtilService;
 @Service("applicationUtilService")
 public class ApplicationUtilServiceImpl implements ApplicationUtilService {
 	
+	private Logger LOGGER = Logger.getLogger(ApplicationUtilServiceImpl.class);
+	
 	@Autowired
 	private ApplicationUtilDao applicationUtilDao;
 
@@ -27,10 +30,12 @@ public class ApplicationUtilServiceImpl implements ApplicationUtilService {
 	 */
 	@Transactional
 	public UserType getUserType(UserType userType) throws ApplicationUtilException {
+		LOGGER.debug("ApplicationUtilServiceImpl: getUserType: Executing");
 		return applicationUtilDao.getUserType(userType);
 	}
 
 	public UserType addUserType(UserType userType) throws ApplicationUtilException {
+		LOGGER.debug("ApplicationUtilServiceImpl: addUserType: Executing");
 		return applicationUtilDao.addUserType(userType);
 	}
 
