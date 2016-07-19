@@ -39,6 +39,49 @@ function deleteActivityContainer(deletedTag){
 	form.action = "deleteActivityContainer.action";
 	$("#deletableId").val(deleteId);
 }
+
+//helper functions for module
+
+function editActivity(id){
+	
+	var form = document.getElementById("editForm");
+	form.action="editActivity.action";
+	form.children.namedItem("id").value=id;
+	form.submit();
+}
+
+
+function renameModule(button) {
+	var moduleName = button.name;
+	var moduleId = button.id;
+	$('#renameModule input[name=renameModule]').val(containerName);
+	$('#renameModule input[name=renameModuleId]').val(containerId);
+	$("#renameModule").modal("toggle");
+}
+
+function deleteActivity(deletedTag){
+	
+	var deleteId = deletedTag.id.split("_")[1];
+	var form = document.getElementById("confirmationForm");
+	form.action = "deleteActivity.action";
+	$("#deletableId").val(deleteId);
+}
+
+function deleteActivityContainer(deletedTag){
+	
+	var containerNotEmpty = $("#containerNotEmpty").val();
+	
+	if(containerNotEmpty=="true"){
+		$("#warningDialog").modal("toggle");
+	}else{
+		var deleteId = deletedTag.id.split("_")[1];
+		var form = document.getElementById("confirmationForm");
+		form.action = "deleteActivityContainer.action";
+		$("#deletableId").val(deleteId);
+		$("#confirmationDialog").modal("toggle");
+	}
+}
+
 $(document).ready(function() {
 // 		Ajax for renaming the topic name
 	$("#changeTopicName").click(function() {
@@ -76,6 +119,32 @@ $(document).ready(function() {
 		$(this).removeClass('btn-default').addClass('btn-primary');
 		$(this).find('input').each(function(){
 			$(this).prop('checked', true);
+		});
+	});
+	
+//	helper functions for module
+	
+	$("#addNewActivity").click(function() {
+		$("#editForm").attr('action', 'newActivityLink.action');
+		$('#id').val($("#addNewActivity").attr("name"));
+		$("#editForm").submit();
+	});
+	
+//		Ajax for renaming the activity container name
+	$("#changeModuleName").click(function() {
+		moduleName = $('#renameModule input[name=renameModule]').val();
+		moduleId = $('#renameModule input[name=renameModuleId]').val();
+		$("#loadingDiv").modal("toggle");
+		$("#renameModule").modal("toggle");
+		$.ajax({
+			type : "POST",
+			url : "renameModule.action",
+			data : "moduleName=" + moduleName + "&moduleId=" + moduleId,
+			success : function(data) {
+				$("#loadingDiv").modal("toggle");
+				$("#moduleName_" + moduleId)[0].innerHTML = moduleName;
+				$('#renameModule_'+moduleId).attr('name', moduleName);
+			}
 		});
 	});
 	

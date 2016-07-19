@@ -13,7 +13,9 @@
 		
 		<property name="moduleName" column="module_name"/>
 		
-		<set name="activityOptions" lazy="false" cascade="all">
+		<many-to-one name="topic" class="Topic" column="topic_id" lazy="false"/>
+		
+		<set name="activityOptions" lazy="false" cascade="all" inverse="true">
 			<key column="module_id"/>
 			<one-to-many class="ActivityOption"/>
 		</set>

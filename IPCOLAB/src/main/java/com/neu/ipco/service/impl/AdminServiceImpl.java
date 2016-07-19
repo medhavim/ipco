@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.neu.ipco.dao.AdminDao;
+import com.neu.ipco.entity.Module;
 import com.neu.ipco.entity.Topic;
 import com.neu.ipco.exception.AdminException;
 import com.neu.ipco.service.AdminService;
@@ -37,6 +38,26 @@ public class AdminServiceImpl implements AdminService {
 	public Topic addNewTopic(Topic newTopic) throws AdminException {
 		LOGGER.debug("AdminService: addNewTopic: Executing");
 		return adminDao.addNewTopic(newTopic);
+	}
+
+	public Topic getTopicById(int topicId) throws AdminException {
+		LOGGER.debug("AdminService: getTopicById: Executing");
+		return adminDao.getTopicById(topicId);
+	}
+
+	public void updateTopic(Topic topic) throws AdminException {
+		LOGGER.debug("AdminService: updateTopic: Executing");
+		adminDao.updateTopic(topic);
+	}
+
+	public void deleteTopic(Topic topic) throws AdminException {
+		LOGGER.debug("AdminService: deleteTopic: Executing");
+		adminDao.deleteTopic(topic);
+	}
+
+	public Module addNewModule(Module module) throws AdminException {
+		LOGGER.debug("AdminService: addNewModule: Executing");
+		return adminDao.addNewModule(module);
 	}
 
 }

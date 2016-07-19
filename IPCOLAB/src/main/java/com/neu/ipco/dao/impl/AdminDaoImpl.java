@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.neu.ipco.dao.AdminDao;
+import com.neu.ipco.entity.Module;
 import com.neu.ipco.entity.Topic;
 import com.neu.ipco.exception.AdminException;
 
@@ -42,6 +43,28 @@ public class AdminDaoImpl implements AdminDao {
 		int topicId = (Integer) template.save(newTopic);
 		LOGGER.debug("AdminDaoImpl: addNewTopic: Executing");
 		return template.get(Topic.class, topicId);
+	}
+
+	public Topic getTopicById(int topicId) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: getTopicById: Executing");
+		return template.get(Topic.class, topicId);
+	}
+
+	public void updateTopic(Topic topic) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: updateTopic: Executing");
+		template.update(topic);
+	}
+
+	public void deleteTopic(Topic topic) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: deleteTopic: Executing");
+		template.delete(topic);
+	}
+
+	public Module addNewModule(Module module) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: addNewModule: Start");
+		int moduleId = (Integer) template.save(module);
+		LOGGER.debug("AdminDaoImpl: addNewModule: Executing");
+		return template.get(Module.class, moduleId);
 	}
 
 }

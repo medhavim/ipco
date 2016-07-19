@@ -22,6 +22,8 @@ public class ActivityOption implements Serializable {
 	
 	private Activity activity;
 	
+	private Module module;
+	
 	private List<Option> options;
 	
 	private Date createdTs;
@@ -58,6 +60,20 @@ public class ActivityOption implements Serializable {
 	 */
 	public void setActivity(Activity activity) {
 		this.activity = activity;
+	}
+
+	/**
+	 * @return the module
+	 */
+	public Module getModule() {
+		return module;
+	}
+
+	/**
+	 * @param module the module to set
+	 */
+	public void setModule(Module module) {
+		this.module = module;
 	}
 
 	/**
@@ -111,8 +127,9 @@ public class ActivityOption implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((activity == null) ? 0 : activity.hashCode());
-		result = prime * result + activityOptionId;
+		result = prime * result + ((activityOptionId == null) ? 0 : activityOptionId.hashCode());
 		result = prime * result + ((createdTs == null) ? 0 : createdTs.hashCode());
+		result = prime * result + ((module == null) ? 0 : module.hashCode());
 		result = prime * result + ((options == null) ? 0 : options.hashCode());
 		result = prime * result + ((updatedTs == null) ? 0 : updatedTs.hashCode());
 		return result;
@@ -135,12 +152,20 @@ public class ActivityOption implements Serializable {
 				return false;
 		} else if (!activity.equals(other.activity))
 			return false;
-		if (activityOptionId != other.activityOptionId)
+		if (activityOptionId == null) {
+			if (other.activityOptionId != null)
+				return false;
+		} else if (!activityOptionId.equals(other.activityOptionId))
 			return false;
 		if (createdTs == null) {
 			if (other.createdTs != null)
 				return false;
 		} else if (!createdTs.equals(other.createdTs))
+			return false;
+		if (module == null) {
+			if (other.module != null)
+				return false;
+		} else if (!module.equals(other.module))
 			return false;
 		if (options == null) {
 			if (other.options != null)
@@ -160,8 +185,8 @@ public class ActivityOption implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "ActivityOption [activityOptionId=" + activityOptionId + ", activity=" + activity + ", options="
-				+ options + ", createdTs=" + createdTs + ", updatedTs=" + updatedTs + "]";
+		return "ActivityOption [activityOptionId=" + activityOptionId + ", activity=" + activity + ", module=" + module
+				+ ", options=" + options + ", createdTs=" + createdTs + ", updatedTs=" + updatedTs + "]";
 	}
 
 }

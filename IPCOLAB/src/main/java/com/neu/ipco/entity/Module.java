@@ -5,7 +5,9 @@ package com.neu.ipco.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Harsha
@@ -22,7 +24,9 @@ public class Module implements Serializable {
 	
 	private String moduleName;
 	
-	private List<ActivityOption> activityOptions;
+	private Topic topic;
+	
+	private Set<ActivityOption> activityOptions = new HashSet<ActivityOption>();
 	
 	private Date createdTs;
 	
@@ -30,6 +34,12 @@ public class Module implements Serializable {
 	
 	public Module() {
 		// TODO Auto-generated constructor stub
+	}
+
+	public Module(String moduleName, Topic topic) {
+		this.moduleName = moduleName;
+		this.topic = topic;
+		this.createdTs = new Date();
 	}
 
 	/**
@@ -62,16 +72,30 @@ public class Module implements Serializable {
 
 
 	/**
+	 * @return the topic
+	 */
+	public Topic getTopic() {
+		return topic;
+	}
+
+	/**
+	 * @param topic the topic to set
+	 */
+	public void setTopic(Topic topic) {
+		this.topic = topic;
+	}
+
+	/**
 	 * @return the activityOptions
 	 */
-	public List<ActivityOption> getActivityOptions() {
+	public Set<ActivityOption> getActivityOptions() {
 		return activityOptions;
 	}
 
 	/**
 	 * @param activityOptions the activityOptions to set
 	 */
-	public void setActivityOptions(List<ActivityOption> activityOptions) {
+	public void setActivityOptions(Set<ActivityOption> activityOptions) {
 		this.activityOptions = activityOptions;
 	}
 
@@ -112,8 +136,9 @@ public class Module implements Serializable {
 		int result = 1;
 		result = prime * result + ((activityOptions == null) ? 0 : activityOptions.hashCode());
 		result = prime * result + ((createdTs == null) ? 0 : createdTs.hashCode());
-		result = prime * result + moduleId;
+		result = prime * result + ((moduleId == null) ? 0 : moduleId.hashCode());
 		result = prime * result + ((moduleName == null) ? 0 : moduleName.hashCode());
+		result = prime * result + ((topic == null) ? 0 : topic.hashCode());
 		result = prime * result + ((updatedTs == null) ? 0 : updatedTs.hashCode());
 		return result;
 	}
@@ -140,12 +165,20 @@ public class Module implements Serializable {
 				return false;
 		} else if (!createdTs.equals(other.createdTs))
 			return false;
-		if (moduleId != other.moduleId)
+		if (moduleId == null) {
+			if (other.moduleId != null)
+				return false;
+		} else if (!moduleId.equals(other.moduleId))
 			return false;
 		if (moduleName == null) {
 			if (other.moduleName != null)
 				return false;
 		} else if (!moduleName.equals(other.moduleName))
+			return false;
+		if (topic == null) {
+			if (other.topic != null)
+				return false;
+		} else if (!topic.equals(other.topic))
 			return false;
 		if (updatedTs == null) {
 			if (other.updatedTs != null)
@@ -160,8 +193,8 @@ public class Module implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "Module [moduleId=" + moduleId + ", moduleName=" + moduleName + ", activityOptions=" + activityOptions
-				+ ", createdTs=" + createdTs + ", updatedTs=" + updatedTs + "]";
+		return "Module [moduleId=" + moduleId + ", moduleName=" + moduleName + ", topic=" + topic + ", activityOptions="
+				+ activityOptions + ", createdTs=" + createdTs + ", updatedTs=" + updatedTs + "]";
 	}
 
 }

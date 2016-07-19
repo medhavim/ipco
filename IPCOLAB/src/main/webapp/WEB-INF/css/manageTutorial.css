@@ -50,3 +50,8 @@
 	margin-top:2px;
 	margin-bottom :2px;
 }
+
+.glyphicon-refresh-animate {
+    -animation: spin .7s infinite linear;
+    -webkit-animation: spin2 .7s infinite linear;
+}

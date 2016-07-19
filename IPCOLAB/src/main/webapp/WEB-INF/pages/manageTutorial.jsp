@@ -54,7 +54,8 @@
 			<div class="row">
 				<div class="col-sm-8">
 				<span class="container_name h2 collapsed span-topic-${topic.topicId}" 
-					data-toggle="collapse" data-target="#modules_for-${topic.topicId}" id="topic_name_${topic.topicId}">${topic.topicName} ${topic.topicType.typeId == 1?'(Basic)':''}</span>
+					data-toggle="collapse" data-target="#modules_for-${topic.topicId}" id="topic_name_${topic.topicId}">${topic.topicName}</span>
+				<span class="h3">${topic.topicType.typeId == 1?'(Basic)':''}</span>
 				</div>
 				<div class="col-sm-2">
 				<button class="btn btn-success btn-block" id="${topic.topicId}" name="${topic.topicName}" onclick="renameTopic(this)">Rename</button>
@@ -71,7 +72,7 @@
 			<div class="row">
 				<div class="col-sm-4">
 				<a class="btn btn-info btn-block" data-toggle="modal"
-					data-target="#addNewModule" role="button">Add Module</a>
+					data-target="#addNewModule" role="button" id="new_module_under-${topic.topicId}" onclick="addContainer(this)">Add Module</a>
 				</div>
 			</div>
 			<c:if test="${not (fn:length(topic.modules)>0)}">
@@ -96,7 +97,7 @@
 							data-toggle="collapse" data-target="#activities_for-${module.moduleId}" id="moduleName_${module.moduleId}">${module.moduleName}</span>
 						</div>
 						<div class="col-sm-2">
-						<button class="btn btn-success btn-block" id="${module.moduleId}" name="${module.moduleName}" onclick="renameModule(this)">Rename</button>
+						<button class="btn btn-success btn-block" id="renameModule_${module.moduleId}" name="${module.moduleName}" onclick="renameModule(this)">Rename</button>
 						</div>
 						<div class="col-sm-2">
 						<a class="btn btn-danger btn-block" id="deleteId_${module.moduleId}" role="button" onclick="deleteModule(this)">Delete</a>
