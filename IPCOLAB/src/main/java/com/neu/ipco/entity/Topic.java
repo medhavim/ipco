@@ -134,8 +134,7 @@ public class Topic implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((createdTs == null) ? 0 : createdTs.hashCode());
-		result = prime * result + ((modules == null) ? 0 : modules.hashCode());
-		result = prime * result + topicId;
+		result = prime * result + ((topicId == null) ? 0 : topicId.hashCode());
 		result = prime * result + ((topicName == null) ? 0 : topicName.hashCode());
 		result = prime * result + ((topicType == null) ? 0 : topicType.hashCode());
 		result = prime * result + ((updatedTs == null) ? 0 : updatedTs.hashCode());
@@ -159,12 +158,10 @@ public class Topic implements Serializable {
 				return false;
 		} else if (!createdTs.equals(other.createdTs))
 			return false;
-		if (modules == null) {
-			if (other.modules != null)
+		if (topicId == null) {
+			if (other.topicId != null)
 				return false;
-		} else if (!modules.equals(other.modules))
-			return false;
-		if (topicId != other.topicId)
+		} else if (!topicId.equals(other.topicId))
 			return false;
 		if (topicName == null) {
 			if (other.topicName != null)

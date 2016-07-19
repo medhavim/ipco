@@ -86,6 +86,7 @@ public class AdminController {
 			
 			List<Topic> allTopics = adminService.loadAllTopics();
 			session.setAttribute("allTopics", allTopics);
+			model.addAttribute("moduleTopicId", module.getTopic().getTopicId());
 		} catch (AdminException e) {
 			return AppConstants.ERROR_PAGE;
 		}
@@ -113,6 +114,26 @@ public class AdminController {
 		return AppConstants.MANAGE_TUTORIAL;
 	}
 	
+	@RequestMapping(value="/deleteModule.action", method=RequestMethod.POST)
+	public String deleteModuleAction(@RequestParam("deletableId") int deletableId, HttpSession session, Model model){
+		
+		LOGGER.debug("AdminController: deleteModuleAction: Start");
+		
+		try {
+			Module module = adminService.getModuleById(deletableId);
+			adminService.deleteModule(module);
+			
+			List<Topic> allTopics = adminService.loadAllTopics();
+			session.setAttribute("allTopics", allTopics);
+			model.addAttribute("moduleTopicId", module.getTopic().getTopicId());
+		} catch (AdminException e) {
+			return AppConstants.ERROR_PAGE;
+		}
+		
+		LOGGER.debug("AdminController: deleteModuleAction: End");
+		return AppConstants.MANAGE_TUTORIAL;
+	}
+	
 	@ResponseBody
 	@RequestMapping(value="/renameTopic.action", method=RequestMethod.POST)
 	public String renameTopic(@RequestParam("topicName") String topicName, @RequestParam("topicId") int topicId, HttpSession session){
@@ -127,6 +148,26 @@ public class AdminController {
 			
 			session.setAttribute("allTopics", allTopics);
 			LOGGER.debug("AdminController: renameTopic: End");
+			
+			return "true";
+		} catch (AdminException e) {
+			return "error";
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/renameModule.action", method=RequestMethod.POST)
+	public String renameModule(@RequestParam("moduleName") String moduleName, @RequestParam("moduleId") int moduleId, HttpSession session){
+		
+		LOGGER.debug("AdminController: renameModule: Start");
+		try {
+			Module module = adminService.getModuleById(moduleId);
+			module.setModuleName(moduleName);
+			adminService.updateModule(module);
+			List<Topic> allTopics = adminService.loadAllTopics();
+			
+			session.setAttribute("allTopics", allTopics);
+			LOGGER.debug("AdminController: renameModule: End");
 			
 			return "true";
 		} catch (AdminException e) {

@@ -67,4 +67,19 @@ public class AdminDaoImpl implements AdminDao {
 		return template.get(Module.class, moduleId);
 	}
 
+	public Module getModuleById(int moduleId) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: getModuleById: Executing");
+		return template.get(Module.class, moduleId);
+	}
+
+	public void updateModule(Module module) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: getModuleById: Executing");
+		template.update(module);
+	}
+
+	public void deleteModule(Module module) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: deleteModule: Executing");
+		template.delete(module);
+	}
+
 }

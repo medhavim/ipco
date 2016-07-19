@@ -106,6 +106,7 @@
 		</div>
 	</div>
 </div>
+<input type="hidden" name="moduleTopicId" id="moduleTopicId" value="${moduleTopicId}" />
 <!-- 			Confirmation dialog before delete END -->
 
 <!-- 			Adding new Module START -->

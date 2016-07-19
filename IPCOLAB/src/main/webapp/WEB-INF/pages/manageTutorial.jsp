@@ -66,13 +66,13 @@
 				<input type="hidden" id="topicNotEmpty_${topic.topicId}" value="${fn:length(topic.modules)>0}" />
 			</div>
 			
-			<div class="panel-collapse collapse ${topicNo.index+1 == 1?'in':''}" id="modules_for-${topic.topicId}">
+			<div class="panel-collapse collapse" id="modules_for-${topic.topicId}">
 			
 			<div class="jumbotron module_holder">
 			<div class="row">
 				<div class="col-sm-4">
 				<a class="btn btn-info btn-block" data-toggle="modal"
-					data-target="#addNewModule" role="button" id="new_module_under-${topic.topicId}" onclick="addContainer(this)">Add Module</a>
+					data-target="#addNewModule" role="button" id="new_module_under-${topic.topicId}" onclick="addModule(this)">Add Module</a>
 				</div>
 			</div>
 			<c:if test="${not (fn:length(topic.modules)>0)}">

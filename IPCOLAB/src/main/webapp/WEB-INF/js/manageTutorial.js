@@ -12,7 +12,7 @@ function renameTopic(button) {
 	$("#renameTopic").modal("toggle");
 }
 	
-function addContainer(button) {
+function addModule(button) {
 	var topicId = button.id.split("-")[1];
 	$('#topicId').val(topicId);
 }
@@ -32,15 +32,22 @@ function deleteTopic(deletedTag){
 	}
 }
 	
-function deleteActivityContainer(deletedTag){
+//helper functions for module
+
+function deleteModule(deletedTag){
 	
 	var deleteId = deletedTag.id.split("_")[1];
-	var form = document.getElementById("confirmationForm");
-	form.action = "deleteActivityContainer.action";
-	$("#deletableId").val(deleteId);
+	var moduleNotEmpty = $("#moduleNotEmpty_"+deleteId).val();
+	
+	if(moduleNotEmpty == "true"){
+		$("#warningDialog").modal("toggle");
+	}else{
+		var form = document.getElementById("confirmationForm");
+		form.action = "deleteModule.action";
+		$("#deletableId").val(deleteId);
+		$("#confirmationDialog").modal("toggle");
+	}
 }
-
-//helper functions for module
 
 function editActivity(id){
 	
@@ -53,9 +60,9 @@ function editActivity(id){
 
 function renameModule(button) {
 	var moduleName = button.name;
-	var moduleId = button.id;
-	$('#renameModule input[name=renameModule]').val(containerName);
-	$('#renameModule input[name=renameModuleId]').val(containerId);
+	var moduleId = button.id.split("_")[1];
+	$('#renameModule input[name=renameModule]').val(moduleName);
+	$('#renameModule input[name=renameModuleId]').val(moduleId);
 	$("#renameModule").modal("toggle");
 }
 
@@ -65,21 +72,6 @@ function deleteActivity(deletedTag){
 	var form = document.getElementById("confirmationForm");
 	form.action = "deleteActivity.action";
 	$("#deletableId").val(deleteId);
-}
-
-function deleteActivityContainer(deletedTag){
-	
-	var containerNotEmpty = $("#containerNotEmpty").val();
-	
-	if(containerNotEmpty=="true"){
-		$("#warningDialog").modal("toggle");
-	}else{
-		var deleteId = deletedTag.id.split("_")[1];
-		var form = document.getElementById("confirmationForm");
-		form.action = "deleteActivityContainer.action";
-		$("#deletableId").val(deleteId);
-		$("#confirmationDialog").modal("toggle");
-	}
 }
 
 $(document).ready(function() {
@@ -147,6 +139,12 @@ $(document).ready(function() {
 			}
 		});
 	});
+	
+	if($('#moduleTopicId').val() != ""){
+		var topicId = $('#moduleTopicId').val();
+		$('.span-topic-'+topicId).removeClass('collapsed');
+		$('#modules_for-'+topicId).addClass('in');
+	}
 	
 });
 

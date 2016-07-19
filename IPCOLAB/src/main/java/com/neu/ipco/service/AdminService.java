@@ -26,4 +26,10 @@ public interface AdminService {
 	public void deleteTopic(Topic topic) throws AdminException;
 
 	public Module addNewModule(Module module) throws AdminException;
+
+	public Module getModuleById(int moduleId) throws AdminException;
+
+	public void updateModule(Module module) throws AdminException;
+
+	public void deleteModule(Module module) throws AdminException;
 }

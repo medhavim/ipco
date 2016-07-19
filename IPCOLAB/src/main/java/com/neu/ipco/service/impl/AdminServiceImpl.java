@@ -60,4 +60,19 @@ public class AdminServiceImpl implements AdminService {
 		return adminDao.addNewModule(module);
 	}
 
+	public Module getModuleById(int moduleId) throws AdminException {
+		LOGGER.debug("AdminService: getModuleById: Executing");
+		return adminDao.getModuleById(moduleId);
+	}
+
+	public void updateModule(Module module) throws AdminException {
+		LOGGER.debug("AdminService: updateModule: Executing");
+		adminDao.updateModule(module);
+	}
+
+	public void deleteModule(Module module) throws AdminException {
+		LOGGER.debug("AdminService: deleteModule: Executing");
+		adminDao.deleteModule(module);
+	}
+
 }
