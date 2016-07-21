@@ -5,6 +5,8 @@ package com.neu.ipco.test;
 
 import static org.junit.Assert.assertNotEquals;
 
+import java.util.Date;
+
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.neu.ipco.constants.AppConstants;
 import com.neu.ipco.entity.Credential;
 import com.neu.ipco.entity.User;
 import com.neu.ipco.entity.UserType;
@@ -98,15 +101,21 @@ public class AuthenticationTest {
 		
 	}
 	
-	@Test
+	/**
+	 * DO NOT RUN THESE TESTS, THESE TESTS ARE MEANT TO BE RUN ONLY THE FIRST TIME AFTER INSTALLATION.
+	 * 
+	 * FORGET IT, I'LL RUN THE SCRIPTS INSTEAD
+	 */
+	
+//	@Test
 	public void createUserTypes(){
-		LOGGER.debug("ApplicationUtilPrograms: main: Start");
 		
+		LOGGER.debug("ApplicationUtilPrograms: createUserTypes: Start");
 		UserType user = new UserType();
-		user.setUserTypeDesc("user");
+		user.setUserTypeDesc(AppConstants.USER_TYPE_USER);
 		
 		UserType admin = new UserType();
-		admin.setUserTypeDesc("admin");
+		admin.setUserTypeDesc(AppConstants.USER_TYPE_ADMIN);
 		
 		try {
 			applicationUtilService.addUserType(user);
@@ -120,5 +129,7 @@ public class AuthenticationTest {
 			LOGGER.debug("Exception: Problem with adding user type admin, "+ e.getMessage());
 //			e.printStackTrace();
 		}	
+		LOGGER.debug("ApplicationUtilPrograms: createUserTypes: End");
 	}
+	
 }

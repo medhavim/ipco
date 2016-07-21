@@ -6,7 +6,9 @@
 <hibernate-mapping package="com.neu.ipco.entity">
 	<class name="User">
 		
-		<id name="userId" column="user_id" />
+		<id name="userId" column="user_id">
+		<generator class="increment"/>
+		</id>
 		
 		<property name="email" column="email" not-null="true" unique="true"/>
 		<property name="firstName" column="first_name"/>
