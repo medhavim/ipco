@@ -50,19 +50,16 @@ $(document).on('change', '#mcqOptions .option', function() {
 $(document).on('click', '#mcqMoreOptions', function() {
 	var maxVal = $('#mcqMaxOptions').val();
 	var nxtVal = parseInt(maxVal)+1;
-	$('#mcqOptions').append(
-		'<div class="mcqOption" id="mcqOption_'+nxtVal+'"  class="form-group"> '
-			+ '<div class="row"> '
-			+ '<div class="col-sm-1"> '
-			+'<input type="Checkbox" name="correctAnswer" class="chkbx" id="checkBox_'+nxtVal+'" /> '
-			+'</div> '
-			+'<div class="col-sm-10"> '
-			+'<input class="option  form-control" type="text" name="option_'+nxtVal+'" id="option_'+nxtVal+'" placeholder="Content for this choice" required/> '
-			+'</div>'
-			+'<div class="col-sm-1">'
-			+'<button class="removeOption btn btn-primary btn_lg" id="removeOption_'+nxtVal+'" type="button">Remove</button><br> '
-			+'</div>'
-		+'</div>');
+	$('.mcqOptions').append(
+		'<div class="col-sm-4 input-group  mcqOption" id="mcqOption_'+nxtVal+'"  class="form-group"> '
+			+ '<span class="input-group-addon"> '
+			+ '<input type="checkbox" name="correctAnswer" class="chkbx" id="checkBox_'+nxtVal+'"/> '
+			+ '</span>'
+			+ '<input type="text" class="form-control option" name="option_'+nxtVal+'" id="option_'+nxtVal+'" placeholder="Content for this choice" required> '
+			+ '<span class="input-group-btn"> '
+			+ '<button class="btn btn-default removeOption" id="removeOption_'+nxtVal+'" type="button"><i class="glyphicon glyphicon-trash"></i></button> '
+			+ '</span> '
+			+ '</div>');
 	$('#mcqMaxOptions').val(nxtVal);
 	if(nxtVal == 5){
 		$('#mcqMoreOptions').css("display", "none");
@@ -70,13 +67,13 @@ $(document).on('click', '#mcqMoreOptions', function() {
 });
 
 //		mcq template, remove option
-$(document).on('click', "#mcqOptions .removeOption", function() {
+$(document).on('click', ".mcqOptions .removeOption", function() {
 	var removeId = this.id.split("_")[1];
-	$('#mcqOptions #mcqOption_'+removeId).remove();
+	$('.mcqOptions #mcqOption_'+removeId).remove();
 	var maxVal = $('#mcqMaxOptions').val();
 	var newVal = parseInt(maxVal)-1;
 	var initVal = 0;
-	$("#mcqOptions .mcqOption").each(function() {
+	$(".mcqOptions .mcqOption").each(function() {
 		initVal = initVal +1;
 		this.id = "mcqOption_"+initVal;
 		$('#'+this.id+' .chkbx')[0].id = "checkBox_"+initVal;
@@ -138,21 +135,23 @@ $(document).on('click', "#mcqOptions .removeOption", function() {
 	</div>
 	
 	<div class="container-fluid text-left desc-body">
-		<div class="row addOption">
-			<button id="mcqMoreOptions" type="button" class="btn btn-default btn_lg"><i class="glyphicon glyphicon-plus"></i></button>
-			<span>Add Option</span>
+		<div class="mcq">
+			<div class="row addOption">
+				<button id="mcqMoreOptions" type="button" class="btn btn-default btn_lg"><i class="glyphicon glyphicon-plus"></i></button>
+				<span>Add Option</span>
+			</div>
+			<div class="row mcqOptions">
+			<div class="col-sm-4 input-group  mcqOption" id="mcqOption_1"  class="form-group">
+				<span class="input-group-addon">
+	        	<input type="checkbox" name="correctAnswer" class="chkbx" id="checkBox_1">
+	     		</span>
+	      		<input type="text" class="form-control option" name="option_1" id="option_1" placeholder="Content for this choice" required>
+	      		<span class="input-group-btn">
+		        <button class="btn btn-default removeOption" id="removeOption_1" type="button"><i class="glyphicon glyphicon-trash"></i></button>
+		      	</span>
+	    	</div>
+	    	</div>
 		</div>
-		<div class="row mcqOptions">
-		<div class="col-sm-4 input-group  mcqOption">
-			<span class="input-group-addon">
-        	<input type="checkbox" name="correctAnswer" class="chkbx" id="checkBox_1">
-     		</span>
-      		<input type="text" class="form-control option" name="option_1" id="option_1" placeholder="Content for this choice" required>
-      		<span class="input-group-btn">
-	        <button class="btn btn-default removeOption" id="removeOption_1" type="button"><i class="glyphicon glyphicon-trash"></i></button>
-	      	</span>
-    	</div>
-    	</div>
 	</div>
 	<div class="container-fluid text-left desc-body">
 		<div class="row">
@@ -163,6 +162,6 @@ $(document).on('click', "#mcqOptions .removeOption", function() {
 	</div>	
 </div>
 </form>
-<input type="hidden" id="mcqMaxOptions" value="3" />
+<input type="hidden" id="mcqMaxOptions" value="1" />
 </body>
 </html>
