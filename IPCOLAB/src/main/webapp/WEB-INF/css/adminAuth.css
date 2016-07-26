@@ -170,3 +170,7 @@ body {
 	padding-right: 2px;
 }
 
+.carousel-inner>.item>img{
+	height:100vh !important;
+}
+

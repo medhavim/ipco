@@ -22,7 +22,7 @@
 <body>
 	<jsp:include page="header.jsp"></jsp:include>
 	<div class="jumbotron">
-	<div class="container-fluid">
+	<div class="container-fluid option-content">
 		<div class="row">
 			<div class="col-sm-3">
 				<div class="thumbnail tile tile-large tile-turquoise option-desc" id="option-1-desc">

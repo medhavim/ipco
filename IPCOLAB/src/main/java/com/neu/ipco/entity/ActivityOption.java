@@ -5,13 +5,14 @@ package com.neu.ipco.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * @author Harsha
  *
  */
-public class ActivityOption implements Serializable {
+public class ActivityOption implements Serializable, Comparable<ActivityOption> {
 
 	/**
 	 * 
@@ -20,11 +21,13 @@ public class ActivityOption implements Serializable {
 	
 	private Integer activityOptionId;
 	
-	private Activity activity;
+	private Activity activity = new Activity();
 	
-	private Module module;
+	private Module module = new Module();
 	
-	private List<Option> options;
+	private Set<Option> options = new TreeSet<Option>();
+	
+	private int orderNo;
 	
 	private Date createdTs;
 	
@@ -79,17 +82,31 @@ public class ActivityOption implements Serializable {
 	/**
 	 * @return the options
 	 */
-	public List<Option> getOptions() {
+	public Set<Option> getOptions() {
 		return options;
 	}
 
 	/**
 	 * @param options the options to set
 	 */
-	public void setOptions(List<Option> options) {
+	public void setOptions(Set<Option> options) {
 		this.options = options;
 	}
 
+
+	/**
+	 * @return the orderNo
+	 */
+	public int getOrderNo() {
+		return orderNo;
+	}
+
+	/**
+	 * @param orderNo the orderNo to set
+	 */
+	public void setOrderNo(int orderNo) {
+		this.orderNo = orderNo;
+	}
 
 	/**
 	 * @return the createdTs
@@ -130,7 +147,7 @@ public class ActivityOption implements Serializable {
 		result = prime * result + ((activityOptionId == null) ? 0 : activityOptionId.hashCode());
 		result = prime * result + ((createdTs == null) ? 0 : createdTs.hashCode());
 		result = prime * result + ((module == null) ? 0 : module.hashCode());
-		result = prime * result + ((options == null) ? 0 : options.hashCode());
+		result = prime * result + orderNo;
 		result = prime * result + ((updatedTs == null) ? 0 : updatedTs.hashCode());
 		return result;
 	}
@@ -167,10 +184,7 @@ public class ActivityOption implements Serializable {
 				return false;
 		} else if (!module.equals(other.module))
 			return false;
-		if (options == null) {
-			if (other.options != null)
-				return false;
-		} else if (!options.equals(other.options))
+		if (orderNo != other.orderNo)
 			return false;
 		if (updatedTs == null) {
 			if (other.updatedTs != null)
@@ -186,7 +200,12 @@ public class ActivityOption implements Serializable {
 	@Override
 	public String toString() {
 		return "ActivityOption [activityOptionId=" + activityOptionId + ", activity=" + activity + ", module=" + module
-				+ ", options=" + options + ", createdTs=" + createdTs + ", updatedTs=" + updatedTs + "]";
+				+ ", options=" + options + ", orderNo=" + orderNo + ", createdTs=" + createdTs + ", updatedTs="
+				+ updatedTs + "]";
+	}
+
+	public int compareTo(ActivityOption activityOption) {
+		return this.orderNo - activityOption.orderNo;
 	}
 
 }

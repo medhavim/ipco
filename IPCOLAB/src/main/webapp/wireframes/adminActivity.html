@@ -16,6 +16,10 @@
 	background-color: #ccc;
 }
 
+.unselected-tmplteOptn{
+	display: none;
+}
+
 .jumbotron.title{
 	margin-top: 50px;
 }
@@ -36,8 +40,93 @@
 	padding:0;
 }
 
+.btn-file2 {
+	position: relative;
+	overflow: hidden;
+	padding-left: 40px;
+	padding-right: 40px;
+}
+.btn-file2 input[type=file] {
+	position: absolute;
+	top: 0;
+	right: 0;
+	min-width: 100%;
+	min-height: 100%;
+	font-size: 100px;
+	text-align: right;
+	filter: alpha(opacity = 0);
+	opacity: 0;
+	outline: none;
+	background: white;
+	cursor: inherit;
+	display: block;
+}
+
 </style>
 <script type="text/javascript">
+
+$(document).ready(function(){
+	
+// jQuery to handle mcq activity Start
+	removeAllActiveTemplate();
+	
+	$('.smpleTmpltOptn').on('click', function(e){
+		removeAllActiveTemplate();
+		$(this).parent().addClass('active');
+		var currSelected = $('.selected-tmplteOptn').children()[0];
+		if(currSelected){
+			currSelected = $(currSelected).detach();
+			currSelected.appendTo('.unselected-tmplteOptn');
+		}
+		var id = $(this)[0].id.split('#')[1];
+		var newSelected = $('.'+id).detach();
+		newSelected.appendTo('.selected-tmplteOptn');
+		e.preventDefault(); // cancel the link itself
+	});
+	$('.compTmpltOptn').on('click', function(e){
+		removeAllActiveTemplate();
+		$(this).parent().parent().parent().addClass('active');
+		$(this).parent().addClass('active');
+		var currSelected = $('.selected-tmplteOptn').children()[0];
+		if(currSelected){
+			currSelected = $(currSelected).detach();
+			currSelected.appendTo('.unselected-tmplteOptn');
+		}
+		var id = $(this)[0].id.split('#')[1];
+		var newSelected = $('.'+id).detach();
+		newSelected.appendTo('.selected-tmplteOptn');
+		e.preventDefault(); // cancel the link itself
+	});
+// jQuery to handle mcq activity End
+
+// jQuery to handle yes/no activity Start
+	$(".optionRadioLabel").unbind('click').on('click', function(e){
+		e.stopPropagation();
+		e.preventDefault();
+		$(this).parent().parent().find("label").each(function(){
+			$(this).removeClass('btn-primary').addClass('btn-default');
+			$(this).find('input').each(function(){
+				$(this).prop('checked', false);
+			});
+		});
+		$(this).removeClass('btn-default').addClass('btn-primary');
+		$(this).find('input').each(function(){
+			$(this).prop('checked', true);
+		});
+	});
+// jQuery to handle yes/no activity End
+});
+
+// jQuery to handle mcq activity
+function removeAllActiveTemplate(){
+	$('.actTemplate').find('li').each(function(){
+		$(this).removeClass("active");
+// 		var id = $(this).children()[0].id;
+// 		if(id != ""){
+// 			$('.'+id.split("#")[1]).css("display", "none");
+// 		}
+	});
+}
 
 
 //mcq template, update checkbox value with the input of user
@@ -51,7 +140,7 @@ $(document).on('click', '#mcqMoreOptions', function() {
 	var maxVal = $('#mcqMaxOptions').val();
 	var nxtVal = parseInt(maxVal)+1;
 	$('.mcqOptions').append(
-		'<div class="col-sm-4 input-group  mcqOption" id="mcqOption_'+nxtVal+'"  class="form-group"> '
+		'<div class="col-sm-4 input-group  mcqOption form-group" id="mcqOption_'+nxtVal+'" > '
 			+ '<span class="input-group-addon"> '
 			+ '<input type="checkbox" name="correctAnswer" class="chkbx" id="checkBox_'+nxtVal+'"/> '
 			+ '</span>'
@@ -62,7 +151,7 @@ $(document).on('click', '#mcqMoreOptions', function() {
 			+ '</div>');
 	$('#mcqMaxOptions').val(nxtVal);
 	if(nxtVal == 5){
-		$('#mcqMoreOptions').css("display", "none");
+		$('.addOption').css("display", "none");
 	}
 });
 
@@ -81,9 +170,64 @@ $(document).on('click', ".mcqOptions .removeOption", function() {
 		$('#'+this.id+' .option')[0].name = "option_"+initVal;
 		$('#'+this.id+' .removeOption')[0].id = "removeOption_"+initVal;
 	});
-	$('#mcqMoreOptions').css("display", "block");
+	$('.addOption').css("display", "block");
 	$('#mcqMaxOptions').val(newVal);
 });
+// jQuery to handle mcq activity End
+
+// jQuery to handle video activity Start
+
+// 	Image upload messages
+function imageUploadMsg() {
+	showUploadMsg("imageFile", "imageUploadMsg");
+}
+	
+// 	Video upload messages
+function videoUploadMsg() {
+	showUploadMsg("videoFile", "videoUploadMsg");
+}
+	
+// 	Flip Card 1 upload messages
+function card1UploadMsg() {
+	showUploadMsg("card1File", "card1UploadMsg");
+}
+// 	Flip Card 2 upload messages
+function card2UploadMsg() {
+	showUploadMsg("card2File", "card2UploadMsg");
+}
+// 	Flip Card 3 upload messages
+function card3UploadMsg() {
+	showUploadMsg("card3File", "card3UploadMsg");
+}
+	
+// 	Common upload message
+function showUploadMsg(id, msgContainerId){
+	var fileHolder = document.getElementById(id);
+    var msg = "";
+    if ('files' in fileHolder) {
+        if (fileHolder.files.length == 0) {
+            msg = "Browse from computer";
+        } else {
+            var file = fileHolder.files[0];
+            if ('name'	 in file) {
+                msg += "File Name: " + file.name + "<br>";
+            }
+            if ('size' in file) {
+                msg += "File Size: " + file.size + " bytes <br>";
+            }
+        }
+    } else {
+        if (fileHolder.value == "") {
+            msg += "Browse from computer";
+        } else {
+            msg += "The files property is not supported by your browser!";
+            msg += "<br>The path of the selected file: " + fileHolder.value;
+        }
+    }
+    document.getElementById(msgContainerId).innerHTML = msg;
+}
+// jQuery to handle video activity ENd
+
 </script>
 </head>
 <body>
@@ -99,21 +243,21 @@ $(document).on('click', ".mcqOptions .removeOption", function() {
 		<span class="h2">Template</span>
 	</div>
 	<div class="container-fluid text-left desc-body">
-		<ul class="nav nav-pills nav-justified">
-			<li role="presentation" class="active"><a href="#">Multiple Choice</a></li>
-			<li role="presentation"><a href="#">Yes or No</a></li>
+		<ul class="nav nav-pills nav-justified actTemplate">
+			<li role="presentation"><a class="smpleTmpltOptn" id="#mcq" href="#">Multiple Choice</a></li>
+			<li role="presentation"><a class="smpleTmpltOptn" id="#yesno" href="#">Yes or No</a></li>
 			<li role="presentation" class="dropdown btn-group"><a class="dropdown-toggle" data-toggle="dropdown" role="button" href="#">Image <span class="caret"></span></a>
 				<ul class="dropdown-menu nav-dropdown-menu">
-					<li><a href="#">Multiple Choice</a></li>
-					<li><a href="#">Yes or No</a></li>
-					<li><a href="#">Description</a></li>
+					<li role="presentation"><a class="compTmpltOptn" id="#image-mcq" href="#">Multiple Choice</a></li>
+					<li role="presentation"><a class="compTmpltOptn" id="#image-yesno"  href="#">Yes or No</a></li>
+					<li role="presentation"><a class="compTmpltOptn" id="#image-desc"  href="#">Description</a></li>
 				</ul>
 			</li>
 			<li role="presentation" class="dropdown btn-group"><a class="dropdown-toggle" data-toggle="dropdown" role="button" href="#">Video <span class="caret"></span></a>
 				<ul class="dropdown-menu nav-dropdown-menu">
-					<li><a href="#">Multiple Choice</a></li>
-					<li><a href="#">Yes or No</a></li>
-					<li><a href="#">Description</a></li>
+					<li role="presentation"><a class="compTmpltOptn" id="#video-mcq" href="#">Multiple Choice</a></li>
+					<li role="presentation"><a class="compTmpltOptn" id="#video-yesno" href="#">Yes or No</a></li>
+					<li role="presentation"><a class="compTmpltOptn" id="#video-desc" href="#">Description</a></li>
 				</ul>
 			</li>
 		</ul>
@@ -134,24 +278,8 @@ $(document).on('click', ".mcqOptions .removeOption", function() {
 		<span class="h2">Answer Description</span>
 	</div>
 	
-	<div class="container-fluid text-left desc-body">
-		<div class="mcq">
-			<div class="row addOption">
-				<button id="mcqMoreOptions" type="button" class="btn btn-default btn_lg"><i class="glyphicon glyphicon-plus"></i></button>
-				<span>Add Option</span>
-			</div>
-			<div class="row mcqOptions">
-			<div class="col-sm-4 input-group  mcqOption" id="mcqOption_1"  class="form-group">
-				<span class="input-group-addon">
-	        	<input type="checkbox" name="correctAnswer" class="chkbx" id="checkBox_1">
-	     		</span>
-	      		<input type="text" class="form-control option" name="option_1" id="option_1" placeholder="Content for this choice" required>
-	      		<span class="input-group-btn">
-		        <button class="btn btn-default removeOption" id="removeOption_1" type="button"><i class="glyphicon glyphicon-trash"></i></button>
-		      	</span>
-	    	</div>
-	    	</div>
-		</div>
+	<div class="container-fluid text-left desc-body selected-tmplteOptn">
+		
 	</div>
 	<div class="container-fluid text-left desc-body">
 		<div class="row">
@@ -162,6 +290,175 @@ $(document).on('click', ".mcqOptions .removeOption", function() {
 	</div>	
 </div>
 </form>
+<div class="unselected-tmplteOptn">
+	<div class="mcq">
+		<div class="row addOption form-group">
+			<button id="mcqMoreOptions" type="button" class="btn btn-default btn_lg"><i class="glyphicon glyphicon-plus"></i></button>
+			<span>Add Option</span>
+		</div>
+		<div class="row mcqOptions form-group">
+		<div class="col-sm-4 input-group  mcqOption form-group" id="mcqOption_1">
+			<span class="input-group-addon">
+        	<input type="checkbox" name="correctAnswer" class="chkbx" id="checkBox_1">
+     		</span>
+      		<input type="text" class="form-control option" name="option_1" id="option_1" placeholder="Content for this choice" required>
+      		<span class="input-group-btn">
+	        <button class="btn btn-default removeOption" id="removeOption_1" type="button"><i class="glyphicon glyphicon-trash"></i></button>
+	      	</span>
+    	</div>
+    	</div>
+	</div>
+	<div class="yesno">
+		<div class="row form-group">
+			<div class="col-md-2">
+			</div>
+			<div class="col-md-2 form-group">
+				<label class="btn btn-block btn-default button-wrapper radio-inline optionRadioLabel">
+					<input style="display:none;" class="optionInput" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Yes
+				</label>
+			</div>
+			<div class="col-md-2">
+			</div>
+			<div class="col-md-2 form-group">
+				<label class="btn btn-block btn-default button-wrapper radio-inline optionRadioLabel">
+					<input style="display:none;" class="optionInput" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> No
+				</label>
+			</div>
+			<div class="col-md-2">
+			</div>
+		</div>
+	</div>
+	<div class="image-desc">
+		<div class="form-group">
+		<ul class="list-inline">
+		  <li><label class="h3" for="imageUploadMsg">Image Link:</label></li>
+		  <li><p id="imageUploadMsg">Browse from computer</p></li>
+		  <li><span class="btn btn-warning btn-file2 btn-block">Browse<input type="file" id="imageFile" name="uploadFile" onchange="imageUploadMsg()" required></span></li>
+		</ul>
+		</div>
+		<div class="form-group">
+			<label class="h3" for="comment">Answer Content:</label>
+			<textarea class="form-control" rows="5" name="idealAnswer"
+				placeholder="Enter Answer Here." required></textarea>
+		</div>
+	</div>
+	<div class="image-mcq">
+		<div class="form-group">
+		<ul class="list-inline">
+		  <li><label class="h3" for="imageUploadMsg">Image Link:</label></li>
+		  <li><p id="imageUploadMsg">Browse from computer</p></li>
+		  <li><span class="btn btn-warning btn-file2 btn-block">Browse<input type="file" id="imageFile" name="uploadFile" onchange="imageUploadMsg()" required></span></li>
+		</ul>
+		</div>
+		<div class="row addOption form-group">
+			<button id="mcqMoreOptions" type="button" class="btn btn-default btn_lg"><i class="glyphicon glyphicon-plus"></i></button>
+			<span>Add Option</span>
+		</div>
+		<div class="row mcqOptions form-group">
+		<div class="col-sm-4 input-group  mcqOption form-group" id="mcqOption_1">
+			<span class="input-group-addon">
+        	<input type="checkbox" name="correctAnswer" class="chkbx" id="checkBox_1">
+     		</span>
+      		<input type="text" class="form-control option" name="option_1" id="option_1" placeholder="Content for this choice" required>
+      		<span class="input-group-btn">
+	        <button class="btn btn-default removeOption" id="removeOption_1" type="button"><i class="glyphicon glyphicon-trash"></i></button>
+	      	</span>
+    	</div>
+    	</div>
+	</div>
+	<div class="image-yesno">
+		<div class="form-group">
+		<ul class="list-inline">
+		  <li><label class="h3" for="imageUploadMsg">Image Link:</label></li>
+		  <li><p id="imageUploadMsg">Browse from computer</p></li>
+		  <li><span class="btn btn-warning btn-file2 btn-block">Browse<input type="file" id="imageFile" name="uploadFile" onchange="imageUploadMsg()" required></span></li>
+		</ul>
+		</div>
+		<div class="row form-group">
+			<div class="col-md-2">
+			</div>
+			<div class="col-md-2 form-group">
+				<label class="btn btn-block btn-default button-wrapper radio-inline optionRadioLabel">
+					<input style="display:none;" class="optionInput" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Yes
+				</label>
+			</div>
+			<div class="col-md-2">
+			</div>
+			<div class="col-md-2 form-group">
+				<label class="btn btn-block btn-default button-wrapper radio-inline optionRadioLabel">
+					<input style="display:none;" class="optionInput" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> No
+				</label>
+			</div>
+			<div class="col-md-2">
+			</div>
+		</div>
+	</div>
+	<div class="video-desc">
+		<div class="form-group">
+		<ul class="list-inline">
+		  <li><label class="h3" for="videoUploadMsg">Video Link:</label></li>
+		  <li><p id="videoUploadMsg">Browse from computer</p></li>
+		  <li><span class="btn btn-warning btn-file2 btn-block">Browse<input type="file" id="videoFile" name="uploadFile" onchange="videoUploadMsg()" required></span></li>
+		</ul>
+		</div>
+		<div class="form-group">
+			<label class="h3" for="comment">Answer Content:</label>
+			<textarea class="form-control" rows="5" name="idealAnswer"
+				placeholder="Enter Answer Here." required></textarea>
+		</div>
+	</div>
+	<div class="video-mcq">
+		<div class="form-group">
+		<ul class="list-inline">
+		  <li><label class="h3" for="videoUploadMsg">Video Link:</label></li>
+		  <li><p id="videoUploadMsg">Browse from computer</p></li>
+		  <li><span class="btn btn-warning btn-file2 btn-block">Browse<input type="file" id="videoFile" name="uploadFile" onchange="videoUploadMsg()" required></span></li>
+		</ul>
+		</div>
+		<div class="row addOption form-group">
+			<button id="mcqMoreOptions" type="button" class="btn btn-default btn_lg"><i class="glyphicon glyphicon-plus"></i></button>
+			<span>Add Option</span>
+		</div>
+		<div class="row mcqOptions form-group">
+		<div class="col-sm-4 input-group  mcqOption form-group" id="mcqOption_1">
+			<span class="input-group-addon">
+        	<input type="checkbox" name="correctAnswer" class="chkbx" id="checkBox_1">
+     		</span>
+      		<input type="text" class="form-control option" name="option_1" id="option_1" placeholder="Content for this choice" required>
+      		<span class="input-group-btn">
+	        <button class="btn btn-default removeOption" id="removeOption_1" type="button"><i class="glyphicon glyphicon-trash"></i></button>
+	      	</span>
+    	</div>
+    	</div>
+	</div>
+	<div class="video-yesno">
+		<div class="form-group">
+		<ul class="list-inline">
+		  <li><label class="h3" for="videoUploadMsg">Video Link:</label></li>
+		  <li><p id="videoUploadMsg">Browse from computer</p></li>
+		  <li><span class="btn btn-warning btn-file2 btn-block">Browse<input type="file" id="videoFile" name="uploadFile" onchange="videoUploadMsg()" required></span></li>
+		</ul>
+		</div>
+		<div class="row form-group">
+			<div class="col-md-2">
+			</div>
+			<div class="col-md-2 form-group">
+				<label class="btn btn-block btn-default button-wrapper radio-inline optionRadioLabel">
+					<input style="display:none;" class="optionInput" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Yes
+				</label>
+			</div>
+			<div class="col-md-2">
+			</div>
+			<div class="col-md-2 form-group">
+				<label class="btn btn-block btn-default button-wrapper radio-inline optionRadioLabel">
+					<input style="display:none;" class="optionInput" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> No
+				</label>
+			</div>
+			<div class="col-md-2">
+			</div>
+		</div>
+	</div>
+</div>
 <input type="hidden" id="mcqMaxOptions" value="1" />
 </body>
 </html>

@@ -1,9 +1,3 @@
-function editContainer(id) {
-	var form = document.getElementById("editForm");
-	form.action = "editActivityContainer.action";
-	form.children.namedItem("id").value = id;
-	form.submit();
-}
 function renameTopic(button) {
 	var topicName = button.name;
 	var topicId = button.id;
@@ -49,11 +43,11 @@ function deleteModule(deletedTag){
 	}
 }
 
-function editActivity(id){
+function editActivity(button){
 	
 	var form = document.getElementById("editForm");
-	form.action="editActivity.action";
-	form.children.namedItem("id").value=id;
+	form.action="gotoEditActivity.action";
+	form.children.namedItem("id").value=button.id.split("_")[1];
 	form.submit();
 }
 
@@ -93,11 +87,6 @@ $(document).ready(function() {
 		});
 	});
 	
-	$(".goBack").on("click",function(e) {
-	    e.preventDefault(); // cancel the link itself
-	    $("#editForm").attr('action', this.href);
-		$("#editForm").submit();
-	  });
 	
 	$(".optionRadioLabel").unbind('click').on('click', function(e){
 		e.stopPropagation();
@@ -115,12 +104,6 @@ $(document).ready(function() {
 	});
 	
 //	helper functions for module
-	
-	$("#addNewActivity").click(function() {
-		$("#editForm").attr('action', 'newActivityLink.action');
-		$('#id').val($("#addNewActivity").attr("name"));
-		$("#editForm").submit();
-	});
 	
 //		Ajax for renaming the activity container name
 	$("#changeModuleName").click(function() {
@@ -144,6 +127,12 @@ $(document).ready(function() {
 		var topicId = $('#moduleTopicId').val();
 		$('.span-topic-'+topicId).removeClass('collapsed');
 		$('#modules_for-'+topicId).addClass('in');
+	}
+	
+	if($('#activityModuleId').val() != ""){
+		var moduleId = $('#activityModuleId').val();
+		$('.span-module-'+moduleId).removeClass('collapsed');
+		$('#activities_for-'+moduleId).addClass('in');
 	}
 	
 });

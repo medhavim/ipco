@@ -10,7 +10,7 @@ import java.util.Date;
  * @author Harsha
  *
  */
-public class Option implements Serializable {
+public class Option implements Serializable, Comparable<Option>{
 
 	/**
 	 * 
@@ -22,6 +22,8 @@ public class Option implements Serializable {
 	private String optionText;
 	
 	private String isCorrect;
+	
+	private int orderNo;
 	
 	private Date createdTs;
 	
@@ -73,6 +75,14 @@ public class Option implements Serializable {
 		this.isCorrect = isCorrect;
 	}
 
+	public int getOrderNo() {
+		return orderNo;
+	}
+
+	public void setOrderNo(int orderNo) {
+		this.orderNo = orderNo;
+	}
+
 	/**
 	 * @return the createdTs
 	 */
@@ -101,24 +111,19 @@ public class Option implements Serializable {
 		this.updatedTs = updatedTs;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((createdTs == null) ? 0 : createdTs.hashCode());
 		result = prime * result + ((isCorrect == null) ? 0 : isCorrect.hashCode());
-		result = prime * result + optionId;
+		result = prime * result + ((optionId == null) ? 0 : optionId.hashCode());
 		result = prime * result + ((optionText == null) ? 0 : optionText.hashCode());
+		result = prime * result + orderNo;
 		result = prime * result + ((updatedTs == null) ? 0 : updatedTs.hashCode());
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -138,12 +143,17 @@ public class Option implements Serializable {
 				return false;
 		} else if (!isCorrect.equals(other.isCorrect))
 			return false;
-		if (optionId != other.optionId)
+		if (optionId == null) {
+			if (other.optionId != null)
+				return false;
+		} else if (!optionId.equals(other.optionId))
 			return false;
 		if (optionText == null) {
 			if (other.optionText != null)
 				return false;
 		} else if (!optionText.equals(other.optionText))
+			return false;
+		if (orderNo != other.orderNo)
 			return false;
 		if (updatedTs == null) {
 			if (other.updatedTs != null)
@@ -153,13 +163,14 @@ public class Option implements Serializable {
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
-		return "Option [optionId=" + optionId + ", optionText=" + optionText + ", isCorrect=" + isCorrect
-				+ ", createdTs=" + createdTs + ", updatedTs=" + updatedTs + "]";
+		return "Option [optionId=" + optionId + ", optionText=" + optionText + ", isCorrect=" + isCorrect + ", orderNo="
+				+ orderNo + ", createdTs=" + createdTs + ", updatedTs=" + updatedTs + "]";
+	}
+
+	public int compareTo(Option option) {
+		return this.orderNo - option.orderNo;
 	}
 
 }

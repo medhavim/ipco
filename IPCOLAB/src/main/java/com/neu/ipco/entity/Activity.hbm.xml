@@ -13,7 +13,7 @@
 
 		<property name="activityText" column="activity_text" />
 		
-		<many-to-one name="activityTemplate" class="ActivityTemplate" column="acitivity_template_id" />
+		<many-to-one name="activityTemplate" class="ActivityTemplate" column="acitivity_template_id"/>
 		
 		<property name="createdTs" type="timestamp" column="created_ts"/>
 		<property name="updatedTs" type="timestamp" column="updated_ts"/>

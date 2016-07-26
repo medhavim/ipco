@@ -12,6 +12,7 @@
 
 		<property name="optionText" column="option_text" />
 		<property name="isCorrect" column="is_correct" />
+		<property name="orderNo" column="order_no" />
 		<property name="createdTs" type="timestamp" column="created_ts" />
 		<property name="updatedTs" type="timestamp" column="updated_ts" />
 	

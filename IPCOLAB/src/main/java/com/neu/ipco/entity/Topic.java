@@ -5,14 +5,14 @@ package com.neu.ipco.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * @author Harsha
  *
  */
-public class Topic implements Serializable {
+public class Topic implements Serializable, Comparable<Topic> {
 
 	/**
 	 * 
@@ -23,9 +23,11 @@ public class Topic implements Serializable {
 	
 	private String topicName;
 	
-	private Set<Module> modules = new HashSet<Module>();
+	private Set<Module> modules = new TreeSet<Module>();
 	
 	private TopicType topicType;
+	
+	private int orderNo;
 	
 	private Date createdTs;
 	
@@ -97,6 +99,20 @@ public class Topic implements Serializable {
 		this.topicType = topicType;
 	}
 
+
+	/**
+	 * @return the orderNo
+	 */
+	public int getOrderNo() {
+		return orderNo;
+	}
+
+	/**
+	 * @param orderNo the orderNo to set
+	 */
+	public void setOrderNo(int orderNo) {
+		this.orderNo = orderNo;
+	}
 
 	/**
 	 * @return the createdTs
@@ -188,6 +204,10 @@ public class Topic implements Serializable {
 	public String toString() {
 		return "Topic [topicId=" + topicId + ", topicName=" + topicName + ", modules=" + modules + ", topicType="
 				+ topicType + ", createdTs=" + createdTs + ", updatedTs=" + updatedTs + "]";
+	}
+
+	public int compareTo(Topic topic) {
+		return this.orderNo - topic.orderNo;
 	}
 
 }

@@ -35,24 +35,24 @@
 	  			<!-- Wrapper for slides -->
 	  			<div class="carousel-inner" role="listbox">
 	    			<div class="item active">
-	      				<img src="http://loremflickr.com/1920/1080/random=1" alt="loremflickr.com">
+	      				<img class="image" src="http://loremflickr.com/1920/1080/random=1" alt="loremflickr.com">
 				      	<div class="carousel-caption">
 				        	Image caption!!?? 
 				        	A description of the image perhaps!
 			      		</div>
 	    			</div>
 	    			<div class="item">
-	      				<img src="http://loremflickr.com/g/1920/1080/paris" alt="loremflickr.com">
+	      				<img class="image" src="http://loremflickr.com/g/1920/1080/paris" alt="loremflickr.com">
 	    			</div>
 	    			<div class="item">
-	      				<img src="http://loremflickr.com/1920/1080/random=2" alt="loremflickr.com">
+	      				<img class="image" src="http://loremflickr.com/1920/1080/random=2" alt="loremflickr.com">
 				      	<div class="carousel-caption">
 				        	Image caption??!!
 				        	A description of the image perhaps!
 			      		</div>
 	    			</div>
 	    			<div class="item">
-	      				<img src="http://loremflickr.com/g/1920/1080/paris?random=2" alt="loremflickr.com">
+	      				<img class="image" src="http://loremflickr.com/g/1920/1080/paris?random=2" alt="loremflickr.com">
 	    			</div>
 	  			</div>
 

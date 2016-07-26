@@ -106,6 +106,7 @@
 		</div>
 	</div>
 </div>
+<input type="hidden" name="activityModuleId" id="activityModuleId" value="${activityModuleId}" />
 <input type="hidden" name="moduleTopicId" id="moduleTopicId" value="${moduleTopicId}" />
 <!-- 			Confirmation dialog before delete END -->
 
@@ -156,4 +157,10 @@
 	</div>
 </div>
 <!-- Renaming the Module pop up modal  END-->
+
+<!-- Edit Activity form Start -->
+<form name="editForm" id="editForm" action="#" method="post">
+	<input type="hidden" id="id" name="id" value="" />
+</form>
+<!-- Edit Activity form End -->
 

@@ -168,5 +168,10 @@ body {
 
 .carousel-col{
 	padding-right: 2px;
+	height: 100vh;
+}
+
+.carousel-inner>.item>img{
+	height:100vh !important;
 }
 

@@ -3,21 +3,33 @@
  */
 package com.neu.ipco.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.neu.ipco.constants.AppConstants;
+import com.neu.ipco.entity.ActivityOption;
 import com.neu.ipco.entity.Module;
+import com.neu.ipco.entity.Option;
 import com.neu.ipco.entity.Topic;
 import com.neu.ipco.exception.AdminException;
 import com.neu.ipco.service.AdminService;
@@ -143,6 +155,7 @@ public class AdminController {
 		try {
 			topic = adminService.getTopicById(topicId);
 			topic.setTopicName(topicName);
+			topic.setUpdatedTs(new Date());
 			adminService.updateTopic(topic);
 			List<Topic> allTopics = adminService.loadAllTopics();
 			
@@ -163,6 +176,7 @@ public class AdminController {
 		try {
 			Module module = adminService.getModuleById(moduleId);
 			module.setModuleName(moduleName);
+			module.setUpdatedTs(new Date());
 			adminService.updateModule(module);
 			List<Topic> allTopics = adminService.loadAllTopics();
 			
@@ -173,6 +187,226 @@ public class AdminController {
 		} catch (AdminException e) {
 			return "error";
 		}
+	}
+	
+	@RequestMapping(value="/gotoAddActivity.action", method=RequestMethod.POST)
+	public String gotoAddActivity(@RequestParam("moduleId") int moduleId, HttpSession session, Model model){
+		
+		LOGGER.debug("AdminController: gotoAddActivity: Start");
+		
+		ActivityOption activityOption = new ActivityOption();
+		activityOption.getModule().setModuleId(moduleId);
+		
+		model.addAttribute("activityOption", activityOption);
+		
+		LOGGER.debug("AdminController: gotoAddActivity: End");
+		return AppConstants.ADMIN_ACTIVITY;
+	}
+	
+	@RequestMapping(value="/deleteActivity.action", method=RequestMethod.POST)
+	public String deleteActivityAction(@RequestParam("deletableId") int deletableId, HttpSession session, Model model){
+		
+		LOGGER.debug("AdminController: deleteActivityAction: Start");
+		
+		try {
+			ActivityOption activityOption = adminService.getActivityOptionById(deletableId);
+			adminService.deleteActivityOption(activityOption);
+			
+			List<Topic> allTopics = adminService.loadAllTopics();
+			session.setAttribute("allTopics", allTopics);
+			model.addAttribute("moduleTopicId", activityOption.getModule().getTopic().getTopicId());
+			model.addAttribute("activityModuleId", activityOption.getModule().getModuleId());
+		} catch (AdminException e) {
+			return AppConstants.ERROR_PAGE;
+		}
+		
+		LOGGER.debug("AdminController: deleteActivityAction: End");
+		return AppConstants.MANAGE_TUTORIAL;
+	}
+	
+	@RequestMapping(value="/gotoEditActivity.action", method=RequestMethod.POST)
+	public String gotoEditActivityAction(@RequestParam("id") int activityOptionId, HttpSession session, Model model){
+		
+		LOGGER.debug("AdminController: editActivityAction: Start");
+		
+		try {
+			ActivityOption activityOption = adminService.getActivityOptionById(activityOptionId);
+			model.addAttribute("activityOption", activityOption);
+		} catch (AdminException e) {
+			return AppConstants.ERROR_PAGE;
+		}
+		
+		LOGGER.debug("AdminController: editActivityAction: End");
+		return AppConstants.EDIT_ACTIVITY;
+	}
+	
+	@RequestMapping(value="/editActivity.action", method=RequestMethod.POST)
+	public String editActivity(@ModelAttribute("activityOption") ActivityOption newActivityOption, 
+			@RequestParam(value="uploadFile",required=false) MultipartFile uploadFile,
+//			@RequestParam(value="card1File",required=false) MultipartFile card1File,
+//			@RequestParam(value="card2File",required=false) MultipartFile card2File,
+//			@RequestParam(value="card3File",required=false) MultipartFile card3File,
+			HttpServletRequest request, HttpSession session, Model model){
+		
+		LOGGER.debug("AdminController: editActivity: Start");
+		
+		try {
+			
+			int activityOptionId = newActivityOption.getActivityOptionId();
+			int activityTemplateId = newActivityOption.getActivity().getActivityTemplate().getActivityTemplateId();
+			ActivityOption currActivityOption = adminService.getActivityOptionById(activityOptionId);
+			
+			adminService.deleteOptionsByActivityOptionId(activityOptionId);
+			
+			Set<Option> options = populateOptions(request, activityTemplateId, 
+					uploadFile);
+//					card1File, card2File, card3File);
+			currActivityOption.getActivity().setUpdatedTs(new Date());
+			currActivityOption.getActivity().setActivityText(newActivityOption.getActivity().getActivityText());
+			currActivityOption.getOptions().clear();
+			currActivityOption.setOptions(options);
+			currActivityOption.setUpdatedTs(new Date());
+			
+			currActivityOption = adminService.editActivity(currActivityOption);
+			
+			List<Topic> allTopics = adminService.loadAllTopics();
+			session.setAttribute("allTopics", allTopics);
+			model.addAttribute("moduleTopicId", currActivityOption.getModule().getTopic().getTopicId());
+			model.addAttribute("activityModuleId", currActivityOption.getModule().getModuleId());
+		} catch (AdminException e) {
+			return AppConstants.ERROR_PAGE;
+		}
+		
+		LOGGER.debug("AdminController: editActivity: End");
+		return AppConstants.MANAGE_TUTORIAL;
+	}
+	
+	@RequestMapping(value="/addActivity.action", method=RequestMethod.POST)
+	public String addActivity(@ModelAttribute("activityOption") ActivityOption activityOption, 
+			@RequestParam("activityTemplate") int activityTemplateId,
+			@RequestParam(value="uploadFile",required=false) MultipartFile uploadFile,
+//			@RequestParam(value="card1File",required=false) MultipartFile card1File,
+//			@RequestParam(value="card2File",required=false) MultipartFile card2File,
+//			@RequestParam(value="card3File",required=false) MultipartFile card3File,
+			HttpServletRequest request, HttpSession session, Model model){
+		
+		LOGGER.debug("AdminController: addActivity: Start");
+		
+		try {
+			Set<Option> options = populateOptions(request, activityTemplateId, 
+					uploadFile);
+//					card1File, card2File, card3File);
+			activityOption.getActivity().setCreatedTs(new Date());
+			activityOption.getActivity().getActivityTemplate().setActivityTemplateId(activityTemplateId);
+			activityOption.setCreatedTs(new Date());
+			activityOption.setOptions(options);
+			
+			activityOption = adminService.addNewActivity(activityOption);
+			
+			List<Topic> allTopics = adminService.loadAllTopics();
+			session.setAttribute("allTopics", allTopics);
+			model.addAttribute("moduleTopicId", activityOption.getModule().getTopic().getTopicId());
+			model.addAttribute("activityModuleId", activityOption.getModule().getModuleId());
+		} catch (AdminException e) {
+			return AppConstants.ERROR_PAGE;
+		}
+		
+		LOGGER.debug("AdminController: addActivity: End");
+		return AppConstants.MANAGE_TUTORIAL;
+	}
+	
+	private Set<Option> populateOptions(HttpServletRequest request, Integer activityTemplateId, 
+			MultipartFile uploadFile) throws AdminException {
+//			MultipartFile card1File, MultipartFile card2File, MultipartFile card3File) throws AdminException {
+		
+		Set<Option> options = new TreeSet<Option>();
+		int orderNo = 0;
+		
+		if(activityTemplateId == AppConstants.TEMPLATE_MCQ){
+			options = populateMCQOptoins(options, request, orderNo);
+		}else if(activityTemplateId == AppConstants.TEMPLATE_YESNO){
+			options = populateYESNOOptions(options, request, orderNo);
+		}else{
+			if(activityTemplateId <= AppConstants.TEMPLATE_IMAGE_YESNO){
+				options = populateImageOption(options, request, uploadFile, orderNo, "image");
+			}else{
+				options = populateImageOption(options, request, uploadFile, orderNo, "video");
+			}
+			orderNo++;
+			if(activityTemplateId == AppConstants.TEMPLATE_IMAGE_DESC || activityTemplateId == AppConstants.TEMPLATE_VIDEO_DESC){
+				options = populateDescOptions(options, request, orderNo);
+			}else if(activityTemplateId == AppConstants.TEMPLATE_IMAGE_MCQ || activityTemplateId == AppConstants.TEMPLATE_VIDEO_MCQ){
+				options = populateMCQOptoins(options, request, orderNo);
+			}else if(activityTemplateId == AppConstants.TEMPLATE_IMAGE_YESNO || activityTemplateId == AppConstants.TEMPLATE_VIDEO_YESNO){
+				options = populateYESNOOptions(options, request, orderNo);
+			}
+		}
+		return options;
+	}
+
+	private Set<Option> populateImageOption(Set<Option> options, HttpServletRequest request, MultipartFile uploadFile, int orderNo, String fileType) throws AdminException{
+		String imageUrl = adminService.generateFilePath(uploadFile, fileType);
+		if(null != imageUrl){
+			Option option = new Option();
+			option.setOptionText(imageUrl);
+			option.setOrderNo(++orderNo);
+			option.setIsCorrect("true");
+			option.setCreatedTs(new Date());
+			options.add(option);
+		}
+		return options;
+	}
+
+	private Set<Option> populateDescOptions(Set<Option> options, HttpServletRequest request, int orderNo) {
+		
+		String idealAnswer = request.getParameter("idealAnswer").trim();
+		
+		Option option = new Option();
+		option.setOptionText(idealAnswer);
+		option.setOrderNo(++orderNo);
+		option.setIsCorrect("true");
+		option.setCreatedTs(new Date());
+		options.add(option);
+		return options;
+	}
+
+	private Set<Option> populateYESNOOptions(Set<Option> options, HttpServletRequest request, int orderNo) {
+		
+		Option option1 = new Option();
+		option1.setOptionText(request.getParameter("yesno-option"));
+		option1.setOrderNo(++orderNo);
+		option1.setIsCorrect("true");
+		option1.setCreatedTs(new Date());
+		
+		Option option2 = new Option();
+		option2.setOptionText(request.getParameter("yesno-option").equalsIgnoreCase("Yes")?"No":"Yes");
+		option2.setOrderNo(++orderNo);
+		option2.setIsCorrect("false");
+		option2.setCreatedTs(new Date());
+		
+		options.add(option1);
+		options.add(option2);
+		
+		return options;
+	}
+
+	private Set<Option> populateMCQOptoins(Set<Option>options, HttpServletRequest request, int orderNo) {
+		List<String> correctAnswers = new ArrayList<String>(Arrays.asList(request.getParameterValues("correctAnswer")));
+		
+		Enumeration<String> parameters = request.getParameterNames();
+		
+		while(parameters.hasMoreElements()){
+			String param = (String) parameters.nextElement();
+			if(param.contains("option")){
+				Option option = new Option();
+				option.setOptionText(request.getParameter(param).trim());
+				option.setOrderNo(orderNo + Integer.valueOf(param.split("_")[1]));
+				option.setIsCorrect(correctAnswers.contains(param)?"true":"false");
+				option.setCreatedTs(new Date());
+				options.add(option);
+			}
+		}
+		return options;
 	}
 
 }

@@ -10,7 +10,9 @@ a {text-decoration: none;}
 
 .jumbotron{
 	margin-top: 50px;
+	margin-bottom:0px;
 	background-color: #ccc;
+	height: 100vh;
 }
 
 .option{
@@ -116,4 +118,8 @@ h3 .glyphicon{
     text-align:center;
     /* inline-block space fix */
     margin-right:-4px;
+}
+
+.option-content{
+	margin-top: 11%;
 }

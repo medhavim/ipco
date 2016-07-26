@@ -10,7 +10,9 @@ a {text-decoration: none;}
 
 .jumbotron{
 	margin-top: 50px;
+	margin-bottom:0px;
 	background-color: #ccc;
+	height: 100vh;
 }
 
 .option{
@@ -20,4 +22,8 @@ a {text-decoration: none;}
 .option .tile-text{
 	word-wrap: break-word;
 	margin-top: 25% !important;
+}
+
+.option-content{
+	margin-top: 11%;
 }

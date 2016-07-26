@@ -5,15 +5,14 @@ package com.neu.ipco.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * @author Harsha
  *
  */
-public class Module implements Serializable {
+public class Module implements Serializable, Comparable<Module> {
 
 	/**
 	 * 
@@ -26,7 +25,9 @@ public class Module implements Serializable {
 	
 	private Topic topic;
 	
-	private Set<ActivityOption> activityOptions = new HashSet<ActivityOption>();
+	private Set<ActivityOption> activityOptions = new TreeSet<ActivityOption>();
+	
+	private int orderNo;
 	
 	private Date createdTs;
 	
@@ -100,6 +101,20 @@ public class Module implements Serializable {
 	}
 
 	/**
+	 * @return the orderNo
+	 */
+	public int getOrderNo() {
+		return orderNo;
+	}
+
+	/**
+	 * @param orderNo the orderNo to set
+	 */
+	public void setOrderNo(int orderNo) {
+		this.orderNo = orderNo;
+	}
+
+	/**
 	 * @return the createdTs
 	 */
 	public Date getCreatedTs() {
@@ -134,10 +149,10 @@ public class Module implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((activityOptions == null) ? 0 : activityOptions.hashCode());
 		result = prime * result + ((createdTs == null) ? 0 : createdTs.hashCode());
 		result = prime * result + ((moduleId == null) ? 0 : moduleId.hashCode());
 		result = prime * result + ((moduleName == null) ? 0 : moduleName.hashCode());
+		result = prime * result + orderNo;
 		result = prime * result + ((topic == null) ? 0 : topic.hashCode());
 		result = prime * result + ((updatedTs == null) ? 0 : updatedTs.hashCode());
 		return result;
@@ -155,11 +170,6 @@ public class Module implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Module other = (Module) obj;
-		if (activityOptions == null) {
-			if (other.activityOptions != null)
-				return false;
-		} else if (!activityOptions.equals(other.activityOptions))
-			return false;
 		if (createdTs == null) {
 			if (other.createdTs != null)
 				return false;
@@ -174,6 +184,8 @@ public class Module implements Serializable {
 			if (other.moduleName != null)
 				return false;
 		} else if (!moduleName.equals(other.moduleName))
+			return false;
+		if (orderNo != other.orderNo)
 			return false;
 		if (topic == null) {
 			if (other.topic != null)
@@ -194,7 +206,12 @@ public class Module implements Serializable {
 	@Override
 	public String toString() {
 		return "Module [moduleId=" + moduleId + ", moduleName=" + moduleName + ", topic=" + topic + ", activityOptions="
-				+ activityOptions + ", createdTs=" + createdTs + ", updatedTs=" + updatedTs + "]";
+				+ activityOptions + ", orderNo=" + orderNo + ", createdTs=" + createdTs + ", updatedTs=" + updatedTs
+				+ "]";
+	}
+
+	public int compareTo(Module module) {
+		return this.orderNo - module.orderNo;
 	}
 
 }

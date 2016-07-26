@@ -23,7 +23,7 @@
 <body>
 	<jsp:include page="header.jsp"></jsp:include>
 	<div class="jumbotron">
-	<div class="container-fluid">
+	<div class="container-fluid option-content">
 		<div class="row">
 			<div class="col-sm-3 col-centered">
 				<button id="manageTutorial.action" class="option btn btn-lg btn-circle btn-raised ripple-effect btn-primary">

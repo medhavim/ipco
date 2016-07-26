@@ -21,7 +21,7 @@ public class Activity implements Serializable {
 	
 	private String activityText;
 	
-	private ActivityTemplate activityTemplate;
+	private ActivityTemplate activityTemplate = new ActivityTemplate();
 	
 	private Date createdTs;
 	
