@@ -13,7 +13,9 @@
 		
 		<property name="instanceName" column="instance_name"/>
 		
-		<set name="instanceTopics" cascade="all">
+		<many-to-one name="instanceType" class="InstanceType" column="instance_type_id" lazy="false"/>
+		
+		<set name="instanceTopics" cascade="all" lazy="false">
 			<key column="instance_id"/>
 			<one-to-many class="InstanceTopic"/>
 		</set>

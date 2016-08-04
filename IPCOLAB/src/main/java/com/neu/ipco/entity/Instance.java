@@ -4,14 +4,22 @@
 package com.neu.ipco.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.Stack;
+import java.util.TreeSet;
+
+import com.neu.ipco.constants.AppConstants;
 
 /**
  * @author Harsha
  *
  */
-public class Instance implements Serializable {
+public class Instance implements Serializable, Comparable<Instance> {
 
 	/**
 	 * 
@@ -22,7 +30,11 @@ public class Instance implements Serializable {
 	
 	private String instanceName;
 	
-	private List<InstanceTopic> instanceTopics;
+	private InstanceType instanceType;
+	
+	private Set<InstanceTopic> instanceTopics = new TreeSet<InstanceTopic>(AppConstants.INSTANCE_TOPIC_COMPARATOR);
+	
+	private List<InstanceTopic> instanceTopicList;
 	
 	private Date createdTs;
 	
@@ -32,6 +44,15 @@ public class Instance implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
+	public void reorder(){
+		this.instanceTopicList = new ArrayList<InstanceTopic>(this.instanceTopics);
+		Collections.sort(this.instanceTopicList, AppConstants.INSTANCE_TOPIC_COMPARATOR);
+		
+		for(InstanceTopic instanceTopic : this.instanceTopics){
+			instanceTopic.reorder();
+		}
+	}
+	
 	/**
 	 * @return the instanceId
 	 */
@@ -61,17 +82,45 @@ public class Instance implements Serializable {
 	}
 
 	/**
+	 * @return the instanceType
+	 */
+	public InstanceType getInstanceType() {
+		return instanceType;
+	}
+
+	/**
+	 * @param instanceType the instanceType to set
+	 */
+	public void setInstanceType(InstanceType instanceType) {
+		this.instanceType = instanceType;
+	}
+
+	/**
 	 * @return the instanceTopics
 	 */
-	public List<InstanceTopic> getInstanceTopics() {
+	public Set<InstanceTopic> getInstanceTopics() {
 		return instanceTopics;
 	}
 
 	/**
 	 * @param instanceTopics the instanceTopics to set
 	 */
-	public void setInstanceTopics(List<InstanceTopic> instanceTopics) {
+	public void setInstanceTopics(Set<InstanceTopic> instanceTopics) {
 		this.instanceTopics = instanceTopics;
+	}
+
+	/**
+	 * @return the instanceTopicList
+	 */
+	public List<InstanceTopic> getInstanceTopicList() {
+		return instanceTopicList;
+	}
+
+	/**
+	 * @param instanceTopicList the instanceTopicList to set
+	 */
+	public void setInstanceTopicList(List<InstanceTopic> instanceTopicList) {
+		this.instanceTopicList = instanceTopicList;
 	}
 
 	/**
@@ -110,9 +159,9 @@ public class Instance implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((createdTs == null) ? 0 : createdTs.hashCode());
-		result = prime * result + instanceId;
+		result = prime * result + ((instanceId == null) ? 0 : instanceId.hashCode());
 		result = prime * result + ((instanceName == null) ? 0 : instanceName.hashCode());
-		result = prime * result + ((instanceTopics == null) ? 0 : instanceTopics.hashCode());
+		result = prime * result + ((instanceType == null) ? 0 : instanceType.hashCode());
 		result = prime * result + ((updatedTs == null) ? 0 : updatedTs.hashCode());
 		return result;
 	}
@@ -134,17 +183,20 @@ public class Instance implements Serializable {
 				return false;
 		} else if (!createdTs.equals(other.createdTs))
 			return false;
-		if (instanceId != other.instanceId)
+		if (instanceId == null) {
+			if (other.instanceId != null)
+				return false;
+		} else if (!instanceId.equals(other.instanceId))
 			return false;
 		if (instanceName == null) {
 			if (other.instanceName != null)
 				return false;
 		} else if (!instanceName.equals(other.instanceName))
 			return false;
-		if (instanceTopics == null) {
-			if (other.instanceTopics != null)
+		if (instanceType == null) {
+			if (other.instanceType != null)
 				return false;
-		} else if (!instanceTopics.equals(other.instanceTopics))
+		} else if (!instanceType.equals(other.instanceType))
 			return false;
 		if (updatedTs == null) {
 			if (other.updatedTs != null)
@@ -154,13 +206,18 @@ public class Instance implements Serializable {
 		return true;
 	}
 
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "Instance [instanceId=" + instanceId + ", instanceName=" + instanceName + ", instanceTopics="
-				+ instanceTopics + ", createdTs=" + createdTs + ", updatedTs=" + updatedTs + "]";
+		return "Instance [instanceId=" + instanceId + ", instanceName=" + instanceName + ", instanceType="
+				+ instanceType + ", createdTs=" + createdTs + ", updatedTs=" + updatedTs + "]";
 	}
-	
+
+	public int compareTo(Instance instance) {
+		return instance.getCreatedTs().compareTo(this.createdTs);
+	}
+
 }

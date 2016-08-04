@@ -26,6 +26,9 @@
 							</label>
 					</div>
 				</div>
+				<div class="container-fluid text-left form-group desc-body">
+					<textarea id="topicDesc" name="topicDesc" class="form-control" rows="5" placeholder="Enter Topic Description here." ></textarea>
+				</div>	
 				</div>
 				<div class="modal-footer">
 				<div class="row">
@@ -54,8 +57,12 @@
 					type="hidden" name="renameTopicId" id="renameTopicId" />
 			</div>
 			<div class="modal-footer">
-				<input type="button" id="changeTopicName" class="btn btn-success"
-					role="button" value="Change Name" />
+				<div class="row">
+					<div class="col-sm-5 pull-right form-group">
+						<input type="button" id="changeTopicName" class="btn btn-success btn-block"
+						role="button" value="Change Name" />
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -64,7 +71,7 @@
 
 <!-- Loading modal Start -->
 <div id="loadingDiv" class="modal">
-	<i class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></i>
+	<span><i class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></i></span>
 </div>
 <!-- Loading modal End -->
 
@@ -73,13 +80,21 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h2 class="modal-title">No can do!!!</h2>
+				<h2 class="modal-title">Warning!!!</h2>
 			</div>
 			<div class="modal-body">
-				<h2 class="modal-title">It seems that the topic is not empty. You cannot delete this topic.</h2>
+				<h3 class="modal-title">The container is not empty. Do you want to go ahead?</h3>
 			</div>
 			<div class="modal-footer">
-				<a class="btn btn-danger" data-dismiss="modal">OK</a>
+				<div class="row">
+					<div class="col-sm-5 pull-left form-group">
+						<a class="btn btn-success btn-block" data-dismiss="modal">No</a>
+					</div>
+					<div class="col-sm-5 pull-right form-group">
+						<input type="button" class="btn btn-danger btn-block" data-toggle="modal"
+										data-target="#confirmationDialog" role="button" data-dismiss="modal" value="Yes"/>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -99,8 +114,14 @@
 					<input type="hidden" class="form-control" id="deletableId"  name="deletableId" />
 				</div>
 				<div class="modal-footer">
-					<a class="btn btn-default" data-dismiss="modal">No</a>
-					<input type="submit" class="btn btn-success" role="button" value="Yes"/>
+					<div class="row">
+						<div class="col-sm-5 pull-left form-group">
+							<a class="btn btn-success btn-block" data-dismiss="modal">No</a>
+						</div>
+						<div class="col-sm-5 pull-right form-group">
+							<input type="submit" class="btn btn-default btn-block" role="button" value="Yes"/>
+						</div>
+					</div>
 				</div>
 			</form>
 		</div>
@@ -150,8 +171,12 @@
 					<input type="hidden" name="renameModuleId" id="renameModuleId" />
 			</div>
 			<div class="modal-footer">
-				<input type="button" id="changeModuleName" class="btn btn-success"
-					role="button" value="Change Name" />
+				<div class="row">
+					<div class="col-sm-5 pull-right form-group">
+						<input type="button" id="changeModuleName" class="btn btn-success btn-block"
+							role="button" value="Change Name" />
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

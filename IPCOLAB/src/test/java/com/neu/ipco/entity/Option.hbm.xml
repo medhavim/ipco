@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.neu.ipco.entity">
+	<class name="Option" table="optn">
+	
+		<id name="optionId" column="option_id" >
+			<generator class="increment"/>
+		</id>
+
+		<property name="optionText" column="option_text" />
+		<property name="isCorrect" column="is_correct" />
+		<property name="orderNo" column="order_no" />
+		<property name="createdTs" type="timestamp" column="created_ts" />
+		<property name="updatedTs" type="timestamp" column="updated_ts" />
+	
+	</class>
+</hibernate-mapping>

@@ -12,6 +12,11 @@ public class AdminException extends Exception {
 	/**
 	 * 
 	 */
+	private static final long serialVersionUID = 6133806266604753667L;
+
+	/**
+	 * 
+	 */
 	public AdminException() {
 		// TODO Auto-generated constructor stub
 	}

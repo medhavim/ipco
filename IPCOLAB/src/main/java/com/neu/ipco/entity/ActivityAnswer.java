@@ -4,14 +4,19 @@
 package com.neu.ipco.entity;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
+import com.neu.ipco.constants.AppConstants;
 
 /**
  * @author Harsha
  *
  */
-public class ActivityAnswer implements Serializable {
+public class ActivityAnswer implements Serializable, Comparable<ActivityAnswer> {
 
 	/**
 	 * 
@@ -22,7 +27,9 @@ public class ActivityAnswer implements Serializable {
 	
 	private ActivityOption activityOption;
 	
-	private List<Option> answers;
+	private Status status;
+	
+	private Set<Option> answers = new TreeSet<Option>(AppConstants.OPTION_COMPARATOR);
 	
 	private Date createdTs;
 	
@@ -61,16 +68,30 @@ public class ActivityAnswer implements Serializable {
 	}
 
 	/**
+	 * @return the status
+	 */
+	public Status getStatus() {
+		return status;
+	}
+
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	/**
 	 * @return the answers
 	 */
-	public List<Option> getAnswers() {
+	public Set<Option> getAnswers() {
 		return answers;
 	}
 
 	/**
 	 * @param answers the answers to set
 	 */
-	public void setAnswers(List<Option> answers) {
+	public void setAnswers(Set<Option> answers) {
 		this.answers = answers;
 	}
 
@@ -102,6 +123,7 @@ public class ActivityAnswer implements Serializable {
 		this.updatedTs = updatedTs;
 	}
 
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -109,10 +131,11 @@ public class ActivityAnswer implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + activityAnswerId;
+		result = prime * result + ((activityAnswerId == null) ? 0 : activityAnswerId.hashCode());
 		result = prime * result + ((activityOption == null) ? 0 : activityOption.hashCode());
 		result = prime * result + ((answers == null) ? 0 : answers.hashCode());
 		result = prime * result + ((createdTs == null) ? 0 : createdTs.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((updatedTs == null) ? 0 : updatedTs.hashCode());
 		return result;
 	}
@@ -129,7 +152,10 @@ public class ActivityAnswer implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		ActivityAnswer other = (ActivityAnswer) obj;
-		if (activityAnswerId != other.activityAnswerId)
+		if (activityAnswerId == null) {
+			if (other.activityAnswerId != null)
+				return false;
+		} else if (!activityAnswerId.equals(other.activityAnswerId))
 			return false;
 		if (activityOption == null) {
 			if (other.activityOption != null)
@@ -146,6 +172,11 @@ public class ActivityAnswer implements Serializable {
 				return false;
 		} else if (!createdTs.equals(other.createdTs))
 			return false;
+		if (status == null) {
+			if (other.status != null)
+				return false;
+		} else if (!status.equals(other.status))
+			return false;
 		if (updatedTs == null) {
 			if (other.updatedTs != null)
 				return false;
@@ -160,7 +191,12 @@ public class ActivityAnswer implements Serializable {
 	@Override
 	public String toString() {
 		return "ActivityAnswer [activityAnswerId=" + activityAnswerId + ", activityOption=" + activityOption
-				+ ", answers=" + answers + ", createdTs=" + createdTs + ", updatedTs=" + updatedTs + "]";
+				+ ", status=" + status + ", answers=" + answers + ", createdTs=" + createdTs + ", updatedTs="
+				+ updatedTs + "]";
+	}
+
+	public int compareTo(ActivityAnswer activityAnswer) {
+		return this.activityOption.getOrderNo() - activityAnswer.getActivityOption().getOrderNo();
 	}
 
 }

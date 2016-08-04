@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
+<script src="https://cdn.tinymce.com/4/tinymce.min.js"></script>
 <style type="text/css">
 <%@include file="../css/header.css" %>
 <%@include file="../css/manageTutorial.css" %>
@@ -23,6 +23,10 @@
 <body>
 <jsp:include page="header.jsp"></jsp:include>
 	<div class="jumbotron title">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="adminHome.action">Home</a></li>
+		  	<li class="breadcrumb-item active"><span class="h3">Manage Tutorial</span></li>
+		</ol>
 		<div class="container text-center">
 			<h1>Manage Tutorial</h1>
 			<p>Add-Remove-Edit Topics, Modules and Activities, all at one place.</p>
@@ -58,7 +62,7 @@
 							<span class="h3">${topic.topicType.typeId == 1?'(Basic)':''}</span>
 							</div>
 							<div class="col-sm-2">
-							<button class="btn btn-success btn-block" id="${topic.topicId}" name="${topic.topicName}" onclick="renameTopic(this)">Rename</button>
+							<button class="btn btn-warning btn-block" id="${topic.topicId}" name="${topic.topicName}" onclick="renameTopic(this)">Rename</button>
 							</div>
 							<div class="col-sm-2">
 							<a class="btn btn-danger btn-block" id="deleteId_${topic.topicId}" role="button" onclick="deleteTopic(this)">Delete</a>
@@ -92,7 +96,7 @@
 										data-toggle="collapse" data-target="#activities_for-${module.moduleId}" id="moduleName_${module.moduleId}">${module.moduleName}</span>
 									</div>
 									<div class="col-sm-2">
-									<button class="btn btn-success btn-block" id="renameModule_${module.moduleId}" name="${module.moduleName}" onclick="renameModule(this)">Rename</button>
+									<button class="btn btn-warning btn-block" id="renameModule_${module.moduleId}" name="${module.moduleName}" onclick="renameModule(this)">Rename</button>
 									</div>
 									<div class="col-sm-2">
 									<a class="btn btn-danger btn-block" id="deleteId_${module.moduleId}" role="button" onclick="deleteModule(this)">Delete</a>
@@ -127,7 +131,7 @@
 											<span class="h4" id="activityName_${activityOption.activityOptionId}">${activityOption.activity.activityText}</span>
 											</div>
 											<div class="col-sm-2">
-											<a class="btn btn-success btn-block" role="button" 
+											<a class="btn btn-warning btn-block" role="button" 
 												id="activityId_${activityOption.activityOptionId}" onclick="editActivity(this)">Edit</a>
 											</div>
 											<div class="col-sm-2">

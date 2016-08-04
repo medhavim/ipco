@@ -15,7 +15,7 @@
 		
 		<many-to-one name="module" class="Module" column="module_id" lazy="false" fetch="select"/>
 
-		<set name="options" cascade="all" lazy="false" order-by="orderNo">
+		<set name="options" cascade="all" lazy="false"><!-- order-by="orderNo" -->
 			<key column="activity_option_id"/>
 			<one-to-many class="Option"/>
 		</set>

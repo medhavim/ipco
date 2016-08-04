@@ -11,16 +11,20 @@
 			<generator class="increment"/>
 		</id>
 		
-		<many-to-one name="topic" class="Topic" column="topic_id" />
+		<many-to-one name="topic" class="Topic" column="topic_id" lazy="false" />
 		
-		<many-to-one name="status" class="Status" column="status_id" />
+		<many-to-one name="status" class="Status" column="status_id" lazy="false" />
+
+		<many-to-one name="instance" class="Instance" column="instance_id" lazy="false" />
+
+		<property name="progress" column="progress"/>
 		
-		<set name="instanceModules" cascade="all">
+		<set name="instanceModules" cascade="all" lazy="false">
 			<key column="instance_topic_id"/>
 			<one-to-many class="InstanceModule"/>
 		</set>
 
-		<many-to-one name="quiz" class="InstanceQuiz" column="instance_quiz_id" />
+		<many-to-one name="quiz" class="InstanceQuiz" column="instance_quiz_id" lazy="false" cascade="all"/>
 		
 		<property name="createdTs" type="timestamp" column="created_ts"/>
 		<property name="updatedTs" type="timestamp" column="updated_ts"/>

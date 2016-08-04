@@ -6,6 +6,10 @@ package com.neu.ipco.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
+import com.neu.ipco.constants.AppConstants;
 
 /**
  * @author Harsha
@@ -20,7 +24,7 @@ public class InstanceQuiz implements Serializable {
 	
 	private Integer instanceQuizId;
 	
-	private List<ActivityAnswer> activityAnswers;
+	private Set<ActivityAnswer> activityAnswers = new TreeSet<ActivityAnswer>(AppConstants.ACTIVITY_ANSWER_COMPARATOR);
 	
 	private int score;
 	
@@ -49,14 +53,14 @@ public class InstanceQuiz implements Serializable {
 	/**
 	 * @return the activityAnswers
 	 */
-	public List<ActivityAnswer> getActivityAnswers() {
+	public Set<ActivityAnswer> getActivityAnswers() {
 		return activityAnswers;
 	}
 
 	/**
 	 * @param activityAnswers the activityAnswers to set
 	 */
-	public void setActivityAnswers(List<ActivityAnswer> activityAnswers) {
+	public void setActivityAnswers(Set<ActivityAnswer> activityAnswers) {
 		this.activityAnswers = activityAnswers;
 	}
 

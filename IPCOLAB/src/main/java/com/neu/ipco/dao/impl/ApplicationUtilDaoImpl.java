@@ -12,6 +12,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.neu.ipco.dao.ApplicationUtilDao;
+import com.neu.ipco.entity.Instance;
+import com.neu.ipco.entity.InstanceModule;
+import com.neu.ipco.entity.InstanceTopic;
+import com.neu.ipco.entity.InstanceType;
 import com.neu.ipco.entity.UserType;
 import com.neu.ipco.exception.ApplicationUtilException;
 
@@ -39,6 +43,26 @@ public class ApplicationUtilDaoImpl implements ApplicationUtilDao {
 		userType.setUserTypeId(userTypeId);
 		LOGGER.debug("ApplicationUtilDaoImpl: addUserType: End");
 		return userType;
+	}
+
+	public InstanceType getInstanceTypeByDesc(String instanceTypeBasic) throws ApplicationUtilException {
+		LOGGER.debug("ApplicationUtilDaoImpl: getInstanceTypeByDesc: Executing");
+		return ((List<InstanceType>) template.findByNamedParam("from InstanceType it where it.instanceTypeDesc = :instanceTypeDesc", "instanceTypeDesc", instanceTypeBasic)).get(0);
+	}
+
+	public List<Instance> getInstancesByType(Integer instanceTypeIdBasic) throws ApplicationUtilException {
+		LOGGER.debug("ApplicationUtilDaoImpl: getInstancesByType: Executing");
+		return (List<Instance>) template.findByNamedParam("from Instance i where i.instanceType.instanceTypeId = :instanceTypeId", "instanceTypeId", instanceTypeIdBasic);
+	}
+
+	public List<InstanceTopic> getInstanceTopicByTopicId(Integer topicId) throws ApplicationUtilException {
+		LOGGER.debug("ApplicationUtilDaoImpl: getInstanceTopicByTopicId: Executing");
+		return (List<InstanceTopic>) template.findByNamedParam("from InstanceTopic it where it.topic.topicId = :topicId", "topicId", topicId);
+	}
+
+	public List<InstanceModule> getInstanceModuleByModuleId(Integer moduleId) throws ApplicationUtilException {
+		LOGGER.debug("ApplicationUtilDaoImpl: getInstanceModuleByModuleId: Executing");
+		return (List<InstanceModule>) template.findByNamedParam("from InstanceModule im where im.module.moduleId = :moduleId", "moduleId", moduleId);
 	}
 
 }

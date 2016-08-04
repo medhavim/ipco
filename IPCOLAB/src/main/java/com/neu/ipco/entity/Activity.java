@@ -19,6 +19,8 @@ public class Activity implements Serializable {
 
 	private Integer activityId;
 	
+	private String activityTitle;
+	
 	private String activityText;
 	
 	private ActivityTemplate activityTemplate = new ActivityTemplate();
@@ -43,6 +45,20 @@ public class Activity implements Serializable {
 	 */
 	public void setActivityId(Integer activityId) {
 		this.activityId = activityId;
+	}
+
+	/**
+	 * @return the activityTitle
+	 */
+	public String getActivityTitle() {
+		return activityTitle;
+	}
+
+	/**
+	 * @param activityTitle the activityTitle to set
+	 */
+	public void setActivityTitle(String activityTitle) {
+		this.activityTitle = activityTitle;
 	}
 
 	/**
@@ -108,9 +124,10 @@ public class Activity implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + activityId;
+		result = prime * result + ((activityId == null) ? 0 : activityId.hashCode());
 		result = prime * result + ((activityTemplate == null) ? 0 : activityTemplate.hashCode());
 		result = prime * result + ((activityText == null) ? 0 : activityText.hashCode());
+		result = prime * result + ((activityTitle == null) ? 0 : activityTitle.hashCode());
 		result = prime * result + ((createdTs == null) ? 0 : createdTs.hashCode());
 		result = prime * result + ((updatedTs == null) ? 0 : updatedTs.hashCode());
 		return result;
@@ -128,7 +145,10 @@ public class Activity implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Activity other = (Activity) obj;
-		if (activityId != other.activityId)
+		if (activityId == null) {
+			if (other.activityId != null)
+				return false;
+		} else if (!activityId.equals(other.activityId))
 			return false;
 		if (activityTemplate == null) {
 			if (other.activityTemplate != null)
@@ -139,6 +159,11 @@ public class Activity implements Serializable {
 			if (other.activityText != null)
 				return false;
 		} else if (!activityText.equals(other.activityText))
+			return false;
+		if (activityTitle == null) {
+			if (other.activityTitle != null)
+				return false;
+		} else if (!activityTitle.equals(other.activityTitle))
 			return false;
 		if (createdTs == null) {
 			if (other.createdTs != null)
@@ -158,8 +183,9 @@ public class Activity implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "Activity [activityId=" + activityId + ", activityText=" + activityText + ", activityTemplate="
-				+ activityTemplate + ", createdTs=" + createdTs + ", updatedTs=" + updatedTs + "]";
+		return "Activity [activityId=" + activityId + ", activityTitle=" + activityTitle + ", activityText="
+				+ activityText + ", activityTemplate=" + activityTemplate + ", createdTs=" + createdTs + ", updatedTs="
+				+ updatedTs + "]";
 	}
 
 }

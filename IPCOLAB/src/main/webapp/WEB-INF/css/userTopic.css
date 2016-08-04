@@ -1,0 +1,55 @@
+.navbar-default {
+    background-color: #2e8bcc;
+    border-color: #2e8bcc;
+}
+
+.navbar-default .navbar-brand {
+    color: #FFF;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: #fff;
+}
+
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:hover, .navbar-default .navbar-nav>.open>a:focus {
+    background-color: #2879b1;
+    color: #fff;
+}
+
+.nav .open>a, .nav .open>a:hover, .nav .open>a:focus {
+    background-color: #eee;
+    border-color: #428bca;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: "Segoe UI Light","Helvetica Neue","Segoe UI","Segoe WP",sans-serif;
+    font-weight: 100;
+    line-height: 1.1;
+    color: inherit;
+}
+
+body {
+    font-family: "Segoe UI Light","Segoe UI","Segoe WP","Helvetica Neue",sans-serif;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #333;
+    background-color: #fff;
+}
+
+a {text-decoration: none;}
+
+.jumbotron{
+	margin-top: 50px;
+	margin-bottom:0px;
+	background-color: #ccc;
+	height: 100vh;
+}
+
+.topic-row {
+	border-radius: 10px;
+	padding-bottom: 20px;
+}
+
+.button-wrapper {
+	margin-bottom:5px;
+}

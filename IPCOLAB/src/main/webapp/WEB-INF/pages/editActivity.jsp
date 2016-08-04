@@ -8,11 +8,11 @@
 <meta charset="ISO-8859-1">
 <title>Activity Page</title>
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/metro-bootstrap/3.1.1.2/css/metro-bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://cdn.tinymce.com/4/tinymce.min.js"></script>
 <style type="text/css">
 <%@include file="../css/header.css" %>
 <%@include file="../css/adminActivity.css" %>
@@ -24,6 +24,11 @@
 <body>
 <jsp:include page="header.jsp"></jsp:include>
 <div class="jumbotron title">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="adminHome.action">Home</a></li>
+		<li class="breadcrumb-item"><a href="manageTutorial.action">Manage Tutorial</a></li>
+	  	<li class="breadcrumb-item active"><span class="h3">Manage Activity</span></li>
+	</ol>
 	<div class="container text-center">
 		<h1>Manage Activity</h1>
 		<p>Add-Remove-Edit Activities, at one place.</p>
@@ -59,20 +64,31 @@
 <form:input type="hidden" path="orderNo"/>
 <div class="jumbotron">
 	<div class="container-fluid text-left">
-		<span class="h2">Question Description</span>
+		<span class="h2">Step 1:</span>
+		<span class="h2">Activity Title Here</span>
 	</div>
 	<div class="container-fluid text-left desc-body">
-		<form:textarea name="Question" path="activity.activityText" class="form-control" rows="5" placeholder="Enter Question Contents Here." required="true"></form:textarea>
-	</div>	
+		<form:input type="text" id="activityTitle" name="activityTitle" path="activity.activityTitle" class="form-control" placeholder="Enter Activity title Here." />
+	</div>
 </div>
 <div class="jumbotron">
 	<div class="container-fluid text-left">
-		<span class="h2">Answer Description</span>
+		<span class="h2">Step 2:</span>
+		<span class="h2">Activity Description Text Here</span>
 	</div>
-	
+	<div class="container-fluid text-left desc-body">
+		<form:textarea id="activityText" name="Question" path="activity.activityText" class="form-control" rows="5" placeholder="Enter Question Contents Here."></form:textarea>
+	</div>	
+</div>
+<div class="jumbotron">
 	<div class="container-fluid text-left desc-body selected-tmplteOptn">
 		<form:input type="hidden" path="activity.activityTemplate.activityTemplateId"/>
 		<c:if test="${activityOption.activity.activityTemplate.activityTemplateId == 1}">
+		<div class="container-fluid text-left">
+			<span class="h2">Step 3:</span>
+			<span class="h2">Option Description Here</span>
+		</div>
+		<div class="clear form-group"></div>
 		<div class="mcq">
 			<div class="row addOption form-group">
 				<button id="mcqMoreOptions" type="button" class="btn btn-default btn_lg"><i class="glyphicon glyphicon-plus"></i></button>
@@ -94,6 +110,11 @@
 		</div>
 		</c:if>
 		<c:if test="${activityOption.activity.activityTemplate.activityTemplateId eq 2}">
+		<div class="container-fluid text-left">
+			<span class="h2">Step 3:</span>
+			<span class="h2">Option Description Here</span>
+		</div>
+		<div class="clear form-group"></div>
 		<div class="yesno">
 			<div class="row form-group">
 				<div class="col-md-2">
@@ -124,6 +145,11 @@
 		</div>
 		</c:if>
 		<c:if test="${activityOption.activity.activityTemplate.activityTemplateId eq 3}">
+		<div class="container-fluid text-left">
+			<span class="h2">Step 3:</span>
+			<span class="h2">Option Description Here</span>
+		</div>
+		<div class="clear form-group"></div>
 		<div class="image-desc">
 			<div class="row">
 				<div class="col-sm-6">
@@ -162,6 +188,11 @@
 		</div>
 		</c:if>
 		<c:if test="${activityOption.activity.activityTemplate.activityTemplateId eq 4}">
+		<div class="container-fluid text-left">
+			<span class="h2">Step 3:</span>
+			<span class="h2">Option Description Here</span>
+		</div>
+		<div class="clear form-group"></div>
 		<div class="image-mcq">
 			<div class="row">
 				<div class="col-sm-6">
@@ -205,6 +236,11 @@
 		</div>
 		</c:if>
 		<c:if test="${activityOption.activity.activityTemplate.activityTemplateId eq 5}">
+		<div class="container-fluid text-left">
+			<span class="h2">Step 3:</span>
+			<span class="h2">Option Description Here</span>
+		</div>
+		<div class="clear form-group"></div>
 		<div class="image-yesno">
 			<div class="row">
 				<div class="col-sm-6">
@@ -257,6 +293,11 @@
 		</div>
 		</c:if>
 		<c:if test="${activityOption.activity.activityTemplate.activityTemplateId eq 6}">
+		<div class="container-fluid text-left">
+			<span class="h2">Step 3:</span>
+			<span class="h2">Option Description Here</span>
+		</div>
+		<div class="clear form-group"></div>
 		<div class="video-desc">
 			<div class="row">
 				<div class="col-sm-6">
@@ -298,6 +339,11 @@
 		</div>
 		</c:if>
 		<c:if test="${activityOption.activity.activityTemplate.activityTemplateId eq 7}">
+		<div class="container-fluid text-left">
+			<span class="h2">Step 3:</span>
+			<span class="h2">Option Description Here</span>
+		</div>
+		<div class="clear form-group"></div>
 		<div class="video-mcq">
 			<div class="row">
 				<div class="col-sm-6">
@@ -344,6 +390,11 @@
 		</div>
 		</c:if>
 		<c:if test="${activityOption.activity.activityTemplate.activityTemplateId eq 8}">
+		<div class="container-fluid text-left">
+			<span class="h2">Step 3:</span>
+			<span class="h2">Option Description Here</span>
+		</div>
+		<div class="clear form-group"></div>
 		<div class="video-yesno">
 			<div class="row">
 				<div class="col-sm-6">
@@ -401,8 +452,11 @@
 	</div>
 	<div class="container-fluid text-left desc-body">
 		<div class="row">
+			<div class="col-sm-3">
+	  			<span class="h2">Lastly: Click on Update</span>
+			</div>
 	  		<div class="col-sm-4 addActivityBtn">
-	  			<button type="submit" class="btn btn-primary btn-lg btn-block">Add Activity</button>
+	  			<button type="submit" class="btn btn-primary btn-lg btn-block">Update</button>
 	  		</div>
 	  	</div>
 	</div>	

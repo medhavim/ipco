@@ -4,14 +4,22 @@
 package com.neu.ipco.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.Stack;
+import java.util.TreeSet;
+
+import com.neu.ipco.constants.AppConstants;
 
 /**
  * @author Harsha
  *
  */
-public class InstanceModule implements Serializable {
+public class InstanceModule implements Serializable, Comparable<InstanceModule> {
 
 	/**
 	 * 
@@ -24,11 +32,52 @@ public class InstanceModule implements Serializable {
 	
 	private Status status;
 	
-	private List<ActivityAnswer> activityAnswers;
+	private int progress = 0;
+	
+	private Set<ActivityAnswer> activityAnswers = new TreeSet<ActivityAnswer>(AppConstants.ACTIVITY_ANSWER_COMPARATOR);
+	
+	private List<ActivityAnswer> activityAnswerList;
+	
+	private InstanceTopic instanceTopic;
+	
+	private Stack<ActivityAnswer> prevActivity = new Stack<ActivityAnswer>();
+	
+	private ActivityAnswer currActivity = new ActivityAnswer();
+	
+	private Stack<ActivityAnswer> nextActivity = new Stack<ActivityAnswer>();
 	
 	private Date createdTs;
 	
 	private Date updatedTs;
+	
+	public InstanceModule() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public void reorder() {
+		this.activityAnswerList = new ArrayList<ActivityAnswer>(this.activityAnswers);
+		Collections.sort(this.activityAnswerList, AppConstants.ACTIVITY_ANSWER_COMPARATOR);
+	}
+	
+	public void prepareStack() {
+		
+		nextActivity.clear();
+		prevActivity.clear();		
+		nextActivity.addAll(activityAnswerList);
+		
+		if(!nextActivity.isEmpty()){
+			ActivityAnswer lastActivity = nextActivity.lastElement();
+			currActivity = nextActivity.pop();
+			if(lastActivity.getStatus().getStatusId() != AppConstants.STATUS_COMPLETE_ID){
+				while(!nextActivity.empty()){
+					if(currActivity.getStatus().getStatusId() == AppConstants.STATUS_COMPLETE_ID){
+						prevActivity.push(currActivity);
+					}
+					currActivity = nextActivity.pop();
+				}
+			}
+		}
+	}
 	
 	/**
 	 * @return the createdTs
@@ -56,10 +105,6 @@ public class InstanceModule implements Serializable {
 	 */
 	public void setUpdatedTs(Date updatedTs) {
 		this.updatedTs = updatedTs;
-	}
-
-	public InstanceModule() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -105,17 +150,113 @@ public class InstanceModule implements Serializable {
 	}
 
 	/**
+	 * @return the progress
+	 */
+	public int getProgress() {
+		return progress;
+	}
+
+	/**
+	 * @param progress the progress to set
+	 */
+	public void setProgress(int progress) {
+		this.progress = progress;
+	}
+
+	/**
 	 * @return the activityAnswers
 	 */
-	public List<ActivityAnswer> getActivityAnswers() {
+	public Set<ActivityAnswer> getActivityAnswers() {
 		return activityAnswers;
 	}
 
 	/**
 	 * @param activityAnswers the activityAnswers to set
 	 */
-	public void setActivityAnswers(List<ActivityAnswer> activityAnswers) {
+	public void setActivityAnswers(Set<ActivityAnswer> activityAnswers) {
 		this.activityAnswers = activityAnswers;
+	}
+
+
+	/**
+	 * @return the instanceTopic
+	 */
+	public InstanceTopic getInstanceTopic() {
+		return instanceTopic;
+	}
+
+	/**
+	 * @param instanceTopic the instanceTopic to set
+	 */
+	public void setInstanceTopic(InstanceTopic instanceTopic) {
+		this.instanceTopic = instanceTopic;
+	}
+
+
+	/**
+	 * @return the activityAnswerList
+	 */
+	public List<ActivityAnswer> getActivityAnswerList() {
+		return activityAnswerList;
+	}
+
+	/**
+	 * @param activityAnswerList the activityAnswerList to set
+	 */
+	public void setActivityAnswerList(List<ActivityAnswer> activityAnswerList) {
+		this.activityAnswerList = activityAnswerList;
+	}
+
+	/**
+	 * @return the prevActivity
+	 */
+	public Stack<ActivityAnswer> getPrevActivity() {
+		return prevActivity;
+	}
+
+	/**
+	 * @param prevActivity the prevActivity to set
+	 */
+	public void setPrevActivity(Stack<ActivityAnswer> prevActivity) {
+		this.prevActivity = prevActivity;
+	}
+
+	/**
+	 * @return the currActivity
+	 */
+	public ActivityAnswer getCurrActivity() {
+		return currActivity;
+	}
+
+	/**
+	 * @param currActivity the currActivity to set
+	 */
+	public void setCurrActivity(ActivityAnswer currActivity) {
+		this.currActivity = currActivity;
+	}
+
+	/**
+	 * @return the nextActivity
+	 */
+	public Stack<ActivityAnswer> getNextActivity() {
+		return nextActivity;
+	}
+
+	/**
+	 * @param nextActivity the nextActivity to set
+	 */
+	public void setNextActivity(Stack<ActivityAnswer> nextActivity) {
+		this.nextActivity = nextActivity;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "InstanceModule [instanceModuleId=" + instanceModuleId + ", module=" + module + ", status=" + status
+				+ ", progress=" + progress + ", instanceTopic=" + instanceTopic + ", createdTs=" + createdTs
+				+ ", updatedTs=" + updatedTs + "]";
 	}
 
 	/* (non-Javadoc)
@@ -125,10 +266,11 @@ public class InstanceModule implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((activityAnswers == null) ? 0 : activityAnswers.hashCode());
 		result = prime * result + ((createdTs == null) ? 0 : createdTs.hashCode());
-		result = prime * result + instanceModuleId;
+		result = prime * result + ((instanceModuleId == null) ? 0 : instanceModuleId.hashCode());
+		result = prime * result + ((instanceTopic == null) ? 0 : instanceTopic.hashCode());
 		result = prime * result + ((module == null) ? 0 : module.hashCode());
+		result = prime * result + progress;
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((updatedTs == null) ? 0 : updatedTs.hashCode());
 		return result;
@@ -146,22 +288,27 @@ public class InstanceModule implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		InstanceModule other = (InstanceModule) obj;
-		if (activityAnswers == null) {
-			if (other.activityAnswers != null)
-				return false;
-		} else if (!activityAnswers.equals(other.activityAnswers))
-			return false;
 		if (createdTs == null) {
 			if (other.createdTs != null)
 				return false;
 		} else if (!createdTs.equals(other.createdTs))
 			return false;
-		if (instanceModuleId != other.instanceModuleId)
+		if (instanceModuleId == null) {
+			if (other.instanceModuleId != null)
+				return false;
+		} else if (!instanceModuleId.equals(other.instanceModuleId))
+			return false;
+		if (instanceTopic == null) {
+			if (other.instanceTopic != null)
+				return false;
+		} else if (!instanceTopic.equals(other.instanceTopic))
 			return false;
 		if (module == null) {
 			if (other.module != null)
 				return false;
 		} else if (!module.equals(other.module))
+			return false;
+		if (progress != other.progress)
 			return false;
 		if (status == null) {
 			if (other.status != null)
@@ -176,14 +323,8 @@ public class InstanceModule implements Serializable {
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "InstanceModule [instanceModuleId=" + instanceModuleId + ", module=" + module + ", status=" + status
-				+ ", activityAnswers=" + activityAnswers + ", createdTs=" + createdTs + ", updatedTs=" + updatedTs
-				+ "]";
+	public int compareTo(InstanceModule instanceModule) {
+		return this.module.getOrderNo() - instanceModule.getModule().getOrderNo();
 	}
-	
+
 }

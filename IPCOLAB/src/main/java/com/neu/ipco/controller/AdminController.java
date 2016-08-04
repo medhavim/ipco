@@ -5,7 +5,6 @@ package com.neu.ipco.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
@@ -28,11 +27,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.neu.ipco.constants.AppConstants;
 import com.neu.ipco.entity.ActivityOption;
+import com.neu.ipco.entity.Credential;
 import com.neu.ipco.entity.Module;
 import com.neu.ipco.entity.Option;
 import com.neu.ipco.entity.Topic;
 import com.neu.ipco.exception.AdminException;
+import com.neu.ipco.exception.ApplicationUtilException;
+import com.neu.ipco.exception.UserException;
 import com.neu.ipco.service.AdminService;
+import com.neu.ipco.service.ApplicationUtilService;
 
 /**
  * @author Harsha
@@ -46,7 +49,17 @@ public class AdminController {
 	@Autowired
 	private AdminService adminService;
 	
-	@RequestMapping(value="/manageTutorial.action", method=RequestMethod.POST)
+	@Autowired
+	private ApplicationUtilService applicationUtilService;
+	
+	@RequestMapping(value="/adminHome.action", method=RequestMethod.GET)
+	public String loadAdminHomePage(Model model, HttpSession session){
+		
+		LOGGER.debug("AuthenticationController: loadAdminHomePage: Redirecting");
+		return AppConstants.ADMIN_HOME;
+	}
+	
+	@RequestMapping(value="/manageTutorial.action")
 	public String manageTutorialAction(Model model, HttpSession session){
 		
 		LOGGER.debug("AdminController: manageTutorialAction: Start");
@@ -74,10 +87,17 @@ public class AdminController {
 		Topic newTopic = new Topic(topicName, topicTypeId);
 		try {
 			newTopic = adminService.addNewTopic(newTopic);
+			if(topicTypeId == AppConstants.TOPIC_TYPE_ID_BASIC){
+				applicationUtilService.updateNewTopicToBasicInstances(newTopic);
+			}
 			allTopics.add(newTopic);
 			
 			session.setAttribute("allTopics", allTopics);
 		} catch (AdminException e) {
+			e.printStackTrace();
+			return AppConstants.ERROR_PAGE;
+		} catch (ApplicationUtilException e1){
+			e1.printStackTrace();
 			return AppConstants.ERROR_PAGE;
 		}
 		
@@ -95,11 +115,14 @@ public class AdminController {
 			Topic topic = adminService.getTopicById(topicId);
 			Module module = new Module(moduleName, topic);
 			module = adminService.addNewModule(module);
-			
+			applicationUtilService.updateNewModuleToInstanceTopics(module);
 			List<Topic> allTopics = adminService.loadAllTopics();
 			session.setAttribute("allTopics", allTopics);
 			model.addAttribute("moduleTopicId", module.getTopic().getTopicId());
 		} catch (AdminException e) {
+			return AppConstants.ERROR_PAGE;
+		} catch (ApplicationUtilException e1){
+			e1.printStackTrace();
 			return AppConstants.ERROR_PAGE;
 		}
 		
@@ -255,16 +278,17 @@ public class AdminController {
 			int activityOptionId = newActivityOption.getActivityOptionId();
 			int activityTemplateId = newActivityOption.getActivity().getActivityTemplate().getActivityTemplateId();
 			ActivityOption currActivityOption = adminService.getActivityOptionById(activityOptionId);
-			
-			adminService.deleteOptionsByActivityOptionId(activityOptionId);
-			
-			Set<Option> options = populateOptions(request, activityTemplateId, 
-					uploadFile);
+			if(activityTemplateId != AppConstants.TEMPLATE_INFO){
+				adminService.deleteOptionsByActivityOptionId(activityOptionId);
+				Set<Option> options = populateOptions(request, activityTemplateId, 
+						uploadFile);
 //					card1File, card2File, card3File);
+				currActivityOption.getOptions().clear();
+				currActivityOption.setOptions(options);
+			}
+			
 			currActivityOption.getActivity().setUpdatedTs(new Date());
 			currActivityOption.getActivity().setActivityText(newActivityOption.getActivity().getActivityText());
-			currActivityOption.getOptions().clear();
-			currActivityOption.setOptions(options);
 			currActivityOption.setUpdatedTs(new Date());
 			
 			currActivityOption = adminService.editActivity(currActivityOption);
@@ -293,21 +317,28 @@ public class AdminController {
 		LOGGER.debug("AdminController: addActivity: Start");
 		
 		try {
-			Set<Option> options = populateOptions(request, activityTemplateId, 
-					uploadFile);
-//					card1File, card2File, card3File);
 			activityOption.getActivity().setCreatedTs(new Date());
 			activityOption.getActivity().getActivityTemplate().setActivityTemplateId(activityTemplateId);
 			activityOption.setCreatedTs(new Date());
-			activityOption.setOptions(options);
+			if(activityTemplateId != AppConstants.TEMPLATE_INFO){
+				Set<Option> options = populateOptions(request, activityTemplateId, 
+						uploadFile);
+//					card1File, card2File, card3File);
+				activityOption.setOptions(options);
+			}
 			
 			activityOption = adminService.addNewActivity(activityOption);
+			
+			applicationUtilService.updateNewActivityToInstanceModule(activityOption);
 			
 			List<Topic> allTopics = adminService.loadAllTopics();
 			session.setAttribute("allTopics", allTopics);
 			model.addAttribute("moduleTopicId", activityOption.getModule().getTopic().getTopicId());
 			model.addAttribute("activityModuleId", activityOption.getModule().getModuleId());
 		} catch (AdminException e) {
+			return AppConstants.ERROR_PAGE;
+		} catch (ApplicationUtilException e1){
+			e1.printStackTrace();
 			return AppConstants.ERROR_PAGE;
 		}
 		
@@ -329,7 +360,7 @@ public class AdminController {
 		}else{
 			if(activityTemplateId <= AppConstants.TEMPLATE_IMAGE_YESNO){
 				options = populateImageOption(options, request, uploadFile, orderNo, "image");
-			}else{
+			}else if(activityTemplateId <= AppConstants.TEMPLATE_VIDEO_YESNO){
 				options = populateImageOption(options, request, uploadFile, orderNo, "video");
 			}
 			orderNo++;

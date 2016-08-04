@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.neu.ipco.entity">
+	
+	<class name="ActivityAnswer" table="activity_answer">
+		
+		<id name="activityAnswerId" column="activity_answer_id">
+			<generator class="increment"/>
+		</id>
+
+		<many-to-one name="activityOption" class="ActivityOption" column="acitivity_option_id" />
+		
+		<set name="answers" cascade="all">
+			<key column="activity_answer_id"/>
+			<one-to-many class="Option"/>
+		</set>
+		
+		<property name="createdTs" type="timestamp" column="created_ts"/>
+		<property name="updatedTs" type="timestamp" column="updated_ts"/>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.neu.ipco.entity">
+
+	<class name="InstanceType" table="instance_type">
+	
+		<id name="instanceTypeId" column="instance_type_id" >
+			<generator class="increment"/>
+		</id>
+
+		<property name="instanceTypeDesc" column="instance_type_desc" />
+
+		<property name="createdTs" type="timestamp" column="created_ts" />
+		<property name="updatedTs" type="timestamp" column="updated_ts" />
+	</class>
+</hibernate-mapping>

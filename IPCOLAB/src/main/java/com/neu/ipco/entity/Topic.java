@@ -4,9 +4,12 @@
 package com.neu.ipco.entity;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;
+
+import com.neu.ipco.constants.AppConstants;
 
 /**
  * @author Harsha
@@ -23,7 +26,7 @@ public class Topic implements Serializable, Comparable<Topic> {
 	
 	private String topicName;
 	
-	private Set<Module> modules = new TreeSet<Module>();
+	private Set<Module> modules = new TreeSet<Module>(AppConstants.MODULE_COMPARATOR);
 	
 	private TopicType topicType;
 	
@@ -197,13 +200,14 @@ public class Topic implements Serializable, Comparable<Topic> {
 		return true;
 	}
 
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "Topic [topicId=" + topicId + ", topicName=" + topicName + ", modules=" + modules + ", topicType="
-				+ topicType + ", createdTs=" + createdTs + ", updatedTs=" + updatedTs + "]";
+		return "Topic [topicId=" + topicId + ", topicName=" + topicName + ", topicType=" + topicType + ", orderNo="
+				+ orderNo + ", createdTs=" + createdTs + ", updatedTs=" + updatedTs + "]";
 	}
 
 	public int compareTo(Topic topic) {

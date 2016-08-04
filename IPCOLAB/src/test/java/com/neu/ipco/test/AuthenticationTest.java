@@ -8,6 +8,7 @@ import static org.junit.Assert.assertNotEquals;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,10 +42,16 @@ public class AuthenticationTest {
 	
 	@Test
 	public void testCheckEmail(){
+		try {
+			System.out.println(authenticationService.checkEmail("iam@adam.in"));
+			Assert.assertTrue(authenticationService.checkEmail("iam@adam.in"));
+		} catch (AuthenticationException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
-	@Test
+//	@Test
 	public void testCheckUsername(){
 		
 	}
@@ -81,22 +88,22 @@ public class AuthenticationTest {
 		}
 	}
 
-	@Test
+//	@Test
 	public void testValidUser(){
 		
 	}
 	
-	@Test
+//	@Test
 	public void testResetCredentials(){
 		
 	}
 	
-	@Test
+//	@Test
 	public void testAddAdmin(){
 		
 	}
 	
-	@Test
+//	@Test
 	public void testAdminLogin(){
 		
 	}

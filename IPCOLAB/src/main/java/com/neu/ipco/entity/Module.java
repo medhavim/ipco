@@ -4,9 +4,12 @@
 package com.neu.ipco.entity;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;
+
+import com.neu.ipco.constants.AppConstants;
 
 /**
  * @author Harsha
@@ -25,7 +28,7 @@ public class Module implements Serializable, Comparable<Module> {
 	
 	private Topic topic;
 	
-	private Set<ActivityOption> activityOptions = new TreeSet<ActivityOption>();
+	private Set<ActivityOption> activityOptions = new TreeSet<ActivityOption>(AppConstants.ACTIVITY_OPTION_COMPARATOR);
 	
 	private int orderNo;
 	
@@ -200,6 +203,11 @@ public class Module implements Serializable, Comparable<Module> {
 		return true;
 	}
 
+
+	public int compareTo(Module module) {
+		return this.orderNo - module.orderNo;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -208,10 +216,6 @@ public class Module implements Serializable, Comparable<Module> {
 		return "Module [moduleId=" + moduleId + ", moduleName=" + moduleName + ", topic=" + topic + ", activityOptions="
 				+ activityOptions + ", orderNo=" + orderNo + ", createdTs=" + createdTs + ", updatedTs=" + updatedTs
 				+ "]";
-	}
-
-	public int compareTo(Module module) {
-		return this.orderNo - module.orderNo;
 	}
 
 }

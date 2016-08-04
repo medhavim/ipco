@@ -6,6 +6,10 @@ package com.neu.ipco.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
+import com.neu.ipco.constants.AppConstants;
 
 /**
  * @author Harsha
@@ -24,9 +28,9 @@ public class Diagnostic implements Serializable {
 	
 	private ActivityOption question;
 	
-	private List<Topic> topics;
+	private Set<Topic> topics = new TreeSet<Topic>(AppConstants.TOPIC_COMPARATOR);
 	
-	private List<Diagnostic> relatedQuestions;
+	private Set<Diagnostic> relatedQuestions = new TreeSet<Diagnostic>();
 	
 	private Date createdTs;
 	
@@ -81,28 +85,28 @@ public class Diagnostic implements Serializable {
 	/**
 	 * @return the topics
 	 */
-	public List<Topic> getTopics() {
+	public Set<Topic> getTopics() {
 		return topics;
 	}
 
 	/**
 	 * @param topics the topics to set
 	 */
-	public void setTopics(List<Topic> topics) {
+	public void setTopics(Set<Topic> topics) {
 		this.topics = topics;
 	}
 
 	/**
 	 * @return the relatedQuestions
 	 */
-	public List<Diagnostic> getRelatedQuestions() {
+	public Set<Diagnostic> getRelatedQuestions() {
 		return relatedQuestions;
 	}
 
 	/**
 	 * @param relatedQuestions the relatedQuestions to set
 	 */
-	public void setRelatedQuestions(List<Diagnostic> relatedQuestions) {
+	public void setRelatedQuestions(Set<Diagnostic> relatedQuestions) {
 		this.relatedQuestions = relatedQuestions;
 	}
 
@@ -142,11 +146,9 @@ public class Diagnostic implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((createdTs == null) ? 0 : createdTs.hashCode());
-		result = prime * result + diagnosticId;
+		result = prime * result + ((diagnosticId == null) ? 0 : diagnosticId.hashCode());
 		result = prime * result + ((question == null) ? 0 : question.hashCode());
 		result = prime * result + relatedDiagnosticId;
-		result = prime * result + ((relatedQuestions == null) ? 0 : relatedQuestions.hashCode());
-		result = prime * result + ((topics == null) ? 0 : topics.hashCode());
 		result = prime * result + ((updatedTs == null) ? 0 : updatedTs.hashCode());
 		return result;
 	}
@@ -168,7 +170,10 @@ public class Diagnostic implements Serializable {
 				return false;
 		} else if (!createdTs.equals(other.createdTs))
 			return false;
-		if (diagnosticId != other.diagnosticId)
+		if (diagnosticId == null) {
+			if (other.diagnosticId != null)
+				return false;
+		} else if (!diagnosticId.equals(other.diagnosticId))
 			return false;
 		if (question == null) {
 			if (other.question != null)
@@ -176,16 +181,6 @@ public class Diagnostic implements Serializable {
 		} else if (!question.equals(other.question))
 			return false;
 		if (relatedDiagnosticId != other.relatedDiagnosticId)
-			return false;
-		if (relatedQuestions == null) {
-			if (other.relatedQuestions != null)
-				return false;
-		} else if (!relatedQuestions.equals(other.relatedQuestions))
-			return false;
-		if (topics == null) {
-			if (other.topics != null)
-				return false;
-		} else if (!topics.equals(other.topics))
 			return false;
 		if (updatedTs == null) {
 			if (other.updatedTs != null)
@@ -201,8 +196,7 @@ public class Diagnostic implements Serializable {
 	@Override
 	public String toString() {
 		return "Diagnostic [diagnosticId=" + diagnosticId + ", relatedDiagnosticId=" + relatedDiagnosticId
-				+ ", question=" + question + ", topics=" + topics + ", relatedQuestions=" + relatedQuestions
-				+ ", createdTs=" + createdTs + ", updatedTs=" + updatedTs + "]";
+				+ ", question=" + question + ", createdTs=" + createdTs + ", updatedTs=" + updatedTs + "]";
 	}
 
 }

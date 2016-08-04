@@ -1,0 +1,36 @@
+
+.jumbotron{
+	background-color: #ccc;
+}
+
+.btn-group .current-ongoing-module{
+	box-shadow: 0 0 13px rgba(81, 203, 238, 1);
+/*   	padding: 3px 0px 3px 3px; */
+/* 	margin: 5px 1px 3px 0px; */
+	border: 3px solid rgba(81, 203, 238, 1);
+}
+.btn-group .current-complete-module{
+	box-shadow: 0 0 13px rgba(134, 191, 134, 0.93);
+/*   	padding: 3px 0px 3px 3px; */
+/* 	margin: 5px 1px 3px 0px; */
+	border: 3px solid rgba(134, 191, 134, 0.93);
+}
+
+.clear {
+	padding: 10px;
+}
+
+.chkbx{
+	width: 20px;
+	height: 20px;
+}
+
+.video-options,.image-options{
+	padding-top: 10%;
+}
+
+.btn-prev,.btn-next{
+	width: 175px;
+    height: 50px;
+    border-radius: 20px;
+}

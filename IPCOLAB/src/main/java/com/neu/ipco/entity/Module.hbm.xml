@@ -15,7 +15,7 @@
 		
 		<many-to-one name="topic" class="Topic" column="topic_id" lazy="false"/>
 		
-		<set name="activityOptions" lazy="false" cascade="all" inverse="true" order-by="orderNo">
+		<set name="activityOptions" lazy="false" cascade="all" inverse="true"><!-- order-by="orderNo" -->
 			<key column="module_id"/>
 			<one-to-many class="ActivityOption"/>
 		</set>

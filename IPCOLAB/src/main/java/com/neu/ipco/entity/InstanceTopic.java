@@ -4,14 +4,22 @@
 package com.neu.ipco.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.Stack;
+import java.util.TreeSet;
+
+import com.neu.ipco.constants.AppConstants;
 
 /**
  * @author Harsha
  *
  */
-public class InstanceTopic implements Serializable {
+public class InstanceTopic implements Serializable, Comparable<InstanceTopic> {
 
 	/**
 	 * 
@@ -24,7 +32,19 @@ public class InstanceTopic implements Serializable {
 	
 	private Status status;
 	
-	private List<InstanceModule> instanceModules;
+	private int progress = 0;
+	
+	private Set<InstanceModule> instanceModules = new TreeSet<InstanceModule>(AppConstants.INSTANCE_MODULE_COMPARATOR);
+	
+	private List<InstanceModule> instanceModuleList;
+
+	private Instance instance;
+	
+	private Stack<InstanceModule> prevModules = new Stack<InstanceModule>();
+	
+	private InstanceModule currModule = new InstanceModule();
+	
+	private Stack<InstanceModule> nextModules = new Stack<InstanceModule>();
 	
 	private InstanceQuiz quiz;
 	
@@ -36,6 +56,65 @@ public class InstanceTopic implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
+	public void reorder() {
+		this.instanceModuleList = new ArrayList<InstanceModule>(this.instanceModules);
+		Collections.sort(this.instanceModuleList, AppConstants.INSTANCE_MODULE_COMPARATOR);
+		
+		for(InstanceModule instanceModule : this.instanceModules){
+			this.instanceModuleList = new ArrayList<InstanceModule>(this.instanceModules);
+			instanceModule.reorder();
+		}
+		
+	}
+	
+	public void prepareStack() {
+		nextModules.clear();
+		prevModules.clear();
+		nextModules.addAll(instanceModuleList);
+		if(!nextModules.isEmpty()){
+			InstanceModule lastModule = nextModules.lastElement();
+			currModule = nextModules.pop();
+			if(lastModule.getStatus().getStatusId() != AppConstants.STATUS_COMPLETE_ID){
+				while(!nextModules.empty()){
+					if(currModule.getStatus().getStatusId() == AppConstants.STATUS_COMPLETE_ID){
+						prevModules.push(currModule);
+					}
+					currModule = nextModules.pop();
+				}
+			}
+		}
+	}
+	
+	public void prepareStack(InstanceModule instanceModule) {
+		
+		nextModules.clear();
+		prevModules.clear();
+		nextModules.addAll(instanceModuleList);
+		if(!nextModules.isEmpty()){
+			currModule = nextModules.pop();
+			while(!nextModules.empty()){
+				if(currModule.getInstanceModuleId() == instanceModule.getInstanceModuleId()){
+					break;
+				}
+				prevModules.push(currModule);
+			}
+		}
+	}
+
+	/**
+	 * @return the instanceModuleList
+	 */
+	public List<InstanceModule> getInstanceModuleList() {
+		return instanceModuleList;
+	}
+	
+	/**
+	 * @param instanceModuleList the instanceModuleList to set
+	 */
+	public void setInstanceModuleList(List<InstanceModule> instanceModuleList) {
+		this.instanceModuleList = instanceModuleList;
+	}
+	
 	/**
 	 * @return the instanceTopicId
 	 */
@@ -79,17 +158,45 @@ public class InstanceTopic implements Serializable {
 	}
 
 	/**
+	 * @return the progress
+	 */
+	public int getProgress() {
+		return progress;
+	}
+
+	/**
+	 * @param progress the progress to set
+	 */
+	public void setProgress(int progress) {
+		this.progress = progress;
+	}
+
+	/**
 	 * @return the instanceModules
 	 */
-	public List<InstanceModule> getInstanceModules() {
+	public Set<InstanceModule> getInstanceModules() {
 		return instanceModules;
 	}
 
 	/**
 	 * @param instanceModules the instanceModules to set
 	 */
-	public void setInstanceModules(List<InstanceModule> instanceModules) {
+	public void setInstanceModules(Set<InstanceModule> instanceModules) {
 		this.instanceModules = instanceModules;
+	}
+
+	/**
+	 * @return the instance
+	 */
+	public Instance getInstance() {
+		return instance;
+	}
+
+	/**
+	 * @param instance the instance to set
+	 */
+	public void setInstance(Instance instance) {
+		this.instance = instance;
 	}
 
 	/**
@@ -134,6 +241,60 @@ public class InstanceTopic implements Serializable {
 		this.updatedTs = updatedTs;
 	}
 
+
+
+	/**
+	 * @return the prevModules
+	 */
+	public Stack<InstanceModule> getPrevModules() {
+		return prevModules;
+	}
+
+	/**
+	 * @param prevModules the prevModules to set
+	 */
+	public void setPrevModules(Stack<InstanceModule> prevModules) {
+		this.prevModules = prevModules;
+	}
+
+	/**
+	 * @return the currModule
+	 */
+	public InstanceModule getCurrModule() {
+		return currModule;
+	}
+
+	/**
+	 * @param currModule the currModule to set
+	 */
+	public void setCurrModule(InstanceModule currModule) {
+		this.currModule = currModule;
+	}
+
+	/**
+	 * @return the nextModules
+	 */
+	public Stack<InstanceModule> getNextModules() {
+		return nextModules;
+	}
+
+	/**
+	 * @param nextModules the nextModules to set
+	 */
+	public void setNextModules(Stack<InstanceModule> nextModules) {
+		this.nextModules = nextModules;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "InstanceTopic [instanceTopicId=" + instanceTopicId + ", topic=" + topic + ", status=" + status
+				+ ", progress=" + progress + ", quiz=" + quiz + ", createdTs=" + createdTs + ", updatedTs=" + updatedTs
+				+ "]";
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -142,8 +303,8 @@ public class InstanceTopic implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((createdTs == null) ? 0 : createdTs.hashCode());
-		result = prime * result + ((instanceModules == null) ? 0 : instanceModules.hashCode());
-		result = prime * result + instanceTopicId;
+		result = prime * result + ((instanceTopicId == null) ? 0 : instanceTopicId.hashCode());
+		result = prime * result + progress;
 		result = prime * result + ((quiz == null) ? 0 : quiz.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((topic == null) ? 0 : topic.hashCode());
@@ -168,12 +329,12 @@ public class InstanceTopic implements Serializable {
 				return false;
 		} else if (!createdTs.equals(other.createdTs))
 			return false;
-		if (instanceModules == null) {
-			if (other.instanceModules != null)
+		if (instanceTopicId == null) {
+			if (other.instanceTopicId != null)
 				return false;
-		} else if (!instanceModules.equals(other.instanceModules))
+		} else if (!instanceTopicId.equals(other.instanceTopicId))
 			return false;
-		if (instanceTopicId != other.instanceTopicId)
+		if (progress != other.progress)
 			return false;
 		if (quiz == null) {
 			if (other.quiz != null)
@@ -198,14 +359,8 @@ public class InstanceTopic implements Serializable {
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "InstanceTopic [instanceTopicId=" + instanceTopicId + ", topic=" + topic + ", status=" + status
-				+ ", instanceModules=" + instanceModules + ", quiz=" + quiz + ", createdTs=" + createdTs
-				+ ", updatedTs=" + updatedTs + "]";
+	public int compareTo(InstanceTopic instanceTopic) {
+		return this.topic.getOrderNo() - instanceTopic.getTopic().getOrderNo();
 	}
 
 }

@@ -11,6 +11,8 @@
 			<generator class="increment"/>
 		</id>
 
+		<property name="activityTitle" column="activity_title" />
+
 		<property name="activityText" column="activity_text" />
 		
 		<many-to-one name="activityTemplate" class="ActivityTemplate" column="acitivity_template_id"/>

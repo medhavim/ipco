@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.neu.ipco.entity">
+
+	<class name="BasicInstanceUser" table="basic_instance_user">
+	
+		<composite-id>
+			<key-many-to-one name="user" class="User">
+				<column name="user_id"/>
+			</key-many-to-one>
+		 	<key-many-to-one name="instance" class="Instance">
+				<column name="instance_id"/> 
+			 </key-many-to-one>
+		</composite-id>
+
+		<property name="createdTs" type="timestamp" column="created_ts"/>
+		<property name="updatedTs" type="timestamp" column="updated_ts"/>
+	</class>
+</hibernate-mapping>

@@ -44,29 +44,49 @@ public class AdminServiceImpl implements AdminService {
 	 */
 	public List<Topic> loadAllTopics() throws AdminException {
 		LOGGER.debug("AdminService: loadAllTopics: Executing");
-		return adminDao.loadAllTopics();
+		try {
+			return adminDao.loadAllTopics();
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
 	}
 
 	public Topic addNewTopic(Topic newTopic) throws AdminException {
 		LOGGER.debug("AdminService: addNewTopic: Executing");
-		newTopic.setOrderNo(adminDao.getTopicNextOrderNo(newTopic.getTopicType().getTypeId()));
-		return adminDao.addNewTopic(newTopic);
+		try {
+			newTopic.setOrderNo(adminDao.getTopicNextOrderNo(newTopic.getTopicType().getTypeId()));
+			return adminDao.addNewTopic(newTopic);
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
 	}
 
 	public Topic getTopicById(int topicId) throws AdminException {
 		LOGGER.debug("AdminService: getTopicById: Executing");
-		return adminDao.getTopicById(topicId);
+		try {
+			return adminDao.getTopicById(topicId);
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
 	}
 
 	public void updateTopic(Topic topic) throws AdminException {
 		LOGGER.debug("AdminService: updateTopic: Executing");
-		adminDao.updateTopic(topic);
+		try {
+			adminDao.updateTopic(topic);
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
 	}
 
 	public void deleteTopic(Topic topic) throws AdminException {
 		LOGGER.debug("AdminService: deleteTopic: Executing");
-		adminDao.deleteTopic(topic);
-		reorderTopics(topic.getTopicType().getTypeId());
+		try {
+			adminDao.deleteTopic(topic);
+			reorderTopics(topic.getTopicType().getTypeId());
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
 	}
 
 	private void reorderTopics(Integer typeId) throws AdminException{
@@ -81,24 +101,40 @@ public class AdminServiceImpl implements AdminService {
 
 	public Module addNewModule(Module module) throws AdminException {
 		LOGGER.debug("AdminService: addNewModule: Executing");
-		module.setOrderNo(adminDao.getModuleNextOrderNo(module.getTopic().getTopicId()));
-		return adminDao.addNewModule(module);
+		try {
+			module.setOrderNo(adminDao.getModuleNextOrderNo(module.getTopic().getTopicId()));
+			return adminDao.addNewModule(module);
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
 	}
 
 	public Module getModuleById(int moduleId) throws AdminException {
 		LOGGER.debug("AdminService: getModuleById: Executing");
-		return adminDao.getModuleById(moduleId);
+		try {
+			return adminDao.getModuleById(moduleId);
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
 	}
 
 	public void updateModule(Module module) throws AdminException {
 		LOGGER.debug("AdminService: updateModule: Executing");
-		adminDao.updateModule(module);
+		try {
+			adminDao.updateModule(module);
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
 	}
 
 	public void deleteModule(Module module) throws AdminException {
 		LOGGER.debug("AdminService: deleteModule: Executing");
-		adminDao.deleteModule(module);
-		reorderModules(module.getTopic().getTopicId());
+		try {
+			adminDao.deleteModule(module);
+			reorderModules(module.getTopic().getTopicId());
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
 	}
 	
 	private void reorderModules(Integer topicId) throws AdminException{
@@ -145,47 +181,71 @@ public class AdminServiceImpl implements AdminService {
 
 	public ActivityOption addNewActivity(ActivityOption activityOption) throws AdminException {
 		LOGGER.debug("AdminService: addNewActivity: Start");
-		activityOption.setOrderNo(adminDao.getActivityOptionNextOrderNo(activityOption.getModule().getModuleId()));
-		activityOption =adminDao.addNewActivity(activityOption);
-		activityOption.setModule(adminDao.getModuleById(activityOption.getModule().getModuleId()));
-		
-		LOGGER.debug("AdminService: addNewActivity: End");
-		return activityOption;
+		try {
+			activityOption.setOrderNo(adminDao.getActivityOptionNextOrderNo(activityOption.getModule().getModuleId()));
+			activityOption =adminDao.addNewActivity(activityOption);
+			activityOption.setModule(adminDao.getModuleById(activityOption.getModule().getModuleId()));
+			
+			LOGGER.debug("AdminService: addNewActivity: End");
+			return activityOption;
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
 	}
 
 	public ActivityOption getActivityOptionById(int activityOptionId) throws AdminException {
 		LOGGER.debug("AdminService: getActivityOptionById: Executing");
-		return adminDao.getActivityOptionById(activityOptionId);
+		try {
+			return adminDao.getActivityOptionById(activityOptionId);
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
 	}
 
 	public void deleteActivityOption(ActivityOption activityOption) throws AdminException {
 		LOGGER.debug("AdminService: deleteActivityOption: Executing");
-		adminDao.deleteActivityOption(activityOption);
-		reorderActivities(activityOption.getModule().getModuleId());
+		try {
+			adminDao.deleteActivityOption(activityOption);
+			reorderActivities(activityOption.getModule().getModuleId());
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
 	}
 
 	private void reorderActivities(Integer moduleId) throws AdminException{
-		List<ActivityOption> activityOptions = adminDao.getActivitiesByModuleId(moduleId);
-		int orderNo = 1;
-		for(Iterator<ActivityOption> iterator = activityOptions.iterator(); iterator.hasNext();){
-			ActivityOption activityOption = iterator.next();
-			activityOption.setOrderNo(orderNo++);
-			adminDao.updateActivityOption(activityOption);
+		try {
+			List<ActivityOption> activityOptions = adminDao.getActivitiesByModuleId(moduleId);
+			int orderNo = 1;
+			for(Iterator<ActivityOption> iterator = activityOptions.iterator(); iterator.hasNext();){
+				ActivityOption activityOption = iterator.next();
+				activityOption.setOrderNo(orderNo++);
+				adminDao.updateActivityOption(activityOption);
+			}
+		} catch (Exception e) {
+			throw new AdminException(e);
 		}
 	}
 
 	public ActivityOption editActivity(ActivityOption activityOption) throws AdminException {
 		LOGGER.debug("AdminService: editActivity: Start");
-		activityOption =adminDao.editActivity(activityOption);
-		LOGGER.debug("AdminService: editActivity: End");
-		return activityOption;
+		try {
+			activityOption =adminDao.editActivity(activityOption);
+			LOGGER.debug("AdminService: editActivity: End");
+			return activityOption;
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
 	}
 
 	public void deleteOptionsByActivityOptionId(int activityOptionId) throws AdminException {
 		LOGGER.debug("AdminService: deleteOptionsByActivityOptionId: Start");
-		ActivityOption activityOption = adminDao.getActivityOptionById(activityOptionId);
-		adminDao.deleteOptions(activityOption.getOptions());
-		LOGGER.debug("AdminService: deleteOptionsByActivityOptionId: End");
+		try {
+			ActivityOption activityOption = adminDao.getActivityOptionById(activityOptionId);
+			adminDao.deleteOptions(activityOption.getOptions());
+			LOGGER.debug("AdminService: deleteOptionsByActivityOptionId: End");
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
 	}
 	
 

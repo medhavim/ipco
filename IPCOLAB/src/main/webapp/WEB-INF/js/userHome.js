@@ -12,4 +12,12 @@ $(document).ready(function() {
 	$(".option").on('mouseout', function(e) {
 		$('.option-desc').css('display', 'none');
 	});
+	
+	$(".option").on('click', function(e) {
+		
+		action=$(this).find('a')[0].id;
+		$('#customForm').attr('action', action);
+		$('#customForm').submit();
+	});
+	
 });

@@ -11,7 +11,7 @@
 		<property name="hibernate.connection.password">password</property>
 		<property name="hibernate.connection.pool_size">10</property>
 		<property name="show_sql">true</property>
-<!--         <property name="hbm2ddl.auto">create</property>  -->
+        <property name="hbm2ddl.auto">update</property> 
 		<property name="format_sql">true</property>
 		<property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
 		
@@ -36,6 +36,7 @@
 		<mapping resource="com/neu/ipco/entity/InstanceModule.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/InstanceQuiz.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/InstanceTopic.hbm.xml" />
+		<mapping resource="com/neu/ipco/entity/InstanceType.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/Module.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/Quiz.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/Status.hbm.xml" />

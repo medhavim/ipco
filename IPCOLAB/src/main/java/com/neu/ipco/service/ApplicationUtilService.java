@@ -3,6 +3,10 @@
  */
 package com.neu.ipco.service;
 
+import com.neu.ipco.entity.ActivityOption;
+import com.neu.ipco.entity.InstanceType;
+import com.neu.ipco.entity.Module;
+import com.neu.ipco.entity.Topic;
 import com.neu.ipco.entity.UserType;
 import com.neu.ipco.exception.ApplicationUtilException;
 
@@ -15,5 +19,13 @@ public interface ApplicationUtilService {
 	public UserType getUserType(UserType userType) throws ApplicationUtilException;
 	
 	public UserType addUserType(UserType userType) throws ApplicationUtilException;
+
+	public InstanceType getInstanceTypeByDesc(String instanceTypeBasic) throws ApplicationUtilException;
+
+	public void updateNewTopicToBasicInstances(Topic newTopic) throws ApplicationUtilException;
+
+	public void updateNewModuleToInstanceTopics(Module module) throws ApplicationUtilException;
+
+	public void updateNewActivityToInstanceModule(ActivityOption activityOption) throws ApplicationUtilException;
 
 }

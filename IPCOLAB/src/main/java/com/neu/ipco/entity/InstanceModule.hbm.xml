@@ -11,11 +11,15 @@
 			<generator class="increment"/>
 		</id>
 		
-		<many-to-one name="module" class="Module" column="module_id" />
+		<many-to-one name="module" class="Module" column="module_id" lazy="false"/>
 		
-		<many-to-one name="status" class="Status" column="status_id" />
+		<many-to-one name="status" class="Status" column="status_id" lazy="false" />
 		
-		<set name="activityAnswers" cascade="all">
+		<many-to-one name="instanceTopic" class="InstanceTopic" column="instance_topic_id" lazy="false" />
+		
+		<property name="progress" column="progress"/>
+		
+		<set name="activityAnswers" cascade="all" lazy="false">
 			<key column="instance_module_id"/>
 			<one-to-many class="ActivityAnswer"/>
 		</set>

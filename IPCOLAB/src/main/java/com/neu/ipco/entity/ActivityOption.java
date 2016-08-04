@@ -4,9 +4,12 @@
 package com.neu.ipco.entity;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;
+
+import com.neu.ipco.constants.AppConstants;
 
 /**
  * @author Harsha
@@ -25,7 +28,7 @@ public class ActivityOption implements Serializable, Comparable<ActivityOption> 
 	
 	private Module module = new Module();
 	
-	private Set<Option> options = new TreeSet<Option>();
+	private Set<Option> options = new TreeSet<Option>(AppConstants.OPTION_COMPARATOR);
 	
 	private int orderNo;
 	

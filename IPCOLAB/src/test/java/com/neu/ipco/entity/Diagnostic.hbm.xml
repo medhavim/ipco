@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.neu.ipco.entity">
+
+	<class name="Diagnostic">
+	
+		<id name="diagnosticId" column="diagnostic_id">
+			<generator class="increment"/>
+		</id>
+		
+		<property name="relatedDiagnosticId" column="related_diagnostic_id" />
+		
+		<many-to-one name="question" class="ActivityOption" column="activity_option_id" />
+		
+		<set name="topics" cascade="all">
+			<key column="diagnostic_id"/>
+			<one-to-many class="Topic"/>
+		</set>
+		
+		<set name="relatedQuestions" cascade="all" inverse="false">
+			<key column="related_diagnostic_id"/>
+			<one-to-many class="Diagnostic"/>
+		</set>
+	
+		<property name="createdTs" type="timestamp" column="created_ts"/>
+		<property name="updatedTs" type="timestamp" column="updated_ts"/>
+	</class>
+</hibernate-mapping>

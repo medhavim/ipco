@@ -33,14 +33,14 @@
 			</div>
 			<div class="col-sm-3">
 				<div class="thumbnail tile tile-large tile-green-sea option" id="option-1">
-				<a href="#">
+				<a href="#" id="gotoBasicProfile.action">
 				<h1 class="tile-text text-center">Overview of IP</h1>
 				</a>
 				</div>
 			</div>
 			<div class="col-sm-3">
 				<div class="thumbnail tile tile-large tile-peter-river option" id="option-2">
-				<a href="#">
+				<a href="#" id="gotoCustomProfile.action">
 					<h1  class="tile-text text-center" >Customize Tutorial</h1>
 					</a>
 				</div>
@@ -55,5 +55,6 @@
 		</div>
 	</div>
 	</div>
+	<form action="#" id="customForm" method="post"></form>
 </body>
 </html>
