@@ -47,6 +47,7 @@ public class AdminServiceImpl implements AdminService {
 		try {
 			return adminDao.loadAllTopics();
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new AdminException(e);
 		}
 	}

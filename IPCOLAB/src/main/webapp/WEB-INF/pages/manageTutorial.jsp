@@ -56,10 +56,13 @@
 				<c:forEach items="${allTopics}" var="topic" varStatus="topicNo">
 					<div class="jumbotron topic_holder">
 						<div class="row">
-							<div class="col-sm-8">
+							<div class="col-sm-6">
 							<span class="container_name h2 collapsed span-topic-${topic.topicId}" 
 								data-toggle="collapse" data-target="#modules_for-${topic.topicId}" id="topic_name_${topic.topicId}">${topic.topicName}</span>
 							<span class="h3">${topic.topicType.typeId == 1?'(Basic)':''}</span>
+							</div>
+							<div class="col-sm-2">
+							<button class="btn btn-info btn-block" data-toggle="collapse" data-target="#viewTopicDesc_${topic.topicId}">View Description</button>
 							</div>
 							<div class="col-sm-2">
 							<button class="btn btn-warning btn-block" id="${topic.topicId}" name="${topic.topicName}" onclick="renameTopic(this)">Rename</button>
@@ -68,6 +71,23 @@
 							<a class="btn btn-danger btn-block" id="deleteId_${topic.topicId}" role="button" onclick="deleteTopic(this)">Delete</a>
 							</div>
 							<input type="hidden" id="topicNotEmpty_${topic.topicId}" value="${fn:length(topic.modules)>0}" />
+						</div>
+						
+						<div class="panel-collapse collapse" id="viewTopicDesc_${topic.topicId}">
+							<div class="container-fluid topicDescContainer_${topic.topicId}">
+								<div id="topicDescContent_${topic.topicId}" class="desc-body">${topic.topicDesc}</div>
+								<div class="row"><div class="col-sm-2 pull-right">
+									<button class="btn btn-warning btn-block form-control" onclick="editTopicDesc(${topic.topicId})">Edit</button>
+								</div></div>
+							</div>
+							<div class="container-fluid form-group topicDescEditor_${topic.topicId} desc-body" style="display: none">
+								<textarea id="topicDescEdit_${topic.topicId}" name="topicDesc" rows="5" placeholder="Enter Topic Description here." >${topic.topicDesc}</textarea>
+								<div class="row">
+								<div class="col-sm-2 pull-right desc-body">
+									<button class="btn btn-success btn-block" onclick="updateTopicDesc(${topic.topicId})">Update</button>
+								</div>
+								</div>
+							</div><hr>
 						</div>
 					
 						<div class="panel-collapse collapse" id="modules_for-${topic.topicId}">

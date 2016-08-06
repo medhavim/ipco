@@ -13,6 +13,8 @@
 		
 		<property name="moduleName" column="module_name"/>
 		
+		<property name="moduleDesc" column="module_desc"/>
+		
 		<many-to-one name="topic" class="Topic" column="topic_id" lazy="false"/>
 		
 		<set name="activityOptions" lazy="false" cascade="all" inverse="true"><!-- order-by="orderNo" -->

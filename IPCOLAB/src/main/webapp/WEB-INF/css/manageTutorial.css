@@ -55,3 +55,12 @@
     -animation: spin .7s infinite linear;
     -webkit-animation: spin2 .7s infinite linear;
 }
+
+.modal-content{
+	margin-left: -100px;
+	margin-right: -100px;
+}
+
+.desc-body{ 
+	padding-top:10px; 
+} 

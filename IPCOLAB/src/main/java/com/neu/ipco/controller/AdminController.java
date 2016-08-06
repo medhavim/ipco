@@ -78,13 +78,13 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/addNewTopic.action", method=RequestMethod.POST)
-	public String addNewTopicAction(@RequestParam("topicName") String topicName,
+	public String addNewTopicAction(@RequestParam("topicName") String topicName, @RequestParam("topicDesc") String topicDesc,
 			@RequestParam("topicTypeId") int topicTypeId, Model model, HttpSession session){
 		
 		LOGGER.debug("AdminController: addNewTopicAction: Start");
 		
 		List<Topic> allTopics = (List<Topic>) session.getAttribute("allTopics");
-		Topic newTopic = new Topic(topicName, topicTypeId);
+		Topic newTopic = new Topic(topicName, topicDesc, topicTypeId);
 		try {
 			newTopic = adminService.addNewTopic(newTopic);
 			if(topicTypeId == AppConstants.TOPIC_TYPE_ID_BASIC){
@@ -205,6 +205,29 @@ public class AdminController {
 			
 			session.setAttribute("allTopics", allTopics);
 			LOGGER.debug("AdminController: renameModule: End");
+			
+			return "true";
+		} catch (AdminException e) {
+			return "error";
+		}
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value="/updateTopicDesc.action", method=RequestMethod.POST)
+	public String updateTopicDescAction(@RequestParam("topicDesc") String topicDesc, @RequestParam("topicId") int topicId, HttpSession session){
+		
+		LOGGER.debug("AdminController: updateTopicDescAction: Start");
+		Topic topic;
+		try {
+			topic = adminService.getTopicById(topicId);
+			topic.setTopicDesc(topicDesc);
+			topic.setUpdatedTs(new Date());
+			adminService.updateTopic(topic);
+			List<Topic> allTopics = adminService.loadAllTopics();
+			
+			session.setAttribute("allTopics", allTopics);
+			LOGGER.debug("AdminController: updateTopicDescAction: End");
 			
 			return "true";
 		} catch (AdminException e) {

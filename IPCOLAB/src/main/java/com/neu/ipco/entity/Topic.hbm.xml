@@ -13,6 +13,11 @@
 		
 		<property name="topicName" column="topic_name"/>
 		
+		<property name="topicDesc" column="topic_desc"/>
+
+<!-- 		<many-to-one name="instanceTopic" class="InstanceTopic" column="instance_topic_id" cascade="all" lazy="false"/> -->
+		<one-to-one name="instanceTopic" class="InstanceTopic" property-ref="topic" cascade="all" lazy="false"/>
+		
 		<set name="modules" lazy="false" cascade="all" inverse="true"><!--  order-by="orderNo" -->
 			<key column="topic_id"/>
 			<one-to-many class="Module"/>

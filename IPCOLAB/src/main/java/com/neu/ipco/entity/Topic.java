@@ -26,7 +26,11 @@ public class Topic implements Serializable, Comparable<Topic> {
 	
 	private String topicName;
 	
+	private String topicDesc;
+	
 	private Set<Module> modules = new TreeSet<Module>(AppConstants.MODULE_COMPARATOR);
+	
+	private InstanceTopic instanceTopic;
 	
 	private TopicType topicType;
 	
@@ -37,11 +41,11 @@ public class Topic implements Serializable, Comparable<Topic> {
 	private Date updatedTs;
 	
 	public Topic() {
-		// TODO Auto-generated constructor stub
 	}
-
-	public Topic(String topicName, Integer topicTypeId) {
+	
+	public Topic(String topicName, String topicDesc, Integer topicTypeId) {
 		this.topicName = topicName;
+		this.topicDesc = topicDesc;
 		this.topicType = new TopicType(topicTypeId);
 		this.createdTs = new Date();
 	}
@@ -75,6 +79,20 @@ public class Topic implements Serializable, Comparable<Topic> {
 	}
 
 	/**
+	 * @return the topicDesc
+	 */
+	public String getTopicDesc() {
+		return topicDesc;
+	}
+
+	/**
+	 * @param topicDesc the topicDesc to set
+	 */
+	public void setTopicDesc(String topicDesc) {
+		this.topicDesc = topicDesc;
+	}
+
+	/**
 	 * @return the modules
 	 */
 	public Set<Module> getModules() {
@@ -86,6 +104,20 @@ public class Topic implements Serializable, Comparable<Topic> {
 	 */
 	public void setModules(Set<Module> modules) {
 		this.modules = modules;
+	}
+
+	/**
+	 * @return the instanceTopic
+	 */
+	public InstanceTopic getInstanceTopic() {
+		return instanceTopic;
+	}
+
+	/**
+	 * @param instanceTopic the instanceTopic to set
+	 */
+	public void setInstanceTopic(InstanceTopic instanceTopic) {
+		this.instanceTopic = instanceTopic;
 	}
 
 	/**
@@ -153,6 +185,8 @@ public class Topic implements Serializable, Comparable<Topic> {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((createdTs == null) ? 0 : createdTs.hashCode());
+		result = prime * result + orderNo;
+		result = prime * result + ((topicDesc == null) ? 0 : topicDesc.hashCode());
 		result = prime * result + ((topicId == null) ? 0 : topicId.hashCode());
 		result = prime * result + ((topicName == null) ? 0 : topicName.hashCode());
 		result = prime * result + ((topicType == null) ? 0 : topicType.hashCode());
@@ -177,6 +211,13 @@ public class Topic implements Serializable, Comparable<Topic> {
 				return false;
 		} else if (!createdTs.equals(other.createdTs))
 			return false;
+		if (orderNo != other.orderNo)
+			return false;
+		if (topicDesc == null) {
+			if (other.topicDesc != null)
+				return false;
+		} else if (!topicDesc.equals(other.topicDesc))
+			return false;
 		if (topicId == null) {
 			if (other.topicId != null)
 				return false;
@@ -200,14 +241,13 @@ public class Topic implements Serializable, Comparable<Topic> {
 		return true;
 	}
 
-
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "Topic [topicId=" + topicId + ", topicName=" + topicName + ", topicType=" + topicType + ", orderNo="
-				+ orderNo + ", createdTs=" + createdTs + ", updatedTs=" + updatedTs + "]";
+		return "Topic [topicId=" + topicId + ", topicName=" + topicName + ", topicDesc=" + topicDesc + ", topicType="
+				+ topicType + ", orderNo=" + orderNo + ", createdTs=" + createdTs + ", updatedTs=" + updatedTs + "]";
 	}
 
 	public int compareTo(Topic topic) {

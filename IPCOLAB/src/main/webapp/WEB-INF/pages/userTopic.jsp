@@ -25,8 +25,11 @@
 <div class="jumbotron">
 	<div class="container-fluid">
 		<c:forEach items="${instance.instanceTopicList}" var="instanceTopic">
-		<div class="row topic-row <c:choose><c:when test="${instanceTopic.status.statusId eq 1}">bg-info</c:when><c:when test="${instanceTopic.status.statusId eq 2}">bg-danger</c:when><c:otherwise>bg-success</c:otherwise></c:choose>">
+		<div class="row topic-row <c:choose><c:when test="${instanceTopic.status.statusId eq 1}">bg-info</c:when><c:when test="${instanceTopic.status.statusId eq 2}">bg-danger</c:when><c:otherwise>bg-success</c:otherwise></c:choose>"
+			 data-toggle="collapse" data-target="#topicDesc_${instanceTopic.topic.topicId}">
 			<div class="col-lg-12 col-sm-12 col-md-12">
+<!-- 				<span class="h2 collapsed"  -->
+<%-- 					  data-toggle="collapse" data-target="#topicDesc_${topic.topicId}" id="topic_name_${topic.topicId}">${topic.topicName}</span>   --%>
 				<h2>${instanceTopic.topic.topicName}</h2>
 				<div class="progress" style="width:100%">
 					<div class="progress-bar <c:choose><c:when test="${instanceTopic.status.statusId eq 1}">progress-bar-info</c:when><c:when test="${instanceTopic.status.statusId eq 2}">progress-bar-danger active</c:when><c:otherwise>progress-bar-success</c:otherwise></c:choose> progress-bar-striped" 
@@ -47,6 +50,9 @@
 						</div>
 					</div>
 				</div>	
+			</div>
+			<div class="panel-collapse collapse" id="topicDesc_${instanceTopic.topic.topicId}">
+				<div class="container-fluid">${instanceTopic.topic.topicDesc}</div>
 			</div>
 		</div>
 		<br>

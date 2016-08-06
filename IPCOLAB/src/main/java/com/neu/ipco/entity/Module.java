@@ -26,6 +26,8 @@ public class Module implements Serializable, Comparable<Module> {
 	
 	private String moduleName;
 	
+	private String moduleDesc;
+	
 	private Topic topic;
 	
 	private Set<ActivityOption> activityOptions = new TreeSet<ActivityOption>(AppConstants.ACTIVITY_OPTION_COMPARATOR);
@@ -74,6 +76,20 @@ public class Module implements Serializable, Comparable<Module> {
 		this.moduleName = moduleName;
 	}
 
+
+	/**
+	 * @return the moduleDesc
+	 */
+	public String getModuleDesc() {
+		return moduleDesc;
+	}
+
+	/**
+	 * @param moduleDesc the moduleDesc to set
+	 */
+	public void setModuleDesc(String moduleDesc) {
+		this.moduleDesc = moduleDesc;
+	}
 
 	/**
 	 * @return the topic
@@ -145,6 +161,7 @@ public class Module implements Serializable, Comparable<Module> {
 		this.updatedTs = updatedTs;
 	}
 
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -153,6 +170,7 @@ public class Module implements Serializable, Comparable<Module> {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((createdTs == null) ? 0 : createdTs.hashCode());
+		result = prime * result + ((moduleDesc == null) ? 0 : moduleDesc.hashCode());
 		result = prime * result + ((moduleId == null) ? 0 : moduleId.hashCode());
 		result = prime * result + ((moduleName == null) ? 0 : moduleName.hashCode());
 		result = prime * result + orderNo;
@@ -177,6 +195,11 @@ public class Module implements Serializable, Comparable<Module> {
 			if (other.createdTs != null)
 				return false;
 		} else if (!createdTs.equals(other.createdTs))
+			return false;
+		if (moduleDesc == null) {
+			if (other.moduleDesc != null)
+				return false;
+		} else if (!moduleDesc.equals(other.moduleDesc))
 			return false;
 		if (moduleId == null) {
 			if (other.moduleId != null)
@@ -203,19 +226,17 @@ public class Module implements Serializable, Comparable<Module> {
 		return true;
 	}
 
-
-	public int compareTo(Module module) {
-		return this.orderNo - module.orderNo;
-	}
-
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "Module [moduleId=" + moduleId + ", moduleName=" + moduleName + ", topic=" + topic + ", activityOptions="
-				+ activityOptions + ", orderNo=" + orderNo + ", createdTs=" + createdTs + ", updatedTs=" + updatedTs
-				+ "]";
+		return "Module [moduleId=" + moduleId + ", moduleName=" + moduleName + ", moduleDesc=" + moduleDesc + ", topic="
+				+ topic + ", orderNo=" + orderNo + ", createdTs=" + createdTs + ", updatedTs=" + updatedTs + "]";
+	}
+
+	public int compareTo(Module module) {
+		return this.orderNo - module.orderNo;
 	}
 
 }

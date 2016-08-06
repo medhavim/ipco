@@ -157,4 +157,29 @@ tinymce.init({
 });
 //adding formatter to the textarea End
 
+// Functionality to edit the topic description Start
+
+function editTopicDesc(topicId){
+	$('.topicDescContainer_'+topicId).css('display', 'none');
+	$('.topicDescEditor_'+topicId).css('display', 'block');
+}
+
+function updateTopicDesc(topicId){
+	
+	var topicDesc = tinymce.get('topicDescEdit_'+topicId).getContent();
+	
+	$.ajax({
+		type : "POST",
+		url : "updateTopicDesc.action",
+		data : "topicDesc=" + topicDesc + "&topicId=" + topicId,
+		success : function(data) {
+			$('#topicDescContent_'+topicId).html(topicDesc)
+			$('.topicDescContainer_'+topicId).css('display', 'block');
+			$('.topicDescEditor_'+topicId).css('display', 'none');
+		}
+	});
+}
+
+// Functionality to edit the topic description End
+
 
