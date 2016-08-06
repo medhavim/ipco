@@ -3,6 +3,9 @@
  */
 package com.neu.ipco.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.neu.ipco.constants.AppConstants;
 import com.neu.ipco.entity.Credential;
 import com.neu.ipco.entity.User;
+import com.neu.ipco.entity.UserRole;
 import com.neu.ipco.entity.UserType;
 import com.neu.ipco.exception.ApplicationUtilException;
 import com.neu.ipco.exception.AuthenticationException;
@@ -49,17 +53,22 @@ public class AuthenticationController {
 			
 			UserType userType = new UserType();
 			userType.setUserTypeDesc(AppConstants.USER_TYPE_USER);
+			
+			List<UserRole> userRoles = new ArrayList<UserRole>();
 			try {
 				userType = applicationUtilService.getUserType(userType);
+				userRoles = applicationUtilService.getUserRoles();
 			} catch (ApplicationUtilException e) {
 				LOGGER.debug("Exception: While fetching UserType");
 				return AppConstants.ERROR_PAGE;
 			}
+			
 			userRegister.setUserType(userType);
 			
 			Credential userLogin = new Credential();
 			Credential newCredential = new Credential();
 			
+			model.addAttribute("userRoles", userRoles);
 			model.addAttribute("userLogin", userLogin);
 			model.addAttribute("newCredential", newCredential);
 			model.addAttribute("userRegister", userRegister);

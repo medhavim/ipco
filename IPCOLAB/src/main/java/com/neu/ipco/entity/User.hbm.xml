@@ -28,8 +28,13 @@
 		<many-to-one
 			name="userType"
 			class="UserType"
-			unique = "true"
-			column="user_type_id"
-			cascade="all" />
+			column="user_type_id" lazy="false"/>
+<!-- 			unique = "true" -->
+			
+		<many-to-one
+			name="userRole"
+			class="UserRole"
+			column="user_role_id" lazy="false"/>
+<!-- 			unique = "true" -->
 	</class>
 </hibernate-mapping>

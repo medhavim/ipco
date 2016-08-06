@@ -3,6 +3,7 @@
  */
 package com.neu.ipco.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -25,6 +26,7 @@ import com.neu.ipco.entity.Module;
 import com.neu.ipco.entity.Option;
 import com.neu.ipco.entity.Status;
 import com.neu.ipco.entity.Topic;
+import com.neu.ipco.entity.UserRole;
 import com.neu.ipco.entity.UserType;
 import com.neu.ipco.exception.ApplicationUtilException;
 import com.neu.ipco.exception.UserException;
@@ -53,6 +55,20 @@ public class ApplicationUtilServiceImpl implements ApplicationUtilService {
 		LOGGER.debug("ApplicationUtilServiceImpl: getUserType: Executing");
 		try {
 			return applicationUtilDao.getUserType(userType);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ApplicationUtilException(e);
+		}
+	}
+
+	public List<UserRole> getUserRoles() throws ApplicationUtilException {
+		LOGGER.debug("ApplicationUtilServiceImpl: getUserRoles: Executing");
+		try {
+			List<UserRole> userRoles = applicationUtilDao.getUserRoles();
+			if(userRoles.isEmpty()){
+				return new ArrayList<UserRole>();
+			}
+			return userRoles;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ApplicationUtilException(e);

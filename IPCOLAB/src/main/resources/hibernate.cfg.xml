@@ -44,5 +44,6 @@
 		<mapping resource="com/neu/ipco/entity/TopicType.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/User.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/UserType.hbm.xml" />
+		<mapping resource="com/neu/ipco/entity/UserRole.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>

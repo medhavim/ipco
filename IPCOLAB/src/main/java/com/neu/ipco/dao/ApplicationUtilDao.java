@@ -9,6 +9,7 @@ import com.neu.ipco.entity.Instance;
 import com.neu.ipco.entity.InstanceModule;
 import com.neu.ipco.entity.InstanceTopic;
 import com.neu.ipco.entity.InstanceType;
+import com.neu.ipco.entity.UserRole;
 import com.neu.ipco.entity.UserType;
 import com.neu.ipco.exception.ApplicationUtilException;
 
@@ -29,5 +30,7 @@ public interface ApplicationUtilDao {
 	public List<InstanceTopic> getInstanceTopicByTopicId(Integer topicId) throws ApplicationUtilException;
 
 	public List<InstanceModule> getInstanceModuleByModuleId(Integer moduleId) throws ApplicationUtilException;
+
+	public List<UserRole> getUserRoles() throws ApplicationUtilException;
 
 }

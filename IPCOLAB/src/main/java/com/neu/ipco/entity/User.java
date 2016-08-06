@@ -29,6 +29,8 @@ public class User implements Serializable{
 	
 	private UserType userType;
 	
+	private UserRole userRole = new UserRole();
+	
 	private Date createdTs;
 	
 	private Date updatedTs;
@@ -122,6 +124,20 @@ public class User implements Serializable{
 	}
 
 	/**
+	 * @return the userRole
+	 */
+	public UserRole getUserRole() {
+		return userRole;
+	}
+
+	/**
+	 * @param userRole the userRole to set
+	 */
+	public void setUserRole(UserRole userRole) {
+		this.userRole = userRole;
+	}
+
+	/**
 	 * @return the createdTs
 	 */
 	public Date getCreatedTs() {
@@ -162,7 +178,8 @@ public class User implements Serializable{
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + ((updatedTs == null) ? 0 : updatedTs.hashCode());
-		result = prime * result + userId;
+		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+		result = prime * result + ((userRole == null) ? 0 : userRole.hashCode());
 		result = prime * result + ((userType == null) ? 0 : userType.hashCode());
 		return result;
 	}
@@ -209,7 +226,15 @@ public class User implements Serializable{
 				return false;
 		} else if (!updatedTs.equals(other.updatedTs))
 			return false;
-		if (userId != other.userId)
+		if (userId == null) {
+			if (other.userId != null)
+				return false;
+		} else if (!userId.equals(other.userId))
+			return false;
+		if (userRole == null) {
+			if (other.userRole != null)
+				return false;
+		} else if (!userRole.equals(other.userRole))
 			return false;
 		if (userType == null) {
 			if (other.userType != null)
@@ -225,8 +250,8 @@ public class User implements Serializable{
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", credential=" + credential + ", userType=" + userType + ", createdTs=" + createdTs + ", updatedTs="
-				+ updatedTs + "]";
+				+ ", credential=" + credential + ", userType=" + userType + ", userRole=" + userRole + ", createdTs="
+				+ createdTs + ", updatedTs=" + updatedTs + "]";
 	}
 
 }

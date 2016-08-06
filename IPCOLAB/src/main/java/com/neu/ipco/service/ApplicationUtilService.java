@@ -3,10 +3,13 @@
  */
 package com.neu.ipco.service;
 
+import java.util.List;
+
 import com.neu.ipco.entity.ActivityOption;
 import com.neu.ipco.entity.InstanceType;
 import com.neu.ipco.entity.Module;
 import com.neu.ipco.entity.Topic;
+import com.neu.ipco.entity.UserRole;
 import com.neu.ipco.entity.UserType;
 import com.neu.ipco.exception.ApplicationUtilException;
 
@@ -27,5 +30,7 @@ public interface ApplicationUtilService {
 	public void updateNewModuleToInstanceTopics(Module module) throws ApplicationUtilException;
 
 	public void updateNewActivityToInstanceModule(ActivityOption activityOption) throws ApplicationUtilException;
+
+	public List<UserRole> getUserRoles() throws ApplicationUtilException;
 
 }

@@ -138,6 +138,14 @@
 									<span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span><form:input type="email" path="email" name="email" id="registerEmail" tabindex="1" class="form-control" placeholder="Email Address" value="" required="true"/><span class="input-group-addon"><i class="email-check glyphicon glyphicon-refresh glyphicon-refresh-animate"></i></span>
 								</div>
 								<div class="form-group input-group">
+									<span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
+									<form:select path="userRole.userRoleId" class="form-control">
+										<c:forEach items="${userRoles}" var="userRole">
+										<form:option value="${userRole.userRoleId}">${userRole.userRoleDesc}</form:option>
+										</c:forEach>
+									</form:select>
+								</div>
+								<div class="form-group input-group">
 									<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
 									<form:input type="text" path="credential.username" name="username" id="registerUsername" tabindex="1" class="form-control" placeholder="Username" value="" required="true"/>
 									<span class="input-group-addon"><i class="username-check glyphicon glyphicon-refresh glyphicon-refresh-animate"></i></span>

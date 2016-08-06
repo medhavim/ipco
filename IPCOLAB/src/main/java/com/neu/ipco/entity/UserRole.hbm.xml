@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.neu.ipco.entity">
+	<class name="UserRole" table="user_role">
+	
+		<id name="userRoleId" column="user_role_id" >
+			<generator class="increment"/>
+		</id>
+
+		<property name="userRoleDesc" column="user_role_desc" />
+		<property name="createdTs" type="timestamp" column="created_ts" />
+		<property name="updatedTs" type="timestamp" column="updated_ts" />
+		
+<!-- 		<one-to-one name="user" -->
+<!-- 			class="User" -->
+<!-- 			property-ref="credential"	 -->
+<!-- 			cascade="all" /> -->
+	
+	</class>
+</hibernate-mapping>
