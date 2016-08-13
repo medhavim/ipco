@@ -11,7 +11,7 @@
 			<generator class="increment"/>
 		</id>
 		
-		<many-to-one name="activityAnswer" class="ActivityAnswer" column="activity_answer_id" />
+		<many-to-one name="activityOption" class="ActivityOption" column="activity_option_id" />
 		
 		<set name="topics" table="diagnostic_topic"
 			inverse="false" lazy="false" fetch="select" cascade="all" >
@@ -24,7 +24,7 @@
 		</set>
 		
 		<set name="relatedDiagnostics" table="diagnostic_releated_diagnostic"
-			inverse="false" lazy="false" fetch="select" cascade="all" >
+			inverse="true" lazy="false" fetch="select" cascade="all" >
 		    <key>
 		        <column name="diagnostic_id" not-null="true" />
 		    </key>

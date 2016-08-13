@@ -24,7 +24,7 @@ public class Diagnostic implements Serializable {
 	
 	private Integer diagnosticId;
 	
-	private ActivityAnswer activityAnswer;
+	private ActivityOption activityOption;
 	
 	private Set<Topic> topics = new TreeSet<Topic>(AppConstants.TOPIC_COMPARATOR);
 	
@@ -53,17 +53,17 @@ public class Diagnostic implements Serializable {
 	}
 
 	/**
-	 * @return the activityAnswer
+	 * @return the activityOption
 	 */
-	public ActivityAnswer getActivityAnswer() {
-		return activityAnswer;
+	public ActivityOption getActivityOption() {
+		return activityOption;
 	}
 
 	/**
-	 * @param activityAnswer the activityAnswer to set
+	 * @param activityOption the activityOption to set
 	 */
-	public void setActivityAnswer(ActivityAnswer activityAnswer) {
-		this.activityAnswer = activityAnswer;
+	public void setActivityOption(ActivityOption activityOption) {
+		this.activityOption = activityOption;
 	}
 
 	/**
@@ -129,7 +129,7 @@ public class Diagnostic implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((activityAnswer == null) ? 0 : activityAnswer.hashCode());
+		result = prime * result + ((activityOption == null) ? 0 : activityOption.hashCode());
 		result = prime * result + ((createdTs == null) ? 0 : createdTs.hashCode());
 		result = prime * result + ((diagnosticId == null) ? 0 : diagnosticId.hashCode());
 		result = prime * result + ((updatedTs == null) ? 0 : updatedTs.hashCode());
@@ -148,10 +148,10 @@ public class Diagnostic implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Diagnostic other = (Diagnostic) obj;
-		if (activityAnswer == null) {
-			if (other.activityAnswer != null)
+		if (activityOption == null) {
+			if (other.activityOption != null)
 				return false;
-		} else if (!activityAnswer.equals(other.activityAnswer))
+		} else if (!activityOption.equals(other.activityOption))
 			return false;
 		if (createdTs == null) {
 			if (other.createdTs != null)
@@ -176,8 +176,8 @@ public class Diagnostic implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "Diagnostic [diagnosticId=" + diagnosticId + ", activityAnswer=" + activityAnswer + ", topics=" + topics
-				+ ", createdTs=" + createdTs + ", updatedTs=" + updatedTs + "]";
+		return "Diagnostic [diagnosticId=" + diagnosticId + ", activityOption=" + activityOption + ", createdTs="
+				+ createdTs + ", updatedTs=" + updatedTs + "]";
 	}
 
 }

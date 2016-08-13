@@ -44,6 +44,8 @@ import com.neu.ipco.service.ApplicationUtilService;
 @Controller
 public class AdminController {
 	
+//	TODO Logic to handle duplicate related diagnostic questions to be added
+	
 	private Logger LOGGER = Logger.getLogger(AdminController.class);
 	
 	@Autowired
