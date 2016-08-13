@@ -5,65 +5,46 @@ package com.neu.ipco.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.neu.ipco.constants.AppConstants;
-
 /**
- * @author Harsha
+ * @author harsh
  *
  */
-public class Diagnostic implements Serializable {
+public class RelatedDiagnostic implements Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 659192540934768360L;
+	private static final long serialVersionUID = 4403795726899421956L;
 	
-	private Integer diagnosticId;
+	private Integer relatedDiagnosticId;
 	
-	private ActivityAnswer activityAnswer;
+	private Set<Topic> topics = new TreeSet<Topic>();
 	
-	private Set<Topic> topics = new TreeSet<Topic>(AppConstants.TOPIC_COMPARATOR);
-	
-	private Set<RelatedDiagnostic> relatedDiagnostics = new TreeSet<RelatedDiagnostic>();
+	private Set<Diagnostic> diagnostics = new TreeSet<Diagnostic>();
 	
 	private Date createdTs;
 	
 	private Date updatedTs;
 	
-	public Diagnostic() {
+	public RelatedDiagnostic() {
 		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @return the diagnosticId
+	 * @return the relatedDiagnosticId
 	 */
-	public Integer getDiagnosticId() {
-		return diagnosticId;
+	public Integer getRelatedDiagnosticId() {
+		return relatedDiagnosticId;
 	}
 
 	/**
-	 * @param diagnosticId the diagnosticId to set
+	 * @param relatedDiagnosticId the relatedDiagnosticId to set
 	 */
-	public void setDiagnosticId(Integer diagnosticId) {
-		this.diagnosticId = diagnosticId;
-	}
-
-	/**
-	 * @return the activityAnswer
-	 */
-	public ActivityAnswer getActivityAnswer() {
-		return activityAnswer;
-	}
-
-	/**
-	 * @param activityAnswer the activityAnswer to set
-	 */
-	public void setActivityAnswer(ActivityAnswer activityAnswer) {
-		this.activityAnswer = activityAnswer;
+	public void setRelatedDiagnosticId(Integer relatedDiagnosticId) {
+		this.relatedDiagnosticId = relatedDiagnosticId;
 	}
 
 	/**
@@ -81,17 +62,17 @@ public class Diagnostic implements Serializable {
 	}
 
 	/**
-	 * @return the relatedDiagnostics
+	 * @return the diagnostics
 	 */
-	public Set<RelatedDiagnostic> getRelatedDiagnostics() {
-		return relatedDiagnostics;
+	public Set<Diagnostic> getDiagnostics() {
+		return diagnostics;
 	}
 
 	/**
-	 * @param relatedDiagnostics the relatedDiagnostics to set
+	 * @param diagnostics the diagnostics to set
 	 */
-	public void setRelatedDiagnostics(Set<RelatedDiagnostic> relatedDiagnostics) {
-		this.relatedDiagnostics = relatedDiagnostics;
+	public void setDiagnostics(Set<Diagnostic> diagnostics) {
+		this.diagnostics = diagnostics;
 	}
 
 	/**
@@ -129,9 +110,8 @@ public class Diagnostic implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((activityAnswer == null) ? 0 : activityAnswer.hashCode());
 		result = prime * result + ((createdTs == null) ? 0 : createdTs.hashCode());
-		result = prime * result + ((diagnosticId == null) ? 0 : diagnosticId.hashCode());
+		result = prime * result + ((relatedDiagnosticId == null) ? 0 : relatedDiagnosticId.hashCode());
 		result = prime * result + ((updatedTs == null) ? 0 : updatedTs.hashCode());
 		return result;
 	}
@@ -147,21 +127,16 @@ public class Diagnostic implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Diagnostic other = (Diagnostic) obj;
-		if (activityAnswer == null) {
-			if (other.activityAnswer != null)
-				return false;
-		} else if (!activityAnswer.equals(other.activityAnswer))
-			return false;
+		RelatedDiagnostic other = (RelatedDiagnostic) obj;
 		if (createdTs == null) {
 			if (other.createdTs != null)
 				return false;
 		} else if (!createdTs.equals(other.createdTs))
 			return false;
-		if (diagnosticId == null) {
-			if (other.diagnosticId != null)
+		if (relatedDiagnosticId == null) {
+			if (other.relatedDiagnosticId != null)
 				return false;
-		} else if (!diagnosticId.equals(other.diagnosticId))
+		} else if (!relatedDiagnosticId.equals(other.relatedDiagnosticId))
 			return false;
 		if (updatedTs == null) {
 			if (other.updatedTs != null)
@@ -176,8 +151,9 @@ public class Diagnostic implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "Diagnostic [diagnosticId=" + diagnosticId + ", activityAnswer=" + activityAnswer + ", topics=" + topics
-				+ ", createdTs=" + createdTs + ", updatedTs=" + updatedTs + "]";
+		return "RelatedDiagnostic [relatedDiagnosticId=" + relatedDiagnosticId + ", createdTs=" + createdTs
+				+ ", updatedTs=" + updatedTs + "]";
 	}
 
+	
 }

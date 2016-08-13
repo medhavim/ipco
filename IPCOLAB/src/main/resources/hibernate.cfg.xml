@@ -32,6 +32,7 @@
 		<mapping resource="com/neu/ipco/entity/Credential.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/CustomizeInstanceUser.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/Diagnostic.hbm.xml" />
+		<mapping resource="com/neu/ipco/entity/DiagnosticCategory.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/Instance.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/InstanceModule.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/InstanceQuiz.hbm.xml" />
@@ -39,11 +40,12 @@
 		<mapping resource="com/neu/ipco/entity/InstanceType.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/Module.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/Quiz.hbm.xml" />
+		<mapping resource="com/neu/ipco/entity/RelatedDiagnostic.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/Status.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/Topic.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/TopicType.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/User.hbm.xml" />
-		<mapping resource="com/neu/ipco/entity/UserType.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/UserRole.hbm.xml" />
+		<mapping resource="com/neu/ipco/entity/UserType.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>

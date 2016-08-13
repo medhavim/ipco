@@ -5,31 +5,29 @@
 
 <hibernate-mapping package="com.neu.ipco.entity">
 
-	<class name="Diagnostic">
+	<class name="RelatedDiagnostic">
 	
-		<id name="diagnosticId" column="diagnostic_id">
+		<id name="relatedDiagnosticId" column="related_diagnostic_id">
 			<generator class="increment"/>
 		</id>
-		
-		<many-to-one name="activityAnswer" class="ActivityAnswer" column="activity_answer_id" />
-		
-		<set name="topics" table="diagnostic_topic"
+
+		<set name="topics" table="related_diagnostic_topic"
 			inverse="false" lazy="false" fetch="select" cascade="all" >
 		    <key>
-		        <column name="diagnostic_id" not-null="true" />
+		        <column name="related_diagnostic_id" not-null="true" />
 		    </key>
 		    <many-to-many entity-name="com.neu.ipco.entity.Topic">
 		        <column name="topic_id" not-null="true" />
 		    </many-to-many>
 		</set>
 		
-		<set name="relatedDiagnostics" table="diagnostic_releated_diagnostic"
+		<set name="diagnostics" table="diagnostic_releated_diagnostic"
 			inverse="false" lazy="false" fetch="select" cascade="all" >
 		    <key>
-		        <column name="diagnostic_id" not-null="true" />
-		    </key>
-		    <many-to-many entity-name="com.neu.ipco.entity.RelatedDiagnostic">
 		        <column name="related_diagnostic_id" not-null="true" />
+		    </key>
+		    <many-to-many entity-name="com.neu.ipco.entity.Diagnostic">
+		        <column name="diagnostic_id" not-null="true" />
 		    </many-to-many>
 		</set>	
 		

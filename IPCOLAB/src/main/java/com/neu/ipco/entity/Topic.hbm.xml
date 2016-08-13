@@ -15,7 +15,6 @@
 		
 		<property name="topicDesc" column="topic_desc"/>
 
-<!-- 		<many-to-one name="instanceTopic" class="InstanceTopic" column="instance_topic_id" cascade="all" lazy="false"/> -->
 		<one-to-one name="instanceTopic" class="InstanceTopic" property-ref="topic" cascade="all" lazy="false"/>
 		
 		<set name="modules" lazy="false" cascade="all" inverse="true"><!--  order-by="orderNo" -->
@@ -26,7 +25,26 @@
 		<many-to-one name="topicType" class="TopicType" column="type_id" lazy="false"/>
 
 		<property name="orderNo" column="order_no"/>
+		
+		<set name="diagnosticQuestions" table="diagnostic_topic" 
+		 	inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="topic_id" not-null="true" />
+            </key>
+            <many-to-many entity-name="com.neu.ipco.entity.Diagnostic">
+                <column name="diagnostic_id" not-null="true" />
+            </many-to-many>
+        </set>
 	
+		<set name="relatedDiagnostics" table="related_diagnostic_topic" 
+		 	inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="topic_id" not-null="true" />
+            </key>
+            <many-to-many entity-name="com.neu.ipco.entity.RelatedDiagnostic">
+                <column name="related_diagnostic_id" not-null="true" />
+            </many-to-many>
+        </set>
 		<property name="createdTs" type="timestamp" column="created_ts"/>
 		<property name="updatedTs" type="timestamp" column="updated_ts"/>
 	</class>

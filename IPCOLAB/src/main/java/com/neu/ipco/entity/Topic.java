@@ -36,6 +36,10 @@ public class Topic implements Serializable, Comparable<Topic> {
 	
 	private int orderNo;
 	
+	private Set<Diagnostic> diagnosticQuestions = new TreeSet<Diagnostic>();
+	
+	private Set<RelatedDiagnostic> relatedDiagnostics = new TreeSet<RelatedDiagnostic>();
+	
 	private Date createdTs;
 	
 	private Date updatedTs;
@@ -147,6 +151,34 @@ public class Topic implements Serializable, Comparable<Topic> {
 	 */
 	public void setOrderNo(int orderNo) {
 		this.orderNo = orderNo;
+	}
+
+	/**
+	 * @return the diagnosticQuestions
+	 */
+	public Set<Diagnostic> getDiagnosticQuestions() {
+		return diagnosticQuestions;
+	}
+
+	/**
+	 * @param diagnosticQuestions the diagnosticQuestions to set
+	 */
+	public void setDiagnosticQuestions(Set<Diagnostic> diagnosticQuestions) {
+		this.diagnosticQuestions = diagnosticQuestions;
+	}
+
+	/**
+	 * @return the relatedDiagnostics
+	 */
+	public Set<RelatedDiagnostic> getRelatedDiagnostics() {
+		return relatedDiagnostics;
+	}
+
+	/**
+	 * @param relatedDiagnostics the relatedDiagnostics to set
+	 */
+	public void setRelatedDiagnostics(Set<RelatedDiagnostic> relatedDiagnostics) {
+		this.relatedDiagnostics = relatedDiagnostics;
 	}
 
 	/**

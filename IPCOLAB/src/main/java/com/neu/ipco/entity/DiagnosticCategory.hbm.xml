@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.neu.ipco.entity">
+
+	<class name="DiagnosticCategory" table="diagnostic_category">
+	
+		<id name="categoryId" column="category_id" type="integer">
+			<generator class="increment"/>
+		</id>
+		
+		<property name="categoryTitle" column="category_title"/>
+		
+		<property name="categoryDesc" column="category_desc"/>
+
+		<set name="diagnosticQuestions" lazy="false" cascade="all" inverse="true"><!--  order-by="orderNo" -->
+			<key column="category_id"/>
+			<one-to-many class="Diagnostic"/>
+		</set>
+
+		<property name="orderNo" column="order_no"/>
+	
+		<property name="createdTs" type="timestamp" column="created_ts"/>
+		<property name="updatedTs" type="timestamp" column="updated_ts"/>
+	</class>
+</hibernate-mapping>

@@ -2,6 +2,11 @@
 INSERT INTO `ipco`.`user_type` (`user_type_id`, `user_type_desc`, `created_ts`) VALUES ('1', 'Admin', sysdate());
 INSERT INTO `ipco`.`user_type` (`user_type_id`, `user_type_desc`, `created_ts`) VALUES ('2', 'User', sysdate());
 
+INSERT INTO `ipco`.`user_role` (`user_role_id`, `user_role_desc`, `created_ts`) VALUES ('1', 'User Role 1', sysdate());
+INSERT INTO `ipco`.`user_role` (`user_role_id`, `user_role_desc`, `created_ts`) VALUES ('2', 'User Role 2', sysdate());
+INSERT INTO `ipco`.`user_role` (`user_role_id`, `user_role_desc`, `created_ts`) VALUES ('3', 'User Role 3', sysdate());
+
+
 INSERT INTO `ipco`.`topic_type` (`type_id`, `type_desc`, `created_ts`) VALUES ('1', 'Basic', sysdate());
 INSERT INTO `ipco`.`topic_type` (`type_id`, `type_desc`, `created_ts`) VALUES ('2', 'Custom', sysdate());
 
