@@ -5,7 +5,7 @@
 
 <hibernate-mapping package="com.neu.ipco.entity">
 	
-	<class name="Activity">
+	<class name="Activity" table="activity">
 		
 		<id name="activityId" column="activity_id">
 			<generator class="increment"/>

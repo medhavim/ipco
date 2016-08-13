@@ -4,7 +4,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="com.neu.ipco.entity">
-	<class name="Status">
+	<class name="Status" table="status">
 	
 		<id name="statusId" column="status_id" >
 			<generator class="increment"/>
