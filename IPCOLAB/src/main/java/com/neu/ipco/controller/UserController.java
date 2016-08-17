@@ -209,4 +209,24 @@ public class UserController {
 		return topics;
 	}
 	
+	@RequestMapping(value="/loadInstance.action", method=RequestMethod.POST)
+	public String loadInstanceAction(@RequestParam("id") int instanceId, Model model, HttpSession session){
+		
+		LOGGER.debug("UserController: loadInstanceAction: Start");
+		
+		try {
+			
+			Instance instance = userService.getInstanceById(instanceId);
+			instance.reorder();
+			session.setAttribute("instance", instance);
+		} catch (UserException e) {
+			e.printStackTrace();
+			return AppConstants.ERROR_PAGE;
+		}
+		
+		LOGGER.debug("UserController: loadInstanceAction: End");
+		return AppConstants.USER_TOPIC;
+	}
+	
+	
 }

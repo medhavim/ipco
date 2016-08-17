@@ -18,7 +18,7 @@
 <%@include file="../css/userProfile.css" %>
 </style>
 <script type="text/javascript">
-<%@include file="../js/userTopic.js" %>
+<%@include file="../js/userProfile.js" %>
 </script>
 </head>
 <body>
@@ -45,14 +45,16 @@
 		</div>
 		</c:if>
 		<c:if test="${not (null==basicInstance)}">
-		<div class="row topic-row">
-			<div class="col-sm-8">
-				<h3>${basicInstance.instance.instanceName}</h3>
+			<button class="btn btn-info btn-block instance topic-row" id="instance_${basicInstance.instance.instanceId}">
+			<div class="row">
+				<div class="col-sm-8  text-left">
+					<span class="h3">${basicInstance.instance.instanceName}</span>
+				</div>
+				<div class="col-sm-4 pull-right text-right">
+					<span class="h3"><i><fmt:formatDate value="${basicInstance.instance.createdTs}" pattern="MMM dd, yyyy hh:mm a"/></i></span>
+				</div>
 			</div>
-			<div class="col-sm-4 pull-right text-right">
-				<h3><i><fmt:formatDate value="${basicInstance.instance.createdTs}" pattern="MMM dd, yyyy hh:mm a"/></i></h3>
-			</div>
-		</div>
+			</button>
 		</c:if>
 	</div>
 	<hr>
@@ -68,14 +70,16 @@
 		</c:if>
 		<c:if test="${not (null==customInstance)}">
 		<c:forEach items="${customInstance.instances}" var="instance">
-		<div class="row topic-row">
-			<div class="col-sm-8">
-				<h3>${instance.instanceName}</h3>
+			<button class="btn btn-info btn-block instance topic-row" id="instance_${instance.instanceId}">
+			<div class="row">
+				<div class="col-sm-8 text-left">
+					<span class="h3">${instance.instanceName}</span>
+				</div>
+				<div class="col-sm-4 pull-right text-right">
+				<span class="h3"><i><fmt:formatDate value="${instance.updatedTs}" pattern="MMM dd, yyyy hh:mm a"/></i></span>
+				</div>
 			</div>
-			<div class="col-sm-4 pull-right text-right">
-			<h3><i><fmt:formatDate value="${instance.updatedTs}" pattern="MMM dd, yyyy hh:mm a"/></i></h3>
-			</div>
-		</div>
+			</button>
 		</c:forEach>
 		</c:if>
 	</div>
@@ -91,5 +95,8 @@
 		</div>
 	</div>
 </div>
+<form action="#" id="customForm" method="post">
+	<input type="hidden" name="id" id="id"/>
+</form>
 </body>
 </html>
