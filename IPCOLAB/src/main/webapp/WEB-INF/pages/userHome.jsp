@@ -21,7 +21,17 @@
 </head>
 <body>
 	<jsp:include page="header.jsp"></jsp:include>
-	<div class="jumbotron">
+	<div class="jumbotron title">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="userProfile.action">Profile</a></li>
+		  	<li class="breadcrumb-item active"><span class="h3">Choose Tutorial</span></li>
+		</ol>
+		<div class="container text-center">
+			<h1>Choose Tutorial</h1>
+			<p>Take one of the Overview tutorial or Customize your tutorial.</p>
+		</div>
+	</div>
+	<div class="jumbotron content">
 	<div class="container-fluid option-content">
 		<div class="row">
 			<div class="col-sm-3">
@@ -40,7 +50,7 @@
 			</div>
 			<div class="col-sm-3">
 				<div class="thumbnail tile tile-large tile-peter-river option" id="option-2">
-				<a href="#" id="gotoCustomProfile.action">
+				<a href="#" id="loadDiagnostic.action">
 					<h1  class="tile-text text-center" >Customize Tutorial</h1>
 					</a>
 				</div>

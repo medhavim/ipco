@@ -9,6 +9,8 @@ import java.util.Set;
 import com.neu.ipco.entity.Activity;
 import com.neu.ipco.entity.ActivityOption;
 import com.neu.ipco.entity.ActivityTemplate;
+import com.neu.ipco.entity.Diagnostic;
+import com.neu.ipco.entity.DiagnosticCategory;
 import com.neu.ipco.entity.Module;
 import com.neu.ipco.entity.Option;
 import com.neu.ipco.entity.Topic;
@@ -62,5 +64,23 @@ public interface AdminDao {
 	public ActivityOption editActivity(ActivityOption activityOption) throws AdminException;
 
 	public void deleteOptions(Set<Option> options) throws AdminException;
+
+	public List<DiagnosticCategory> loadAllCategories() throws AdminException;		
+
+	public int getCategoryNextOrderNo() throws AdminException;
+
+	public DiagnosticCategory addNewCategory(DiagnosticCategory newDiagnosticCategory) throws AdminException;
+
+	public DiagnosticCategory getDiagnosticCategoryById(int categoryId) throws AdminException;
+
+	public void deleteCategory(DiagnosticCategory diagnosticCategory) throws AdminException;
+
+	public void updateCategory(DiagnosticCategory diagnosticCategory) throws AdminException;
+
+	public List<Topic> loadCustomTopics() throws AdminException;
+
+	public Diagnostic addNewDiagnostic(Diagnostic diagnostic) throws AdminException;
+
+	public Diagnostic getDiagnosticById(int diagnosticId) throws AdminException;
 
 }

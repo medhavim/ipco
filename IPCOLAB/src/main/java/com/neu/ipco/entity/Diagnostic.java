@@ -23,12 +23,16 @@ public class Diagnostic implements Serializable {
 	private static final long serialVersionUID = 659192540934768360L;
 	
 	private Integer diagnosticId;
+
+	private Activity activity = new Activity();
 	
-	private ActivityOption activityOption;
+	private Set<Option> options = new TreeSet<Option>(AppConstants.OPTION_COMPARATOR);
 	
 	private Set<Topic> topics = new TreeSet<Topic>(AppConstants.TOPIC_COMPARATOR);
 	
 	private Set<RelatedDiagnostic> relatedDiagnostics = new TreeSet<RelatedDiagnostic>();
+	
+	private DiagnosticCategory category;
 	
 	private Date createdTs;
 	
@@ -53,17 +57,31 @@ public class Diagnostic implements Serializable {
 	}
 
 	/**
-	 * @return the activityOption
+	 * @return the activity
 	 */
-	public ActivityOption getActivityOption() {
-		return activityOption;
+	public Activity getActivity() {
+		return activity;
 	}
 
 	/**
-	 * @param activityOption the activityOption to set
+	 * @param activity the activity to set
 	 */
-	public void setActivityOption(ActivityOption activityOption) {
-		this.activityOption = activityOption;
+	public void setActivity(Activity activity) {
+		this.activity = activity;
+	}
+
+	/**
+	 * @return the options
+	 */
+	public Set<Option> getOptions() {
+		return options;
+	}
+
+	/**
+	 * @param options the options to set
+	 */
+	public void setOptions(Set<Option> options) {
+		this.options = options;
 	}
 
 	/**
@@ -92,6 +110,20 @@ public class Diagnostic implements Serializable {
 	 */
 	public void setRelatedDiagnostics(Set<RelatedDiagnostic> relatedDiagnostics) {
 		this.relatedDiagnostics = relatedDiagnostics;
+	}
+
+	/**
+	 * @return the category
+	 */
+	public DiagnosticCategory getCategory() {
+		return category;
+	}
+
+	/**
+	 * @param category the category to set
+	 */
+	public void setCategory(DiagnosticCategory category) {
+		this.category = category;
 	}
 
 	/**
@@ -129,9 +161,10 @@ public class Diagnostic implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((activityOption == null) ? 0 : activityOption.hashCode());
+		result = prime * result + ((activity == null) ? 0 : activity.hashCode());
 		result = prime * result + ((createdTs == null) ? 0 : createdTs.hashCode());
 		result = prime * result + ((diagnosticId == null) ? 0 : diagnosticId.hashCode());
+		result = prime * result + ((options == null) ? 0 : options.hashCode());
 		result = prime * result + ((updatedTs == null) ? 0 : updatedTs.hashCode());
 		return result;
 	}
@@ -148,10 +181,10 @@ public class Diagnostic implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Diagnostic other = (Diagnostic) obj;
-		if (activityOption == null) {
-			if (other.activityOption != null)
+		if (activity == null) {
+			if (other.activity != null)
 				return false;
-		} else if (!activityOption.equals(other.activityOption))
+		} else if (!activity.equals(other.activity))
 			return false;
 		if (createdTs == null) {
 			if (other.createdTs != null)
@@ -162,6 +195,11 @@ public class Diagnostic implements Serializable {
 			if (other.diagnosticId != null)
 				return false;
 		} else if (!diagnosticId.equals(other.diagnosticId))
+			return false;
+		if (options == null) {
+			if (other.options != null)
+				return false;
+		} else if (!options.equals(other.options))
 			return false;
 		if (updatedTs == null) {
 			if (other.updatedTs != null)
@@ -176,8 +214,8 @@ public class Diagnostic implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "Diagnostic [diagnosticId=" + diagnosticId + ", activityOption=" + activityOption + ", createdTs="
-				+ createdTs + ", updatedTs=" + updatedTs + "]";
+		return "Diagnostic [diagnosticId=" + diagnosticId + ", activity=" + activity + ", options=" + options
+				+ ", createdTs=" + createdTs + ", updatedTs=" + updatedTs + "]";
 	}
 
 }

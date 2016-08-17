@@ -1,0 +1,56 @@
+.jumbotron{
+	background-color: #ccc;
+}
+
+.unselected-tmplteOptn{
+	display: none;
+}
+
+.jumbotron.title{
+	margin-top: 50px;
+}
+
+.desc-body{ 
+	padding-top:10px; 
+} 
+
+.addOption, .mcqOption{ 
+	padding-top:10px; 
+}
+
+.nav-dropdown-menu{
+	width: 100%;
+}
+
+.addActivityBtn{
+	padding:0;
+}
+
+.btn-file2 {
+	position: relative;
+	overflow: hidden;
+	padding-left: 40px;
+	padding-right: 40px;
+}
+.btn-file2 input[type=file] {
+	position: absolute;
+	top: 0;
+	right: 0;
+	min-width: 100%;
+	min-height: 100%;
+	font-size: 100px;
+	text-align: right;
+	filter: alpha(opacity = 0);
+	opacity: 0;
+	outline: none;
+	background: white;
+	cursor: inherit;
+	display: block;
+}
+
+.actTemplate {
+    box-shadow: 0 0 13px rgb(115, 118, 119);
+    /* padding: 3px 0px 3px 3px; */
+    /* margin: 5px 1px 3px 0px; */
+    border: 3px solid rgb(178, 182, 183);
+}

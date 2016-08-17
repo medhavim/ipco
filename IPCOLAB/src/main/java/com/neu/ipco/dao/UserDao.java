@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.neu.ipco.entity.ActivityAnswer;
 import com.neu.ipco.entity.BasicInstanceUser;
+import com.neu.ipco.entity.CustomizeInstanceUser;
 import com.neu.ipco.entity.Instance;
 import com.neu.ipco.entity.InstanceModule;
 import com.neu.ipco.entity.InstanceTopic;
@@ -47,5 +48,7 @@ public interface UserDao {
 	void saveOrUpdateInstanceTopic(InstanceTopic instanceTopic) throws UserException;
 
 	void saveOrUpdateInstanceModule(InstanceModule instanceModule) throws UserException;
+
+	CustomizeInstanceUser saveOrUpdateCustomInstance(CustomizeInstanceUser customizeInstanceUser) throws UserException;
 
 }

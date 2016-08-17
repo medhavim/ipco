@@ -5,7 +5,6 @@ package com.neu.ipco.service.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -18,11 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.neu.ipco.constants.AppConstants;
 import com.neu.ipco.dao.AdminDao;
-import com.neu.ipco.entity.Activity;
 import com.neu.ipco.entity.ActivityOption;
-import com.neu.ipco.entity.ActivityTemplate;
 import com.neu.ipco.entity.Module;
-import com.neu.ipco.entity.Option;
 import com.neu.ipco.entity.Topic;
 import com.neu.ipco.exception.AdminException;
 import com.neu.ipco.service.AdminService;

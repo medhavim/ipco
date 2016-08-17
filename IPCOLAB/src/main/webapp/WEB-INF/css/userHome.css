@@ -9,11 +9,16 @@
 a {text-decoration: none;}
 
 .jumbotron{
-	margin-top: 50px;
-	margin-bottom:0px;
 	background-color: #ccc;
+	margin-bottom:0px;
+}
+.jumbotron.content, .jumbotron.title{
+	margin-top: 50px;
+}
+.jumbotron.content{
 	height: 100vh;
 }
+
 
 .option{
 	border-radius: 50%;
@@ -25,5 +30,5 @@ a {text-decoration: none;}
 }
 
 .option-content{
-	margin-top: 11%;
+	margin-top: 5%;
 }

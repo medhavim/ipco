@@ -148,7 +148,7 @@
 									<div class="jumbotron activity_holder">
 										<div class="row">
 											<div class="col-sm-8">
-											<span class="h4" id="activityName_${activityOption.activityOptionId}">${activityOption.activity.activityText}</span>
+											<span class="h4" id="activityName_${activityOption.activityOptionId}">${activityOption.activity.activityTitle}</span>
 											</div>
 											<div class="col-sm-2">
 											<a class="btn btn-warning btn-block" role="button" 

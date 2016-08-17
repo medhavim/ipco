@@ -13,7 +13,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.neu.ipco.dao.AuthenticationDao;
+import com.neu.ipco.entity.BasicInstanceUser;
 import com.neu.ipco.entity.Credential;
+import com.neu.ipco.entity.CustomizeInstanceUser;
 import com.neu.ipco.entity.User;
 import com.neu.ipco.exception.AuthenticationException;
 
@@ -103,6 +105,38 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 		
 		LOGGER.debug("AuthenticationDaoImpl: resetCredentials: Executing");
 		template.update(newCredential);
+	}
+
+	public BasicInstanceUser getBasicInstanceByUserId(Integer userId) throws AuthenticationException {
+		
+		LOGGER.debug("AuthenticationDaoImpl: getBasicInstanceByUserId: Start");
+		
+		List<BasicInstanceUser> basicInstanceUsers = (List<BasicInstanceUser>) template.findByNamedParam("from BasicInstanceUser biu where biu.user.userId = :userId", "userId", userId);
+		
+		if(basicInstanceUsers.isEmpty()){
+			LOGGER.debug("AuthenticationDaoImpl: getBasicInstanceByUserId: End");
+			return null;
+		}
+		else{
+			LOGGER.debug("AuthenticationDaoImpl: getBasicInstanceByUserId: End");
+			return basicInstanceUsers.get(0);
+		}
+	}
+
+	public CustomizeInstanceUser getCustomInstanceByUserId(Integer userId) throws AuthenticationException {
+		
+		LOGGER.debug("AuthenticationDaoImpl: getCustomInstanceByUserId: Start");
+		
+		List<CustomizeInstanceUser> customizeInstanceUsers = (List<CustomizeInstanceUser>) template.findByNamedParam("from CustomizeInstanceUser ciu where ciu.user.userId = :userId", "userId", userId);
+		
+		if(customizeInstanceUsers.isEmpty()){
+			LOGGER.debug("AuthenticationDaoImpl: getCustomInstanceByUserId: End");
+			return null;
+		}
+		else{
+			LOGGER.debug("AuthenticationDaoImpl: getCustomInstanceByUserId: End");
+			return customizeInstanceUsers.get(0);
+		}
 	}
 
 }

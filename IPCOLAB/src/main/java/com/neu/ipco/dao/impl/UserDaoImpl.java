@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import com.neu.ipco.dao.UserDao;
 import com.neu.ipco.entity.ActivityAnswer;
 import com.neu.ipco.entity.BasicInstanceUser;
+import com.neu.ipco.entity.CustomizeInstanceUser;
 import com.neu.ipco.entity.Instance;
 import com.neu.ipco.entity.InstanceModule;
 import com.neu.ipco.entity.InstanceTopic;
@@ -122,6 +123,13 @@ public class UserDaoImpl implements UserDao {
 	public void saveOrUpdateInstanceModule(InstanceModule instanceModule) throws UserException {
 		LOGGER.debug("UserDaoImpl: saveOrUpdateInstanceModule: Executing");
 		template.saveOrUpdate(instanceModule);
+	}
+
+	public CustomizeInstanceUser saveOrUpdateCustomInstance(CustomizeInstanceUser customizeInstanceUser)
+			throws UserException {
+		LOGGER.debug("UserDaoImpl: saveOrUpdateCustomInstance: Executing");
+		template.saveOrUpdate(customizeInstanceUser);
+		return ((List<CustomizeInstanceUser>) template.findByNamedParam("from CustomizeInstanceUser ciu where ciu.user.userId = :userId", "userId", customizeInstanceUser.getUser().getUserId())).get(0);
 	}
 
 }

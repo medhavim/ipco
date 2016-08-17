@@ -6,6 +6,8 @@ package com.neu.ipco.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * @author Harsha
@@ -22,7 +24,7 @@ public class CustomizeInstanceUser implements Serializable {
 	
 	private User user;
 	
-	private List<Instance> instances;
+	private Set<Instance> instances = new TreeSet<Instance>();
 	
 	private Date createdTs;
 	
@@ -63,14 +65,14 @@ public class CustomizeInstanceUser implements Serializable {
 	/**
 	 * @return the instances
 	 */
-	public List<Instance> getInstances() {
+	public Set<Instance> getInstances() {
 		return instances;
 	}
 
 	/**
 	 * @param instances the instances to set
 	 */
-	public void setInstances(List<Instance> instances) {
+	public void setInstances(Set<Instance> instances) {
 		this.instances = instances;
 	}
 
@@ -110,8 +112,7 @@ public class CustomizeInstanceUser implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((createdTs == null) ? 0 : createdTs.hashCode());
-		result = prime * result + id;
-		result = prime * result + ((instances == null) ? 0 : instances.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((updatedTs == null) ? 0 : updatedTs.hashCode());
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
@@ -134,12 +135,10 @@ public class CustomizeInstanceUser implements Serializable {
 				return false;
 		} else if (!createdTs.equals(other.createdTs))
 			return false;
-		if (id != other.id)
-			return false;
-		if (instances == null) {
-			if (other.instances != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!instances.equals(other.instances))
+		} else if (!id.equals(other.id))
 			return false;
 		if (updatedTs == null) {
 			if (other.updatedTs != null)
@@ -159,8 +158,8 @@ public class CustomizeInstanceUser implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "CustomizeInstanceUser [id=" + id + ", user=" + user + ", instances=" + instances + ", createdTs="
-				+ createdTs + ", updatedTs=" + updatedTs + "]";
+		return "CustomizeInstanceUser [id=" + id + ", user=" + user + ", createdTs=" + createdTs + ", updatedTs="
+				+ updatedTs + "]";
 	}
 
 }

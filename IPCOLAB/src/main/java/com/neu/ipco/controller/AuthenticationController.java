@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.neu.ipco.constants.AppConstants;
+import com.neu.ipco.entity.BasicInstanceUser;
 import com.neu.ipco.entity.Credential;
+import com.neu.ipco.entity.CustomizeInstanceUser;
 import com.neu.ipco.entity.User;
 import com.neu.ipco.entity.UserRole;
 import com.neu.ipco.entity.UserType;
@@ -115,7 +117,7 @@ public class AuthenticationController {
 			return AppConstants.ERROR_PAGE;
 		}
 		LOGGER.debug("AuthenticationController: loginAction: End");
-		return AppConstants.USER_HOME;
+		return loadUserProfileAction(model, session);
 	}
 	
 	@RequestMapping(value="/adminLogin.action", method=RequestMethod.POST)
@@ -150,7 +152,7 @@ public class AuthenticationController {
 			return AppConstants.ERROR_PAGE;
 		}
 		LOGGER.debug("AuthenticationController: signUpAction: End");
-		return AppConstants.USER_HOME;
+		return loadUserProfileAction(model, session);
 	}
 	
 	@RequestMapping(value="/resetCredential.action", method=RequestMethod.POST)
@@ -165,7 +167,7 @@ public class AuthenticationController {
 			return AppConstants.ERROR_PAGE;
 		}
 		LOGGER.debug("AuthenticationController: resetCredAction: End");
-		return AppConstants.USER_HOME;
+		return loadUserProfileAction(model, session);
 	}
 
 	@RequestMapping(value="/resetAdminCredential.action", method=RequestMethod.POST)
@@ -181,6 +183,46 @@ public class AuthenticationController {
 		}
 		LOGGER.debug("AuthenticationController: resetAdminCredAction: End");
 		return AppConstants.ADMIN_HOME;
+	}
+	
+	@RequestMapping(value="/userProfile.action")
+	public String loadUserProfileAction(Model model, HttpSession session){
+		
+		LOGGER.debug("AuthenticationController: loadUserProfileAction: Start");
+		
+		User user = (User) session.getAttribute("user");
+		
+		if(null == user){
+			return loadAuthPage(model, session);
+		}
+		
+		try {
+			BasicInstanceUser basicInstanceUser = authenticationService.getBasicInstanceByUserId(user.getUserId());
+			
+			CustomizeInstanceUser customizeInstanceUser = authenticationService.getCustomInstanceByUserId(user.getUserId());
+			
+			session.setAttribute("basicInstance", basicInstanceUser);
+			session.setAttribute("customInstance", customizeInstanceUser);
+		} catch (AuthenticationException e) {
+			return AppConstants.ERROR_PAGE;
+		}
+		LOGGER.debug("AuthenticationController: loadUserProfileAction: End");
+		return AppConstants.USER_PROFILE;
+	}
+	
+	@RequestMapping(value="/startTutorial.action")
+	public String loadUserTutorialAction(Model model, HttpSession session){
+		
+		LOGGER.debug("AuthenticationController: loadUserTutorialAction: Start");
+		
+		User user = (User) session.getAttribute("user");
+		
+		if(null == user){
+			return loadAuthPage(model, session);
+		}
+		
+		LOGGER.debug("AuthenticationController: loadUserTutorialAction: End");
+		return AppConstants.USER_HOME;
 	}
 	
 	@ResponseBody

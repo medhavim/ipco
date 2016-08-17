@@ -13,7 +13,7 @@
 
 		<many-to-one name="activity" class="Activity" column="acitivity_id" cascade="all"/>
 		
-		<many-to-one name="module" class="Module" column="module_id" lazy="false" fetch="select"/>
+		<many-to-one name="module" class="Module" column="module_id" lazy="false" fetch="select" cascade="none"/>
 
 		<set name="options" cascade="all" lazy="false"><!-- order-by="orderNo" -->
 			<key column="activity_option_id"/>

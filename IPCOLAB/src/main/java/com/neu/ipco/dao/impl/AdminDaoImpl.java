@@ -13,10 +13,13 @@ import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.neu.ipco.constants.AppConstants;
 import com.neu.ipco.dao.AdminDao;
 import com.neu.ipco.entity.Activity;
 import com.neu.ipco.entity.ActivityOption;
 import com.neu.ipco.entity.ActivityTemplate;
+import com.neu.ipco.entity.Diagnostic;
+import com.neu.ipco.entity.DiagnosticCategory;
 import com.neu.ipco.entity.Module;
 import com.neu.ipco.entity.Option;
 import com.neu.ipco.entity.Topic;
@@ -175,6 +178,62 @@ public class AdminDaoImpl implements AdminDao {
 	public void deleteOptions(Set<Option> options) throws AdminException {
 		LOGGER.debug("AdminDaoImpl: deleteOptions: Executing");
 		template.deleteAll(options);
+	}
+
+	public List<DiagnosticCategory> loadAllCategories() throws AdminException {
+		
+		LOGGER.debug("AdminDaoImpl: loadAllCategories: Executing");
+		return template.loadAll(DiagnosticCategory.class);
+	}
+
+	public int getCategoryNextOrderNo() throws AdminException {
+		LOGGER.debug("AdminDaoImpl: getCategoryNextOrderNo: Executing");
+		List<DiagnosticCategory> categories = loadAllCategories();
+		if(categories.isEmpty()){
+			return 1;
+		}else{
+			Collections.sort(categories);
+			return categories.get(categories.size()-1).getOrderNo()+1;
+		}
+	}
+
+	public DiagnosticCategory addNewCategory(DiagnosticCategory newDiagnosticCategory) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: addNewCategory: Start");
+		int categoryId = (Integer) template.save(newDiagnosticCategory);
+		LOGGER.debug("AdminDaoImpl: addNewCategory: Executing");
+		return getDiagnosticCategoryById(categoryId);
+	}
+
+	public DiagnosticCategory getDiagnosticCategoryById(int categoryId) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: getDiagnosticCategoryById: Executing");
+		return template.get(DiagnosticCategory.class, categoryId);
+	}
+
+	public void deleteCategory(DiagnosticCategory diagnosticCategory) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: deleteCategory: Executing");
+		template.delete(diagnosticCategory);
+	}
+
+	public void updateCategory(DiagnosticCategory diagnosticCategory) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: updateCategory: Executing");
+		template.update(diagnosticCategory);
+	}
+
+	public List<Topic> loadCustomTopics() throws AdminException {
+		LOGGER.debug("AdminDaoImpl: loadCustomTopics: Executing");
+		return (List<Topic>) template.findByNamedParam("from Topic t where t.topicType.typeId = :topicTypeId", "topicTypeId", AppConstants.TOPIC_TYPE_ID_CUSTOM);
+	}
+
+	public Diagnostic addNewDiagnostic(Diagnostic diagnostic) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: addNewDiagnostic: Start");
+		int diagnosticId = (Integer) template.save(diagnostic);
+		LOGGER.debug("AdminDaoImpl: addNewDiagnostic: Executing");
+		return template.get(Diagnostic.class, diagnosticId);
+	}
+
+	public Diagnostic getDiagnosticById(int diagnosticId) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: getDiagnosticById: Executing");
+		return template.get(Diagnostic.class, diagnosticId);
 	}
 
 }

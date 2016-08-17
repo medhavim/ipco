@@ -27,7 +27,7 @@
 		<property name="orderNo" column="order_no"/>
 		
 		<set name="diagnosticQuestions" table="diagnostic_topic" 
-		 	inverse="true" lazy="true" fetch="select">
+		 	inverse="true" lazy="true" fetch="select" cascade="all">
             <key>
                 <column name="topic_id" not-null="true" />
             </key>
@@ -37,7 +37,7 @@
         </set>
 	
 		<set name="relatedDiagnostics" table="related_diagnostic_topic" 
-		 	inverse="true" lazy="true" fetch="select">
+		 	inverse="true" lazy="true" fetch="select" cascade="all">
             <key>
                 <column name="topic_id" not-null="true" />
             </key>

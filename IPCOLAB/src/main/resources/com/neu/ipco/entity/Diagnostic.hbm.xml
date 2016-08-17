@@ -11,10 +11,15 @@
 			<generator class="increment"/>
 		</id>
 		
-		<many-to-one name="activityOption" class="ActivityOption" column="activity_option_id" />
+		<many-to-one name="activity" class="Activity" column="acitivity_id" cascade="all"/>
+		
+		<set name="options" cascade="all" lazy="false"><!-- order-by="orderNo" -->
+			<key column="diagnostic_id"/>
+			<one-to-many class="Option"/>
+		</set>
 		
 		<set name="topics" table="diagnostic_topic"
-			inverse="false" lazy="false" fetch="select" cascade="all" >
+			inverse="false" lazy="false" fetch="select">
 		    <key>
 		        <column name="diagnostic_id" not-null="true" />
 		    </key>
@@ -32,6 +37,8 @@
 		        <column name="related_diagnostic_id" not-null="true" />
 		    </many-to-many>
 		</set>	
+
+		<many-to-one name="category" class="DiagnosticCategory" column="category_id" lazy="false" />
 		
 		<property name="createdTs" type="timestamp" column="created_ts"/>
 		<property name="updatedTs" type="timestamp" column="updated_ts"/>

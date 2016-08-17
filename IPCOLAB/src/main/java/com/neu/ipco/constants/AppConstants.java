@@ -18,6 +18,9 @@ import com.neu.ipco.entity.Topic;
  *
  */
 public class AppConstants {
+	
+//	Declaring constants
+	public static final String TRUE = "true";
 
 	
 //	Views
@@ -45,8 +48,16 @@ public class AppConstants {
 	
 	public static final String USER_ACTIVITY = "userActivity";
 
-//	Template ids
+	public static final String MANAGE_DIAGNOSTIC = "manageDiagnostic";
+	
+	public static final String ADMIN_DIAGNOSTIC = "adminDiagnostic";
+	
+	public static final String USER_PROFILE = "userProfile";
+	
+	public static final String USER_DIAGNOSTIC = "userDiagnostic";
 
+	
+//	Template ids
 	public static final Integer TEMPLATE_MCQ = 1;
 
 	public static final Integer TEMPLATE_YESNO = 2;
@@ -79,9 +90,13 @@ public class AppConstants {
 	
 	public static final String INSTANCE_TYPE_BASIC = "Basic";
 	
+	public static final String INSTANCE_TYPE_CUSTOM = "Custom";
+	
 	public static final Integer INSTANCE_TYPE_ID_BASIC = 1;
 
 	public static final Integer TOPIC_TYPE_ID_BASIC = 1;
+	
+	public static final Integer TOPIC_TYPE_ID_CUSTOM = 2;
 
 	public static final String STATUS_NOT_STARTED = "Not Started";
 	

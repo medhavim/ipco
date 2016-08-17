@@ -22,6 +22,7 @@ import com.neu.ipco.dao.UserDao;
 import com.neu.ipco.entity.ActivityAnswer;
 import com.neu.ipco.entity.ActivityOption;
 import com.neu.ipco.entity.BasicInstanceUser;
+import com.neu.ipco.entity.CustomizeInstanceUser;
 import com.neu.ipco.entity.Instance;
 import com.neu.ipco.entity.InstanceModule;
 import com.neu.ipco.entity.InstanceTopic;
@@ -197,6 +198,30 @@ public class UserServiceImpl implements UserService {
 		LOGGER.debug("UserServiceImpl: getInstanceById: Executing");
 		try {
 			return userDao.getInstanceById(instanceId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new UserException(e);
+		}
+	}
+
+	public void populateTopicsForInstance(List<Topic> topics, Instance instance) throws UserException {
+		LOGGER.debug("UserServiceImpl: populateTopicsForInstance: Start");
+		try {
+			populateInstanceTopics(topics, instance.getInstanceTopics());
+//			This is to sort the instance topics by order no
+			instance.reorder();
+			LOGGER.debug("UserServiceImpl: populateTopicsForInstance: End");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new UserException(e);
+		}
+	}
+
+	public CustomizeInstanceUser saveOrUpdateCustomInstance(CustomizeInstanceUser customizeInstanceUser)
+			throws UserException {
+		LOGGER.debug("UserServiceImpl: saveOrUpdateCustomInstance: Executing");
+		try {
+			return userDao.saveOrUpdateCustomInstance(customizeInstanceUser);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new UserException(e);

@@ -11,9 +11,9 @@
 			<generator class="increment"/>
 		</id>
 		
-		<many-to-one name="user" class="User" column="user_id" />
+		<many-to-one name="user" class="User" column="user_id" lazy="false"/>
 		
-		<set name="instances" cascade="all">
+		<set name="instances" cascade="all" lazy="false">
 			<key column="id" foreign-key="customize_instance_user_id"/>
 			<one-to-many class="Instance"/>
 		</set>

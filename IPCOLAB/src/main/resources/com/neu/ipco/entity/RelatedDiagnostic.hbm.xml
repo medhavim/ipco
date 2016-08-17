@@ -12,7 +12,7 @@
 		</id>
 
 		<set name="topics" table="related_diagnostic_topic"
-			inverse="false" lazy="false" fetch="select" cascade="all" >
+			inverse="false" lazy="false" fetch="select" >
 		    <key>
 		        <column name="related_diagnostic_id" not-null="true" />
 		    </key>
@@ -22,7 +22,7 @@
 		</set>
 		
 		<set name="diagnostics" table="diagnostic_releated_diagnostic"
-			inverse="false" lazy="false" fetch="select" cascade="all" >
+			inverse="false" lazy="false" fetch="select">
 		    <key>
 		        <column name="related_diagnostic_id" not-null="true" />
 		    </key>

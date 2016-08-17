@@ -3,7 +3,9 @@
  */
 package com.neu.ipco.service;
 
+import com.neu.ipco.entity.BasicInstanceUser;
 import com.neu.ipco.entity.Credential;
+import com.neu.ipco.entity.CustomizeInstanceUser;
 import com.neu.ipco.entity.User;
 import com.neu.ipco.exception.AuthenticationException;
 
@@ -24,5 +26,9 @@ public interface AuthenticationService {
 	public User validUser(Credential userLogin, String userType) throws AuthenticationException;
 	
 	public User resetCredentials(Credential newCredential, String userType) throws AuthenticationException;
+
+	public BasicInstanceUser getBasicInstanceByUserId(Integer userId) throws AuthenticationException;
+
+	public CustomizeInstanceUser getCustomInstanceByUserId(Integer userId) throws AuthenticationException;
 
 }

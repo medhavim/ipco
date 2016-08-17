@@ -22,7 +22,17 @@
 </head>
 <body>
 <jsp:include page="header.jsp"></jsp:include>
-<div class="jumbotron">
+<div class="jumbotron title">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="userProfile.action">Profile</a></li>
+	  	<li class="breadcrumb-item active"><span class="h3">Tutorial</span></li>
+	</ol>
+	<div class="container text-center">
+		<h1>Tutorial</h1>
+		<p>You can see all the available topics under this tutorial. Complete them all by clicking on one of the available module.</p>
+	</div>
+</div>
+<div class="jumbotron content">
 	<div class="container-fluid">
 		<c:forEach items="${instance.instanceTopicList}" var="instanceTopic">
 		<div class="row topic-row <c:choose><c:when test="${instanceTopic.status.statusId eq 1}">bg-info</c:when><c:when test="${instanceTopic.status.statusId eq 2}">bg-danger</c:when><c:otherwise>bg-success</c:otherwise></c:choose>"

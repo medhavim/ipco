@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import com.neu.ipco.constants.AppConstants;
 import com.neu.ipco.dao.AuthenticationDao;
+import com.neu.ipco.entity.BasicInstanceUser;
 import com.neu.ipco.entity.Credential;
+import com.neu.ipco.entity.CustomizeInstanceUser;
 import com.neu.ipco.entity.User;
 import com.neu.ipco.exception.AuthenticationException;
 import com.neu.ipco.service.AuthenticationService;
@@ -73,6 +75,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		authenticationDao.resetCredentials(newCredential);
 		LOGGER.debug("AuthenticationServiceImpl: resetCredentials: Executing");
 		return authenticationDao.validUser(newCredential, userType);
+	}
+
+	public BasicInstanceUser getBasicInstanceByUserId(Integer userId) throws AuthenticationException {
+		LOGGER.debug("AuthenticationServiceImpl: getBasicInstanceByUserId: Executing");
+		return authenticationDao.getBasicInstanceByUserId(userId);
+	}
+
+	public CustomizeInstanceUser getCustomInstanceByUserId(Integer userId) throws AuthenticationException {
+		LOGGER.debug("AuthenticationServiceImpl: getBasicInstanceByUserId: Executing");
+		return authenticationDao.getCustomInstanceByUserId(userId);
 	}
 
 }

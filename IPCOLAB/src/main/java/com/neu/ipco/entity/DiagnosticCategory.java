@@ -6,12 +6,14 @@ package com.neu.ipco.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * @author harsh
  *
  */
-public class DiagnosticCategory implements Serializable {
+public class DiagnosticCategory implements Serializable, Comparable<DiagnosticCategory> {
 
 	/**
 	 * 
@@ -24,7 +26,7 @@ public class DiagnosticCategory implements Serializable {
 	
 	private String categoryDesc;
 	
-	private List<Diagnostic> diagnosticQuestions;
+	private Set<Diagnostic> diagnosticQuestions = new TreeSet<Diagnostic>();
 	
 	private int orderNo;
 	
@@ -34,6 +36,11 @@ public class DiagnosticCategory implements Serializable {
 	
 	public DiagnosticCategory() {
 		// TODO Auto-generated constructor stub
+	}
+
+	public DiagnosticCategory(String categoryTitle, String categoryDesc) {
+		this.categoryTitle = categoryTitle;
+		this.categoryDesc = categoryDesc;
 	}
 
 	/**
@@ -81,14 +88,14 @@ public class DiagnosticCategory implements Serializable {
 	/**
 	 * @return the diagnosticQuestions
 	 */
-	public List<Diagnostic> getDiagnosticQuestions() {
+	public Set<Diagnostic> getDiagnosticQuestions() {
 		return diagnosticQuestions;
 	}
 
 	/**
 	 * @param diagnosticQuestions the diagnosticQuestions to set
 	 */
-	public void setDiagnosticQuestions(List<Diagnostic> diagnosticQuestions) {
+	public void setDiagnosticQuestions(Set<Diagnostic> diagnosticQuestions) {
 		this.diagnosticQuestions = diagnosticQuestions;
 	}
 
@@ -206,6 +213,10 @@ public class DiagnosticCategory implements Serializable {
 		return "DiagnosticCategory [categoryId=" + categoryId + ", categoryTitle=" + categoryTitle + ", categoryDesc="
 				+ categoryDesc + ", diagnosticQuestions=" + diagnosticQuestions + ", orderNo=" + orderNo
 				+ ", createdTs=" + createdTs + ", updatedTs=" + updatedTs + "]";
+	}
+
+	public int compareTo(DiagnosticCategory category) {
+		return Integer.valueOf(this.orderNo).compareTo(Integer.valueOf(category.getOrderNo()));
 	}
 	
 }
