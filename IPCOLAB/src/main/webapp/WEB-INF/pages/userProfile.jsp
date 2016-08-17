@@ -38,7 +38,7 @@
 		<span class="h2">Overview of IP</span>
 		<c:if test="${null==basicInstance}">
 		<br>
-		<div class="row">
+		<div class="row bg-danger topic-row">
 			<div class="col-sm-12">
 			<h3>Explore this instance by starting a new tutorial</h3>
 			</div>
