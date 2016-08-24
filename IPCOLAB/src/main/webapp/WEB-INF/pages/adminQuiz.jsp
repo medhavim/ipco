@@ -83,7 +83,6 @@
 	  	</div>
 	</div>	
 </div>
-<form:input type="hidden" path="module.moduleId" />
 </form:form>
 <div class="unselected-tmplteOptn">
 	<div class="mcq">

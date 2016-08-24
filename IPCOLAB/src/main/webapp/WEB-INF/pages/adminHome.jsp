@@ -36,7 +36,7 @@
 				</button>
 			</div>
 			<div class="col-sm-3 col-centered">
-				<button id="manageQuiz.action" class="btn btn-lg btn-circle btn-raised ripple-effect btn-primary">
+				<button id="manageQuiz.action" class="option btn btn-lg btn-circle btn-raised ripple-effect btn-primary">
 				<h3><span class="glyphicon glyphicon-pencil"></span>&nbsp;Quiz</h3>
 				</button>
 			</div>

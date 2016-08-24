@@ -11,7 +11,7 @@
 			<generator class="increment"/>
 		</id>
 		
-		<many-to-one name="activity" class="Activity" column="activity_id" />
+		<many-to-one name="activity" class="Activity" column="activity_id" cascade="all" lazy="false"/>
 		
 		<set name="correctAnswers" cascade="all" lazy="false"><!-- order-by="orderNo" -->
 			<key column="quiz_id"/>
