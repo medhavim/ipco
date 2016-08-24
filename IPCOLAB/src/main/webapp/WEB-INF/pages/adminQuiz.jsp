@@ -51,7 +51,7 @@
 <div class="jumbotron">
 	<div class="container-fluid text-left">
 		<span class="h2">Step 2:</span>
-		<span class="h2">Activity Title Here</span>
+		<span class="h2">Quiz Question Title Here</span>
 	</div>
 	<div class="container-fluid text-left desc-body">
 		<form:input type="text" id="activityTitle" name="activityTitle" path="activity.activityTitle" class="form-control" placeholder="Enter Activity title Here." />
@@ -60,7 +60,7 @@
 <div class="jumbotron">
 	<div class="container-fluid text-left">
 		<span class="h2">Step 3:</span>
-		<span class="h2">Activity Description Text Here</span>
+		<span class="h2">Quiz Question Text Here</span>
 	</div>
 	<div class="container-fluid text-left desc-body">
 		<form:textarea id="activityText" name="Question" path="activity.activityText" class="form-control" rows="5" placeholder="Enter Question Contents Here." ></form:textarea>
