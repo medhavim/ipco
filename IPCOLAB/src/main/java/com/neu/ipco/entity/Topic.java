@@ -40,6 +40,8 @@ public class Topic implements Serializable, Comparable<Topic> {
 	
 	private Set<RelatedDiagnostic> relatedDiagnostics = new TreeSet<RelatedDiagnostic>();
 	
+	private Set<Quiz> quizQuestions = new TreeSet<Quiz>();
+	
 	private Date createdTs;
 	
 	private Date updatedTs;
@@ -179,6 +181,20 @@ public class Topic implements Serializable, Comparable<Topic> {
 	 */
 	public void setRelatedDiagnostics(Set<RelatedDiagnostic> relatedDiagnostics) {
 		this.relatedDiagnostics = relatedDiagnostics;
+	}
+
+	/**
+	 * @return the quizQuestions
+	 */
+	public Set<Quiz> getQuizQuestions() {
+		return quizQuestions;
+	}
+
+	/**
+	 * @param quizQuestions the quizQuestions to set
+	 */
+	public void setQuizQuestions(Set<Quiz> quizQuestions) {
+		this.quizQuestions = quizQuestions;
 	}
 
 	/**

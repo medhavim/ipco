@@ -55,6 +55,16 @@ public class AppConstants {
 	public static final String USER_PROFILE = "userProfile";
 	
 	public static final String USER_DIAGNOSTIC = "userDiagnostic";
+	
+	public static final String ADMIN_RELATED_DIAGNOSTIC = "adminRelatedDiagnostic";
+	
+	public static final String MANAGE_RELATED_DIAGNOSTIC = "manageRelatedDiagnostic";
+	
+	public static final String EDIT_RELATED_DIAGNOSTIC = "editRelatedDiagnostic";
+	
+	public static final String MANAGE_QUIZ = "manageQuiz";
+	
+	public static final String ADMIN_QUIZ = "adminQuiz";
 
 	
 //	Template ids

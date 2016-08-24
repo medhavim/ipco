@@ -4,10 +4,14 @@
 package com.neu.ipco.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,16 +26,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.neu.ipco.constants.AppConstants;
-import com.neu.ipco.entity.ActivityOption;
 import com.neu.ipco.entity.Diagnostic;
 import com.neu.ipco.entity.DiagnosticCategory;
 import com.neu.ipco.entity.Option;
+import com.neu.ipco.entity.RelatedDiagnostic;
 import com.neu.ipco.entity.Topic;
+import com.neu.ipco.entity.User;
 import com.neu.ipco.exception.AdminException;
-import com.neu.ipco.exception.ApplicationUtilException;
 import com.neu.ipco.service.AdminDiagnosticService;
 import com.neu.ipco.service.AdminService;
 
@@ -229,6 +232,162 @@ public class DiagnosticController implements Serializable {
 		return AppConstants.USER_DIAGNOSTIC;
 	}
 	
+	@RequestMapping(value="/gotoAddRelatedDiagnostic.action")
+	public String gotoAddRelatedDiagnosticAction(@RequestParam("id") int diagnosticId, Model model, HttpSession session){
+		
+		LOGGER.debug("AdminController: gotoAddRelatedDiagnosticAction: Start");
+		
+		try {
+			
+			List<Diagnostic> allDiagnostics = adminDiagnosticService.loadAllDiagnostics();
+			List<Topic> allTopics = adminDiagnosticService.loadCustomTopics();
+
+			Diagnostic currentDiagnostic = adminDiagnosticService.getDiagnosticById(diagnosticId);
+			
+			model.addAttribute("allDiagnostics", allDiagnostics);
+			model.addAttribute("allTopics", allTopics);
+			model.addAttribute("currentDiagnostic", currentDiagnostic);
+			
+		} catch (AdminException e) {
+			return AppConstants.ERROR_PAGE;
+		}
+		
+		LOGGER.debug("AdminController: gotoAddRelatedDiagnosticAction: End");
+		return AppConstants.ADMIN_RELATED_DIAGNOSTIC;
+	}
+	
+	@RequestMapping(value="/addRelatedDiagnostic.action", method=RequestMethod.POST)
+	public String addRelatedDiagnosticAction(HttpServletRequest request, HttpSession session, Model model){
+		
+		LOGGER.debug("AdminDiagnosticController: addRelatedDiagnosticAction: Start");
+		
+		try {
+			RelatedDiagnostic relatedDiagnostic = new RelatedDiagnostic();
+			relatedDiagnostic.setCreatedTs(new Date());
+			Set<Topic> topics = populateTopics(request);
+			relatedDiagnostic.setTopics(topics);
+			Set<Diagnostic> diagnostics = populateDiagnostics(request);
+			relatedDiagnostic.setDiagnostics(diagnostics);
+			
+			relatedDiagnostic = adminDiagnosticService.addRelatedDiagnostic(relatedDiagnostic);
+			
+			List<DiagnosticCategory> allCategories = adminDiagnosticService.loadAllCategories();
+			session.setAttribute("allCategories", allCategories);
+		} catch (AdminException e) {
+			return AppConstants.ERROR_PAGE;
+		} 
+		
+		LOGGER.debug("AdminDiagnosticController: addRelatedDiagnosticAction: End");
+		return AppConstants.MANAGE_DIAGNOSTIC;
+	}
+	
+	private Set<Diagnostic> populateDiagnostics(HttpServletRequest request) throws AdminException {
+		
+		Set<Diagnostic> diagnostics = new HashSet<Diagnostic>();
+		Enumeration<String> parameters = request.getParameterNames();
+		while(parameters.hasMoreElements()){
+			String param = (String) parameters.nextElement();
+			if(param.contains("diagnostic_")){
+				int diagnosticId = Integer.valueOf(param.split("_")[1]);
+				try {
+					Diagnostic diagnostic = adminDiagnosticService.getDiagnosticById(diagnosticId);
+					diagnostics.add(diagnostic);
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new AdminException(e);
+				}
+			}
+		}
+		return diagnostics;
+	}
+	
+	@RequestMapping(value="/manageRelatedDiagnostic.action")
+	public String manageRelatedDiagnosticAction(HttpSession session, Model model){
+		
+		LOGGER.debug("AdminDiagnosticController: manageRelatedDiagnosticAction: Start");
+		
+		try {
+			User user = (User) session.getAttribute("user");
+			
+			if(null == user){
+				return AppConstants.ERROR_PAGE;
+			}
+			
+			List<RelatedDiagnostic> relatedDiagnostics = adminDiagnosticService.loadAllRelatedDiagnostics();
+			session.setAttribute("relatedDiagnostics", relatedDiagnostics);
+		} catch (AdminException e) {
+			return AppConstants.ERROR_PAGE;
+		} 
+		
+		LOGGER.debug("AdminDiagnosticController: manageRelatedDiagnosticAction: End");
+		return AppConstants.MANAGE_RELATED_DIAGNOSTIC;
+	}
+
+	@RequestMapping(value="/editRelatedDiagnostic.action")
+	public String editRelatedDiagnosticAction(@RequestParam("id") int relatedDiagnosticId, HttpSession session, Model model){
+		
+		LOGGER.debug("AdminDiagnosticController: editRelatedDiagnosticAction: Start");
+		
+		try {
+			
+			RelatedDiagnostic relatedDiagnostic = adminDiagnosticService.getRelatedDiagnosticById(relatedDiagnosticId);
+			List<Diagnostic> allDiagnostics = adminDiagnosticService.loadAllDiagnostics();
+			List<Topic> allTopics = adminDiagnosticService.loadCustomTopics();
+			
+			Map<Integer, Diagnostic> allDiagnosticMap = new TreeMap<Integer, Diagnostic>();
+			for(Diagnostic d : allDiagnostics){
+				allDiagnosticMap.put(d.getDiagnosticId(), d);
+			}
+			
+			for(Diagnostic d : relatedDiagnostic.getDiagnostics()){
+				Diagnostic currDiagnostic = allDiagnosticMap.get(d.getDiagnosticId());
+				if(null != currDiagnostic){
+					allDiagnosticMap.remove(d.getDiagnosticId());
+				}
+			}
+			allDiagnostics = new ArrayList<Diagnostic>(allDiagnosticMap.values());
+			
+			allTopics.removeAll(relatedDiagnostic.getTopics());
+			
+			model.addAttribute("allDiagnostics", allDiagnostics);
+			model.addAttribute("allTopics", allTopics);
+			model.addAttribute("relatedDiagnostic", relatedDiagnostic);
+		} catch (AdminException e) {
+			return AppConstants.ERROR_PAGE;
+		} 
+		
+		LOGGER.debug("AdminDiagnosticController: editRelatedDiagnosticAction: End");
+		return AppConstants.EDIT_RELATED_DIAGNOSTIC;
+	}
+	
+
+	@RequestMapping(value="/updatedRelatedDiagnostic.action", method=RequestMethod.POST)
+	public String updateRelatedDiagnosticAction(HttpServletRequest request, HttpSession session, Model model){
+		
+		LOGGER.debug("AdminDiagnosticController: updateRelatedDiagnosticAction: Start");
+		
+		try {
+			int relatedDiagnosticId = Integer.valueOf(request.getParameter("relatedDiagnosticId"));
+			RelatedDiagnostic relatedDiagnostic = adminDiagnosticService.getRelatedDiagnosticById(relatedDiagnosticId);
+			relatedDiagnostic.setUpdatedTs(new Date());
+			Set<Topic> topics = populateTopics(request);
+			relatedDiagnostic.getTopics().clear();
+			relatedDiagnostic.getTopics().addAll(topics);
+			Set<Diagnostic> diagnostics = populateDiagnostics(request);
+			relatedDiagnostic.getDiagnostics().clear();
+			relatedDiagnostic.getDiagnostics().addAll(diagnostics);
+			
+			relatedDiagnostic = adminDiagnosticService.saveOrUpdateRelatedDiagnostic(relatedDiagnostic);
+			
+			List<DiagnosticCategory> allCategories = adminDiagnosticService.loadAllCategories();
+			session.setAttribute("allCategories", allCategories);
+		} catch (AdminException e) {
+			return AppConstants.ERROR_PAGE;
+		} 
+		
+		LOGGER.debug("AdminDiagnosticController: updateRelatedDiagnosticAction: End");
+		return AppConstants.MANAGE_DIAGNOSTIC;
+	}
 	
 	@ResponseBody
 	@RequestMapping(value="/renameCategory.action", method=RequestMethod.POST)

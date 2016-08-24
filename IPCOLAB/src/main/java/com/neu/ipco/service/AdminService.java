@@ -52,4 +52,6 @@ public interface AdminService {
 
 	public void deleteOptionsByActivityOptionId(int activityOptionId) throws AdminException;
 
+	public void saveOrUpdateTopic(Topic topic) throws AdminException;
+
 }

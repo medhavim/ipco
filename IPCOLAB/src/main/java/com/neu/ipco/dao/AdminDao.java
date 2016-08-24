@@ -13,6 +13,7 @@ import com.neu.ipco.entity.Diagnostic;
 import com.neu.ipco.entity.DiagnosticCategory;
 import com.neu.ipco.entity.Module;
 import com.neu.ipco.entity.Option;
+import com.neu.ipco.entity.RelatedDiagnostic;
 import com.neu.ipco.entity.Topic;
 import com.neu.ipco.entity.TopicType;
 import com.neu.ipco.exception.AdminException;
@@ -82,5 +83,17 @@ public interface AdminDao {
 	public Diagnostic addNewDiagnostic(Diagnostic diagnostic) throws AdminException;
 
 	public Diagnostic getDiagnosticById(int diagnosticId) throws AdminException;
+
+	public List<Diagnostic> loadAllDiagnostics() throws AdminException;
+
+	public RelatedDiagnostic addRelatedDiagnostic(RelatedDiagnostic relatedDiagnostic) throws AdminException;
+
+	public List<RelatedDiagnostic> loadAllRelatedDiagnostics() throws AdminException;
+
+	public RelatedDiagnostic getRelatedDiagnosticById(int relatedDiagnosticId) throws AdminException;
+
+	public RelatedDiagnostic saveOrUpdateRelatedDiagnostic(RelatedDiagnostic relatedDiagnostic) throws AdminException;
+
+	public void saveOrUpdateTopic(Topic topic) throws AdminException;
 
 }

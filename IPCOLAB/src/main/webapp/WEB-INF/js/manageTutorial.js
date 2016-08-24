@@ -68,6 +68,14 @@ function deleteActivity(deletedTag){
 	$("#deletableId").val(deleteId);
 }
 
+function addQuiz(button){
+	
+	var form = document.getElementById("editForm");
+	form.action="gotoAddQuiz.action";
+	form.children.namedItem("id").value=button.id.split("-")[1];
+	form.submit();
+}
+
 $(document).ready(function() {
 // 		Ajax for renaming the topic name
 	$("#changeTopicName").click(function() {

@@ -15,7 +15,7 @@ import com.neu.ipco.constants.AppConstants;
  * @author Harsha
  *
  */
-public class Diagnostic implements Serializable {
+public class Diagnostic implements Serializable, Comparable<Diagnostic> {
 
 	/**
 	 * 
@@ -216,6 +216,10 @@ public class Diagnostic implements Serializable {
 	public String toString() {
 		return "Diagnostic [diagnosticId=" + diagnosticId + ", activity=" + activity + ", options=" + options
 				+ ", createdTs=" + createdTs + ", updatedTs=" + updatedTs + "]";
+	}
+
+	public int compareTo(Diagnostic d) {
+		return this.diagnosticId.compareTo(d.getDiagnosticId());
 	}
 
 }

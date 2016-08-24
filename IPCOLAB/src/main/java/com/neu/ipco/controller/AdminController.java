@@ -30,6 +30,7 @@ import com.neu.ipco.entity.ActivityOption;
 import com.neu.ipco.entity.Credential;
 import com.neu.ipco.entity.Module;
 import com.neu.ipco.entity.Option;
+import com.neu.ipco.entity.Quiz;
 import com.neu.ipco.entity.Topic;
 import com.neu.ipco.exception.AdminException;
 import com.neu.ipco.exception.ApplicationUtilException;
@@ -369,6 +370,41 @@ public class AdminController {
 		
 		LOGGER.debug("AdminController: addActivity: End");
 		return AppConstants.MANAGE_TUTORIAL;
+	}
+	
+	@RequestMapping(value="/addQuiz.action", method=RequestMethod.POST)
+	public String addQuizAction(@ModelAttribute("quiz") Quiz quiz, 
+			@RequestParam("activityTemplate") int activityTemplateId,
+			@RequestParam("topicId") int topicId,
+			@RequestParam(value="uploadFile",required=false) MultipartFile uploadFile,
+			HttpServletRequest request, HttpSession session, Model model){
+		
+		LOGGER.debug("AdminController: addQuizAction: Start");
+		
+		try {
+			quiz.getActivity().setCreatedTs(new Date());
+			quiz.getActivity().getActivityTemplate().setActivityTemplateId(activityTemplateId);
+			quiz.setCreatedTs(new Date());
+			if(activityTemplateId != AppConstants.TEMPLATE_INFO){
+				Set<Option> options = populateOptions(request, activityTemplateId, 
+						uploadFile);
+//					card1File, card2File, card3File);
+				quiz.setCorrectAnswers(options);
+			}
+			
+			Topic topic = adminService.getTopicById(topicId);
+			topic.getQuizQuestions().add(quiz);
+			
+			adminService.saveOrUpdateTopic(topic);
+
+			List<Topic> allTopics = adminService.loadAllTopics();
+			session.setAttribute("allTopics", allTopics);
+		} catch (AdminException e) {
+			return AppConstants.ERROR_PAGE;
+		} 
+		
+		LOGGER.debug("AdminController: addQuizAction: End");
+		return AppConstants.MANAGE_QUIZ;
 	}
 	
 	private Set<Option> populateOptions(HttpServletRequest request, Integer activityTemplateId, 

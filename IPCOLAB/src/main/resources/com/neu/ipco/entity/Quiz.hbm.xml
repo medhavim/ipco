@@ -11,10 +11,22 @@
 			<generator class="increment"/>
 		</id>
 		
-		<many-to-one name="question" class="ActivityOption" column="activity_option_id" />
+		<many-to-one name="activity" class="Activity" column="activity_id" />
 		
-		<many-to-one name="topic" class="Topic" column="topic_id" />
-
+		<set name="correctAnswers" cascade="all" lazy="false"><!-- order-by="orderNo" -->
+			<key column="quiz_id"/>
+			<one-to-many class="Option"/>
+		</set>
+		
+		<set name="userAnswers" cascade="all" lazy="false"><!-- order-by="orderNo" -->
+			<key column="quiz_id"/>
+			<one-to-many class="Option"/>
+		</set>
+		
+		<many-to-one name="status" class="Status" column="status_id" lazy="false" />
+		
+		<property name="orderNo" column="order_no"/>
+		
 		<property name="createdTs" type="timestamp" column="created_ts"/>
 		<property name="updatedTs" type="timestamp" column="updated_ts"/>
 	</class>

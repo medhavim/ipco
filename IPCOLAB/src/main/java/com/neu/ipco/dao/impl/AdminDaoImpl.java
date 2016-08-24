@@ -22,6 +22,7 @@ import com.neu.ipco.entity.Diagnostic;
 import com.neu.ipco.entity.DiagnosticCategory;
 import com.neu.ipco.entity.Module;
 import com.neu.ipco.entity.Option;
+import com.neu.ipco.entity.RelatedDiagnostic;
 import com.neu.ipco.entity.Topic;
 import com.neu.ipco.entity.TopicType;
 import com.neu.ipco.exception.AdminException;
@@ -234,6 +235,41 @@ public class AdminDaoImpl implements AdminDao {
 	public Diagnostic getDiagnosticById(int diagnosticId) throws AdminException {
 		LOGGER.debug("AdminDaoImpl: getDiagnosticById: Executing");
 		return template.get(Diagnostic.class, diagnosticId);
+	}
+
+	public List<Diagnostic> loadAllDiagnostics() throws AdminException {
+		
+		LOGGER.debug("AdminDaoImpl: loadAllDiagnostics: Executing");
+		return template.loadAll(Diagnostic.class);
+	}
+
+	public RelatedDiagnostic addRelatedDiagnostic(RelatedDiagnostic relatedDiagnostic) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: addRelatedDiagnostic: Start");
+		int relatedDiagnosticId = (Integer) template.save(relatedDiagnostic);
+		LOGGER.debug("AdminDaoImpl: addRelatedDiagnostic: Executing");
+		return template.get(RelatedDiagnostic.class, relatedDiagnosticId);
+	}
+
+	public List<RelatedDiagnostic> loadAllRelatedDiagnostics() throws AdminException {
+		
+		LOGGER.debug("AdminDaoImpl: loadAllRelatedDiagnostics: Executing");
+		return template.loadAll(RelatedDiagnostic.class);
+	}
+
+	public RelatedDiagnostic getRelatedDiagnosticById(int relatedDiagnosticId) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: getRelatedDiagnosticById: Executing");
+		return template.get(RelatedDiagnostic.class, relatedDiagnosticId);
+	}
+
+	public RelatedDiagnostic saveOrUpdateRelatedDiagnostic(RelatedDiagnostic relatedDiagnostic) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: saveOrUpdateRelatedDiagnostic: Executing");
+		template.saveOrUpdate(relatedDiagnostic);
+		return template.get(RelatedDiagnostic.class, relatedDiagnostic.getRelatedDiagnosticId());
+	}
+
+	public void saveOrUpdateTopic(Topic topic) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: saveOrUpdateTopic: Executing");
+		template.saveOrUpdate(topic);
 	}
 
 }

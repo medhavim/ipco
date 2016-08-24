@@ -68,6 +68,22 @@ function deleteActivity(deletedTag){
 	$("#deletableId").val(deleteId);
 }
 
+function addRelatedDiagnostic(button){
+	var form = document.getElementById("editForm");
+	form.action="gotoAddRelatedDiagnostic.action";
+	form.children.namedItem("id").value=button.id.split("_")[1];
+	form.submit();
+	
+}
+
+function editRelatedDiagnostic(id){
+	var form = document.getElementById("editForm");
+	form.action="editRelatedDiagnostic.action";
+	form.children.namedItem("id").value=id.split("_")[1];
+	form.submit();
+	
+}
+
 $(document).ready(function() {
 // 		Ajax for renaming the topic name
 	$("#changeCategoryTitle").click(function() {

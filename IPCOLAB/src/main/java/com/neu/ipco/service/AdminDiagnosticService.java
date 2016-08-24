@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.neu.ipco.entity.Diagnostic;
 import com.neu.ipco.entity.DiagnosticCategory;
+import com.neu.ipco.entity.RelatedDiagnostic;
 import com.neu.ipco.entity.Topic;
 import com.neu.ipco.exception.AdminException;
 
@@ -31,5 +32,15 @@ public interface AdminDiagnosticService {
 	Diagnostic addNewDiagnostic(Diagnostic diagnostic) throws AdminException;
 
 	Diagnostic getDiagnosticById(int diagnosticId) throws AdminException;
+
+	List<Diagnostic> loadAllDiagnostics() throws AdminException;
+
+	RelatedDiagnostic addRelatedDiagnostic(RelatedDiagnostic relatedDiagnostic) throws AdminException;
+
+	List<RelatedDiagnostic> loadAllRelatedDiagnostics() throws AdminException;
+
+	RelatedDiagnostic getRelatedDiagnosticById(int relatedDiagnosticId) throws AdminException;
+
+	RelatedDiagnostic saveOrUpdateRelatedDiagnostic(RelatedDiagnostic relatedDiagnostic) throws AdminException;
 
 }

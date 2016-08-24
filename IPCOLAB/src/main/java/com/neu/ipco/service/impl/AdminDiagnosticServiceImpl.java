@@ -14,6 +14,7 @@ import com.neu.ipco.dao.AdminDao;
 import com.neu.ipco.entity.ActivityOption;
 import com.neu.ipco.entity.Diagnostic;
 import com.neu.ipco.entity.DiagnosticCategory;
+import com.neu.ipco.entity.RelatedDiagnostic;
 import com.neu.ipco.entity.Topic;
 import com.neu.ipco.exception.AdminException;
 import com.neu.ipco.service.AdminDiagnosticService;
@@ -29,16 +30,6 @@ private Logger LOGGER = Logger.getLogger(AdminDiagnosticServiceImpl.class);
 	
 	@Autowired
 	private AdminDao adminDao;
-
-	private void reorderTopics(Integer typeId) throws AdminException{
-		List<Topic> topics = adminDao.getTopicsByTypeId(typeId);
-		int orderNo = 1;
-		for(Iterator<Topic> iterator = topics.iterator(); iterator.hasNext();){
-			Topic topic = iterator.next();
-			topic.setOrderNo(orderNo++);
-			adminDao.updateTopic(topic);
-		}
-	}
 
 	public List<DiagnosticCategory> loadAllCategories() throws AdminException {
 		LOGGER.debug("AdminDiagnosticServiceImpl: loadAllCategories: Executing");
@@ -112,6 +103,51 @@ private Logger LOGGER = Logger.getLogger(AdminDiagnosticServiceImpl.class);
 		LOGGER.debug("AdminDiagnosticServiceImpl: getDiagnosticById: Executing");
 		try {
 			return adminDao.getDiagnosticById(diagnosticId);
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
+	}
+
+	public List<Diagnostic> loadAllDiagnostics() throws AdminException {
+		LOGGER.debug("AdminDiagnosticServiceImpl: loadAllDiagnostics: Executing");
+		try {
+			return adminDao.loadAllDiagnostics();
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
+	}
+
+	public RelatedDiagnostic addRelatedDiagnostic(RelatedDiagnostic relatedDiagnostic) throws AdminException {
+		LOGGER.debug("AdminDiagnosticServiceImpl: addRelatedDiagnostic: Executing");
+		try {
+			return adminDao.addRelatedDiagnostic(relatedDiagnostic);
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
+	}
+
+	public List<RelatedDiagnostic> loadAllRelatedDiagnostics() throws AdminException {
+		LOGGER.debug("AdminDiagnosticServiceImpl: loadAllRelatedDiagnostics: Executing");
+		try {
+			return adminDao.loadAllRelatedDiagnostics();
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
+	}
+
+	public RelatedDiagnostic getRelatedDiagnosticById(int relatedDiagnosticId) throws AdminException {
+		LOGGER.debug("AdminDiagnosticServiceImpl: getRelatedDiagnosticById: Executing");
+		try {
+			return adminDao.getRelatedDiagnosticById(relatedDiagnosticId);
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
+	}
+
+	public RelatedDiagnostic saveOrUpdateRelatedDiagnostic(RelatedDiagnostic relatedDiagnostic) throws AdminException {
+		LOGGER.debug("AdminDiagnosticServiceImpl: saveOrUpdateRelatedDiagnostic: Executing");
+		try {
+			return adminDao.saveOrUpdateRelatedDiagnostic(relatedDiagnostic);
 		} catch (Exception e) {
 			throw new AdminException(e);
 		}

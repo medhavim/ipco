@@ -244,6 +244,16 @@ public class AdminServiceImpl implements AdminService {
 			throw new AdminException(e);
 		}
 	}
+
+	public void saveOrUpdateTopic(Topic topic) throws AdminException {
+		LOGGER.debug("AdminService: saveOrUpdateTopic: Start");
+		try {
+			LOGGER.debug("AdminService: saveOrUpdateTopic: Executing");
+			adminDao.saveOrUpdateTopic(topic);
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
+	}
 	
 
 }

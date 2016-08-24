@@ -69,7 +69,7 @@ $(document).on('click', '.addTopic', function() {
 	'</div>';
 	$('.selected-topics').append(topic);
 });
-//Handle adding a topic to the selected-topics container Start
+//Handle adding a topic to the selected-topics container End
 
 //Handle removing a topic from the selected-topics container Start
 
@@ -88,8 +88,71 @@ $(document).on('click', '.removeTopic', function() {
 		topic = $(topic).detach();
 	}
 });
-//Handle removing a topic from the selected-topics container Start
+//Handle removing a topic from the selected-topics container End
 
+//Handle adding a diagnostic to the selected-related-diagnostics container Start
+
+$(document).on('click', '.addDiagnostic', function() {
+	var diagnosticId = $(this)[0].id.split('_')[1];
+	var diagnosticTitle = $(this)[0].name;
+	$(this).removeClass('addDiagnostic');
+	$(this).removeClass('btn-default');
+	$($(this).children()[0]).removeClass('glyphicon-plus')
+	$('#diagnosticLabel_'+diagnosticId).removeClass('btn-default');
+	$(this).addClass('removeDiagnostic');
+	$(this).addClass('btn-info');
+	$($(this).children()[0]).addClass('glyphicon-trash');
+	$('#diagnosticLabel_'+diagnosticId).addClass('btn-info');
+	$('.diag-qstn_'+diagnosticId).addClass("alert-info");
+	var diagnosticInfo = $("#diagnostic_info_for-"+diagnosticId+" .diag-qstn_"+diagnosticId)[0];
+	var tmp = document.createElement("div");
+	tmp.appendChild(diagnosticInfo);
+	var selectedDiagnostic = '<div class="tile gray" id="selectedDiagnostic_'+diagnosticId+'">' +
+	'<input type="button" class="form-control btn btn-info btn-block h2 title" data-toggle="collapse" data-target="#selectedDiagnostic_info_for-'+diagnosticId+'" value="'+diagnosticTitle+'" />' +
+	'<div class="panel-collapse collapse in" id="selectedDiagnostic_info_for-'+diagnosticId+'">' +
+	tmp.innerHTML +
+	'<input type="hidden" name="diagnostic_'+diagnosticId+'"/>' +
+	'</div>' +
+	'</div>';
+	$('.selected-diagnostics').append(selectedDiagnostic);
+});
+//Handle adding a diagnostic to the selected-related-diagnostics container End
+
+//Handle removing a diagnostic from selected-related-diagnostics container Start
+
+$(document).on('click', '.removeDiagnostic', function() {
+	var diagnosticId = $(this)[0].id.split('_')[1];
+	$(this).removeClass('removeDiagnostic');
+	$(this).removeClass('btn-info');
+	$($(this).children()[0]).removeClass('glyphicon-trash');
+	$('#diagnosticLabel_'+diagnosticId).removeClass('btn-info');
+	$('.diag-qstn_'+diagnosticId).removeClass("alert-info");
+	$(this).addClass('addDiagnostic');
+	$(this).addClass('btn-default');
+	$($(this).children()[0]).addClass('glyphicon-plus')
+	$('#diagnosticLabel_'+diagnosticId).addClass('btn-default');
+	var selectedDiagnostic = $('#selectedDiagnostic_'+diagnosticId)[0];
+	if(selectedDiagnostic){
+		selectedDiagnostic = $(selectedDiagnostic).detach();
+	}
+});
+//Handle removing a diagnostic from selected-related-diagnostics container ENds
+
+// Validating the form for adding related diagnostic questions Start
+
+function validateRelatedDiagnostic(form){
+	if($('.selected-diagnostics').children().length < 2){
+		$('.errorMsg').text('Relate atleast one question to another question.');
+		$('.errorMsg').css('display', 'block');
+		return false;
+	}else if($('.selected-topics').children().length < 1){
+		$('.errorMsg').text('Associate atleast one topic to the questions.');
+		$('.errorMsg').css('display', 'block');
+		return false;
+	}else
+		return true;
+}
+// Validating the form for adding related diagnostic questions End
 
 // jQuery to handle mcq activity
 function removeAllActiveTemplate(){

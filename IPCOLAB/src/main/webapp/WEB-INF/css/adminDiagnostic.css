@@ -10,11 +10,11 @@
 	margin-top: 50px;
 }
 
-.desc-body{ 
-	padding-top:10px; 
-} 
+.diagnostic_holder{
+	margin-top: 10px;
+}
 
-.addOption, .mcqOption{ 
+.desc-body, .addOption, .mcqOption{ 
 	padding-top:10px; 
 }
 
@@ -53,4 +53,23 @@
     /* padding: 3px 0px 3px 3px; */
     /* margin: 5px 1px 3px 0px; */
     border: 3px solid rgb(178, 182, 183);
+}
+
+.tile {
+  width: 100%;
+  display: inline-block;
+  box-sizing: border-box;
+  background: #fff;
+  padding: 20px;
+  margin-bottom: 30px;
+  border-radius: 25px;
+}
+.tile .title {
+  margin-top: 0px;
+}
+.tile.purple, .tile.blue, .tile.red, .tile.orange, .tile.green {
+  color: #fff;
+}
+.tile.gray {
+  background: #57646d;
 }

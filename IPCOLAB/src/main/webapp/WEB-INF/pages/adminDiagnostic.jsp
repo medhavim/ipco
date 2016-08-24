@@ -27,11 +27,11 @@
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item"><a href="adminHome.action">Home</a></li>
 		<li class="breadcrumb-item"><a href="manageDiagnostic.action">Manage Diagnostic</a></li>
-	  	<li class="breadcrumb-item active"><span class="h3">Manage Diagnostic</span></li>
+	  	<li class="breadcrumb-item active"><span class="h3">Add-Edit Diagnostic</span></li>
 	</ol>
 	<div class="container text-center">
-		<h1>Manage Diagnostic</h1>
-		<p>Add-Remove-Edit Diagnostic Questions, at one place.</p>
+		<h1>Add-Edit Diagnostic</h1>
+		<p>Add-Remove-Edit Diagnostic Questions here.</p>
 	</div>
 </div>
 <form:form action="addDiagnostic.action" method="post" modelAttribute="diagnostic" enctype="multipart/form-data">
