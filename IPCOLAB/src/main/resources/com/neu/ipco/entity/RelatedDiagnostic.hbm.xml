@@ -11,6 +11,8 @@
 			<generator class="increment"/>
 		</id>
 
+		<property name="relatedDiagnosticTitle" column="related_diagnostic_title"/>
+
 		<set name="topics" table="related_diagnostic_topic"
 			inverse="false" lazy="false" fetch="select" >
 		    <key>

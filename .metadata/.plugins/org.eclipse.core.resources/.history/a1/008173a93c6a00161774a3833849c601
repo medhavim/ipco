@@ -274,14 +274,14 @@ public class DiagnosticController implements Serializable {
 			
 			relatedDiagnostic = adminDiagnosticService.addRelatedDiagnostic(relatedDiagnostic);
 			
-			List<RelatedDiagnostic> relatedDiagnostics = adminDiagnosticService.loadAllRelatedDiagnostics();
-			session.setAttribute("relatedDiagnostics", relatedDiagnostics);
+			List<DiagnosticCategory> allCategories = adminDiagnosticService.loadAllCategories();
+			session.setAttribute("allCategories", allCategories);
 		} catch (AdminException e) {
 			return AppConstants.ERROR_PAGE;
 		} 
 		
 		LOGGER.debug("AdminDiagnosticController: addRelatedDiagnosticAction: End");
-		return AppConstants.MANAGE_RELATED_DIAGNOSTIC;
+		return AppConstants.MANAGE_DIAGNOSTIC;
 	}
 	
 	private Set<Diagnostic> populateDiagnostics(HttpServletRequest request) throws AdminException {
@@ -384,14 +384,14 @@ public class DiagnosticController implements Serializable {
 			
 			relatedDiagnostic = adminDiagnosticService.saveOrUpdateRelatedDiagnostic(relatedDiagnostic);
 			
-			List<RelatedDiagnostic> relatedDiagnostics = adminDiagnosticService.loadAllRelatedDiagnostics();
-			session.setAttribute("relatedDiagnostics", relatedDiagnostics);
+			List<DiagnosticCategory> allCategories = adminDiagnosticService.loadAllCategories();
+			session.setAttribute("allCategories", allCategories);
 		} catch (AdminException e) {
 			return AppConstants.ERROR_PAGE;
 		} 
 		
 		LOGGER.debug("AdminDiagnosticController: updateRelatedDiagnosticAction: End");
-		return AppConstants.MANAGE_RELATED_DIAGNOSTIC;
+		return AppConstants.MANAGE_DIAGNOSTIC;
 	}
 	
 	@ResponseBody

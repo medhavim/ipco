@@ -58,12 +58,12 @@
 								<button class="btn btn-warning" id="editRelatedDiagnostic_${relatedDiagnostic.relatedDiagnosticId}"  onclick="editRelatedDiagnostic(id)"><i class="glyphicon glyphicon-edit">&nbsp;Edit</i></button>
 							</div>
 						</div>
-						<div class="panel-collapse collapse in" id="relatedDiagnostics_for-${relatedDiagnostic.relatedDiagnosticId}">
+						<div class="container-fluid">
 						<div class="container-fluid">
 						<c:forEach items="${relatedDiagnostic.diagnostics}" var="diagnostic">
 						<div class="tile gray">
-							<input type="button" class="form-control btn btn-info  title" data-toggle="collapse" data-target="#selectedDiagnostic_info_for-${relatedDiagnostic.relatedDiagnosticId}_${diagnostic.diagnosticId}" value="${diagnostic.activity.activityTitle}"/ >
-							<div class="panel-collapse collapse in" id="selectedDiagnostic_info_for-${relatedDiagnostic.relatedDiagnosticId}_${diagnostic.diagnosticId}">
+							<input type="button" class="form-control btn btn-info  title" data-toggle="collapse" data-target="#selectedDiagnostic_info_for-${diagnostic.diagnosticId}" value="${diagnostic.activity.activityTitle}"/ >
+							<div class="panel-collapse collapse in" id="selectedDiagnostic_info_for-${diagnostic.diagnosticId}">
 								<div class="alert alert-info diag-qstn_${diagnostic.diagnosticId}" role="alert">
 									<div class="row">
 										<div class="col-sm-8">${diagnostic.activity.activityText}</div>

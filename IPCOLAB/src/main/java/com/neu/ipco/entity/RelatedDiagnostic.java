@@ -21,6 +21,8 @@ public class RelatedDiagnostic implements Serializable {
 	
 	private Integer relatedDiagnosticId;
 	
+	private String relatedDiagnosticTitle;
+	
 	private Set<Topic> topics = new TreeSet<Topic>();
 	
 	private Set<Diagnostic> diagnostics = new TreeSet<Diagnostic>();
@@ -45,6 +47,20 @@ public class RelatedDiagnostic implements Serializable {
 	 */
 	public void setRelatedDiagnosticId(Integer relatedDiagnosticId) {
 		this.relatedDiagnosticId = relatedDiagnosticId;
+	}
+
+	/**
+	 * @return the relatedDiagnosticTitle
+	 */
+	public String getRelatedDiagnosticTitle() {
+		return relatedDiagnosticTitle;
+	}
+
+	/**
+	 * @param relatedDiagnosticTitle the relatedDiagnosticTitle to set
+	 */
+	public void setRelatedDiagnosticTitle(String relatedDiagnosticTitle) {
+		this.relatedDiagnosticTitle = relatedDiagnosticTitle;
 	}
 
 	/**

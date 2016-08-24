@@ -35,6 +35,7 @@
 	</div>
 </div>
 <form action="addRelatedDiagnostic.action" method="post" onsubmit="return validateRelatedDiagnostic(this)">
+
 <div class="jumbotron">
 	<div class="container-fluid text-left">
 	<div class="row">
@@ -43,6 +44,15 @@
 		</div>
 	</div>
 		<span class="h2">Step 1:</span>
+		<span class="h2">Diagnostic Question Title</span>
+	</div>
+	<div class="container-fluid text-left desc-body">
+		<input type="text" id="relatedDiagnosticTitle" name="relatedDiagnosticTitle" class="form-control" placeholder="Enter Related Diagnostic question title Here." />
+	</div>	
+</div>
+<div class="jumbotron">
+	<div class="container-fluid text-left">
+		<span class="h2">Step 2:</span>
 		<span class="h2">Select Related Questions</span>
 	</div>
 	<div class="container-fluid text-left desc-body">
@@ -75,7 +85,7 @@
 </div>
 <div class="jumbotron">
 	<div class="container-fluid text-left">
-		<span class="h2">Step 2:</span>
+		<span class="h2">Step 3:</span>
 		<span class="h2">Verify Related Questions</span>
 	</div>
 	<div class="container-fluid text-left desc-body">
@@ -101,7 +111,7 @@
 </div>
 <div class="jumbotron">
 	<div class="container-fluid text-left">
-		<span class="h2">Step 3:</span>
+		<span class="h2">Step 4:</span>
 		<span class="h2">Associate Topics to the related questions</span>
 	</div>
 	<div class="container-fluid text-center desc-body" >
@@ -117,7 +127,7 @@
 </div>
 <div class="jumbotron">
 	<div class="container-fluid text-left">
-		<span class="h2">Step 4:</span>
+		<span class="h2">Step 5:</span>
 		<span class="h2">Verify Associated Topics</span>
 	</div>
 	<div class="container-fluid text-center desc-body" >

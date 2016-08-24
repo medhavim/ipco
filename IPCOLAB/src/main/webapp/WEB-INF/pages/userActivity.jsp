@@ -41,7 +41,7 @@
 				<div class="btn-group" role="group">
 			    	<button type="button" 
 	    			class="btn <c:if test="${instanceModule.status.statusId eq 2}">btn-info</c:if><c:if test="${instanceModule.status.statusId eq 3}">btn-success</c:if> <c:if test="${activityAnswer.activityAnswerId eq instanceModule.currActivity.activityAnswerId}">current-complete-module</c:if>"
-			    	<c:if test="${activityAnswer.status.statusId eq 1}">disabled</c:if>>${activityAnswer.activity.activityTitle}</button>
+			    	<c:if test="${activityAnswer.status.statusId eq 1}">disabled</c:if>>${activityAnswer.activityOption.activity.activityTitle}</button>
 			  	</div>
 				</c:forEach>
 			</div>

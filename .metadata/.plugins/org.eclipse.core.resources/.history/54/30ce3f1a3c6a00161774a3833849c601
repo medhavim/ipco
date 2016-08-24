@@ -49,21 +49,20 @@
 				<c:if test="${fn:length(relatedDiagnostics)>0}">
 				<c:forEach items="${relatedDiagnostics}" var="relatedDiagnostic">
 					<div class="jumbotron category_holder">
-						<div class="row desc-body">
-							<div class="col-sm-6">
-							<span class="container_name h2 span-category-${relatedDiagnostic.relatedDiagnosticId}" 
-								data-toggle="collapse" data-target="#relatedDiagnostics_for-${relatedDiagnostic.relatedDiagnosticId}" id="relatedDiagnostic_name_${relatedDiagnostic.relatedDiagnosticId}">${relatedDiagnostic.relatedDiagnosticTitle}</span>
+							<div class="row desc-body">
+								<div class="col-sm-6">
+								<span class="container_name h2 span-category-${relatedDiagnostic.relatedDiagnosticId}" 
+									data-toggle="collapse" data-target="#relatedDiagnostics_for-${relatedDiagnostic.relatedDiagnosticId}" id="relatedDiagnostic_name_${relatedDiagnostic.relatedDiagnosticId}">${relatedDiagnostic.relatedDiagnosticTitle}</span>
+								</div>
+								<div class="col-sm-1 pull-right">
+									<button class="btn btn-warning" id="editRelatedDiagnostic_${relatedDiagnostic.relatedDiagnosticId}"  onclick="editRelatedDiagnostic(id)"><i class="glyphicon glyphicon-edit">&nbsp;Edit</i></button>
+								</div>
 							</div>
-							<div class="col-sm-1 pull-right">
-								<button class="btn btn-warning" id="editRelatedDiagnostic_${relatedDiagnostic.relatedDiagnosticId}"  onclick="editRelatedDiagnostic(id)"><i class="glyphicon glyphicon-edit">&nbsp;Edit</i></button>
-							</div>
-						</div>
-						<div class="panel-collapse collapse in" id="relatedDiagnostics_for-${relatedDiagnostic.relatedDiagnosticId}">
 						<div class="container-fluid">
 						<c:forEach items="${relatedDiagnostic.diagnostics}" var="diagnostic">
 						<div class="tile gray">
-							<input type="button" class="form-control btn btn-info  title" data-toggle="collapse" data-target="#selectedDiagnostic_info_for-${relatedDiagnostic.relatedDiagnosticId}_${diagnostic.diagnosticId}" value="${diagnostic.activity.activityTitle}"/ >
-							<div class="panel-collapse collapse in" id="selectedDiagnostic_info_for-${relatedDiagnostic.relatedDiagnosticId}_${diagnostic.diagnosticId}">
+							<input type="button" class="form-control btn btn-info  title" data-toggle="collapse" data-target="#selectedDiagnostic_info_for-${diagnostic.diagnosticId}" value="${diagnostic.activity.activityTitle}"/ >
+							<div class="panel-collapse collapse in" id="selectedDiagnostic_info_for-${diagnostic.diagnosticId}">
 								<div class="alert alert-info diag-qstn_${diagnostic.diagnosticId}" role="alert">
 									<div class="row">
 										<div class="col-sm-8">${diagnostic.activity.activityText}</div>
@@ -89,7 +88,6 @@
 				   	 		</div>
 							</c:forEach>
 							</c:if>
-						</div>
 						</div>
 					</div>
 				</c:forEach>

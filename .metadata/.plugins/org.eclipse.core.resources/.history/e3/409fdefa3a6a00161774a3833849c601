@@ -105,12 +105,12 @@ $(document).on('click', '.addDiagnostic', function() {
 	$('#diagnosticLabel_'+diagnosticId).addClass('btn-info');
 	$('.diag-qstn_'+diagnosticId).addClass("alert-info");
 	var diagnosticInfo = $("#diagnostic_info_for-"+diagnosticId+" .diag-qstn_"+diagnosticId)[0];
-//	var tmp = document.createElement("div");
-//	tmp.appendChild(diagnosticInfo);
+	var tmp = document.createElement("div");
+	tmp.appendChild(diagnosticInfo);
 	var selectedDiagnostic = '<div class="tile gray" id="selectedDiagnostic_'+diagnosticId+'">' +
 	'<input type="button" class="form-control btn btn-info btn-block h2 title" data-toggle="collapse" data-target="#selectedDiagnostic_info_for-'+diagnosticId+'" value="'+diagnosticTitle+'" />' +
 	'<div class="panel-collapse collapse in" id="selectedDiagnostic_info_for-'+diagnosticId+'">' +
-	diagnosticInfo.outerHTML +
+	tmp.innerHTML +
 	'<input type="hidden" name="diagnostic_'+diagnosticId+'"/>' +
 	'</div>' +
 	'</div>';
