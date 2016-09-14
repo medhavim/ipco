@@ -5,6 +5,7 @@ package com.neu.ipco.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
@@ -69,6 +70,7 @@ public class AdminController {
 		
 		try {
 			List<Topic> allTopics = adminService.loadAllTopics();
+			Collections.sort(allTopics, AppConstants.TOPIC_COMPARATOR);
 			
 			session.setAttribute("allTopics", allTopics);
 			
@@ -493,7 +495,9 @@ public class AdminController {
 				Option option = new Option();
 				option.setOptionText(request.getParameter(param).trim());
 				option.setOrderNo(orderNo + Integer.valueOf(param.split("_")[1]));
-				option.setIsCorrect(correctAnswers.contains(param)?"true":"false");
+				if(null != correctAnswers){
+					option.setIsCorrect(correctAnswers.contains(param)?"true":"false");
+				}
 				option.setCreatedTs(new Date());
 				options.add(option);
 			}

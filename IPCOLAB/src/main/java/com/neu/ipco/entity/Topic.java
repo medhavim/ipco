@@ -4,8 +4,11 @@
 package com.neu.ipco.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -56,6 +59,11 @@ public class Topic implements Serializable, Comparable<Topic> {
 		this.createdTs = new Date();
 	}
 
+	public void reorder(){
+		List<Module> tempModuleList = new ArrayList<Module>(this.modules);
+		Collections.sort(tempModuleList, AppConstants.MODULE_COMPARATOR);
+		this.modules = new TreeSet<Module>(tempModuleList);
+	}
 	/**
 	 * @return the topicId
 	 */

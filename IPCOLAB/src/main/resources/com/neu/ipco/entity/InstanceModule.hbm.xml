@@ -15,7 +15,7 @@
 		
 		<many-to-one name="status" class="Status" column="status_id" lazy="false" />
 		
-		<many-to-one name="instanceTopic" class="InstanceTopic" column="instance_topic_id" lazy="false" />
+		<many-to-one name="instanceTopic" class="InstanceTopic" column="instance_topic_id" lazy="false" fetch="select" insert="false" update="false"/>
 		
 		<property name="progress" column="progress"/>
 		

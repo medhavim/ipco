@@ -45,10 +45,14 @@ public interface UserDao {
 
 	void saveOrUpdateInstance(Instance instance) throws UserException;
 
-	void saveOrUpdateInstanceTopic(InstanceTopic instanceTopic) throws UserException;
+	InstanceTopic saveOrUpdateInstanceTopic(InstanceTopic instanceTopic) throws UserException;
 
-	void saveOrUpdateInstanceModule(InstanceModule instanceModule) throws UserException;
+	InstanceModule saveOrUpdateInstanceModule(InstanceModule instanceModule) throws UserException;
 
 	CustomizeInstanceUser saveOrUpdateCustomInstance(CustomizeInstanceUser customizeInstanceUser) throws UserException;
+
+	ActivityAnswer saveOrUpdateActivityAnswer(ActivityAnswer currActivity) throws UserException;
+
+	void deleteInstance(Instance instance) throws UserException;
 
 }

@@ -112,6 +112,10 @@ public class AppConstants {
 	
 	public static final String STATUS_INCOMPLETE = "Incomplete";
 	
+	public static final Integer STATUS_NOT_STARTED_ID = 1;
+	
+	public static final Integer STATUS_INCOMPLETE_ID = 2;
+
 	public static final Integer STATUS_COMPLETE_ID = 3;
 	
 //	Comparators
@@ -120,6 +124,13 @@ public class AppConstants {
 
 		public int compare(InstanceModule instanceModule1, InstanceModule instanceModule2) {
 			return Integer.valueOf(instanceModule1.getModule().getOrderNo()).compareTo(instanceModule2.getModule().getOrderNo());
+		}
+	};
+	
+	public static final Comparator<? super InstanceModule> INSTANCE_MODULE_COMPARATOR_REVERSE = new Comparator<InstanceModule>() {
+
+		public int compare(InstanceModule instanceModule1, InstanceModule instanceModule2) {
+			return Integer.valueOf(instanceModule2.getModule().getOrderNo()).compareTo(instanceModule1.getModule().getOrderNo());
 		}
 	};
 
@@ -136,11 +147,18 @@ public class AppConstants {
 			return o1.getOrderNo() - o2.getOrderNo();
 		}
 	};
-
+	
 	public static final Comparator<ActivityAnswer> ACTIVITY_ANSWER_COMPARATOR = new Comparator<ActivityAnswer>() {
-
+		
 		public int compare(ActivityAnswer activityAnswer1, ActivityAnswer activityAnswer2) {
 			return activityAnswer1.getActivityOption().getOrderNo() - activityAnswer2.getActivityOption().getOrderNo();
+		}
+	};
+
+	public static final Comparator<ActivityAnswer> ACTIVITY_ANSWER_COMPARATOR_REVERSE = new Comparator<ActivityAnswer>() {
+
+		public int compare(ActivityAnswer activityAnswer1, ActivityAnswer activityAnswer2) {
+			return activityAnswer2.getActivityOption().getOrderNo() - activityAnswer1.getActivityOption().getOrderNo();
 		}
 	};
 
@@ -161,6 +179,8 @@ public class AppConstants {
 	public static final Comparator<Topic> TOPIC_COMPARATOR = new Comparator<Topic>() {
 
 		public int compare(Topic topic1, Topic topic2) {
+			topic1.reorder();
+			topic2.reorder();
 			return topic1.getOrderNo() - topic2.getOrderNo();
 		}
 	};

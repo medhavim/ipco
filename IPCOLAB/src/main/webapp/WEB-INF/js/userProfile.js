@@ -25,5 +25,14 @@ $(document).ready(function() {
 		$('#customForm').attr('action', "loadInstance.action");
 		$("#customForm input[id=id]").val(id);
 		$('#customForm').submit();
+		e.stopPropagation();
+	});
+
+	$(".deleteInstance").on("click", function(e){
+		id = $(this)[0].id.split("_")[1];
+		$('#customForm').attr('action', "deleteInstance.action");
+		$("#customForm input[id=id]").val(id);
+		$('#customForm').submit();
+		e.stopPropagation();
 	});
 });

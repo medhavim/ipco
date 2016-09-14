@@ -16,7 +16,7 @@
 		<many-to-one name="instanceType" class="InstanceType" column="instance_type_id" lazy="false"/>
 		
 		<set name="instanceTopics" cascade="all" lazy="false">
-			<key column="instance_id"/>
+			<key column="instance_id" not-null="true"/>
 			<one-to-many class="InstanceTopic"/>
 		</set>
 		<property name="createdTs" type="timestamp" column="created_ts"/>

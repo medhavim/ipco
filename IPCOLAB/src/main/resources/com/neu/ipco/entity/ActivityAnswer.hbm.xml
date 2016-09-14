@@ -13,7 +13,7 @@
 
 		<many-to-one name="status" class="Status" column="status_id" lazy="false" />
 
-		<many-to-one name="activityOption" class="ActivityOption" column="acitivity_option_id" lazy="false" />
+		<many-to-one name="activityOption" class="ActivityOption" column="acitivity_option_id" lazy="false"/>
 		
 		<set name="answers" cascade="all" lazy="false">
 			<key column="activity_answer_id"/>

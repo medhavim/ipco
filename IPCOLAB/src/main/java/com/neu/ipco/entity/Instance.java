@@ -48,7 +48,7 @@ public class Instance implements Serializable, Comparable<Instance> {
 		this.instanceTopicList = new ArrayList<InstanceTopic>(this.instanceTopics);
 		Collections.sort(this.instanceTopicList, AppConstants.INSTANCE_TOPIC_COMPARATOR);
 		
-		for(InstanceTopic instanceTopic : this.instanceTopics){
+		for(InstanceTopic instanceTopic : this.instanceTopicList){
 			instanceTopic.reorder();
 		}
 	}

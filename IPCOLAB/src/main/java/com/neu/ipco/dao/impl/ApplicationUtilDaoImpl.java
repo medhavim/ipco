@@ -16,6 +16,7 @@ import com.neu.ipco.entity.Instance;
 import com.neu.ipco.entity.InstanceModule;
 import com.neu.ipco.entity.InstanceTopic;
 import com.neu.ipco.entity.InstanceType;
+import com.neu.ipco.entity.Status;
 import com.neu.ipco.entity.UserRole;
 import com.neu.ipco.entity.UserType;
 import com.neu.ipco.exception.ApplicationUtilException;
@@ -69,6 +70,11 @@ public class ApplicationUtilDaoImpl implements ApplicationUtilDao {
 	public List<UserRole> getUserRoles() throws ApplicationUtilException {
 		LOGGER.debug("ApplicationUtilDaoImpl: getUserRoles: Executing");
 		return template.loadAll(UserRole.class);
+	}
+
+	public Status getStatusId(int statusId) throws ApplicationUtilException {
+		LOGGER.debug("ApplicationUtilDaoImpl: getStatusId: Executing");
+		return template.get(Status.class, statusId);
 	}
 
 }

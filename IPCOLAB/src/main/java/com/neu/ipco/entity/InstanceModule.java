@@ -62,19 +62,68 @@ public class InstanceModule implements Serializable, Comparable<InstanceModule> 
 	public void prepareStack() {
 		
 		nextActivity.clear();
-		prevActivity.clear();		
-		nextActivity.addAll(activityAnswerList);
+		prevActivity.clear();	
+		List<ActivityAnswer> tempActivityAnswerList = new ArrayList<ActivityAnswer>(activityAnswerList);
+		Collections.sort(tempActivityAnswerList, AppConstants.ACTIVITY_ANSWER_COMPARATOR_REVERSE);
+		nextActivity.addAll(tempActivityAnswerList);
 		
 		if(!nextActivity.isEmpty()){
-			ActivityAnswer lastActivity = nextActivity.lastElement();
+			ActivityAnswer lastActivity = nextActivity.firstElement();
 			currActivity = nextActivity.pop();
 			if(lastActivity.getStatus().getStatusId() != AppConstants.STATUS_COMPLETE_ID){
-				while(!nextActivity.empty()){
+				while(!nextActivity.empty() && currActivity.getStatus().getStatusId() != AppConstants.STATUS_INCOMPLETE_ID){
 					if(currActivity.getStatus().getStatusId() == AppConstants.STATUS_COMPLETE_ID){
 						prevActivity.push(currActivity);
 					}
 					currActivity = nextActivity.pop();
 				}
+			}
+		}
+	}
+	
+	public void prepareStack(ActivityAnswer activityAnswer) {
+		
+		nextActivity.clear();
+		prevActivity.clear();	
+		List<ActivityAnswer> tempActivityAnswerList = new ArrayList<ActivityAnswer>(activityAnswerList);
+		Collections.sort(tempActivityAnswerList, AppConstants.ACTIVITY_ANSWER_COMPARATOR_REVERSE);
+		nextActivity.addAll(tempActivityAnswerList);
+		while(!nextActivity.empty()){
+			currActivity = nextActivity.pop();
+			if(currActivity.getActivityAnswerId() == activityAnswer.getActivityAnswerId()){
+				break;
+			}
+			prevActivity.push(currActivity);
+		}
+	}
+	
+	public void prepareNextModuleStack() {
+		
+		nextActivity.clear();
+		prevActivity.clear();	
+		List<ActivityAnswer> tempActivityAnswerList = new ArrayList<ActivityAnswer>(activityAnswerList);
+		Collections.sort(tempActivityAnswerList, AppConstants.ACTIVITY_ANSWER_COMPARATOR_REVERSE);
+		nextActivity.addAll(tempActivityAnswerList);
+		
+		if(!nextActivity.isEmpty()){
+			currActivity = nextActivity.pop();
+		}
+	}
+	
+	public void preparePreviousModuleStack() {
+		
+		nextActivity.clear();
+		prevActivity.clear();	
+		List<ActivityAnswer> tempActivityAnswerList = new ArrayList<ActivityAnswer>(activityAnswerList);
+		Collections.sort(tempActivityAnswerList, AppConstants.ACTIVITY_ANSWER_COMPARATOR_REVERSE);
+		nextActivity.addAll(tempActivityAnswerList);
+		
+		if(!nextActivity.isEmpty()){
+			ActivityAnswer lastActivity = nextActivity.firstElement();
+			currActivity = nextActivity.pop();
+			while(!nextActivity.empty() && currActivity.getActivityAnswerId() != lastActivity.getActivityAnswerId()){
+				prevActivity.push(currActivity);
+				currActivity = nextActivity.pop();
 			}
 		}
 	}

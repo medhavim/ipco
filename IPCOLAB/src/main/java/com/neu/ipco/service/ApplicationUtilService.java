@@ -8,6 +8,7 @@ import java.util.List;
 import com.neu.ipco.entity.ActivityOption;
 import com.neu.ipco.entity.InstanceType;
 import com.neu.ipco.entity.Module;
+import com.neu.ipco.entity.Status;
 import com.neu.ipco.entity.Topic;
 import com.neu.ipco.entity.UserRole;
 import com.neu.ipco.entity.UserType;
@@ -32,5 +33,7 @@ public interface ApplicationUtilService {
 	public void updateNewActivityToInstanceModule(ActivityOption activityOption) throws ApplicationUtilException;
 
 	public List<UserRole> getUserRoles() throws ApplicationUtilException;
+	
+	public Status getStatusById(int statusId) throws ApplicationUtilException;
 
 }

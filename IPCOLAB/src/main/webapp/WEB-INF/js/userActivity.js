@@ -16,3 +16,32 @@ tinymce.init({
   ]
 });
 // adding formatter to the textarea End
+
+$(document).ready(function(){
+	
+//jQuery to handle yes/no activity Start
+	$(".optionRadioLabel").unbind('click').on('click', function(e){
+		e.stopPropagation();
+		e.preventDefault();
+		$(this).parent().parent().find("label").each(function(){
+			$(this).removeClass('btn-primary').addClass('btn-default');
+			$(this).find('input').each(function(){
+				$(this).prop('checked', false);
+			});
+		});
+		$(this).removeClass('btn-default').addClass('btn-primary');
+		$(this).find('input').each(function(){
+			$(this).prop('checked', true);
+		});
+	});
+//jQuery to handle yes/no activity End
+});
+
+
+// Navigating from one activity/module to next/prev Start
+$(document).on('click', '.btn-nav', function(e) {
+	$('#navType').val($(this)[0].id);
+	$('#activityForm').submit();
+});
+
+// Navigating from one activity/module to next/prev End

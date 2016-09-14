@@ -85,14 +85,17 @@ public class UserServiceImpl implements UserService {
 	private void populateInstanceTopics(List<Topic> topics, Set<InstanceTopic> instanceTopics) throws UserException{
 		
 		LOGGER.debug("UserServiceImpl: populateInstanceTopics: Start");
+		boolean firstTopic = true;
 		for(Topic topic : topics){
 			InstanceTopic instanceTopic = new InstanceTopic();
 			instanceTopic.setTopic(topic);
-			Status status = userDao.getStatusByDesc(topic.getOrderNo()==1?AppConstants.STATUS_INCOMPLETE:AppConstants.STATUS_NOT_STARTED);
+//			Status status = userDao.getStatusByDesc(firstTopic?AppConstants.STATUS_INCOMPLETE:AppConstants.STATUS_NOT_STARTED);
+			Status status = userDao.getStatusByDesc(AppConstants.STATUS_NOT_STARTED);
 			instanceTopic.setStatus(status);
 			instanceTopic.setCreatedTs(new Date());
 			populateInstanceModule(topic.getModules(), instanceTopic.getInstanceModules());
 			instanceTopics.add(instanceTopic);
+			firstTopic=false;
 		}
 		LOGGER.debug("UserServiceImpl: populateInstanceTopics: End");
 		
@@ -222,6 +225,46 @@ public class UserServiceImpl implements UserService {
 		LOGGER.debug("UserServiceImpl: saveOrUpdateCustomInstance: Executing");
 		try {
 			return userDao.saveOrUpdateCustomInstance(customizeInstanceUser);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new UserException(e);
+		}
+	}
+
+	public ActivityAnswer saveOrUpdateActivityAnswer(ActivityAnswer currActivity) throws UserException {
+		LOGGER.debug("UserServiceImpl: saveOrUpdateActivityAnswer: Executing");
+		try {
+			return userDao.saveOrUpdateActivityAnswer(currActivity);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new UserException(e);
+		}
+	}
+
+	public InstanceModule saveOrUpdateInstanceModule(InstanceModule instanceModule) throws UserException {
+		LOGGER.debug("UserServiceImpl: saveOrUpdateInstanceModule: Executing");
+		try {
+			return userDao.saveOrUpdateInstanceModule(instanceModule);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new UserException(e);
+		}
+	}
+
+	public InstanceTopic saveOrUpdateInstanceTopic(InstanceTopic instanceTopic) throws UserException {
+		LOGGER.debug("UserServiceImpl: saveOrUpdateInstanceTopic: Executing");
+		try {
+			return userDao.saveOrUpdateInstanceTopic(instanceTopic);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new UserException(e);
+		}
+	}
+
+	public void deleteInstance(Instance instance) throws UserException {
+		LOGGER.debug("UserServiceImpl: deleteInstance: Executing");
+		try {
+			userDao.deleteInstance(instance);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new UserException(e);

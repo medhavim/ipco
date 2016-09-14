@@ -169,4 +169,14 @@ public class ApplicationUtilServiceImpl implements ApplicationUtilService {
 		}
 	}
 
+	public Status getStatusById(int statusId) throws ApplicationUtilException {
+		LOGGER.debug("ApplicationUtilServiceImpl: getStatusById: Executing");
+		try {
+			return applicationUtilDao.getStatusId(statusId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ApplicationUtilException(e);
+		}
+	}
+
 }

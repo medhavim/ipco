@@ -63,3 +63,11 @@ a {text-decoration: none;}
 	border-radius: 10px;
 	margin-bottom:5px;
 }
+
+.start-tutorial {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 50px;
+	padding-right: 50px;
+	font-size: 25px;
+}

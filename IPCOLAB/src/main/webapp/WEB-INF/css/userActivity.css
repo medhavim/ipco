@@ -1,6 +1,14 @@
 
 .jumbotron{
 	background-color: #ccc;
+	margin-bottom:0px;
+}
+
+.jumbotron.content, .jumbotron.title{
+	margin-top: 50px;
+}
+.jumbotron.content{
+	height: 100vh;
 }
 
 .btn-group .current-ongoing-module{
@@ -33,4 +41,27 @@
 	width: 175px;
     height: 50px;
     border-radius: 20px;
+}
+
+.tile {
+  width: 100%;
+  display: inline-block;
+  box-sizing: border-box;
+  background: #fff;
+  padding: 20px;
+  margin-bottom: 30px;
+  border-radius: 25px;
+}
+.tile .title {
+  margin-top: 0px;
+}
+.tile.purple, .tile.blue, .tile.red, .tile.orange, .tile.green {
+  color: #fff;
+}
+.tile.gray {
+  background: #57646d;
+}
+
+.activity-content{
+	min-height: 100px;
 }

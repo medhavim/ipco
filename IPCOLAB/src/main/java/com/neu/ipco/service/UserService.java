@@ -5,6 +5,7 @@ package com.neu.ipco.service;
 
 import java.util.List;
 
+import com.neu.ipco.entity.ActivityAnswer;
 import com.neu.ipco.entity.BasicInstanceUser;
 import com.neu.ipco.entity.CustomizeInstanceUser;
 import com.neu.ipco.entity.Instance;
@@ -38,4 +39,12 @@ public interface UserService {
 	void populateTopicsForInstance(List<Topic> arrayList, Instance instance) throws UserException;
 
 	CustomizeInstanceUser saveOrUpdateCustomInstance(CustomizeInstanceUser customizeInstanceUser) throws UserException;
+
+	ActivityAnswer saveOrUpdateActivityAnswer(ActivityAnswer currActivity) throws UserException;
+
+	InstanceModule saveOrUpdateInstanceModule(InstanceModule instanceModule) throws UserException;
+
+	InstanceTopic saveOrUpdateInstanceTopic(InstanceTopic instanceTopic) throws UserException;
+
+	void deleteInstance(Instance instance) throws UserException;
 }

@@ -50,7 +50,12 @@
 				<div class="col-sm-8  text-left">
 					<span class="h3">${basicInstance.instance.instanceName}</span>
 				</div>
-				<div class="col-sm-4 pull-right text-right">
+<!-- 				<div class="col-sm-4 text-right"> -->
+<%-- 					<span class="deleteInstance h2" id="deleteInstceId_${basicInstance.instance.instanceId}"><i class="glyphicon glyphicon-remove-sign"></i></span> --%>
+<!-- 				</div> -->
+			</div>
+			<div class="row">
+				<div class="col-sm-4 pull-left text-left">
 					<span class="h3"><i><fmt:formatDate value="${basicInstance.instance.createdTs}" pattern="MMM dd, yyyy hh:mm a"/></i></span>
 				</div>
 			</div>
@@ -70,16 +75,21 @@
 		</c:if>
 		<c:if test="${not (null==customInstance)}">
 		<c:forEach items="${customInstance.instances}" var="instance">
-			<button class="btn btn-info btn-block instance topic-row" id="instance_${instance.instanceId}">
+			<div class="btn btn-info btn-block instance topic-row" id="instance_${instance.instanceId}">
 			<div class="row">
 				<div class="col-sm-8 text-left">
 					<span class="h3">${instance.instanceName}</span>
 				</div>
-				<div class="col-sm-4 pull-right text-right">
-				<span class="h3"><i><fmt:formatDate value="${instance.updatedTs}" pattern="MMM dd, yyyy hh:mm a"/></i></span>
+				<div class="col-sm-4 text-right">
+					<span class="deleteInstance h2" id="deleteInstceId_${instance.instanceId}"><i class="glyphicon glyphicon-remove-sign"></i></span>
 				</div>
 			</div>
-			</button>
+			<div class="row">
+				<div class="col-sm-4 pull-left text-left">
+					<span class="h3"><i><fmt:formatDate value="${instance.createdTs}" pattern="MMM dd, yyyy hh:mm a"/></i></span>
+				</div>
+			</div>
+			</div>
 		</c:forEach>
 		</c:if>
 	</div>
@@ -87,9 +97,9 @@
 	<hr>
 	<div class="container-fluid text-left">
 		<div class="row">
-			<div class="col-sm-4 pull-right">
+			<div class="col-sm-4 pull-right text-right">
 				<form action="startTutorial.action"  method="post">
-					<input class="btn btn-block btn-primary button-wrapper" type="submit" name="Start Tutorial" value="Start Tutorial"/>
+					<input class="btn btn-primary button-wrapper start-tutorial" type="submit" name="Start Tutorial" value="Start Tutorial"/>
 				</form>
 			</div>
 		</div>

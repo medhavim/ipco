@@ -162,6 +162,13 @@
 										</div>
 									</div>
 								</div>
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="form-group input-group">
+											<input type="checkbox" name="checkbox" value="check" id="agree" /> I have read and agree to the Terms and Conditions and Privacy Policy
+										</div>
+									</div>
+								</div>
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-6 col-sm-offset-3">

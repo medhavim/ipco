@@ -60,8 +60,8 @@ public class InstanceTopic implements Serializable, Comparable<InstanceTopic> {
 		this.instanceModuleList = new ArrayList<InstanceModule>(this.instanceModules);
 		Collections.sort(this.instanceModuleList, AppConstants.INSTANCE_MODULE_COMPARATOR);
 		
-		for(InstanceModule instanceModule : this.instanceModules){
-			this.instanceModuleList = new ArrayList<InstanceModule>(this.instanceModules);
+		for(InstanceModule instanceModule : this.instanceModuleList){
+//			this.instanceModuleList = new ArrayList<InstanceModule>(this.instanceModules);
 			instanceModule.reorder();
 		}
 		
@@ -70,12 +70,14 @@ public class InstanceTopic implements Serializable, Comparable<InstanceTopic> {
 	public void prepareStack() {
 		nextModules.clear();
 		prevModules.clear();
-		nextModules.addAll(instanceModuleList);
+		List<InstanceModule> tempInstanceModuleList = new ArrayList<InstanceModule>(instanceModuleList);
+		Collections.sort(tempInstanceModuleList, AppConstants.INSTANCE_MODULE_COMPARATOR_REVERSE);
+		nextModules.addAll(tempInstanceModuleList);
 		if(!nextModules.isEmpty()){
-			InstanceModule lastModule = nextModules.lastElement();
+			InstanceModule lastModule = nextModules.firstElement();
 			currModule = nextModules.pop();
 			if(lastModule.getStatus().getStatusId() != AppConstants.STATUS_COMPLETE_ID){
-				while(!nextModules.empty()){
+				while(!nextModules.empty() && currModule.getStatus().getStatusId() != AppConstants.STATUS_INCOMPLETE_ID){
 					if(currModule.getStatus().getStatusId() == AppConstants.STATUS_COMPLETE_ID){
 						prevModules.push(currModule);
 					}
@@ -89,15 +91,15 @@ public class InstanceTopic implements Serializable, Comparable<InstanceTopic> {
 		
 		nextModules.clear();
 		prevModules.clear();
-		nextModules.addAll(instanceModuleList);
-		if(!nextModules.isEmpty()){
+		List<InstanceModule> tempInstanceModuleList = new ArrayList<InstanceModule>(instanceModuleList);
+		Collections.sort(tempInstanceModuleList, AppConstants.INSTANCE_MODULE_COMPARATOR_REVERSE);
+		nextModules.addAll(tempInstanceModuleList);
+		while(!nextModules.empty()){
 			currModule = nextModules.pop();
-			while(!nextModules.empty()){
-				if(currModule.getInstanceModuleId() == instanceModule.getInstanceModuleId()){
-					break;
-				}
-				prevModules.push(currModule);
+			if(currModule.getInstanceModuleId() == instanceModule.getInstanceModuleId()){
+				break;
 			}
+			prevModules.push(currModule);
 		}
 	}
 

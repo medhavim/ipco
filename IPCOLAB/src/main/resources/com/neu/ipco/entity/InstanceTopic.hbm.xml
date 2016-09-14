@@ -15,12 +15,12 @@
 		
 		<many-to-one name="status" class="Status" column="status_id" lazy="false" />
 
-		<many-to-one name="instance" class="Instance" column="instance_id" lazy="false" />
+		<many-to-one name="instance" class="Instance" column="instance_id" lazy="false" fetch="select" insert="false" update="false"/>
 
 		<property name="progress" column="progress"/>
 		
 		<set name="instanceModules" cascade="all" lazy="false">
-			<key column="instance_topic_id"/>
+			<key column="instance_topic_id" not-null="true"/>
 			<one-to-many class="InstanceModule"/>
 		</set>
 

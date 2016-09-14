@@ -16,18 +16,20 @@
 <%@include file="../css/userActivity.css" %>
 </style>
 <script type="text/javascript">
-<%@include file="../js/userTopic.js" %>
+<%@include file="../js/userActivity.js" %>
 </script>
 </head>
 <body>
 <jsp:include page="header.jsp"></jsp:include>
-<div class="jumbotron">
+<div class="jumbotron content">
 	<div class="nav-bar">
 		<div class="btn-group btn-group-justified" role="group" >
 			<c:forEach items="${instanceTopic.instanceModuleList}" var="instModule">
 			<div class="btn-group" role="group">
 		    	<button type="button" 
-		    	class="btn <c:if test="${instModule.status.statusId eq 1}">btn-default</c:if><c:if test="${instModule.status.statusId eq 2}">btn-info</c:if><c:if test="${instModule.status.statusId eq 3}">btn-success</c:if> <c:if test="${instModule.instanceModuleId eq instanceTopic.currModule.instanceModuleId}">current-complete-module</c:if>"
+		    	class="btn <c:if test="${instModule.status.statusId eq 1}">btn-default <c:if test="${instModule.instanceModuleId eq instanceTopic.currModule.instanceModuleId}">current-ongoing-module</c:if></c:if>
+		    	<c:if test="${instModule.status.statusId eq 2}">btn-info <c:if test="${instModule.instanceModuleId eq instanceTopic.currModule.instanceModuleId}">current-ongoing-module</c:if></c:if>
+		    	<c:if test="${instModule.status.statusId eq 3}">btn-success <c:if test="${instModule.instanceModuleId eq instanceTopic.currModule.instanceModuleId}">current-complete-module</c:if></c:if>"
 		    	<c:if test="${instModule.status.statusId eq 1}">disabled</c:if>>${instModule.module.moduleName}</button>
 		  	</div>
 			</c:forEach>
@@ -40,26 +42,27 @@
 				<c:forEach items="${instanceModule.activityAnswerList}" var="activityAnswer">
 				<div class="btn-group" role="group">
 			    	<button type="button" 
-	    			class="btn <c:if test="${instanceModule.status.statusId eq 2}">btn-info</c:if><c:if test="${instanceModule.status.statusId eq 3}">btn-success</c:if> <c:if test="${activityAnswer.activityAnswerId eq instanceModule.currActivity.activityAnswerId}">current-complete-module</c:if>"
+	    			class="btn <c:if test="${instanceModule.status.statusId eq 2}">btn-info <c:if test="${activityAnswer.activityAnswerId eq instanceModule.currActivity.activityAnswerId}">current-ongoing-module</c:if></c:if>
+	    			<c:if test="${instanceModule.status.statusId eq 3}">btn-success <c:if test="${activityAnswer.activityAnswerId eq instanceModule.currActivity.activityAnswerId}">current-complete-module</c:if></c:if>"
 			    	<c:if test="${activityAnswer.status.statusId eq 1}">disabled</c:if>>${activityAnswer.activityOption.activity.activityTitle}</button>
 			  	</div>
 				</c:forEach>
 			</div>
 		</div>
-		<div class="jumbotron">
-			<div class="container-fluid text-center">
-			<h2>${instanceModule.currActivity.activityOption.activity.activityText}</h2>
+		<div class="jumbotron tile gray title">
+			<div class="container-fluid text-left activity-content">
+			<h2 class="title">${instanceModule.currActivity.activityOption.activity.activityText}</h2>
 			</div>
-		</div>
-		<form action="saveActivity.action">
+		<form action="saveActivity.action" id="activityForm" method="post">
+		<input type="hidden" name="navType" id="navType"/>
 		<c:if test="${instanceModule.currActivity.activityOption.activity.activityTemplate.activityTemplateId eq 1}">
 		<div class="jumbotron">
-			<div class="container-fluid text-center">
+			<div class="container-fluid text-center activity-content">
 				<div class="row mcqOptions form-group">
 					<c:forEach items="${instanceModule.currActivity.answers}" var="answer">
 					<div class="col-sm-6  mcqOption " id="mcqOption_${answer.optionId}">
 					   	<span style="white-space: nowrap;"> 
-						   	<input type="checkbox" name="selectedAnswer" class="chkbx" id="checkBox_${answer.optionId}">
+						   	<input type="checkbox" name="selectedAnswer" class="chkbx" id="checkBox_${answer.optionId}" value="selectedAnswer_${answer.optionId}" ${answer.isCorrect=='true'?'checked':''}>
 							<label class="option-text h3">${answer.optionText}</label>
 						</span>
 					</div>
@@ -70,20 +73,19 @@
 		</c:if>
 		<c:if test="${instanceModule.currActivity.activityOption.activity.activityTemplate.activityTemplateId eq 2}">
 		<div class="jumbotron">
-			<div class="container-fluid text-center">
+			<div class="container-fluid text-center activity-content">
 				<div class="row form-group">
 					<div class="col-md-2">
 					</div>
+					<c:forEach items="${instanceModule.currActivity.answers}" var="answer">
 					<div class="col-md-4 form-group">
-						<label class="btn btn-block btn-default button-wrapper radio-inline optionRadioLabel">
-							<input style="display:none;" class="optionInput" type="radio" name="yesno-option" id="inlineRadio1" value="Yes"> Yes
+						<label class="btn btn-block ${answer.isCorrect=='true'?'btn-primary':'btn-default'} button-wrapper radio-inline optionRadioLabel">
+							<input style="display:none;" class="optionInput" 
+								type="radio" name="yesno-option" id="inlineRadio1" 
+								value="yesno_${answer.optionId}" ${answer.isCorrect=='true'?'checked':''}>${answer.optionText}
 						</label>
 					</div>
-					<div class="col-md-4 form-group">
-						<label class="btn btn-block btn-default button-wrapper radio-inline optionRadioLabel">
-							<input style="display:none;" class="optionInput" type="radio" name="yesno-option" id="inlineRadio2" value="No"> No
-						</label>
-					</div>
+					</c:forEach>
 					<div class="col-md-4">
 					</div>
 				</div>
@@ -92,7 +94,7 @@
 		</c:if>
 		<c:if test="${instanceModule.currActivity.activityOption.activity.activityTemplate.activityTemplateId eq 3}">
 		<div class="jumbotron">
-			<div cla ss="container-fluid text-center image-desc">
+			<div class="container-fluid text-center image-desc activity-content" >
 				<div class="row form-group">
 					<div class="col-sm-6">
 						<c:forEach items="${instanceModule.currActivity.activityOption.options}" var="option">
@@ -103,8 +105,8 @@
 					</div>
 					<div class="col-sm-6">
 						<div class="form-group image-options">
-							<textarea class="form-control" rows="5"
-								placeholder="Enter Answer Here." required></textarea>
+							<textarea class="form-control" rows="5" name="userAnswer"
+								placeholder="Enter Answer Here."><c:forEach items="${instanceModule.currActivity.answers}" var="answer" varStatus="answerNo"><c:if test="${answerNo==1}">${answer.optionText}</c:if></c:forEach></textarea>
 						</div>
 						<a class="btn btn-info pull-right" data-toggle="collapse"
 							data-target="#idealAnswer">Check</a>
@@ -123,7 +125,7 @@
 		</c:if>
 		<c:if test="${instanceModule.currActivity.activityOption.activity.activityTemplate.activityTemplateId eq 4}">
 		<div class="jumbotron">
-			<div class="container-fluid text-center image-mcq">
+			<div class="container-fluid text-center image-mcq activity-content">
 				<div class="row form-group">
 					<div class="col-sm-6">
 						<c:forEach items="${instanceModule.currActivity.activityOption.options}" var="option">
@@ -138,7 +140,7 @@
 							<c:if test="${option.orderNo ne 1}">
 							<div class="col-sm-6  mcqOption " id="mcqOption_${answer.optionId}">
 							   	<span style="white-space: nowrap;"> 
-								   	<input type="checkbox" name="selectedAnswer" class="chkbx" id="checkBox_${answer.optionId}">
+							   		<input type="checkbox" name="selectedAnswer" class="chkbx" id="checkBox_${answer.optionId}" value="selectedAnswer_${answer.optionId}" ${answer.isCorrect=='true'?'checked':''}>
 									<label class="option-text h3">${answer.optionText}</label>
 								</span>
 							</div>
@@ -152,7 +154,7 @@
 		</c:if>
 		<c:if test="${instanceModule.currActivity.activityOption.activity.activityTemplate.activityTemplateId eq 5}">
 		<div class="jumbotron">
-			<div class="container-fluid text-center image-mcq">
+			<div class="container-fluid text-center image-yesno activity-content">
 				<div class="row form-group">
 					<div class="col-sm-6">
 						<c:forEach items="${instanceModule.currActivity.activityOption.options}" var="option">
@@ -165,16 +167,14 @@
 						<div class="row form-group image-options">
 							<div class="col-md-2">
 							</div>
+							<c:forEach items="${instanceModule.currActivity.answers}" var="answer">
 							<div class="col-md-4 form-group">
-								<label class="btn btn-block btn-default button-wrapper radio-inline optionRadioLabel">
-									<input style="display:none;" class="optionInput" type="radio" name="yesno-option" id="inlineRadio1" value="Yes"> Yes
+								<label class="btn btn-block ${answer.isCorrect=='true'?'btn-primary':'btn-default'} button-wrapper radio-inline optionRadioLabel">
+									<input style="display:none;" class="optionInput" type="radio" 
+									name="yesno-option" id="inlineRadio1" value="yesno_${answer.optionId}" ${answer.isCorrect=='true'?'checked':''}>${answer.optionText}
 								</label>
 							</div>
-							<div class="col-md-4 form-group">
-								<label class="btn btn-block btn-default button-wrapper radio-inline optionRadioLabel">
-									<input style="display:none;" class="optionInput" type="radio" name="yesno-option" id="inlineRadio2" value="No"> No
-								</label>
-							</div>
+							</c:forEach>
 							<div class="col-md-2">
 							</div>
 						</div>
@@ -185,7 +185,7 @@
 		</c:if>
 		<c:if test="${instanceModule.currActivity.activityOption.activity.activityTemplate.activityTemplateId eq 6}">
 		<div class="jumbotron">
-			<div cla ss="container-fluid text-center video-desc">
+			<div cla ss="container-fluid text-center video-desc activity-content">
 				<div class="row form-group">
 					<div class="col-sm-6">
 						<c:forEach items="${instanceModule.currActivity.activityOption.options}" var="option">
@@ -200,8 +200,8 @@
 					</div>
 					<div class="col-sm-6">
 						<div class="form-group image-options">
-							<textarea class="form-control" rows="5"
-								placeholder="Enter Answer Here." required></textarea>
+							<textarea class="form-control" rows="5" name="userAnswer"
+								placeholder="Enter Answer Here." required><c:forEach items="${instanceModule.currActivity.answers}" var="answer" varStatus="answerNo"><c:if test="${answerNo==1}">${answer.optionText}</c:if></c:forEach></textarea>
 						</div>
 						<a class="btn btn-info pull-right" data-toggle="collapse"
 							data-target="#idealAnswer">Check</a>
@@ -220,7 +220,7 @@
 		</c:if>
 		<c:if test="${instanceModule.currActivity.activityOption.activity.activityTemplate.activityTemplateId eq 7}">
 		<div class="jumbotron">
-			<div class="container-fluid text-center video-mcq">
+			<div class="container-fluid text-center video-mcq activity-content">
 				<div class="row form-group">
 					<div class="col-sm-6">
 						<c:forEach items="${instanceModule.currActivity.activityOption.options}" var="option">
@@ -239,7 +239,7 @@
 							<c:if test="${option.orderNo ne 1}">
 							<div class="col-sm-6  mcqOption " id="mcqOption_${answer.optionId}">
 							   	<span style="white-space: nowrap;"> 
-								   	<input type="checkbox" name="selectedAnswer" class="chkbx" id="checkBox_${answer.optionId}">
+									<input type="checkbox" name="selectedAnswer" class="chkbx" id="checkBox_${answer.optionId}" value="selectedAnswer_${answer.optionId}" ${answer.isCorrect=='true'?'checked':''}>
 									<label class="option-text h3">${answer.optionText}</label>
 								</span>
 							</div>
@@ -253,7 +253,7 @@
 		</c:if>
 		<c:if test="${instanceModule.currActivity.activityOption.activity.activityTemplate.activityTemplateId eq 8}">
 		<div class="jumbotron">
-			<div class="container-fluid text-center video-yesno">
+			<div class="container-fluid text-center video-yesno activity-content">
 				<div class="row form-group">
 					<div class="col-sm-6">
 						<c:forEach items="${instanceModule.currActivity.activityOption.options}" var="option">
@@ -270,16 +270,14 @@
 						<div class="row form-group image-options">
 							<div class="col-md-2">
 							</div>
+							<c:forEach items="${instanceModule.currActivity.answers}" var="answer">
 							<div class="col-md-4 form-group">
-								<label class="btn btn-block btn-default button-wrapper radio-inline optionRadioLabel">
-									<input style="display:none;" class="optionInput" type="radio" name="yesno-option" id="inlineRadio1" value="Yes"> Yes
+								<label class="btn btn-block ${answer.isCorrect=='true'?'btn-primary':'btn-default'} button-wrapper radio-inline optionRadioLabel">
+									<input style="display:none;" class="optionInput" type="radio" 
+									name="yesno-option" id="inlineRadio1" value="yesno_${answer.optionId}" ${answer.isCorrect=='true'?'checked':''}>${answer.optionText}
 								</label>
 							</div>
-							<div class="col-md-4 form-group">
-								<label class="btn btn-block btn-default button-wrapper radio-inline optionRadioLabel">
-									<input style="display:none;" class="optionInput" type="radio" name="yesno-option" id="inlineRadio2" value="No"> No
-								</label>
-							</div>
+							</c:forEach>
 							<div class="col-md-2">
 							</div>
 						</div>
@@ -288,23 +286,63 @@
 			</div>
 		</div>
 		</c:if>
-		<div class="jumbotron">
+<!-- 		<div class="jumbotron"> -->
 			<div class="container-fluid text-center">
 				<div class="row">
-					<div class="col-sm-4">
-						<button class="btn btn-primary pull-left btn-prev">Prev</button>
+					<div class="col-sm-4 pull-left text-left">
+						<c:if test="${not empty instanceTopic.prevModules and empty instanceModule.prevActivity}">
+						<a class="btn btn-primary pull-left btn-nav" id="prev-module">Previous</a>
+						</c:if>
+						<c:if test="${not empty instanceModule.prevActivity}">
+						<a class="btn btn-primary pull-left btn-nav" id="prev-activity">Previous</a>
+						</c:if>
 					</div>
-					<div class="col-sm-4 col-sm-offset-4">
-						<button class="btn btn-primary pull-right btn-next">Next</button>
+					<div class="col-sm-4 pull-right text-right">
+						<c:if test="${not empty instanceTopic.nextModules and empty instanceModule.nextActivity}">
+						<a class="btn btn-primary pull-left" data-toggle="modal"
+							data-target="#nextModuleModal">Next</a>
+						</c:if>
+						<c:if test="${not empty instanceModule.nextActivity}">
+						<a class="btn btn-primary pull-left btn-nav" id="next-activity">Next</a>
+						</c:if>
+						<c:if test="${empty instanceTopic.nextModules and empty instanceModule.nextActivity}">
+						<a class="btn btn-primary pull-left btn-finished" >Finish</a>
+						</c:if>
 					</div>
 				</div>
 			</div>
-		</div>
+<!-- 		</div> -->
 		</form>
+	</div>
 	</div>
 </div>
 <form action="#" id="customForm" method="post">
 	<input type="hidden" name="id" id="id"/>
 </form>
+
+<div class="modal fade" id="nextModuleModal" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2 class="modal-title">Congratulations!!!</h2>
+			</div>
+			<div class="modal-body form-group">
+				<h2>You are about to complete this module.</h2>
+			</div>
+			<div class="modal-footer">
+			<div class="row">
+				<div class="col-sm-5 pull-right form-group">
+					<input type="button" class="btn btn-info btn-block btn-lg btn-nav" role="button"
+					value="Go back to the dashboard." id="go-to-dashboard" />
+				</div>
+				<div class="col-sm-5 pull-left form-group">
+					<input type="button" class="btn btn-success btn-block btn-lg btn-nav" role="button"
+					value="Continue to next Module." id="next-module" />
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
 </body>
 </html>
