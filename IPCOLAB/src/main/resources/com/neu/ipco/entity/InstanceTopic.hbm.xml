@@ -23,7 +23,7 @@
 			<key column="instance_topic_id" not-null="true"/>
 			<one-to-many class="InstanceModule"/>
 		</set>
-
+		
 		<many-to-one name="quiz" class="InstanceQuiz" column="instance_quiz_id" lazy="false" cascade="all"/>
 		
 		<property name="createdTs" type="timestamp" column="created_ts"/>

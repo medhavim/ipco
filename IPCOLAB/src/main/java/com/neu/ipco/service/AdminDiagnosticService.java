@@ -23,7 +23,7 @@ public interface AdminDiagnosticService {
 
 	DiagnosticCategory getDiagnosticCategoryById(int categoryId) throws AdminException;
 
-	void deleteCategory(DiagnosticCategory diagnosticCategory) throws AdminException;
+	void deleteCategory(int diagnosticCategoryId) throws AdminException;
 
 	void updateCategory(DiagnosticCategory diagnosticCategory) throws AdminException;
 
@@ -42,5 +42,9 @@ public interface AdminDiagnosticService {
 	RelatedDiagnostic getRelatedDiagnosticById(int relatedDiagnosticId) throws AdminException;
 
 	RelatedDiagnostic saveOrUpdateRelatedDiagnostic(RelatedDiagnostic relatedDiagnostic) throws AdminException;
+	
+	void deleteDiagnosticById(int diagnosticId) throws AdminException;
+	
+	void deleteDiagnosticFromRelatedDiagnostic(RelatedDiagnostic relatedDiagnostic, Integer diagnosticId) throws AdminException;
 
 }

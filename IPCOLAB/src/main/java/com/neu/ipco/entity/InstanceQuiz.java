@@ -4,12 +4,9 @@
 package com.neu.ipco.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
-import com.neu.ipco.constants.AppConstants;
 
 /**
  * @author Harsha
@@ -24,16 +21,19 @@ public class InstanceQuiz implements Serializable {
 	
 	private Integer instanceQuizId;
 	
-	private Set<ActivityAnswer> activityAnswers = new TreeSet<ActivityAnswer>(AppConstants.ACTIVITY_ANSWER_COMPARATOR);
+	private Quiz quiz;
 	
-	private int score;
+	private List<QuizAnswer> quizAnswers = new ArrayList<QuizAnswer>();
+	
+	private Status status;
+	
+	private int score = 0;
 	
 	private Date createdTs;
 	
 	private Date updatedTs;
 	
 	public InstanceQuiz() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -51,17 +51,45 @@ public class InstanceQuiz implements Serializable {
 	}
 
 	/**
-	 * @return the activityAnswers
+	 * @return the quiz
 	 */
-	public Set<ActivityAnswer> getActivityAnswers() {
-		return activityAnswers;
+	public Quiz getQuiz() {
+		return quiz;
 	}
 
 	/**
-	 * @param activityAnswers the activityAnswers to set
+	 * @param quiz the quiz to set
 	 */
-	public void setActivityAnswers(Set<ActivityAnswer> activityAnswers) {
-		this.activityAnswers = activityAnswers;
+	public void setQuiz(Quiz quiz) {
+		this.quiz = quiz;
+	}
+
+	/**
+	 * @return the quizAnswers
+	 */
+	public List<QuizAnswer> getQuizAnswers() {
+		return quizAnswers;
+	}
+
+	/**
+	 * @param quizAnswers the quizAnswers to set
+	 */
+	public void setQuizAnswers(List<QuizAnswer> quizAnswers) {
+		this.quizAnswers = quizAnswers;
+	}
+
+	/**
+	 * @return the status
+	 */
+	public Status getStatus() {
+		return status;
+	}
+
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	/**
@@ -113,9 +141,9 @@ public class InstanceQuiz implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((activityAnswers == null) ? 0 : activityAnswers.hashCode());
 		result = prime * result + ((createdTs == null) ? 0 : createdTs.hashCode());
-		result = prime * result + instanceQuizId;
+		result = prime * result + ((instanceQuizId == null) ? 0 : instanceQuizId.hashCode());
+		result = prime * result + ((quizAnswers == null) ? 0 : quizAnswers.hashCode());
 		result = prime * result + score;
 		result = prime * result + ((updatedTs == null) ? 0 : updatedTs.hashCode());
 		return result;
@@ -133,17 +161,20 @@ public class InstanceQuiz implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		InstanceQuiz other = (InstanceQuiz) obj;
-		if (activityAnswers == null) {
-			if (other.activityAnswers != null)
-				return false;
-		} else if (!activityAnswers.equals(other.activityAnswers))
-			return false;
 		if (createdTs == null) {
 			if (other.createdTs != null)
 				return false;
 		} else if (!createdTs.equals(other.createdTs))
 			return false;
-		if (instanceQuizId != other.instanceQuizId)
+		if (instanceQuizId == null) {
+			if (other.instanceQuizId != null)
+				return false;
+		} else if (!instanceQuizId.equals(other.instanceQuizId))
+			return false;
+		if (quizAnswers == null) {
+			if (other.quizAnswers != null)
+				return false;
+		} else if (!quizAnswers.equals(other.quizAnswers))
 			return false;
 		if (score != other.score)
 			return false;
@@ -160,8 +191,9 @@ public class InstanceQuiz implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "InstanceQuiz [instanceQuizId=" + instanceQuizId + ", activityAnswers=" + activityAnswers + ", score="
-				+ score + ", createdTs=" + createdTs + ", updatedTs=" + updatedTs + "]";
+		return "InstanceQuiz [instanceQuizId=" + instanceQuizId + ", quizAnswers=" + quizAnswers + ", score=" + score
+				+ ", createdTs=" + createdTs + ", updatedTs=" + updatedTs + "]";
 	}
+
 
 }

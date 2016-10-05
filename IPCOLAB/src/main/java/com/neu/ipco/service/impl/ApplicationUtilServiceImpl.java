@@ -5,6 +5,7 @@ package com.neu.ipco.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -20,16 +21,19 @@ import com.neu.ipco.entity.ActivityAnswer;
 import com.neu.ipco.entity.ActivityOption;
 import com.neu.ipco.entity.Instance;
 import com.neu.ipco.entity.InstanceModule;
+import com.neu.ipco.entity.InstanceQuiz;
 import com.neu.ipco.entity.InstanceTopic;
 import com.neu.ipco.entity.InstanceType;
 import com.neu.ipco.entity.Module;
 import com.neu.ipco.entity.Option;
+import com.neu.ipco.entity.Quiz;
+import com.neu.ipco.entity.QuizAnswer;
+import com.neu.ipco.entity.QuizOption;
 import com.neu.ipco.entity.Status;
 import com.neu.ipco.entity.Topic;
 import com.neu.ipco.entity.UserRole;
 import com.neu.ipco.entity.UserType;
 import com.neu.ipco.exception.ApplicationUtilException;
-import com.neu.ipco.exception.UserException;
 import com.neu.ipco.service.ApplicationUtilService;
 
 /**
@@ -177,6 +181,53 @@ public class ApplicationUtilServiceImpl implements ApplicationUtilService {
 			e.printStackTrace();
 			throw new ApplicationUtilException(e);
 		}
+	}
+
+	public void updateNewQuizToInstanceTopics(Quiz quiz, Integer topicId) throws ApplicationUtilException {
+		
+		List<InstanceTopic> instanceTopics = applicationUtilDao.getInstanceTopicByTopicId(topicId);
+		try {
+			for(InstanceTopic instanceTopic : instanceTopics){
+				if(null == instanceTopic.getQuiz()){
+					InstanceQuiz instanceQuiz = new InstanceQuiz();
+					instanceQuiz.setCreatedTs(new Date());
+					instanceQuiz.setQuiz(quiz);
+					Status status = userDao.getStatusByDesc(AppConstants.STATUS_NOT_STARTED);
+					instanceQuiz.setStatus(status);
+					instanceTopic.setQuiz(instanceQuiz);
+					userDao.saveOrUpdateInstanceTopic(instanceTopic);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ApplicationUtilException(e);
+		}
+	}
+
+	public void updateNewQuizOptionToInstanceQuiz(QuizOption quizOption, int quizId) throws ApplicationUtilException {
+		
+		List<InstanceQuiz> instanceQuizes = applicationUtilDao.getInstanceQuizesByQuizId(quizId);
+		try {
+			for(InstanceQuiz instanceQuiz : instanceQuizes){
+				QuizAnswer quizAnswer = new QuizAnswer();
+				quizAnswer.setQuizOption(quizOption);
+				quizAnswer.setCreatedTs(new Date());
+				Status status = userDao.getStatusByDesc(AppConstants.STATUS_NOT_STARTED);
+				quizAnswer.setStatus(status);
+				Set<Option> correctAnswers = new HashSet<Option>(quizOption.getCorrectAnswers());
+				Set<Option> userAnswers = new HashSet<Option>();
+				populateAnswers(correctAnswers, userAnswers);
+				quizAnswer.setUserAnswers(new ArrayList<Option>(userAnswers));
+
+				quizAnswer = userDao.saveQuizAnswer(quizAnswer);
+				instanceQuiz.getQuizAnswers().add(quizAnswer);
+				userDao.saveOrUpdateInstanceQuiz(instanceQuiz);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ApplicationUtilException(e);
+		}
+		
 	}
 
 }

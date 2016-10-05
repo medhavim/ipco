@@ -32,7 +32,6 @@ public class RelatedDiagnostic implements Serializable {
 	private Date updatedTs;
 	
 	public RelatedDiagnostic() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

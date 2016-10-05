@@ -6,16 +6,15 @@ package com.neu.ipco.dao;
 import java.util.List;
 import java.util.Set;
 
-import com.neu.ipco.entity.Activity;
 import com.neu.ipco.entity.ActivityOption;
-import com.neu.ipco.entity.ActivityTemplate;
 import com.neu.ipco.entity.Diagnostic;
 import com.neu.ipco.entity.DiagnosticCategory;
+import com.neu.ipco.entity.InstanceTopic;
 import com.neu.ipco.entity.Module;
 import com.neu.ipco.entity.Option;
+import com.neu.ipco.entity.Quiz;
 import com.neu.ipco.entity.RelatedDiagnostic;
 import com.neu.ipco.entity.Topic;
-import com.neu.ipco.entity.TopicType;
 import com.neu.ipco.exception.AdminException;
 
 /**
@@ -95,5 +94,19 @@ public interface AdminDao {
 	public RelatedDiagnostic saveOrUpdateRelatedDiagnostic(RelatedDiagnostic relatedDiagnostic) throws AdminException;
 
 	public void saveOrUpdateTopic(Topic topic) throws AdminException;
+
+	public void saveQuiz(Quiz quiz) throws AdminException;
+
+	public Quiz getQuizById(int quizId) throws AdminException;
+
+	public void saveOrUpdateQuiz(Quiz quiz) throws AdminException;
+
+	public void deleteDiagnostic(Diagnostic diagnostic) throws AdminException;
+
+	public void deleteRelatedDiagnostic(RelatedDiagnostic relatedDiagnostic) throws AdminException;
+
+	public void deleteRelatedDiagnostics(Set<RelatedDiagnostic> relatedDiagnostics) throws AdminException;
+	
+	public void deleteInstanceTopic(InstanceTopic instanceTopic) throws AdminException;
 
 }

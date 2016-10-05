@@ -23,7 +23,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.neu.ipco.constants.AppConstants;
 import com.neu.ipco.entity.ActivityAnswer;
@@ -32,9 +31,11 @@ import com.neu.ipco.entity.CustomizeInstanceUser;
 import com.neu.ipco.entity.Diagnostic;
 import com.neu.ipco.entity.Instance;
 import com.neu.ipco.entity.InstanceModule;
+import com.neu.ipco.entity.InstanceQuiz;
 import com.neu.ipco.entity.InstanceTopic;
 import com.neu.ipco.entity.InstanceType;
 import com.neu.ipco.entity.Option;
+import com.neu.ipco.entity.QuizAnswer;
 import com.neu.ipco.entity.RelatedDiagnostic;
 import com.neu.ipco.entity.Status;
 import com.neu.ipco.entity.Topic;
@@ -136,6 +137,31 @@ public class UserController {
 		return AppConstants.USER_ACTIVITY;
 	}
 	
+	@RequestMapping(value="/gotoUserQuiz.action", method=RequestMethod.POST)
+	public String gotoUserQuizAction(@RequestParam("id") int instanceQuizId, Model model, HttpSession session){
+		
+		LOGGER.debug("UserController: gotoUserQuizAction: Start");
+		
+		try {
+			InstanceQuiz quiz = userService.getInstanceQuizById(instanceQuizId);
+			Status statusIncomplete = applicationUtilService.getStatusById(AppConstants.STATUS_INCOMPLETE_ID);
+			QuizAnswer currentQuizAnswer = userService.getFirstQuizAnswer(quiz);
+			currentQuizAnswer.setStatus(statusIncomplete);
+			
+			session.setAttribute("quiz", quiz);
+			session.setAttribute("currentQuizAnswer", currentQuizAnswer);
+		} catch (UserException e) {
+			e.printStackTrace();
+			return AppConstants.ERROR_PAGE;
+		} catch (ApplicationUtilException e) {
+			e.printStackTrace();
+			return AppConstants.ERROR_PAGE;
+		}
+		
+		LOGGER.debug("UserController: gotoUserQuizAction: End");
+		return AppConstants.USER_QUIZ;
+	}
+	
 	@RequestMapping(value="/saveActivity.action", method=RequestMethod.POST)
 	public String saveActivityAction(@RequestParam("navType") String navType, HttpServletRequest request, Model model, HttpSession session){
 		
@@ -144,10 +170,18 @@ public class UserController {
 		try {
 
 //			Getting the instanceModule and instanceTopic from the session.
-			InstanceModule instanceModule = (InstanceModule) session.getAttribute("instanceModule");
-			InstanceTopic instanceTopic = (InstanceTopic) session.getAttribute("instanceTopic");
+			InstanceModule instanceModule = (InstanceModule) session.getAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_MODULE);
+			InstanceTopic instanceTopic = (InstanceTopic) session.getAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_TOPIC);
 			Status statusIncomplete = applicationUtilService.getStatusById(AppConstants.STATUS_INCOMPLETE_ID);
 			Status statusComplete = applicationUtilService.getStatusById(AppConstants.STATUS_COMPLETE_ID);
+			ActivityAnswer currActivity = instanceModule.getCurrActivity();
+			
+			instanceModule = userService.geInstanceModuleById(instanceModule.getInstanceModuleId());
+			instanceModule.reorder();
+			instanceModule.prepareStack(currActivity);
+			instanceTopic = userService.getInstanceTopicById(instanceTopic.getInstanceTopicId());
+			instanceTopic.reorder();
+			instanceTopic.prepareStack(instanceModule);
 			
 //			If this is the very first activity attempted from the topic then change the status of the topic from 
 //			NOT_STARTED to INCOMPLETE
@@ -156,7 +190,6 @@ public class UserController {
 			}
 			
 //			Update the current activityAnswer object with user responses from the user and change the status to COMPLETED and also update the same with database.
-			ActivityAnswer currActivity = instanceModule.getCurrActivity();
 			int activityTemplateId = currActivity.getActivityOption().getActivity().getActivityTemplate().getActivityTemplateId();
 			currActivity.setUpdatedTs(new Date());
 			if(activityTemplateId != AppConstants.TEMPLATE_INFO){
@@ -166,9 +199,10 @@ public class UserController {
 				}
 			}
 			
-			if(navType.equalsIgnoreCase("next-module") 
-					|| navType.equalsIgnoreCase("go-to-dashboard")
-					|| navType.equalsIgnoreCase("next-activity")){
+			if(navType.equalsIgnoreCase(AppConstants.NAV_TYPE_NEXT_MODULE) 
+					|| navType.equalsIgnoreCase(AppConstants.NAV_TYPE_TAKE_QUIZ)
+					|| navType.equalsIgnoreCase(AppConstants.NAV_TYPE_GOTO_DASHBOARD)
+					|| navType.equalsIgnoreCase(AppConstants.NAV_TYPE_NEXT_ACTIVITY)){
 				if(currActivity.getStatus().getStatusId() != AppConstants.STATUS_COMPLETE_ID){
 					statusComplete.setCreatedTs(new Date());
 					currActivity.setStatus(statusComplete);
@@ -234,6 +268,16 @@ public class UserController {
 				
 			}
 			session.setAttribute("instanceTopic", instanceTopic);
+			if(navType.equalsIgnoreCase("take-quiz")){
+				InstanceQuiz quiz = instanceTopic.getQuiz();
+//				QuizAnswer currentQuizAnswer = userService.getFirstQuizAnswer(quiz);
+//				currentQuizAnswer.setStatus(statusIncomplete);
+//				
+//				session.setAttribute("quiz", quiz);
+//				session.setAttribute("currentQuizAnswer", currentQuizAnswer);
+//				return AppConstants.USER_QUIZ;
+				return gotoUserQuizAction(quiz.getInstanceQuizId(), model, session);
+			}
 		} catch (ApplicationUtilException e) {
 			e.printStackTrace();
 			return AppConstants.ERROR_PAGE;
@@ -242,20 +286,108 @@ public class UserController {
 			return AppConstants.ERROR_PAGE;
 		}
 		
-//		If the user wishes to go to the dashboard after finishing a module, here's the logic		
-		if(navType.equalsIgnoreCase("go-to-dashboard")){
+		String nextPage = nextNavigationQuizPage(navType, session);
+		if(null == nextPage){
+			nextPage = AppConstants.USER_ACTIVITY;
+		}
+		LOGGER.debug("UserController: saveActivityAction: End");
+		return nextPage;
+	}
+
+	@RequestMapping(value="/saveQuiz.action", method=RequestMethod.POST)
+	public String saveQuizAction(@RequestParam("navType") String navType, HttpServletRequest request, Model model, HttpSession session){
+		
+		LOGGER.debug("UserController: saveQuizAction: Start");
+		
+		try {
+
+			InstanceQuiz instanceQuiz = (InstanceQuiz) session.getAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_QUIZ);
+			QuizAnswer currentQuizAnswer = (QuizAnswer) session.getAttribute(AppConstants.SESSION_ATTRIBUTE_CURRENT_QUIZ_ANSWER);
+			Status statusIncomplete = applicationUtilService.getStatusById(AppConstants.STATUS_INCOMPLETE_ID);
+			Status statusComplete = applicationUtilService.getStatusById(AppConstants.STATUS_COMPLETE_ID);
+			int activityTemplateId = currentQuizAnswer.getQuizOption().getActivity().getActivityTemplate().getActivityTemplateId();
 			
-			Instance instance = (Instance) session.getAttribute("instance");
+			updateUserAnswersToCurrentQuizAnswer(request, activityTemplateId, currentQuizAnswer);
+			
+			updateCurrentQuizStatus(currentQuizAnswer, navType, statusComplete);
+			updateInstanceQuizStatus(instanceQuiz, navType, statusIncomplete, statusComplete);
+			
+			userService.updateQuizScore(instanceQuiz, currentQuizAnswer);
+			userService.saveOrUpdateInstanceQuiz(instanceQuiz);
+			
+			QuizAnswer nextQuizAnswer = userService.getNextCurrentQuizAnswer(currentQuizAnswer.getQuizOption().getOrderNo(), navType);
+			nextQuizAnswer.setStatus(statusIncomplete);
+			userService.saveOrUpdateQuizAnswer(nextQuizAnswer);
+			session.setAttribute("currentQuizAnswer", nextQuizAnswer);
+			userService.saveOrUpdateQuizAnswer(currentQuizAnswer);
+			
+			instanceQuiz = userService.getInstanceQuizById(instanceQuiz.getInstanceQuizId());
+			session.setAttribute("instanceQuiz", instanceQuiz);
+			
+		} catch (ApplicationUtilException e) {
+			e.printStackTrace();
+			return AppConstants.ERROR_PAGE;
+		} catch (UserException e) {
+			e.printStackTrace();
+			return AppConstants.ERROR_PAGE;
+		}
+		LOGGER.debug("UserController: saveQuizAction: End");
+		String nextPage = nextNavigationQuizPage(navType, session);
+		if(null == nextPage){
+			nextPage = AppConstants.USER_QUIZ;
+		}
+		return nextPage;
+	}
+	
+	private void updateInstanceQuizStatus(InstanceQuiz instanceQuiz, String navType, Status statusIncomplete, Status statusComplete) {
+		
+		if(instanceQuiz.getStatus().getStatusId() == AppConstants.STATUS_NOT_STARTED_ID){
+			instanceQuiz.setStatus(statusIncomplete);
+		}
+		if(navType.equalsIgnoreCase(AppConstants.NAV_TYPE_QUIZ_FINISH)){
+			instanceQuiz.setStatus(statusComplete);
+		}
+	}
+
+	private String nextNavigationQuizPage(String navType, HttpSession session) {
+		
+		if(navType.equalsIgnoreCase(AppConstants.NAV_TYPE_QUIZ_FINISH)
+				|| navType.equalsIgnoreCase(AppConstants.NAV_TYPE_GOTO_DASHBOARD)){
+			
+			Instance instance = (Instance) session.getAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE);
 			if(null != instance){
-				
+				session.removeAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_MODULE);
+				session.removeAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_TOPIC);
+				session.removeAttribute(AppConstants.SESSION_ATTRIBUTE_CURRENT_QUIZ_ANSWER);
+				session.removeAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_QUIZ);
 				return loadInstance(session, instance.getInstanceId());
 			}else {
 				return AppConstants.ERROR_PAGE;
 			}
 			
 		}
-		LOGGER.debug("UserController: saveActivityAction: End");
-		return AppConstants.USER_ACTIVITY;
+		return null;
+	}
+
+	private void updateCurrentQuizStatus(QuizAnswer currentQuizAnswer, String navType, Status statusComplete) {
+		
+		if(navType.equalsIgnoreCase("next-quiz") 
+				|| navType.equalsIgnoreCase("quiz-finish")){
+			if(currentQuizAnswer.getStatus().getStatusId() != AppConstants.STATUS_COMPLETE_ID){
+				statusComplete.setCreatedTs(new Date());
+				currentQuizAnswer.setStatus(statusComplete);
+			}
+		}
+	}
+
+	private void updateUserAnswersToCurrentQuizAnswer(HttpServletRequest request, int activityTemplateId,
+			QuizAnswer currentQuizAnswer) throws UserException {
+		if(activityTemplateId != AppConstants.TEMPLATE_INFO){
+			Set<Option> userAnswers = updateAnswers(request, activityTemplateId, new HashSet<Option>(currentQuizAnswer.getUserAnswers()));
+			if(!userAnswers.isEmpty()){
+				currentQuizAnswer.setUserAnswers(new ArrayList<Option>(userAnswers));
+			}
+		}
 	}
 
 	/**
@@ -307,6 +439,9 @@ public class UserController {
 			for(Option o : userOptions){
 				if(selectedAnswers.contains("selectedAnswer_"+o.getOptionId())){
 					o.setIsCorrect(AppConstants.TRUE);
+					o.setUpdatedTs(new Date());
+				}else{
+					o.setIsCorrect(AppConstants.FALSE);
 					o.setUpdatedTs(new Date());
 				}
 				userAnswers.add(o);
@@ -467,7 +602,7 @@ public class UserController {
 		}
 	}
 
-	@RequestMapping(value="/loadInstance.action", method=RequestMethod.POST)
+	@RequestMapping(value="/loadInstance.action")
 	public String loadInstanceAction(@RequestParam("id") int instanceId, Model model, HttpSession session){
 		
 		LOGGER.debug("UserController: loadInstanceAction: Start");

@@ -5,7 +5,6 @@ package com.neu.ipco.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 

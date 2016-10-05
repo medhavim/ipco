@@ -40,6 +40,8 @@
 		<mapping resource="com/neu/ipco/entity/InstanceType.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/Module.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/Quiz.hbm.xml" />
+		<mapping resource="com/neu/ipco/entity/QuizOption.hbm.xml" />
+		<mapping resource="com/neu/ipco/entity/QuizAnswer.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/RelatedDiagnostic.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/Status.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/Topic.hbm.xml" />

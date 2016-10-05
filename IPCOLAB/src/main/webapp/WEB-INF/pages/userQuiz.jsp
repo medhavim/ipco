@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page isELIgnored="false"%>
 <!DOCTYPE html>
 <html>
@@ -23,49 +24,49 @@
 <jsp:include page="header.jsp"></jsp:include>
 <div class="jumbotron title">
 	<ol class="breadcrumb">
-		<li class="breadcrumb-item"><a href="#">Topic</a></li>
+		<li class="breadcrumb-item"><a href="loadInstance.action?id=${instance.instanceId}">Topic</a></li>
 	  	<li class="breadcrumb-item active"><span class="h3">Activity</span></li>
 	</ol>
 </div>
 <div class="jumbotron content">
-	<div class="nav-bar">
-		<div class="btn-group btn-group-justified" role="group" >
-			<c:forEach items="${instanceTopic.instanceModuleList}" var="instModule">
-			<div class="btn-group" role="group">
-		    	<button type="button" 
-		    	class="btn <c:if test="${instModule.status.statusId eq 1}">btn-default <c:if test="${instModule.instanceModuleId eq instanceTopic.currModule.instanceModuleId}">current-ongoing-module</c:if></c:if>
-		    	<c:if test="${instModule.status.statusId eq 2}">btn-info <c:if test="${instModule.instanceModuleId eq instanceTopic.currModule.instanceModuleId}">current-ongoing-module</c:if></c:if>
-		    	<c:if test="${instModule.status.statusId eq 3}">btn-success <c:if test="${instModule.instanceModuleId eq instanceTopic.currModule.instanceModuleId}">current-complete-module</c:if></c:if>"
-		    	<c:if test="${instModule.status.statusId eq 1}">disabled</c:if>>${instModule.module.moduleName}</button>
-		  	</div>
-			</c:forEach>
-		</div>
-	</div>
+<!-- 	<div class="nav-bar"> -->
+<!-- 		<div class="btn-group btn-group-justified" role="group" > -->
+<%-- 			<c:forEach items="${instanceTopic.instanceModuleList}" var="instModule"> --%>
+<!-- 			<div class="btn-group" role="group"> -->
+<!-- 		    	<button type="button"  -->
+<%-- 		    	class="btn <c:if test="${instModule.status.statusId eq 1}">btn-default <c:if test="${instModule.instanceModuleId eq instanceTopic.currModule.instanceModuleId}">current-ongoing-module</c:if></c:if> --%>
+<%-- 		    	<c:if test="${instModule.status.statusId eq 2}">btn-info <c:if test="${instModule.instanceModuleId eq instanceTopic.currModule.instanceModuleId}">current-ongoing-module</c:if></c:if> --%>
+<%-- 		    	<c:if test="${instModule.status.statusId eq 3}">btn-success <c:if test="${instModule.instanceModuleId eq instanceTopic.currModule.instanceModuleId}">current-complete-module</c:if></c:if>" --%>
+<%-- 		    	<c:if test="${instModule.status.statusId eq 1}">disabled</c:if>>${instModule.module.moduleName}</button> --%>
+<!-- 		  	</div> -->
+<%-- 			</c:forEach> --%>
+<!-- 		</div> -->
+<!-- 	</div> -->
 	<div class="clear"></div>
 	<div class="jumbotron">
 		<div class="nav-bar">
 			<div class="btn-group btn-group-justified" role="group" >
-				<c:forEach items="${instanceModule.activityAnswerList}" var="activityAnswer">
+				<c:forEach items="${quiz.quizAnswers}" var="quizAnswer">
 				<div class="btn-group" role="group">
 			    	<button type="button" 
-	    			class="btn <c:if test="${instanceModule.status.statusId eq 2}">btn-info <c:if test="${activityAnswer.activityAnswerId eq instanceModule.currActivity.activityAnswerId}">current-ongoing-module</c:if></c:if>
-	    			<c:if test="${instanceModule.status.statusId eq 3}">btn-success <c:if test="${activityAnswer.activityAnswerId eq instanceModule.currActivity.activityAnswerId}">current-complete-module</c:if></c:if>"
-			    	<c:if test="${activityAnswer.status.statusId eq 1}">disabled</c:if>>${activityAnswer.activityOption.activity.activityTitle}</button>
+	    			class="btn <c:if test="${quizAnswer.status.statusId eq 2}">btn-info <c:if test="${quizAnswer.quizAnswerId eq currentQuizAnswer.quizAnswerId}">current-ongoing-module</c:if></c:if>
+	    			<c:if test="${quizAnswer.status.statusId eq 3}">btn-success <c:if test="${quizAnswer.quizAnswerId eq currentQuizAnswer.quizAnswerId}">current-complete-module</c:if></c:if>"
+			    	<c:if test="${quizAnswer.status.statusId eq 1}">disabled</c:if>>${quizAnswer.quizOption.activity.activityTitle}</button>
 			  	</div>
 				</c:forEach>
 			</div>
 		</div>
 		<div class="jumbotron tile gray title">
 			<div class="container-fluid text-left activity-content">
-			<h2 class="title">${instanceModule.currActivity.activityOption.activity.activityText}</h2>
+			<h2 class="title">${currentQuizAnswer.quizOption.activity.activityText}</h2>
 			</div>
-		<form action="saveActivity.action" id="activityForm" method="post">
+		<form action="saveQuiz.action" id="activityForm" method="post">
 		<input type="hidden" name="navType" id="navType"/>
-		<c:if test="${instanceModule.currActivity.activityOption.activity.activityTemplate.activityTemplateId eq 1}">
+		<c:if test="${currentQuizAnswer.quizOption.activity.activityTemplate.activityTemplateId eq 1}">
 		<div class="jumbotron">
 			<div class="container-fluid text-center activity-content">
 				<div class="row mcqOptions form-group">
-					<c:forEach items="${instanceModule.currActivity.answers}" var="answer">
+					<c:forEach items="${currentQuizAnswer.userAnswers}" var="answer">
 					<div class="col-sm-6  mcqOption " id="mcqOption_${answer.optionId}">
 					   	<span style="white-space: nowrap;"> 
 						   	<input type="checkbox" name="selectedAnswer" class="chkbx" id="checkBox_${answer.optionId}" value="selectedAnswer_${answer.optionId}" ${answer.isCorrect=='true'?'checked':''}>
@@ -77,13 +78,13 @@
 			</div>
 		</div>
 		</c:if>
-		<c:if test="${instanceModule.currActivity.activityOption.activity.activityTemplate.activityTemplateId eq 2}">
+		<c:if test="${currentQuizAnswer.quizOption.activity.activityTemplate.activityTemplateId eq 2}">
 		<div class="jumbotron">
 			<div class="container-fluid text-center activity-content">
 				<div class="row form-group">
 					<div class="col-md-2">
 					</div>
-					<c:forEach items="${instanceModule.currActivity.answers}" var="answer">
+					<c:forEach items="${currentQuizAnswer.userAnswers}" var="answer">
 					<div class="col-md-4 form-group">
 						<label class="btn btn-block ${answer.isCorrect=='true'?'btn-primary':'btn-default'} button-wrapper radio-inline optionRadioLabel">
 							<input style="display:none;" class="optionInput" 
@@ -98,12 +99,12 @@
 			</div>
 		</div>
 		</c:if>
-		<c:if test="${instanceModule.currActivity.activityOption.activity.activityTemplate.activityTemplateId eq 3}">
+		<c:if test="${currentQuizAnswer.quizOption.activity.activityTemplate.activityTemplateId eq 3}">
 		<div class="jumbotron">
 			<div class="container-fluid text-center image-desc activity-content" >
 				<div class="row form-group">
 					<div class="col-sm-6">
-						<c:forEach items="${instanceModule.currActivity.activityOption.options}" var="option">
+						<c:forEach items="${currentQuizAnswer.quizOption.correctAnswers}" var="option">
 						<c:if test="${option.orderNo eq 1}">
 						<img src="${option.optionText}" style="width:100%; height:100%;">
 						</c:if>
@@ -112,13 +113,13 @@
 					<div class="col-sm-6">
 						<div class="form-group image-options">
 							<textarea class="form-control" rows="5" name="userAnswer"
-								placeholder="Enter Answer Here."><c:forEach items="${instanceModule.currActivity.answers}" var="answer" varStatus="answerNo"><c:if test="${answerNo==1}">${answer.optionText}</c:if></c:forEach></textarea>
+								placeholder="Enter Answer Here."><c:forEach items="${currentQuizAnswer.userAnswers}" var="answer" varStatus="answerNo"><c:if test="${answerNo==1}">${answer.optionText}</c:if></c:forEach></textarea>
 						</div>
 						<a class="btn btn-info pull-right" data-toggle="collapse"
 							data-target="#idealAnswer">Check</a>
 						<div class="clear"></div>
 						<div id="idealAnswer" class="collapse pull-left">
-							<c:forEach items="${instanceModule.currActivity.activityOption.options}" var="option">
+							<c:forEach items="${currentQuizAnswer.quizOption.correctAnswers}" var="option">
 							<c:if test="${option.orderNo eq 2}">
 							<label class="option-text h3">${option.optionText}</label>
 							</c:if>
@@ -129,12 +130,12 @@
 			</div>
 		</div>
 		</c:if>
-		<c:if test="${instanceModule.currActivity.activityOption.activity.activityTemplate.activityTemplateId eq 4}">
+		<c:if test="${currentQuizAnswer.quizOption.activity.activityTemplate.activityTemplateId eq 4}">
 		<div class="jumbotron">
 			<div class="container-fluid text-center image-mcq activity-content">
 				<div class="row form-group">
 					<div class="col-sm-6">
-						<c:forEach items="${instanceModule.currActivity.activityOption.options}" var="option">
+						<c:forEach items="${currentQuizAnswer.quizOption.correctAnswers}" var="option">
 						<c:if test="${option.orderNo eq 1}">
 						<img src="${option.optionText}" style="width:100%; height:100%;">
 						</c:if>
@@ -142,7 +143,7 @@
 					</div>
 					<div class="col-sm-6">
 						<div class="row mcqOptions form-group image-options">
-							<c:forEach items="${instanceModule.currActivity.activityOption.options}" var="option">
+							<c:forEach items="${currentQuizAnswer.quizOption.correctAnswers}" var="option">
 							<c:if test="${option.orderNo ne 1}">
 							<div class="col-sm-6  mcqOption " id="mcqOption_${answer.optionId}">
 							   	<span style="white-space: nowrap;"> 
@@ -158,12 +159,12 @@
 			</div>
 		</div>
 		</c:if>
-		<c:if test="${instanceModule.currActivity.activityOption.activity.activityTemplate.activityTemplateId eq 5}">
+		<c:if test="${currentQuizAnswer.quizOption.activity.activityTemplate.activityTemplateId eq 5}">
 		<div class="jumbotron">
 			<div class="container-fluid text-center image-yesno activity-content">
 				<div class="row form-group">
 					<div class="col-sm-6">
-						<c:forEach items="${instanceModule.currActivity.activityOption.options}" var="option">
+						<c:forEach items="${currentQuizAnswer.quizOption.correctAnswers}" var="option">
 						<c:if test="${option.orderNo eq 1}">
 						<img src="${option.optionText}" style="width:100%; height:100%;">
 						</c:if>
@@ -173,7 +174,7 @@
 						<div class="row form-group image-options">
 							<div class="col-md-2">
 							</div>
-							<c:forEach items="${instanceModule.currActivity.answers}" var="answer">
+							<c:forEach items="${currentQuizAnswer.userAnswers}" var="answer">
 							<div class="col-md-4 form-group">
 								<label class="btn btn-block ${answer.isCorrect=='true'?'btn-primary':'btn-default'} button-wrapper radio-inline optionRadioLabel">
 									<input style="display:none;" class="optionInput" type="radio" 
@@ -189,12 +190,12 @@
 			</div>
 		</div>
 		</c:if>
-		<c:if test="${instanceModule.currActivity.activityOption.activity.activityTemplate.activityTemplateId eq 6}">
+		<c:if test="${currentQuizAnswer.quizOption.activity.activityTemplate.activityTemplateId eq 6}">
 		<div class="jumbotron">
 			<div cla ss="container-fluid text-center video-desc activity-content">
 				<div class="row form-group">
 					<div class="col-sm-6">
-						<c:forEach items="${instanceModule.currActivity.activityOption.options}" var="option">
+						<c:forEach items="${currentQuizAnswer.quizOption.correctAnswers}" var="option">
 						<c:if test="${option.orderNo eq 1}">
 						<video width="600" controls>
 							<source src="${option.optionText}" type="video/mp4">
@@ -207,13 +208,13 @@
 					<div class="col-sm-6">
 						<div class="form-group image-options">
 							<textarea class="form-control" rows="5" name="userAnswer"
-								placeholder="Enter Answer Here." required><c:forEach items="${instanceModule.currActivity.answers}" var="answer" varStatus="answerNo"><c:if test="${answerNo==1}">${answer.optionText}</c:if></c:forEach></textarea>
+								placeholder="Enter Answer Here." required><c:forEach items="${currentQuizAnswer.userAnswers}" var="answer" varStatus="answerNo"><c:if test="${answerNo==1}">${answer.optionText}</c:if></c:forEach></textarea>
 						</div>
 						<a class="btn btn-info pull-right" data-toggle="collapse"
 							data-target="#idealAnswer">Check</a>
 						<div class="clear"></div>
 						<div id="idealAnswer" class="collapse pull-left">
-							<c:forEach items="${instanceModule.currActivity.activityOption.options}" var="option">
+							<c:forEach items="${currentQuizAnswer.quizOption.correctAnswers}" var="option">
 							<c:if test="${option.orderNo eq 2}">
 							<label class="option-text h3">${option.optionText}</label>
 							</c:if>
@@ -224,12 +225,12 @@
 			</div>
 		</div>
 		</c:if>
-		<c:if test="${instanceModule.currActivity.activityOption.activity.activityTemplate.activityTemplateId eq 7}">
+		<c:if test="${currentQuizAnswer.quizOption.activity.activityTemplate.activityTemplateId eq 7}">
 		<div class="jumbotron">
 			<div class="container-fluid text-center video-mcq activity-content">
 				<div class="row form-group">
 					<div class="col-sm-6">
-						<c:forEach items="${instanceModule.currActivity.activityOption.options}" var="option">
+						<c:forEach items="${currentQuizAnswer.quizOption.correctAnswers}" var="option">
 						<c:if test="${option.orderNo eq 1}">
 						<video width="600" controls>
 							<source src="${option.optionText}" type="video/mp4">
@@ -241,7 +242,7 @@
 					</div>
 					<div class="col-sm-6">
 						<div class="row mcqOptions form-group image-options">
-							<c:forEach items="${instanceModule.currActivity.activityOption.options}" var="option">
+							<c:forEach items="${currentQuizAnswer.quizOption.correctAnswers}" var="option">
 							<c:if test="${option.orderNo ne 1}">
 							<div class="col-sm-6  mcqOption " id="mcqOption_${answer.optionId}">
 							   	<span style="white-space: nowrap;"> 
@@ -257,12 +258,12 @@
 			</div>
 		</div>
 		</c:if>
-		<c:if test="${instanceModule.currActivity.activityOption.activity.activityTemplate.activityTemplateId eq 8}">
+		<c:if test="${currentQuizAnswer.quizOption.activity.activityTemplate.activityTemplateId eq 8}">
 		<div class="jumbotron">
 			<div class="container-fluid text-center video-yesno activity-content">
 				<div class="row form-group">
 					<div class="col-sm-6">
-						<c:forEach items="${instanceModule.currActivity.activityOption.options}" var="option">
+						<c:forEach items="${currentQuizAnswer.quizOption.correctAnswers}" var="option">
 						<c:if test="${option.orderNo eq 1}">
 						<video width="600" controls>
 							<source src="${option.optionText}" type="video/mp4">
@@ -276,7 +277,7 @@
 						<div class="row form-group image-options">
 							<div class="col-md-2">
 							</div>
-							<c:forEach items="${instanceModule.currActivity.answers}" var="answer">
+							<c:forEach items="${currentQuizAnswer.userAnswers}" var="answer">
 							<div class="col-md-4 form-group">
 								<label class="btn btn-block ${answer.isCorrect=='true'?'btn-primary':'btn-default'} button-wrapper radio-inline optionRadioLabel">
 									<input style="display:none;" class="optionInput" type="radio" 
@@ -292,33 +293,32 @@
 			</div>
 		</div>
 		</c:if>
-<!-- 		<div class="jumbotron"> -->
+		<div class="jumbotron">
 			<div class="container-fluid text-center">
 				<div class="row">
 					<div class="col-sm-4 pull-left text-left">
-						<c:if test="${not empty instanceTopic.prevModules and empty instanceModule.prevActivity}">
-						<a class="btn btn-primary pull-left btn-nav" id="prev-module">Previous</a>
-						</c:if>
-						<c:if test="${not empty instanceModule.prevActivity}">
-						<a class="btn btn-primary pull-left btn-nav" id="prev-activity">Previous</a>
+<%-- 						<c:if test="${not empty instanceTopic.prevModules and empty instanceModule.prevActivity}"> --%>
+<!-- 						<a class="btn btn-primary pull-left btn-nav" id="prev-module">Previous</a> -->
+<%-- 						</c:if> --%>
+						<c:if test="${currentQuizAnswer.quizOption.orderNo ne 1}">
+						<a class="btn btn-primary pull-left btn-nav" id="prev-quiz">Previous</a>
 						</c:if>
 					</div>
 					<div class="col-sm-4 pull-right text-right">
-						<c:if test="${not empty instanceTopic.nextModules and empty instanceModule.nextActivity}">
-						<a class="btn btn-primary pull-left" data-toggle="modal"
-							data-target="#nextModuleModal">Next</a>
+<%-- 						<c:if test="${not empty instanceTopic.nextModules and empty instanceModule.nextActivity}"> --%>
+<!-- 						<a class="btn btn-primary pull-left" data-toggle="modal" -->
+<!-- 							data-target="#nextModuleModal">Next</a> -->
+<%-- 						</c:if> --%>
+						<c:if test="${(fn:length(quiz.quiz.quizOptions) ne currentQuizAnswer.quizOption.orderNo)}">
+						<a class="btn btn-primary pull-left btn-nav" id="next-quiz">Next</a>
 						</c:if>
-						<c:if test="${not empty instanceModule.nextActivity}">
-						<a class="btn btn-primary pull-left btn-nav" id="next-activity">Next</a>
-						</c:if>
-						<c:if test="${empty instanceTopic.nextModules and empty instanceModule.nextActivity}">
-						<a class="btn btn-primary pull-left btn-finished" data-toggle="modal"
-							data-target="#finishTopicModal">Finish</a>
+						<c:if test="${(fn:length(quiz.quiz.quizOptions) eq currentQuizAnswer.quizOption.orderNo)}">
+						<a class="btn btn-primary pull-left btn-nav btn-finished" id="quiz-finish">Finish</a>
 						</c:if>
 					</div>
 				</div>
 			</div>
-<!-- 		</div> -->
+		</div>
 		</form>
 	</div>
 	</div>
@@ -352,7 +352,7 @@
 	</div>
 </div>
 
-<div class="modal fade" id="finishTopicModal" role="dialog">
+<div class="modal fade" id="#finishQuizModal" role="dialog">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">

@@ -19,10 +19,40 @@ import com.neu.ipco.entity.Topic;
  */
 public class AppConstants {
 	
+//	Session Attributes
+
+	public static final String SESSION_ATTRIBUTE_INSTANCE = "instance";
+	
+	public static final String SESSION_ATTRIBUTE_INSTANCE_MODULE = "instanceModule";
+	
+	public static final String SESSION_ATTRIBUTE_INSTANCE_TOPIC = "instanceTopic";
+
+	public static final String SESSION_ATTRIBUTE_INSTANCE_QUIZ = "quiz";
+
+	public static final String SESSION_ATTRIBUTE_CURRENT_QUIZ_ANSWER = "currentQuizAnswer";
+	
 //	Declaring constants
 	public static final String TRUE = "true";
-
 	
+	public static final String FALSE = "false";
+	
+//	Nav Type Constants
+	
+	public static final String NAV_TYPE_PREVIOUS_QUIZ = "prev-quiz";
+	
+	public static final String NAV_TYPE_NEXT_QUIZ = "next-quiz";
+	
+	public static final String NAV_TYPE_QUIZ_FINISH = "quiz-finish";
+	
+	public static final String NAV_TYPE_GOTO_DASHBOARD = "go-to-dashboard";
+	
+	public static final String NAV_TYPE_NEXT_MODULE = "next-module";
+
+	public static final String NAV_TYPE_TAKE_QUIZ = "take-quiz";
+
+	public static final String NAV_TYPE_NEXT_ACTIVITY = "next-activity";
+
+
 //	Views
 	public static final String USER_AUTH_PAGE = "userAuth";
 
@@ -65,6 +95,8 @@ public class AppConstants {
 	public static final String MANAGE_QUIZ = "manageQuiz";
 	
 	public static final String ADMIN_QUIZ = "adminQuiz";
+	
+	public static final String USER_QUIZ = "userQuiz";
 
 	
 //	Template ids
@@ -184,5 +216,6 @@ public class AppConstants {
 			return topic1.getOrderNo() - topic2.getOrderNo();
 		}
 	};
+
 
 }

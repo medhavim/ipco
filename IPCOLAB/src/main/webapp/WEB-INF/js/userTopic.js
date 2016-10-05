@@ -26,4 +26,11 @@ $(document).ready(function() {
 		$("#customForm input[id=id]").val(id);
 		$('#customForm').submit();
 	});
+	
+	$(".instanceQuiz").on("click", function(e){
+		id = $(this)[0].id.split("_")[1];
+		$('#customForm').attr('action', "gotoUserQuiz.action");
+		$("#customForm input[id=id]").val(id);
+		$('#customForm').submit();
+	});
 });

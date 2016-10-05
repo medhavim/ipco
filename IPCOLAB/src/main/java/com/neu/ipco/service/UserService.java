@@ -10,7 +10,9 @@ import com.neu.ipco.entity.BasicInstanceUser;
 import com.neu.ipco.entity.CustomizeInstanceUser;
 import com.neu.ipco.entity.Instance;
 import com.neu.ipco.entity.InstanceModule;
+import com.neu.ipco.entity.InstanceQuiz;
 import com.neu.ipco.entity.InstanceTopic;
+import com.neu.ipco.entity.QuizAnswer;
 import com.neu.ipco.entity.Topic;
 import com.neu.ipco.exception.UserException;
 
@@ -47,4 +49,16 @@ public interface UserService {
 	InstanceTopic saveOrUpdateInstanceTopic(InstanceTopic instanceTopic) throws UserException;
 
 	void deleteInstance(Instance instance) throws UserException;
+
+	QuizAnswer getFirstQuizAnswer(InstanceQuiz quiz) throws UserException;
+
+	void updateQuizScore(InstanceQuiz instanceQuiz, QuizAnswer currentQuizAnswer) throws UserException;
+
+	void saveOrUpdateQuizAnswer(QuizAnswer currentQuizAnswer) throws UserException;
+
+	QuizAnswer getNextCurrentQuizAnswer(int nextOrderNo, String navType) throws UserException;
+
+	void saveOrUpdateInstanceQuiz(InstanceQuiz instanceQuiz) throws UserException;
+
+	InstanceQuiz getInstanceQuizById(int instanceQuizId) throws UserException;
 }

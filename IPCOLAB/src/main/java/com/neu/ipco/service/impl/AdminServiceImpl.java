@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -19,6 +20,9 @@ import com.neu.ipco.constants.AppConstants;
 import com.neu.ipco.dao.AdminDao;
 import com.neu.ipco.entity.ActivityOption;
 import com.neu.ipco.entity.Module;
+import com.neu.ipco.entity.Quiz;
+import com.neu.ipco.entity.QuizOption;
+import com.neu.ipco.entity.RelatedDiagnostic;
 import com.neu.ipco.entity.Topic;
 import com.neu.ipco.exception.AdminException;
 import com.neu.ipco.service.AdminService;
@@ -76,11 +80,22 @@ public class AdminServiceImpl implements AdminService {
 		}
 	}
 
-	public void deleteTopic(Topic topic) throws AdminException {
+	public void deleteTopicById(int topicId) throws AdminException {
 		LOGGER.debug("AdminService: deleteTopic: Executing");
 		try {
+			Topic topic = adminDao.getTopicById(topicId);
+			
+//			Fetching and deleting the related diagnostic questions
+//			Set<RelatedDiagnostic> relatedDiagnostics = topic.getRelatedDiagnostics();
+//			adminDao.deleteRelatedDiagnostics(relatedDiagnostics);
+			
+			
+			int typeId = topic.getTopicType().getTypeId();
+//			topic.setDiagnosticQuestions(null);
+//			topic.setRelatedDiagnostics(null);
+//			topic.setInstanceTopics(null);
 			adminDao.deleteTopic(topic);
-			reorderTopics(topic.getTopicType().getTypeId());
+			reorderTopics(typeId);
 		} catch (Exception e) {
 			throw new AdminException(e);
 		}
@@ -253,6 +268,40 @@ public class AdminServiceImpl implements AdminService {
 		} catch (Exception e) {
 			throw new AdminException(e);
 		}
+	}
+
+	public void saveQuiz(Quiz quiz) throws AdminException {
+		LOGGER.debug("AdminService: saveQuiz: Start");
+		try {
+			LOGGER.debug("AdminService: saveQuiz: Executing");
+			adminDao.saveQuiz(quiz);
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
+	}
+
+	public Quiz getQuizById(int quizId) throws AdminException {
+		LOGGER.debug("AdminService: getQuizById: Start");
+		try {
+			LOGGER.debug("AdminService: getQuizById: Executing");
+			return adminDao.getQuizById(quizId);
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
+	}
+
+	public void saveOrUpdateQuiz(Quiz quiz) throws AdminException {
+		LOGGER.debug("AdminService: saveOrUpdateQuiz: Start");
+		try {
+			LOGGER.debug("AdminService: saveOrUpdateQuiz: Executing");
+			adminDao.saveOrUpdateQuiz(quiz);
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
+	}
+
+	public int getNextQuizOpOrderNo(List<QuizOption> quizOptions) throws AdminException {
+		return quizOptions.size()+1;
 	}
 	
 

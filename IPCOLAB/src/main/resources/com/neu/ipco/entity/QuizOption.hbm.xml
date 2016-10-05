@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.neu.ipco.entity">
+
+	<class name="QuizOption" table="quiz_option">
+	
+		<id name="quizOptionId" column="quiz_option_id">
+			<generator class="increment"/>
+		</id>
+		
+		<many-to-one name="activity" class="Activity" column="acitivity_id" cascade="all" lazy="false"/>
+		
+		<property name="orderNo" column="order_no"/>
+		
+		<list name="correctAnswers" lazy="false" cascade="all">
+			<key column="quiz_option_id"/>
+			<list-index column="qoidx"/>
+			<one-to-many class="Option"/>
+		</list>
+		
+		<property name="createdTs" type="timestamp" column="created_ts"/>
+		<property name="updatedTs" type="timestamp" column="updated_ts"/>
+	</class>
+</hibernate-mapping>

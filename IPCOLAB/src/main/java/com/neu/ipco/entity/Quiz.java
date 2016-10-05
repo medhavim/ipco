@@ -4,10 +4,10 @@
 package com.neu.ipco.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * @author Harsha
@@ -22,22 +22,19 @@ public class Quiz implements Serializable {
 	
 	private Integer quizId;
 	
-	private Activity activity;
+	private String quizName;
 	
-	private Set<Option> correctAnswers = new TreeSet<Option>();
+	private String quizDesc;
 	
-	private Set<Option> userAnswers = new TreeSet<Option>();
+	private List<QuizOption> quizOptions = new ArrayList<QuizOption>();
 	
-	private Status status;
-	
-	private int orderNo;
+	private Set<InstanceQuiz> instanceQuizes;
 	
 	private Date createdTs;
 	
 	private Date updatedTs;
 
 	public Quiz() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -55,73 +52,60 @@ public class Quiz implements Serializable {
 	}
 
 	/**
-	 * @return the activity
+	 * @return the quizName
 	 */
-	public Activity getActivity() {
-		return activity;
+	public String getQuizName() {
+		return quizName;
 	}
 
 	/**
-	 * @param activity the activity to set
+	 * @param quizName the quizName to set
 	 */
-	public void setActivity(Activity activity) {
-		this.activity = activity;
+	public void setQuizName(String quizName) {
+		this.quizName = quizName;
 	}
 
 	/**
-	 * @return the correctAnswers
+	 * @return the quizDesc
 	 */
-	public Set<Option> getCorrectAnswers() {
-		return correctAnswers;
+	public String getQuizDesc() {
+		return quizDesc;
 	}
 
 	/**
-	 * @param correctAnswers the correctAnswers to set
+	 * @param quizDesc the quizDesc to set
 	 */
-	public void setCorrectAnswers(Set<Option> correctAnswers) {
-		this.correctAnswers = correctAnswers;
+	public void setQuizDesc(String quizDesc) {
+		this.quizDesc = quizDesc;
+	}
+
+
+	/**
+	 * @return the quizOptions
+	 */
+	public List<QuizOption> getQuizOptions() {
+		return quizOptions;
 	}
 
 	/**
-	 * @return the userAnswers
+	 * @param quizOptions the quizOptions to set
 	 */
-	public Set<Option> getUserAnswers() {
-		return userAnswers;
+	public void setQuizOptions(List<QuizOption> quizOptions) {
+		this.quizOptions = quizOptions;
 	}
 
 	/**
-	 * @param userAnswers the userAnswers to set
+	 * @return the instanceQuizes
 	 */
-	public void setUserAnswers(Set<Option> userAnswers) {
-		this.userAnswers = userAnswers;
+	public Set<InstanceQuiz> getInstanceQuizes() {
+		return instanceQuizes;
 	}
 
 	/**
-	 * @return the status
+	 * @param instanceQuizes the instanceQuizes to set
 	 */
-	public Status getStatus() {
-		return status;
-	}
-
-	/**
-	 * @param status the status to set
-	 */
-	public void setStatus(Status status) {
-		this.status = status;
-	}
-
-	/**
-	 * @return the orderNo
-	 */
-	public int getOrderNo() {
-		return orderNo;
-	}
-
-	/**
-	 * @param orderNo the orderNo to set
-	 */
-	public void setOrderNo(int orderNo) {
-		this.orderNo = orderNo;
+	public void setInstanceQuizes(Set<InstanceQuiz> instanceQuizes) {
+		this.instanceQuizes = instanceQuizes;
 	}
 
 	/**
@@ -159,14 +143,11 @@ public class Quiz implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((activity == null) ? 0 : activity.hashCode());
-		result = prime * result + ((correctAnswers == null) ? 0 : correctAnswers.hashCode());
 		result = prime * result + ((createdTs == null) ? 0 : createdTs.hashCode());
-		result = prime * result + orderNo;
+		result = prime * result + ((quizDesc == null) ? 0 : quizDesc.hashCode());
 		result = prime * result + ((quizId == null) ? 0 : quizId.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + ((quizName == null) ? 0 : quizName.hashCode());
 		result = prime * result + ((updatedTs == null) ? 0 : updatedTs.hashCode());
-		result = prime * result + ((userAnswers == null) ? 0 : userAnswers.hashCode());
 		return result;
 	}
 
@@ -182,42 +163,30 @@ public class Quiz implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Quiz other = (Quiz) obj;
-		if (activity == null) {
-			if (other.activity != null)
-				return false;
-		} else if (!activity.equals(other.activity))
-			return false;
-		if (correctAnswers == null) {
-			if (other.correctAnswers != null)
-				return false;
-		} else if (!correctAnswers.equals(other.correctAnswers))
-			return false;
 		if (createdTs == null) {
 			if (other.createdTs != null)
 				return false;
 		} else if (!createdTs.equals(other.createdTs))
 			return false;
-		if (orderNo != other.orderNo)
+		if (quizDesc == null) {
+			if (other.quizDesc != null)
+				return false;
+		} else if (!quizDesc.equals(other.quizDesc))
 			return false;
 		if (quizId == null) {
 			if (other.quizId != null)
 				return false;
 		} else if (!quizId.equals(other.quizId))
 			return false;
-		if (status == null) {
-			if (other.status != null)
+		if (quizName == null) {
+			if (other.quizName != null)
 				return false;
-		} else if (!status.equals(other.status))
+		} else if (!quizName.equals(other.quizName))
 			return false;
 		if (updatedTs == null) {
 			if (other.updatedTs != null)
 				return false;
 		} else if (!updatedTs.equals(other.updatedTs))
-			return false;
-		if (userAnswers == null) {
-			if (other.userAnswers != null)
-				return false;
-		} else if (!userAnswers.equals(other.userAnswers))
 			return false;
 		return true;
 	}
@@ -227,8 +196,7 @@ public class Quiz implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "Quiz [quizId=" + quizId + ", activity=" + activity + ", correctAnswers=" + correctAnswers
-				+ ", userAnswers=" + userAnswers + ", status=" + status + ", orderNo=" + orderNo + ", createdTs="
+		return "Quiz [quizId=" + quizId + ", quizName=" + quizName + ", quizDesc=" + quizDesc + ", createdTs="
 				+ createdTs + ", updatedTs=" + updatedTs + "]";
 	}
 

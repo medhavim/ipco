@@ -29,7 +29,7 @@
 		</set>
 		
 		<set name="relatedDiagnostics" table="diagnostic_releated_diagnostic"
-			inverse="true" lazy="false" fetch="select" cascade="all" >
+			inverse="true" lazy="false" fetch="select">
 		    <key>
 		        <column name="diagnostic_id" not-null="true" />
 		    </key>

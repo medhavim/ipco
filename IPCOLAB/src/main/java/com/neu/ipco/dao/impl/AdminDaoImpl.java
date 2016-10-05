@@ -4,6 +4,7 @@
 package com.neu.ipco.dao.impl;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -15,16 +16,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.neu.ipco.constants.AppConstants;
 import com.neu.ipco.dao.AdminDao;
-import com.neu.ipco.entity.Activity;
 import com.neu.ipco.entity.ActivityOption;
-import com.neu.ipco.entity.ActivityTemplate;
 import com.neu.ipco.entity.Diagnostic;
 import com.neu.ipco.entity.DiagnosticCategory;
+import com.neu.ipco.entity.InstanceTopic;
 import com.neu.ipco.entity.Module;
 import com.neu.ipco.entity.Option;
+import com.neu.ipco.entity.Quiz;
 import com.neu.ipco.entity.RelatedDiagnostic;
 import com.neu.ipco.entity.Topic;
-import com.neu.ipco.entity.TopicType;
 import com.neu.ipco.exception.AdminException;
 
 /**
@@ -68,6 +68,11 @@ public class AdminDaoImpl implements AdminDao {
 
 	public void deleteTopic(Topic topic) throws AdminException {
 		LOGGER.debug("AdminDaoImpl: deleteTopic: Executing");
+		topic = getTopicById(topic.getTopicId());
+		Set<InstanceTopic> instanceTopics = new HashSet<InstanceTopic>(topic.getInstanceTopics());
+		for(InstanceTopic instanceTopic : instanceTopics){
+			deleteInstanceTopic(instanceTopic);
+		}
 		template.delete(topic);
 	}
 
@@ -211,8 +216,9 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	public void deleteCategory(DiagnosticCategory diagnosticCategory) throws AdminException {
-		LOGGER.debug("AdminDaoImpl: deleteCategory: Executing");
+		LOGGER.debug("AdminDaoImpl: deleteCategory: Start");
 		template.delete(diagnosticCategory);
+		LOGGER.debug("AdminDaoImpl: deleteCategory: End");
 	}
 
 	public void updateCategory(DiagnosticCategory diagnosticCategory) throws AdminException {
@@ -270,6 +276,41 @@ public class AdminDaoImpl implements AdminDao {
 	public void saveOrUpdateTopic(Topic topic) throws AdminException {
 		LOGGER.debug("AdminDaoImpl: saveOrUpdateTopic: Executing");
 		template.saveOrUpdate(topic);
+	}
+
+	public void saveQuiz(Quiz quiz) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: saveQuiz: Executing");
+		template.save(quiz);
+	}
+
+	public Quiz getQuizById(int quizId) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: saveQuiz: Executing");
+		return template.get(Quiz.class, quizId);
+	}
+
+	public void saveOrUpdateQuiz(Quiz quiz) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: saveOrUpdateQuiz: Executing");
+		template.saveOrUpdate(quiz);
+	}
+
+	public void deleteDiagnostic(Diagnostic diagnostic) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: deleteDiagnostic: Executing");
+		template.delete(diagnostic);
+	}
+
+	public void deleteRelatedDiagnostic(RelatedDiagnostic relatedDiagnostic) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: deleteRelatedDiagnostic: Executing");
+		template.delete(relatedDiagnostic);
+	}
+
+	public void deleteRelatedDiagnostics(Set<RelatedDiagnostic> relatedDiagnostics) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: deleteRelatedDiagnostics: Executing");
+		template.deleteAll(relatedDiagnostics);
+	}
+
+	public void deleteInstanceTopic(InstanceTopic instanceTopic) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: deleteInstanceTopic: Executing");
+		template.delete(instanceTopic);
 	}
 
 }

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.neu.ipco.dao.ApplicationUtilDao;
 import com.neu.ipco.entity.Instance;
 import com.neu.ipco.entity.InstanceModule;
+import com.neu.ipco.entity.InstanceQuiz;
 import com.neu.ipco.entity.InstanceTopic;
 import com.neu.ipco.entity.InstanceType;
 import com.neu.ipco.entity.Status;
@@ -75,6 +76,11 @@ public class ApplicationUtilDaoImpl implements ApplicationUtilDao {
 	public Status getStatusId(int statusId) throws ApplicationUtilException {
 		LOGGER.debug("ApplicationUtilDaoImpl: getStatusId: Executing");
 		return template.get(Status.class, statusId);
+	}
+
+	public List<InstanceQuiz> getInstanceQuizesByQuizId(int quizId) throws ApplicationUtilException {
+		LOGGER.debug("ApplicationUtilDaoImpl: getInstanceQuizesByQuizId: Executing");
+		return (List<InstanceQuiz>) template.findByNamedParam("from InstanceQuiz iq where iq.quiz.quizId = :quizId", "quizId", quizId);
 	}
 
 }

@@ -4,24 +4,22 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="com.neu.ipco.entity">
-
-	<class name="InstanceQuiz" table="instance_quiz">
 	
-		<id name="instanceQuizId" column="instance_quiz_id">
+	<class name="QuizAnswer" table="quiz_answer">
+		
+		<id name="quizAnswerId" column="quiz_answer_id">
 			<generator class="increment"/>
 		</id>
 
-		<many-to-one name="quiz" class="Quiz" column="quiz_id" lazy="false"/>
-		
-		<list name="quizAnswers" lazy="false" cascade="all">
-			<key column="instance_quiz_id"/>
-			<list-index column="iqidx"/>
-			<one-to-many class="QuizAnswer"/>
-		</list>
-		
+		<many-to-one name="quizOption" class="QuizOption" column="quiz_option" lazy="false" />
+
 		<many-to-one name="status" class="Status" column="status_id" lazy="false"/>
 		
-		<property name="score" column="score"/>
+		<list name="userAnswers" lazy="false" cascade="all" >
+			<key column="quiz_answer_id"/>
+			<list-index column="qaidx"/>
+			<one-to-many class="Option"/>
+		</list>
 		
 		<property name="createdTs" type="timestamp" column="created_ts"/>
 		<property name="updatedTs" type="timestamp" column="updated_ts"/>

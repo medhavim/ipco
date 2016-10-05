@@ -10,7 +10,7 @@ function addModule(button) {
 	var topicId = button.id.split("-")[1];
 	$('#topicId').val(topicId);
 }
-	
+
 function deleteCategory(deletedTag){
 	
 	var deleteId = deletedTag.id.split("_")[1];
@@ -24,6 +24,16 @@ function deleteCategory(deletedTag){
 	}else{
 		$("#confirmationDialog").modal("toggle");
 	}
+}
+	
+function deleteDiagnostic(deletedTag){
+	
+	var deleteId = deletedTag.id.split("_")[1];
+	
+	var form = document.getElementById("confirmationForm");
+	form.action = "deleteDiagnostic.action";
+	$("#deletableId").val(deleteId);
+	$("#confirmationDialog").modal("toggle");
 }
 	
 //helper functions for module

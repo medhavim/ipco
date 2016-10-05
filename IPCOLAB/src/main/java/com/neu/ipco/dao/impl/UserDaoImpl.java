@@ -18,7 +18,9 @@ import com.neu.ipco.entity.BasicInstanceUser;
 import com.neu.ipco.entity.CustomizeInstanceUser;
 import com.neu.ipco.entity.Instance;
 import com.neu.ipco.entity.InstanceModule;
+import com.neu.ipco.entity.InstanceQuiz;
 import com.neu.ipco.entity.InstanceTopic;
+import com.neu.ipco.entity.QuizAnswer;
 import com.neu.ipco.entity.Status;
 import com.neu.ipco.entity.Topic;
 import com.neu.ipco.exception.UserException;
@@ -115,14 +117,16 @@ public class UserDaoImpl implements UserDao {
 		template.saveOrUpdate(instance);
 	}
 
-	public void saveOrUpdateInstanceTopic(InstanceTopic instanceTopic) throws UserException {
+	public InstanceTopic saveOrUpdateInstanceTopic(InstanceTopic instanceTopic) throws UserException {
 		LOGGER.debug("UserDaoImpl: saveOrUpdateInstanceTopic: Executing");
 		template.saveOrUpdate(instanceTopic);
+		return template.get(InstanceTopic.class, instanceTopic.getInstanceTopicId());
 	}
 
-	public void saveOrUpdateInstanceModule(InstanceModule instanceModule) throws UserException {
+	public InstanceModule saveOrUpdateInstanceModule(InstanceModule instanceModule) throws UserException {
 		LOGGER.debug("UserDaoImpl: saveOrUpdateInstanceModule: Executing");
 		template.saveOrUpdate(instanceModule);
+		return template.get(InstanceModule.class, instanceModule.getInstanceModuleId());
 	}
 
 	public CustomizeInstanceUser saveOrUpdateCustomInstance(CustomizeInstanceUser customizeInstanceUser)
@@ -130,6 +134,44 @@ public class UserDaoImpl implements UserDao {
 		LOGGER.debug("UserDaoImpl: saveOrUpdateCustomInstance: Executing");
 		template.saveOrUpdate(customizeInstanceUser);
 		return ((List<CustomizeInstanceUser>) template.findByNamedParam("from CustomizeInstanceUser ciu where ciu.user.userId = :userId", "userId", customizeInstanceUser.getUser().getUserId())).get(0);
+	}
+
+	public ActivityAnswer saveOrUpdateActivityAnswer(ActivityAnswer currActivity) throws UserException {
+		LOGGER.debug("UserDaoImpl: saveOrUpdateActivityAnswer: Executing");
+		template.saveOrUpdate(currActivity);
+		return template.get(ActivityAnswer.class, currActivity.getActivityAnswerId());
+	}
+
+	public void deleteInstance(Instance instance) throws UserException {
+		LOGGER.debug("UserDaoImpl: deleteInstance: Executing");
+		template.delete(instance);
+	}
+
+	public QuizAnswer saveQuizAnswer(QuizAnswer quizAnswer) throws UserException {
+		LOGGER.debug("UserDaoImpl: saveQuizAnswer: Executing");
+		int quizAnswerId = (Integer) template.save(quizAnswer);
+		return template.get(QuizAnswer.class, quizAnswerId);
+	}
+
+	public InstanceQuiz saveOrUpdateInstanceQuiz(InstanceQuiz instanceQuiz) throws UserException {
+		LOGGER.debug("UserDaoImpl: saveOrUpdateInstanceQuiz: Executing");
+		template.saveOrUpdate(instanceQuiz);
+		return template.get(InstanceQuiz.class, instanceQuiz.getInstanceQuizId());
+	}
+
+	public void saveOrUpdateQuizAnswer(QuizAnswer currentQuizAnswer) throws UserException {
+		LOGGER.debug("UserDaoImpl: saveOrUpdateQuizAnswer: Executing");
+		template.saveOrUpdate(currentQuizAnswer);
+	}
+
+	public QuizAnswer getNextCurrentQuizAnswer(int orderNo) throws UserException {
+		LOGGER.debug("UserDaoImpl: getNextCurrentQuizAnswer: Executing");
+		return ((List<QuizAnswer>) template.findByNamedParam("from QuizAnswer qa where qa.quizOption.orderNo = :orderNo", "orderNo", orderNo)).get(0);
+	}
+
+	public InstanceQuiz getInstanceQuizById(int instanceQuizId) throws UserException {
+		LOGGER.debug("UserDaoImpl: getInstanceQuizById: Executing");
+		return template.get(InstanceQuiz.class, instanceQuizId);
 	}
 
 }

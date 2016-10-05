@@ -11,21 +11,20 @@
 			<generator class="increment"/>
 		</id>
 		
-		<many-to-one name="activity" class="Activity" column="activity_id" cascade="all" lazy="false"/>
+		<property name="quizName" column="quiz_name"/>
 		
-		<set name="correctAnswers" cascade="all" lazy="false"><!-- order-by="orderNo" -->
+		<property name="quizDesc" column="quiz_desc"/>
+		
+		<list name="quizOptions" lazy="false" cascade="all">
 			<key column="quiz_id"/>
-			<one-to-many class="Option"/>
-		</set>
+			<list-index column="qidx"/>
+			<one-to-many class="QuizOption"/>
+		</list>
 		
-		<set name="userAnswers" cascade="all" lazy="false"><!-- order-by="orderNo" -->
-			<key column="quiz_id"/>
-			<one-to-many class="Option"/>
-		</set>
-		
-		<many-to-one name="status" class="Status" column="status_id" lazy="false" />
-		
-		<property name="orderNo" column="order_no"/>
+		<set name="instanceQuizes" cascade="delete" inverse="true">
+        	<key column="quiz_id"/>
+        	<one-to-many class="InstanceQuiz"/>
+        </set>
 		
 		<property name="createdTs" type="timestamp" column="created_ts"/>
 		<property name="updatedTs" type="timestamp" column="updated_ts"/>

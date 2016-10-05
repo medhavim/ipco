@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.neu.ipco.entity.Instance;
 import com.neu.ipco.entity.InstanceModule;
+import com.neu.ipco.entity.InstanceQuiz;
 import com.neu.ipco.entity.InstanceTopic;
 import com.neu.ipco.entity.InstanceType;
 import com.neu.ipco.entity.Status;
@@ -35,5 +36,7 @@ public interface ApplicationUtilDao {
 	public List<UserRole> getUserRoles() throws ApplicationUtilException;
 
 	public Status getStatusId(int statusId) throws ApplicationUtilException;
+
+	public List<InstanceQuiz> getInstanceQuizesByQuizId(int quizId) throws ApplicationUtilException;
 
 }

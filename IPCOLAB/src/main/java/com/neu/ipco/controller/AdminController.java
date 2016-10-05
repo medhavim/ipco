@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -28,14 +30,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.neu.ipco.constants.AppConstants;
 import com.neu.ipco.entity.ActivityOption;
-import com.neu.ipco.entity.Credential;
+import com.neu.ipco.entity.Diagnostic;
 import com.neu.ipco.entity.Module;
 import com.neu.ipco.entity.Option;
 import com.neu.ipco.entity.Quiz;
+import com.neu.ipco.entity.QuizOption;
 import com.neu.ipco.entity.Topic;
 import com.neu.ipco.exception.AdminException;
 import com.neu.ipco.exception.ApplicationUtilException;
-import com.neu.ipco.exception.UserException;
+import com.neu.ipco.service.AdminDiagnosticService;
 import com.neu.ipco.service.AdminService;
 import com.neu.ipco.service.ApplicationUtilService;
 
@@ -52,6 +55,10 @@ public class AdminController {
 	
 	@Autowired
 	private AdminService adminService;
+	
+	
+	@Autowired
+	private AdminDiagnosticService adminDiagnosticService;
 	
 	@Autowired
 	private ApplicationUtilService applicationUtilService;
@@ -122,6 +129,7 @@ public class AdminController {
 			module = adminService.addNewModule(module);
 			applicationUtilService.updateNewModuleToInstanceTopics(module);
 			List<Topic> allTopics = adminService.loadAllTopics();
+			Collections.sort(allTopics, AppConstants.TOPIC_COMPARATOR);
 			session.setAttribute("allTopics", allTopics);
 			model.addAttribute("moduleTopicId", module.getTopic().getTopicId());
 		} catch (AdminException e) {
@@ -142,9 +150,15 @@ public class AdminController {
 		
 		try {
 			Topic topic = adminService.getTopicById(deletableId);
-			adminService.deleteTopic(topic);
+			
+			Set<Diagnostic> diagnostics = new HashSet<Diagnostic>(topic.getDiagnosticQuestions());
+			for(Diagnostic diagnostic : diagnostics){
+				adminDiagnosticService.deleteDiagnosticById(diagnostic.getDiagnosticId());
+			}
+			adminService.deleteTopicById(deletableId);
 			
 			List<Topic> allTopics = adminService.loadAllTopics();
+			Collections.sort(allTopics, AppConstants.TOPIC_COMPARATOR);
 			session.setAttribute("allTopics", allTopics);
 		} catch (AdminException e) {
 			return AppConstants.ERROR_PAGE;
@@ -164,6 +178,7 @@ public class AdminController {
 			adminService.deleteModule(module);
 			
 			List<Topic> allTopics = adminService.loadAllTopics();
+			Collections.sort(allTopics, AppConstants.TOPIC_COMPARATOR);
 			session.setAttribute("allTopics", allTopics);
 			model.addAttribute("moduleTopicId", module.getTopic().getTopicId());
 		} catch (AdminException e) {
@@ -264,6 +279,7 @@ public class AdminController {
 			adminService.deleteActivityOption(activityOption);
 			
 			List<Topic> allTopics = adminService.loadAllTopics();
+			Collections.sort(allTopics, AppConstants.TOPIC_COMPARATOR);
 			session.setAttribute("allTopics", allTopics);
 			model.addAttribute("moduleTopicId", activityOption.getModule().getTopic().getTopicId());
 			model.addAttribute("activityModuleId", activityOption.getModule().getModuleId());
@@ -322,6 +338,7 @@ public class AdminController {
 			currActivityOption = adminService.editActivity(currActivityOption);
 			
 			List<Topic> allTopics = adminService.loadAllTopics();
+			Collections.sort(allTopics, AppConstants.TOPIC_COMPARATOR);
 			session.setAttribute("allTopics", allTopics);
 			model.addAttribute("moduleTopicId", currActivityOption.getModule().getTopic().getTopicId());
 			model.addAttribute("activityModuleId", currActivityOption.getModule().getModuleId());
@@ -360,6 +377,7 @@ public class AdminController {
 			applicationUtilService.updateNewActivityToInstanceModule(activityOption);
 			
 			List<Topic> allTopics = adminService.loadAllTopics();
+			Collections.sort(allTopics, AppConstants.TOPIC_COMPARATOR);
 			session.setAttribute("allTopics", allTopics);
 			model.addAttribute("moduleTopicId", activityOption.getModule().getTopic().getTopicId());
 			model.addAttribute("activityModuleId", activityOption.getModule().getModuleId());
@@ -375,33 +393,40 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/addQuiz.action", method=RequestMethod.POST)
-	public String addQuizAction(@ModelAttribute("quiz") Quiz quiz, 
+	public String addQuizAction(@ModelAttribute("quizOption") QuizOption quizOption, 
 			@RequestParam("activityTemplate") int activityTemplateId,
-			@RequestParam("topicId") int topicId,
+			@RequestParam("quizId") int quizId,
 			@RequestParam(value="uploadFile",required=false) MultipartFile uploadFile,
 			HttpServletRequest request, HttpSession session, Model model){
 		
 		LOGGER.debug("AdminController: addQuizAction: Start");
 		
 		try {
-			quiz.getActivity().setCreatedTs(new Date());
-			quiz.getActivity().getActivityTemplate().setActivityTemplateId(activityTemplateId);
-			quiz.setCreatedTs(new Date());
+			quizOption.getActivity().setCreatedTs(new Date());
+			quizOption.getActivity().getActivityTemplate().setActivityTemplateId(activityTemplateId);
+			quizOption.setCreatedTs(new Date());
 			if(activityTemplateId != AppConstants.TEMPLATE_INFO){
 				Set<Option> options = populateOptions(request, activityTemplateId, 
 						uploadFile);
 //					card1File, card2File, card3File);
-				quiz.setCorrectAnswers(options);
+				quizOption.setCorrectAnswers(new ArrayList<Option>(options));
 			}
 			
-			Topic topic = adminService.getTopicById(topicId);
-			topic.getQuizQuestions().add(quiz);
 			
-			adminService.saveOrUpdateTopic(topic);
+			Quiz quiz = adminService.getQuizById(quizId);
+			int orderNo = adminService.getNextQuizOpOrderNo(quiz.getQuizOptions());
+			quizOption.setOrderNo(orderNo);
+			quiz.getQuizOptions().add(quizOption);
+			adminService.saveOrUpdateQuiz(quiz);
 
+			applicationUtilService.updateNewQuizOptionToInstanceQuiz(quizOption, quizId);
+			
 			List<Topic> allTopics = adminService.loadAllTopics();
+			Collections.sort(allTopics, AppConstants.TOPIC_COMPARATOR);
 			session.setAttribute("allTopics", allTopics);
 		} catch (AdminException e) {
+			return AppConstants.ERROR_PAGE;
+		} catch (ApplicationUtilException e) {
 			return AppConstants.ERROR_PAGE;
 		} 
 		

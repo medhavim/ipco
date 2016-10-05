@@ -104,8 +104,8 @@ public class DiagnosticController implements Serializable {
 		LOGGER.debug("AdminController: deleteCategoryAction: Start");
 		
 		try {
-			DiagnosticCategory diagnosticCategory = adminDiagnosticService.getDiagnosticCategoryById(deletableId);
-			adminDiagnosticService.deleteCategory(diagnosticCategory);
+//			DiagnosticCategory diagnosticCategory = adminDiagnosticService.getDiagnosticCategoryById(deletableId);
+			adminDiagnosticService.deleteCategory(deletableId);
 			
 			List<DiagnosticCategory> allCategories = adminDiagnosticService.loadAllCategories();
 			session.setAttribute("allCategories", allCategories);
@@ -114,6 +114,25 @@ public class DiagnosticController implements Serializable {
 		}
 		
 		LOGGER.debug("AdminController: deleteCategoryAction: End");
+		return AppConstants.MANAGE_DIAGNOSTIC;
+	}
+	
+	@RequestMapping(value="/deleteDiagnostic.action", method=RequestMethod.POST)
+	public String deleteDiagnosticAction(@RequestParam("deletableId") int deletableId, HttpSession session, Model model){
+		
+		LOGGER.debug("AdminController: deleteDiagnosticAction: Start");
+		
+		try {
+//			DiagnosticCategory diagnosticCategory = adminDiagnosticService.getDiagnosticCategoryById(deletableId);
+			adminDiagnosticService.deleteDiagnosticById(deletableId);
+			
+			List<DiagnosticCategory> allCategories = adminDiagnosticService.loadAllCategories();
+			session.setAttribute("allCategories", allCategories);
+		} catch (AdminException e) {
+			return AppConstants.ERROR_PAGE;
+		}
+		
+		LOGGER.debug("AdminController: deleteDiagnosticAction: End");
 		return AppConstants.MANAGE_DIAGNOSTIC;
 	}
 	

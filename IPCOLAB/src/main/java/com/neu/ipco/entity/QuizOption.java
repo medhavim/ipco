@@ -4,32 +4,26 @@
 package com.neu.ipco.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Set;
-import java.util.TreeSet;
-
-import com.neu.ipco.constants.AppConstants;
+import java.util.List;
 
 /**
- * @author Harsha
+ * @author harsh
  *
  */
-public class ActivityOption implements Serializable, Comparable<ActivityOption> {
+public class QuizOption implements Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6995304591188353347L;
+	private static final long serialVersionUID = -1337538948697071715L;
 	
-	private Integer activityOptionId;
+	private int quizOptionId;
 	
-	private Activity activity = new Activity();
+	private Activity activity;
 	
-	private Module module = new Module();
-	
-	private Set<Option> options = new TreeSet<Option>(AppConstants.OPTION_COMPARATOR);
-	
-	private Set<ActivityAnswer> activityAnswers;
+	private List<Option> correctAnswers = new ArrayList<Option>();
 	
 	private int orderNo;
 	
@@ -37,22 +31,21 @@ public class ActivityOption implements Serializable, Comparable<ActivityOption> 
 	
 	private Date updatedTs;
 	
-	public ActivityOption() {
-		// TODO Auto-generated constructor stub
+	public QuizOption() {
 	}
 
 	/**
-	 * @return the activityOptionId
+	 * @return the quizOptionId
 	 */
-	public Integer getActivityOptionId() {
-		return activityOptionId;
+	public int getQuizOptionId() {
+		return quizOptionId;
 	}
 
 	/**
-	 * @param activityOptionId the activityOptionId to set
+	 * @param quizOptionId the quizOptionId to set
 	 */
-	public void setActivityOptionId(Integer activityOptionId) {
-		this.activityOptionId = activityOptionId;
+	public void setQuizOptionId(int quizOptionId) {
+		this.quizOptionId = quizOptionId;
 	}
 
 	/**
@@ -70,46 +63,17 @@ public class ActivityOption implements Serializable, Comparable<ActivityOption> 
 	}
 
 	/**
-	 * @return the module
+	 * @return the correctAnswers
 	 */
-	public Module getModule() {
-		return module;
+	public List<Option> getCorrectAnswers() {
+		return correctAnswers;
 	}
 
 	/**
-	 * @param module the module to set
+	 * @param correctAnswers the correctAnswers to set
 	 */
-	public void setModule(Module module) {
-		this.module = module;
-	}
-
-	/**
-	 * @return the options
-	 */
-	public Set<Option> getOptions() {
-		return options;
-	}
-
-	/**
-	 * @param options the options to set
-	 */
-	public void setOptions(Set<Option> options) {
-		this.options = options;
-	}
-
-
-	/**
-	 * @return the activityAnswers
-	 */
-	public Set<ActivityAnswer> getActivityAnswers() {
-		return activityAnswers;
-	}
-
-	/**
-	 * @param activityAnswers the activityAnswers to set
-	 */
-	public void setActivityAnswers(Set<ActivityAnswer> activityAnswers) {
-		this.activityAnswers = activityAnswers;
+	public void setCorrectAnswers(List<Option> correctAnswers) {
+		this.correctAnswers = correctAnswers;
 	}
 
 	/**
@@ -162,10 +126,10 @@ public class ActivityOption implements Serializable, Comparable<ActivityOption> 
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((activity == null) ? 0 : activity.hashCode());
-		result = prime * result + ((activityOptionId == null) ? 0 : activityOptionId.hashCode());
+		result = prime * result + ((correctAnswers == null) ? 0 : correctAnswers.hashCode());
 		result = prime * result + ((createdTs == null) ? 0 : createdTs.hashCode());
-		result = prime * result + ((module == null) ? 0 : module.hashCode());
 		result = prime * result + orderNo;
+		result = prime * result + quizOptionId;
 		result = prime * result + ((updatedTs == null) ? 0 : updatedTs.hashCode());
 		return result;
 	}
@@ -181,28 +145,25 @@ public class ActivityOption implements Serializable, Comparable<ActivityOption> 
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ActivityOption other = (ActivityOption) obj;
+		QuizOption other = (QuizOption) obj;
 		if (activity == null) {
 			if (other.activity != null)
 				return false;
 		} else if (!activity.equals(other.activity))
 			return false;
-		if (activityOptionId == null) {
-			if (other.activityOptionId != null)
+		if (correctAnswers == null) {
+			if (other.correctAnswers != null)
 				return false;
-		} else if (!activityOptionId.equals(other.activityOptionId))
+		} else if (!correctAnswers.equals(other.correctAnswers))
 			return false;
 		if (createdTs == null) {
 			if (other.createdTs != null)
 				return false;
 		} else if (!createdTs.equals(other.createdTs))
 			return false;
-		if (module == null) {
-			if (other.module != null)
-				return false;
-		} else if (!module.equals(other.module))
-			return false;
 		if (orderNo != other.orderNo)
+			return false;
+		if (quizOptionId != other.quizOptionId)
 			return false;
 		if (updatedTs == null) {
 			if (other.updatedTs != null)
@@ -217,13 +178,9 @@ public class ActivityOption implements Serializable, Comparable<ActivityOption> 
 	 */
 	@Override
 	public String toString() {
-		return "ActivityOption [activityOptionId=" + activityOptionId + ", activity=" + activity + ", module=" + module
-				+ ", options=" + options + ", orderNo=" + orderNo + ", createdTs=" + createdTs + ", updatedTs="
-				+ updatedTs + "]";
-	}
-
-	public int compareTo(ActivityOption activityOption) {
-		return this.orderNo - activityOption.orderNo;
+		return "QuizOption [quizOptionId=" + quizOptionId + ", activity=" + activity + ", correctAnswers="
+				+ correctAnswers + ", orderNo=" + orderNo + ", createdTs=" + createdTs + ", updatedTs=" + updatedTs
+				+ "]";
 	}
 
 }

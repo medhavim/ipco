@@ -7,10 +7,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +24,13 @@ import com.neu.ipco.entity.BasicInstanceUser;
 import com.neu.ipco.entity.CustomizeInstanceUser;
 import com.neu.ipco.entity.Instance;
 import com.neu.ipco.entity.InstanceModule;
+import com.neu.ipco.entity.InstanceQuiz;
 import com.neu.ipco.entity.InstanceTopic;
-import com.neu.ipco.entity.InstanceType;
 import com.neu.ipco.entity.Module;
 import com.neu.ipco.entity.Option;
+import com.neu.ipco.entity.Quiz;
+import com.neu.ipco.entity.QuizAnswer;
+import com.neu.ipco.entity.QuizOption;
 import com.neu.ipco.entity.Status;
 import com.neu.ipco.entity.Topic;
 import com.neu.ipco.exception.UserException;
@@ -85,7 +87,6 @@ public class UserServiceImpl implements UserService {
 	private void populateInstanceTopics(List<Topic> topics, Set<InstanceTopic> instanceTopics) throws UserException{
 		
 		LOGGER.debug("UserServiceImpl: populateInstanceTopics: Start");
-		boolean firstTopic = true;
 		for(Topic topic : topics){
 			InstanceTopic instanceTopic = new InstanceTopic();
 			instanceTopic.setTopic(topic);
@@ -94,8 +95,17 @@ public class UserServiceImpl implements UserService {
 			instanceTopic.setStatus(status);
 			instanceTopic.setCreatedTs(new Date());
 			populateInstanceModule(topic.getModules(), instanceTopic.getInstanceModules());
+			Quiz quiz = topic.getQuiz();
+			if(null != quiz){
+//				TODO create instance quiz and add to this topic
+				InstanceQuiz instanceQuiz = new InstanceQuiz();
+				instanceQuiz.setQuiz(quiz);
+				instanceQuiz.setStatus(status);
+				instanceQuiz.setCreatedTs(new Date());
+				populateQuizAnswer(quiz.getQuizOptions(), instanceQuiz.getQuizAnswers());
+				instanceTopic.setQuiz(instanceQuiz);
+			}
 			instanceTopics.add(instanceTopic);
-			firstTopic=false;
 		}
 		LOGGER.debug("UserServiceImpl: populateInstanceTopics: End");
 		
@@ -133,6 +143,26 @@ public class UserServiceImpl implements UserService {
 			activityAnswers.add(activityAnswer);
 		}
 		LOGGER.debug("UserServiceImpl: populateActivityAnswer: End");
+	}
+	
+
+	private void populateQuizAnswer(List<QuizOption> quizOptions, List<QuizAnswer> quizAnswers) throws UserException {
+		LOGGER.debug("UserServiceImpl: populateQuizAnswer: Start");
+		for(QuizOption quizOption : quizOptions){
+			QuizAnswer quizAnswer = new QuizAnswer();
+			quizAnswer.setQuizOption(quizOption);
+			quizAnswer.setCreatedTs(new Date());
+			Status status = userDao.getStatusByDesc(AppConstants.STATUS_NOT_STARTED);
+			quizAnswer.setStatus(status);
+			Set<Option> correctAnswers = new HashSet<Option>(quizOption.getCorrectAnswers());
+			Set<Option> userAnswers = new HashSet<Option>();
+			populateAnswers(correctAnswers, userAnswers);
+			quizAnswer.setUserAnswers(new ArrayList<Option>(userAnswers));
+			quizAnswer = userDao.saveQuizAnswer(quizAnswer);
+			quizAnswers.add(quizAnswer);
+		}
+		LOGGER.debug("UserServiceImpl: populateQuizAnswer: End");
+		
 	}
 
 	private void populateAnswers(Set<Option> options, Set<Option> answers) {
@@ -265,6 +295,97 @@ public class UserServiceImpl implements UserService {
 		LOGGER.debug("UserServiceImpl: deleteInstance: Executing");
 		try {
 			userDao.deleteInstance(instance);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new UserException(e);
+		}
+	}
+
+	public QuizAnswer getFirstQuizAnswer(InstanceQuiz quiz) throws UserException {
+		
+		LOGGER.debug("UserServiceImpl: getFirstQuizAnswer: Start");
+		QuizAnswer currentQuizAnswer = new QuizAnswer();
+		List<QuizAnswer> quizAnswers = quiz.getQuizAnswers();
+		Collections.sort(quizAnswers, new Comparator<QuizAnswer>() {
+
+			public int compare(QuizAnswer qA1, QuizAnswer qA2) {
+				return Integer.valueOf(qA1.getQuizOption().getOrderNo()).compareTo(Integer.valueOf(qA2.getQuizOption().getOrderNo()));
+			}
+		});
+		for(QuizAnswer qa : quizAnswers){
+			if(qa.getStatus().getStatusId() == AppConstants.STATUS_COMPLETE_ID){
+				continue;
+			}
+			currentQuizAnswer = qa;
+			break;
+		}
+		
+		LOGGER.debug("UserServiceImpl: getFirstQuizAnswer: End");
+		return currentQuizAnswer;
+	}
+
+	public void updateQuizScore(InstanceQuiz instanceQuiz, QuizAnswer currentQuizAnswer) throws UserException {
+		
+		LOGGER.debug("UserServiceImpl: updateQuizScore: Start");
+		int scoreSoFar = instanceQuiz.getScore();
+		boolean wrongAnswer = false;
+		
+		List<Option> userAnswers = currentQuizAnswer.getUserAnswers();
+		List<Option> correctAnswers = currentQuizAnswer.getQuizOption().getCorrectAnswers();
+		
+		for(Option correctAnswer : correctAnswers){
+			for(Option userAnswer : userAnswers){
+				if(correctAnswer.getOrderNo() == userAnswer.getOrderNo() && !correctAnswer.getIsCorrect().equalsIgnoreCase(userAnswer.getIsCorrect())){
+					wrongAnswer = true;
+				}
+			}
+		}
+		
+		if(!wrongAnswer){
+			instanceQuiz.setScore(++scoreSoFar);
+		}
+		LOGGER.debug("UserServiceImpl: updateQuizScore: End");
+	}
+
+	public void saveOrUpdateQuizAnswer(QuizAnswer currentQuizAnswer) throws UserException {
+		LOGGER.debug("UserServiceImpl: saveOrUpdateQuizAnswer: Executing");
+		try {
+			userDao.saveOrUpdateQuizAnswer(currentQuizAnswer);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new UserException(e);
+		}
+	}
+
+	public QuizAnswer getNextCurrentQuizAnswer(int orderNo, String navType) throws UserException {
+		LOGGER.debug("UserServiceImpl: getNextCurrentQuizAnswer: Executing");
+		try {
+			if(navType.equalsIgnoreCase(AppConstants.NAV_TYPE_PREVIOUS_QUIZ)){
+				orderNo--;
+			}else if(navType.equalsIgnoreCase(AppConstants.NAV_TYPE_NEXT_QUIZ)){
+				orderNo++;
+			}
+			return userDao.getNextCurrentQuizAnswer(orderNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new UserException(e);
+		}
+	}
+
+	public void saveOrUpdateInstanceQuiz(InstanceQuiz instanceQuiz) throws UserException {
+		LOGGER.debug("UserServiceImpl: saveOrUpdateInstanceQuiz: Executing");
+		try {
+			userDao.saveOrUpdateInstanceQuiz(instanceQuiz);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new UserException(e);
+		}
+	}
+
+	public InstanceQuiz getInstanceQuizById(int instanceQuizId) throws UserException {
+		LOGGER.debug("UserServiceImpl: getInstanceQuizById: Executing");
+		try {
+			return userDao.getInstanceQuizById(instanceQuizId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new UserException(e);

@@ -29,10 +29,12 @@ import com.neu.ipco.constants.AppConstants;
 import com.neu.ipco.entity.ActivityOption;
 import com.neu.ipco.entity.Option;
 import com.neu.ipco.entity.Quiz;
+import com.neu.ipco.entity.QuizOption;
 import com.neu.ipco.entity.Topic;
 import com.neu.ipco.exception.AdminException;
 import com.neu.ipco.exception.ApplicationUtilException;
 import com.neu.ipco.service.AdminService;
+import com.neu.ipco.service.ApplicationUtilService;
 
 /**
  * @author harsh
@@ -50,6 +52,10 @@ public class QuizController implements Serializable {
 	
 	@Autowired
 	private AdminService adminService;
+	
+	@Autowired
+	private ApplicationUtilService applicationUtilService;
+	
 	
 	@RequestMapping(value="/manageQuiz.action")
 	public String manageQuizAction(Model model, HttpSession session){
@@ -69,17 +75,42 @@ public class QuizController implements Serializable {
 		return AppConstants.MANAGE_QUIZ;
 	}
 	
+	@RequestMapping(value="/addQuizName.action")
+	public String addQuizNameAction(@RequestParam("quizName") String quizName, 
+			@RequestParam("quizDesc") String quizDesc, @RequestParam("quizForTopicId") int topicId,
+			Model model, HttpSession session){
+		
+		LOGGER.debug("QuizController: addQuizNameAction: Start");
+		
+		try {
+			Topic topic = adminService.getTopicById(topicId);
+			Quiz quiz = new Quiz();
+			quiz.setQuizName(quizName);
+			quiz.setQuizDesc(quizDesc);
+			topic.setQuiz(quiz);
+			
+			adminService.saveQuiz(quiz);
+			adminService.saveOrUpdateTopic(topic);
+			applicationUtilService.updateNewQuizToInstanceTopics(quiz, topic.getTopicId());
+			return manageQuizAction(model, session);
+		} catch (AdminException e) {
+			return AppConstants.ERROR_PAGE;
+		} catch (ApplicationUtilException e) {
+			return AppConstants.ERROR_PAGE;
+		}
+	}
+	
 	@RequestMapping(value="/gotoAddQuiz.action")
-	public String gotoAddQuizAction(@RequestParam("id") int topicId, Model model, HttpSession session){
+	public String gotoAddQuizAction(@RequestParam("quizId") int quizId, Model model, HttpSession session){
 		
 		LOGGER.debug("QuizController: gotoAddQuizAction: Start");
 		
-		Quiz quiz = new Quiz();
-
-		model.addAttribute("quiz", quiz);
-		model.addAttribute("topicId", topicId);
+		QuizOption quizOption = new QuizOption();
+		model.addAttribute("quizOption", quizOption);
+		model.addAttribute("quizId", quizId);
 		LOGGER.debug("QuizController: gotoAddQuizAction: End");
 		return AppConstants.ADMIN_QUIZ;
+
 	}
 	
 }

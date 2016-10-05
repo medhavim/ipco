@@ -13,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.neu.ipco.entity.ActivityOption;
 import com.neu.ipco.entity.Module;
 import com.neu.ipco.entity.Option;
+import com.neu.ipco.entity.Quiz;
+import com.neu.ipco.entity.QuizOption;
 import com.neu.ipco.entity.Topic;
 import com.neu.ipco.exception.AdminException;
 
@@ -30,7 +32,7 @@ public interface AdminService {
 
 	public void updateTopic(Topic topic) throws AdminException;
 
-	public void deleteTopic(Topic topic) throws AdminException;
+	public void deleteTopicById(int topicId) throws AdminException;
 
 	public Module addNewModule(Module module) throws AdminException;
 
@@ -53,5 +55,13 @@ public interface AdminService {
 	public void deleteOptionsByActivityOptionId(int activityOptionId) throws AdminException;
 
 	public void saveOrUpdateTopic(Topic topic) throws AdminException;
+
+	public void saveQuiz(Quiz quiz) throws AdminException;
+
+	public Quiz getQuizById(int quizId) throws AdminException;
+
+	public void saveOrUpdateQuiz(Quiz quiz) throws AdminException;
+
+	public int getNextQuizOpOrderNo(List<QuizOption> quizOptions) throws AdminException;
 
 }

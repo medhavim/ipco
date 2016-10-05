@@ -4,7 +4,6 @@
 package com.neu.ipco.entity;
 
 import java.io.Serializable;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;
@@ -31,6 +30,8 @@ public class Module implements Serializable, Comparable<Module> {
 	private Topic topic;
 	
 	private Set<ActivityOption> activityOptions = new TreeSet<ActivityOption>(AppConstants.ACTIVITY_OPTION_COMPARATOR);
+	
+	private Set<InstanceModule> instanceModules;
 	
 	private int orderNo;
 	
@@ -117,6 +118,20 @@ public class Module implements Serializable, Comparable<Module> {
 	 */
 	public void setActivityOptions(Set<ActivityOption> activityOptions) {
 		this.activityOptions = activityOptions;
+	}
+
+	/**
+	 * @return the instanceModules
+	 */
+	public Set<InstanceModule> getInstanceModules() {
+		return instanceModules;
+	}
+
+	/**
+	 * @param instanceModules the instanceModules to set
+	 */
+	public void setInstanceModules(Set<InstanceModule> instanceModules) {
+		this.instanceModules = instanceModules;
 	}
 
 	/**

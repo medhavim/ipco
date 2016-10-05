@@ -46,15 +46,15 @@
 		</ul>
 	</div>
 </div>
-<form:form action="addQuiz.action" method="post" modelAttribute="quiz" enctype="multipart/form-data">
-<input type="hidden" name="topicId" value="${topicId}"/>
+<form:form action="addQuiz.action" method="post" modelAttribute="quizOption" enctype="multipart/form-data">
+<input type="hidden" name="quizId" value="${quizId}"/>
 <div class="jumbotron">
 	<div class="container-fluid text-left">
 		<span class="h2">Step 2:</span>
 		<span class="h2">Quiz Question Title Here</span>
 	</div>
 	<div class="container-fluid text-left desc-body">
-		<form:input type="text" id="activityTitle" name="activityTitle" path="activity.activityTitle" class="form-control" placeholder="Enter Activity title Here." />
+		<form:input type="text" id="activityTitle" name="activityTitle" path="activity.activityTitle" class="form-control" placeholder="Enter Quiz title Here." />
 	</div>	
 </div>
 <div class="jumbotron">
@@ -68,9 +68,9 @@
 </div>
 <div class="jumbotron">
 	<div class="container-fluid text-left desc-body selected-tmplteOptn">
-		<div class="info">
-			<input type="hidden" name="activityTemplate" value="9"/>
-		</div>
+<!-- 		<div class="info"> -->
+<!-- 			<input type="hidden" name="activityTemplate" value="9"/> -->
+<!-- 		</div> -->
 	</div>
 	<div class="container-fluid text-left desc-body">
 		<div class="row">

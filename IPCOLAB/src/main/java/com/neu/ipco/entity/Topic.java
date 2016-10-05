@@ -6,7 +6,6 @@ package com.neu.ipco.entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -33,7 +32,7 @@ public class Topic implements Serializable, Comparable<Topic> {
 	
 	private Set<Module> modules = new TreeSet<Module>(AppConstants.MODULE_COMPARATOR);
 	
-	private InstanceTopic instanceTopic;
+//	private InstanceTopic instanceTopic;
 	
 	private TopicType topicType;
 	
@@ -43,7 +42,9 @@ public class Topic implements Serializable, Comparable<Topic> {
 	
 	private Set<RelatedDiagnostic> relatedDiagnostics = new TreeSet<RelatedDiagnostic>();
 	
-	private Set<Quiz> quizQuestions = new TreeSet<Quiz>();
+	private Set<InstanceTopic> instanceTopics;
+	
+	private Quiz quiz;
 	
 	private Date createdTs;
 	
@@ -120,19 +121,19 @@ public class Topic implements Serializable, Comparable<Topic> {
 		this.modules = modules;
 	}
 
-	/**
-	 * @return the instanceTopic
-	 */
-	public InstanceTopic getInstanceTopic() {
-		return instanceTopic;
-	}
-
-	/**
-	 * @param instanceTopic the instanceTopic to set
-	 */
-	public void setInstanceTopic(InstanceTopic instanceTopic) {
-		this.instanceTopic = instanceTopic;
-	}
+//	/**
+//	 * @return the instanceTopic
+//	 */
+//	public InstanceTopic getInstanceTopic() {
+//		return instanceTopic;
+//	}
+//
+//	/**
+//	 * @param instanceTopic the instanceTopic to set
+//	 */
+//	public void setInstanceTopic(InstanceTopic instanceTopic) {
+//		this.instanceTopic = instanceTopic;
+//	}
 
 	/**
 	 * @return the topicType
@@ -192,17 +193,31 @@ public class Topic implements Serializable, Comparable<Topic> {
 	}
 
 	/**
-	 * @return the quizQuestions
+	 * @return the instanceTopics
 	 */
-	public Set<Quiz> getQuizQuestions() {
-		return quizQuestions;
+	public Set<InstanceTopic> getInstanceTopics() {
+		return instanceTopics;
 	}
 
 	/**
-	 * @param quizQuestions the quizQuestions to set
+	 * @param instanceTopics the instanceTopics to set
 	 */
-	public void setQuizQuestions(Set<Quiz> quizQuestions) {
-		this.quizQuestions = quizQuestions;
+	public void setInstanceTopics(Set<InstanceTopic> instanceTopics) {
+		this.instanceTopics = instanceTopics;
+	}
+
+	/**
+	 * @return the quiz
+	 */
+	public Quiz getQuiz() {
+		return quiz;
+	}
+
+	/**
+	 * @param quiz the quiz to set
+	 */
+	public void setQuiz(Quiz quiz) {
+		this.quiz = quiz;
 	}
 
 	/**

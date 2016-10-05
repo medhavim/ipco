@@ -4,6 +4,7 @@
 package com.neu.ipco.service.impl;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -60,9 +61,14 @@ private Logger LOGGER = Logger.getLogger(AdminDiagnosticServiceImpl.class);
 		}
 	}
 
-	public void deleteCategory(DiagnosticCategory diagnosticCategory) throws AdminException {
+	public void deleteCategory(int diagnosticCategoryId) throws AdminException {
 		LOGGER.debug("AdminDiagnosticServiceImpl: deleteCategory: Executing");
 		try {
+			DiagnosticCategory diagnosticCategory = adminDao.getDiagnosticCategoryById(diagnosticCategoryId);
+			for(Diagnostic diagnostic : diagnosticCategory.getDiagnosticQuestions()){
+				deleteDiagnosticById(diagnostic.getDiagnosticId());
+			}
+			diagnosticCategory = adminDao.getDiagnosticCategoryById(diagnosticCategoryId);
 			adminDao.deleteCategory(diagnosticCategory);
 //			reorderTopics(topic.getTopicType().getTypeId());
 		} catch (Exception e) {
@@ -151,6 +157,44 @@ private Logger LOGGER = Logger.getLogger(AdminDiagnosticServiceImpl.class);
 		} catch (Exception e) {
 			throw new AdminException(e);
 		}
+	}
+
+	public void deleteDiagnosticById(int diagnosticId) throws AdminException {
+		LOGGER.debug("AdminDiagnosticServiceImpl: deleteDiagnosticById: Executing");
+		try {
+			Diagnostic diagnostic = adminDao.getDiagnosticById(diagnosticId);
+			for(RelatedDiagnostic relatedDiagnostic : diagnostic.getRelatedDiagnostics()){
+				deleteDiagnosticFromRelatedDiagnostic(relatedDiagnostic, diagnostic.getDiagnosticId());
+			}
+			adminDao.deleteDiagnostic(diagnostic);
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
+	}
+
+	public void deleteDiagnosticFromRelatedDiagnostic(RelatedDiagnostic relatedDiagnostic, Integer diagnosticId) throws AdminException {
+
+		LOGGER.debug("AdminDiagnosticServiceImpl: deleteDiagnosticById: Executing");
+		try {
+			if(relatedDiagnostic.getDiagnostics().size() <= 2){
+				adminDao.deleteRelatedDiagnostic(relatedDiagnostic);
+			}else{
+				List<Diagnostic> tempList = new LinkedList<Diagnostic>(relatedDiagnostic.getDiagnostics());
+				for(Iterator<Diagnostic> diagnosticIterator = tempList.iterator(); diagnosticIterator.hasNext();){
+					Diagnostic diagnostic = diagnosticIterator.next();
+					if(diagnostic.getDiagnosticId() == diagnosticId){
+						relatedDiagnostic.getDiagnostics().remove(diagnostic);
+					}
+				}
+				adminDao.saveOrUpdateRelatedDiagnostic(relatedDiagnostic);
+			}
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
+	
+		
+		
+		
 	}
 
 }

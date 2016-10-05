@@ -10,6 +10,10 @@ function addModule(button) {
 	var topicId = button.id.split("-")[1];
 	$('#topicId').val(topicId);
 }
+
+function addQuizForTopic(topicId) {
+	$('#quizForTopicId').val(topicId);
+}
 	
 function deleteTopic(deletedTag){
 	

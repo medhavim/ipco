@@ -57,6 +57,13 @@
 									    id="moduleId_${instanceModule.instanceModuleId}">${instanceModule.module.moduleName}</button>
 							</div>
 							</c:forEach>
+							<c:if test="${instanceTopic.quiz ne null}">
+							<div class="col-md-2">
+								<button class="instanceQuiz btn <c:choose><c:when test="${instanceTopic.quiz.status.statusId eq 1}">btn-info</c:when><c:when test="${instanceTopic.quiz.status.statusId eq 2}">btn-danger</c:when><c:otherwise>btn-success</c:otherwise></c:choose> button-wrapper btn-block"
+									    <c:if test="${instanceTopic.quiz.status.statusId eq 1 or fn:length(instanceTopic.quiz.quizAnswers)<=0}">disabled</c:if>
+									    id="quizId_${instanceTopic.quiz.instanceQuizId}">${instanceTopic.quiz.quiz.quizName}</button>
+							</div>
+							</c:if>
 						</div>
 					</div>
 				</div>	
