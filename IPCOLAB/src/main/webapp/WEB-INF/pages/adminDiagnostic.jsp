@@ -23,7 +23,7 @@
 </head>
 <body>
 <jsp:include page="header.jsp"></jsp:include>
-<div class="jumbotron title">
+<div class="jumbotron title admin">
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item"><a href="adminHome.action">Home</a></li>
 		<li class="breadcrumb-item"><a href="manageDiagnostic.action">Manage Diagnostic</a></li>

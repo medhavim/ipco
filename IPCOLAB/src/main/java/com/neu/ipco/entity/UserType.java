@@ -26,7 +26,6 @@ public class UserType implements Serializable {
 	private Date updatedTs;
 	
 	public UserType() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

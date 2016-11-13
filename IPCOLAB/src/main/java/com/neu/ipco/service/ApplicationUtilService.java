@@ -42,4 +42,6 @@ public interface ApplicationUtilService {
 
 	public void updateNewQuizOptionToInstanceQuiz(QuizOption quizOption, int quizId) throws ApplicationUtilException;
 
+	public Status getIncompleteStatus() throws ApplicationUtilException;
+
 }

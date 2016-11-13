@@ -26,7 +26,6 @@ public class InstanceType implements Serializable {
 	private Date updatedTs;
 	
 	public InstanceType() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

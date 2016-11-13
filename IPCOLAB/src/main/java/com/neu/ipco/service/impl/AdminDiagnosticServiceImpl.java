@@ -3,9 +3,11 @@
  */
 package com.neu.ipco.service.impl;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -191,10 +193,62 @@ private Logger LOGGER = Logger.getLogger(AdminDiagnosticServiceImpl.class);
 		} catch (Exception e) {
 			throw new AdminException(e);
 		}
-	
+	}
+
+	public void saveOrUpdateDiagnostic(Diagnostic diagnostic) throws AdminException {
+		LOGGER.debug("AdminDiagnosticServiceImpl: saveOrUpdateDiagnostic: Executing");
+		try {
+			adminDao.saveOrUpdateDiagnostic(diagnostic);
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
+	}
+
+	public void removeTopicFromDiagnostic(Topic topic) throws AdminException {
 		
+		LOGGER.debug("AdminDiagnosticServiceImpl: removeTopicFromDiagnostic: Executing");
+		try {
+			Set<Diagnostic> diagnostics = new HashSet<Diagnostic>(topic.getDiagnosticQuestions());
+			for(Diagnostic diagnostic : diagnostics){
+				if(diagnostic.getTopics().size() == 1){
+					deleteDiagnosticById(diagnostic.getDiagnosticId());
+				}else{
+					diagnostic.getTopics().remove(topic);
+					saveOrUpdateDiagnostic(diagnostic);
+				}
+			}
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
+	}
+
+	public void removeTopicFromRelatedDiagnostic(Topic topic)
+			throws AdminException {
 		
-		
+		LOGGER.debug("AdminDiagnosticServiceImpl: removeTopicFromDiagnostic: Executing");
+		try {
+			Set<RelatedDiagnostic> relatedDiagnostics = new HashSet<RelatedDiagnostic>(topic.getRelatedDiagnostics());
+			for(RelatedDiagnostic relatedDiagnostic : relatedDiagnostics){
+				if(relatedDiagnostic.getTopics().size() == 1){
+					deleteRelatedDiagnosticById(relatedDiagnostic.getRelatedDiagnosticId());
+				}else{
+					relatedDiagnostic.getTopics().remove(topic);
+					saveOrUpdateRelatedDiagnostic(relatedDiagnostic);
+				}
+			}
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
+	}
+
+	public void deleteRelatedDiagnosticById(Integer relatedDiagnosticId) throws AdminException{
+		LOGGER.debug("AdminDiagnosticServiceImpl: deleteRelatedDiagnosticById: Executing");
+		try {
+			RelatedDiagnostic relatedDiagnostic = adminDao.getRelatedDiagnosticById(relatedDiagnosticId);
+			adminDao.deleteRelatedDiagnostic(relatedDiagnostic);
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
 	}
 
 }

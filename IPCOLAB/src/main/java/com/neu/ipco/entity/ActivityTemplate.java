@@ -26,7 +26,6 @@ public class ActivityTemplate implements Serializable {
 	private Date updatedTs;
 	
 	public ActivityTemplate() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

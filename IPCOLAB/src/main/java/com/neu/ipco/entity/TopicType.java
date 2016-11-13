@@ -26,7 +26,6 @@ public class TopicType implements Serializable {
 	private Date updatedTs;
 	
 	public TopicType() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public TopicType(Integer topicTypeId) {

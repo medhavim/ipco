@@ -36,7 +36,6 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 	 * 
 	 */
 	public AuthenticationDaoImpl() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/* (non-Javadoc)
@@ -137,6 +136,11 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 			LOGGER.debug("AuthenticationDaoImpl: getCustomInstanceByUserId: End");
 			return customizeInstanceUsers.get(0);
 		}
+	}
+
+	public void saveOrUpdateUser(User user) {
+		LOGGER.debug("AuthenticationDaoImpl: saveOrUpdateUser: Executing");
+		template.saveOrUpdate(user);
 	}
 
 }

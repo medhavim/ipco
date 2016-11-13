@@ -4,7 +4,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="com.neu.ipco.entity">
-	<class name="Option" table="optn">
+	<class name="Option" table="optn" dynamic-update="true">
 	
 		<id name="optionId" column="option_id" >
 			<generator class="increment"/>

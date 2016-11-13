@@ -50,7 +50,6 @@ public class InstanceModule implements Serializable, Comparable<InstanceModule> 
 	private Date updatedTs;
 	
 	public InstanceModule() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public void reorder() {
@@ -59,6 +58,10 @@ public class InstanceModule implements Serializable, Comparable<InstanceModule> 
 	}
 	
 	public void prepareStack() {
+		
+		if(this.activityAnswerList.isEmpty()){
+			reorder();
+		}
 		
 		nextActivity.clear();
 		prevActivity.clear();	
@@ -80,8 +83,11 @@ public class InstanceModule implements Serializable, Comparable<InstanceModule> 
 		}
 	}
 	
-	public void prepareStack(ActivityAnswer activityAnswer) {
+	public void prepareStack(int activityAnswerId) {
 		
+		if(this.activityAnswerList.isEmpty()){
+			reorder();
+		}
 		nextActivity.clear();
 		prevActivity.clear();	
 		List<ActivityAnswer> tempActivityAnswerList = new ArrayList<ActivityAnswer>(activityAnswerList);
@@ -89,7 +95,7 @@ public class InstanceModule implements Serializable, Comparable<InstanceModule> 
 		nextActivity.addAll(tempActivityAnswerList);
 		while(!nextActivity.empty()){
 			currActivity = nextActivity.pop();
-			if(currActivity.getActivityAnswerId() == activityAnswer.getActivityAnswerId()){
+			if(currActivity.getActivityAnswerId().equals(activityAnswerId)){
 				break;
 			}
 			prevActivity.push(currActivity);
@@ -125,6 +131,25 @@ public class InstanceModule implements Serializable, Comparable<InstanceModule> 
 				currActivity = nextActivity.pop();
 			}
 		}
+	}
+	
+
+	public void configurePrevActivity() {
+		if(null != currActivity
+				&& !prevActivity.isEmpty()){
+			nextActivity.push(currActivity);
+			currActivity = prevActivity.pop();
+		}
+		
+	}
+
+	public void configureNextActivity() {
+		if(null != currActivity
+				&& !nextActivity.isEmpty()){
+			prevActivity.push(currActivity);
+			currActivity = nextActivity.pop();
+		}
+		
 	}
 	
 	/**

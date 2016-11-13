@@ -38,7 +38,6 @@ public class ActivityOption implements Serializable, Comparable<ActivityOption> 
 	private Date updatedTs;
 	
 	public ActivityOption() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

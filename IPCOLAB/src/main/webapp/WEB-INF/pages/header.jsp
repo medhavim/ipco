@@ -15,7 +15,12 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <span class="glyphicon glyphicon-user"></span> 
+                        <c:if test="${user ne null}">
                         <strong>${user.firstName}</strong>
+                        </c:if>
+                        <c:if test="${admin ne null}">
+                        <strong>${admin.firstName}</strong>
+                        </c:if>
                         <span class="glyphicon glyphicon-chevron-down"></span>
                     </a>
                     <ul class="dropdown-menu">
@@ -28,8 +33,14 @@
                                         </p>
                                     </div>
                                     <div class="col-lg-8">
+                                    	<c:if test="${user ne null}">
                                         <p class="text-left"><strong>${user.firstName} ${user.lastName}</strong></p>
                                         <p class="text-left small">${user.email}</p>
+                                        </c:if>
+                                        <c:if test="${admin ne null }">
+                                        <p class="text-left"><strong>${admin.firstName} ${admin.lastName}</strong></p>
+                                        <p class="text-left small">${admin.email}</p>
+                                        </c:if>
                                         <p class="text-left">
                                             <a href="#" class="btn btn-primary btn-block btn-sm">Edit Profile</a>
                                         </p>

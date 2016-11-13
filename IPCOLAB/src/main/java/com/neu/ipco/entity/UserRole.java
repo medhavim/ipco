@@ -26,7 +26,6 @@ public class UserRole implements Serializable {
 	private Date updatedTs;
 	
 	public UserRole() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

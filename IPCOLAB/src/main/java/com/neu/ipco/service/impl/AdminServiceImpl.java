@@ -5,7 +5,9 @@ package com.neu.ipco.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -19,11 +21,14 @@ import org.springframework.web.multipart.MultipartFile;
 import com.neu.ipco.constants.AppConstants;
 import com.neu.ipco.dao.AdminDao;
 import com.neu.ipco.entity.ActivityOption;
+import com.neu.ipco.entity.InstanceModule;
+import com.neu.ipco.entity.InstanceTopic;
 import com.neu.ipco.entity.Module;
+import com.neu.ipco.entity.Option;
 import com.neu.ipco.entity.Quiz;
 import com.neu.ipco.entity.QuizOption;
-import com.neu.ipco.entity.RelatedDiagnostic;
 import com.neu.ipco.entity.Topic;
+import com.neu.ipco.entity.User;
 import com.neu.ipco.exception.AdminException;
 import com.neu.ipco.service.AdminService;
 
@@ -45,7 +50,9 @@ public class AdminServiceImpl implements AdminService {
 	public List<Topic> loadAllTopics() throws AdminException {
 		LOGGER.debug("AdminService: loadAllTopics: Executing");
 		try {
-			return adminDao.loadAllTopics();
+			List<Topic> allTopics = adminDao.loadAllTopics();
+			Collections.sort(allTopics, AppConstants.TOPIC_COMPARATOR);
+			return allTopics;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AdminException(e);
@@ -84,21 +91,22 @@ public class AdminServiceImpl implements AdminService {
 		LOGGER.debug("AdminService: deleteTopic: Executing");
 		try {
 			Topic topic = adminDao.getTopicById(topicId);
-			
-//			Fetching and deleting the related diagnostic questions
-//			Set<RelatedDiagnostic> relatedDiagnostics = topic.getRelatedDiagnostics();
-//			adminDao.deleteRelatedDiagnostics(relatedDiagnostics);
-			
-			
 			int typeId = topic.getTopicType().getTypeId();
-//			topic.setDiagnosticQuestions(null);
-//			topic.setRelatedDiagnostics(null);
-//			topic.setInstanceTopics(null);
+			deleteInstanceTopicsFromTopic(topic);
 			adminDao.deleteTopic(topic);
 			reorderTopics(typeId);
 		} catch (Exception e) {
 			throw new AdminException(e);
 		}
+	}
+
+	private void deleteInstanceTopicsFromTopic(Topic topic) throws AdminException {
+		
+		Set<InstanceTopic> instanceTopics = new HashSet<InstanceTopic>(adminDao.getInstanceTopicsByTopcId(topic.getTopicId()));
+		for(InstanceTopic instanceTopic : instanceTopics){
+			adminDao.deleteInstanceTopic(instanceTopic);
+		}
+		topic.setInstanceTopics(null);
 	}
 
 	private void reorderTopics(Integer typeId) throws AdminException{
@@ -142,6 +150,7 @@ public class AdminServiceImpl implements AdminService {
 	public void deleteModule(Module module) throws AdminException {
 		LOGGER.debug("AdminService: deleteModule: Executing");
 		try {
+			deleteInstanceModulesFromModule(module);
 			adminDao.deleteModule(module);
 			reorderModules(module.getTopic().getTopicId());
 		} catch (Exception e) {
@@ -149,6 +158,15 @@ public class AdminServiceImpl implements AdminService {
 		}
 	}
 	
+	private void deleteInstanceModulesFromModule(Module module) throws AdminException {
+		
+		Set<InstanceModule> instanceModules = new HashSet<InstanceModule>(adminDao.getInstanceModulesByModuleId(module.getModuleId()));
+		for(InstanceModule instanceModule : instanceModules){
+			adminDao.deleteInstanceModule(instanceModule);
+		}
+		module.setInstanceModules(null);
+	}
+
 	private void reorderModules(Integer topicId) throws AdminException{
 		List<Module> modules = adminDao.getModulesByTopicId(topicId);
 		int orderNo = 1;
@@ -302,6 +320,40 @@ public class AdminServiceImpl implements AdminService {
 
 	public int getNextQuizOpOrderNo(List<QuizOption> quizOptions) throws AdminException {
 		return quizOptions.size()+1;
+	}
+
+	@Override
+	public List<User> loadAllUsers() throws AdminException {
+		LOGGER.debug("AdminService: loadAllUsers: Executing");
+		try {
+			List<User> allUsers = adminDao.loadAllUsers();
+			Collections.sort(allUsers, AppConstants.REGISTERED_USER_COMPARATOR);
+			return allUsers;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new AdminException(e);
+		}
+	}
+
+	@Override
+	public User getUserById(int userId) throws AdminException {
+		LOGGER.debug("AdminService: getUserById: Executing");
+		try {
+			return adminDao.getUserById(userId);
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
+	}
+
+	@Override
+	public void deleteOptions(Set<Option> options) throws AdminException {
+		LOGGER.debug("AdminService: deleteOptions: Start");
+		try {
+			adminDao.deleteOptions(options);
+			LOGGER.debug("AdminService: deleteOptions: End");
+		} catch (Exception e) {
+			throw new AdminException(e);
+		}
 	}
 	
 

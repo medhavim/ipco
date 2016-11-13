@@ -5,7 +5,7 @@
 
 <hibernate-mapping package="com.neu.ipco.entity">
 
-	<class name="InstanceTopic" table="instance_topic">
+	<class name="InstanceTopic" table="instance_topic" dynamic-update="true">
 	
 		<id name="instanceTopicId" column="instance_topic_id">
 			<generator class="increment"/>

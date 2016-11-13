@@ -5,11 +5,8 @@ package com.neu.ipco.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -30,7 +27,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.neu.ipco.constants.AppConstants;
 import com.neu.ipco.entity.ActivityOption;
-import com.neu.ipco.entity.Diagnostic;
 import com.neu.ipco.entity.Module;
 import com.neu.ipco.entity.Option;
 import com.neu.ipco.entity.Quiz;
@@ -77,8 +73,6 @@ public class AdminController {
 		
 		try {
 			List<Topic> allTopics = adminService.loadAllTopics();
-			Collections.sort(allTopics, AppConstants.TOPIC_COMPARATOR);
-			
 			session.setAttribute("allTopics", allTopics);
 			
 		} catch (AdminException e) {
@@ -96,6 +90,9 @@ public class AdminController {
 		LOGGER.debug("AdminController: addNewTopicAction: Start");
 		
 		List<Topic> allTopics = (List<Topic>) session.getAttribute("allTopics");
+		if(allTopics.isEmpty()){
+			allTopics = new ArrayList<Topic>();
+		}
 		Topic newTopic = new Topic(topicName, topicDesc, topicTypeId);
 		try {
 			newTopic = adminService.addNewTopic(newTopic);
@@ -129,7 +126,6 @@ public class AdminController {
 			module = adminService.addNewModule(module);
 			applicationUtilService.updateNewModuleToInstanceTopics(module);
 			List<Topic> allTopics = adminService.loadAllTopics();
-			Collections.sort(allTopics, AppConstants.TOPIC_COMPARATOR);
 			session.setAttribute("allTopics", allTopics);
 			model.addAttribute("moduleTopicId", module.getTopic().getTopicId());
 		} catch (AdminException e) {
@@ -151,14 +147,10 @@ public class AdminController {
 		try {
 			Topic topic = adminService.getTopicById(deletableId);
 			
-			Set<Diagnostic> diagnostics = new HashSet<Diagnostic>(topic.getDiagnosticQuestions());
-			for(Diagnostic diagnostic : diagnostics){
-				adminDiagnosticService.deleteDiagnosticById(diagnostic.getDiagnosticId());
-			}
+			adminDiagnosticService.removeTopicFromDiagnostic(topic);
+			adminDiagnosticService.removeTopicFromRelatedDiagnostic(topic);
 			adminService.deleteTopicById(deletableId);
-			
 			List<Topic> allTopics = adminService.loadAllTopics();
-			Collections.sort(allTopics, AppConstants.TOPIC_COMPARATOR);
 			session.setAttribute("allTopics", allTopics);
 		} catch (AdminException e) {
 			return AppConstants.ERROR_PAGE;
@@ -178,7 +170,6 @@ public class AdminController {
 			adminService.deleteModule(module);
 			
 			List<Topic> allTopics = adminService.loadAllTopics();
-			Collections.sort(allTopics, AppConstants.TOPIC_COMPARATOR);
 			session.setAttribute("allTopics", allTopics);
 			model.addAttribute("moduleTopicId", module.getTopic().getTopicId());
 		} catch (AdminException e) {
@@ -279,7 +270,6 @@ public class AdminController {
 			adminService.deleteActivityOption(activityOption);
 			
 			List<Topic> allTopics = adminService.loadAllTopics();
-			Collections.sort(allTopics, AppConstants.TOPIC_COMPARATOR);
 			session.setAttribute("allTopics", allTopics);
 			model.addAttribute("moduleTopicId", activityOption.getModule().getTopic().getTopicId());
 			model.addAttribute("activityModuleId", activityOption.getModule().getModuleId());
@@ -338,7 +328,6 @@ public class AdminController {
 			currActivityOption = adminService.editActivity(currActivityOption);
 			
 			List<Topic> allTopics = adminService.loadAllTopics();
-			Collections.sort(allTopics, AppConstants.TOPIC_COMPARATOR);
 			session.setAttribute("allTopics", allTopics);
 			model.addAttribute("moduleTopicId", currActivityOption.getModule().getTopic().getTopicId());
 			model.addAttribute("activityModuleId", currActivityOption.getModule().getModuleId());
@@ -377,7 +366,6 @@ public class AdminController {
 			applicationUtilService.updateNewActivityToInstanceModule(activityOption);
 			
 			List<Topic> allTopics = adminService.loadAllTopics();
-			Collections.sort(allTopics, AppConstants.TOPIC_COMPARATOR);
 			session.setAttribute("allTopics", allTopics);
 			model.addAttribute("moduleTopicId", activityOption.getModule().getTopic().getTopicId());
 			model.addAttribute("activityModuleId", activityOption.getModule().getModuleId());
@@ -422,7 +410,6 @@ public class AdminController {
 			applicationUtilService.updateNewQuizOptionToInstanceQuiz(quizOption, quizId);
 			
 			List<Topic> allTopics = adminService.loadAllTopics();
-			Collections.sort(allTopics, AppConstants.TOPIC_COMPARATOR);
 			session.setAttribute("allTopics", allTopics);
 		} catch (AdminException e) {
 			return AppConstants.ERROR_PAGE;

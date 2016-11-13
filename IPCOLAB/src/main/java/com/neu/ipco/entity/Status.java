@@ -26,7 +26,12 @@ public class Status implements Serializable {
 	private Date updatedTs;
 	
 	public Status() {
-		// TODO Auto-generated constructor stub
+	}
+	
+	public Status(int statusId, String statusDesc, Date createdTs){
+		this.statusId = statusId;
+		this.statusDesc = statusDesc;
+		this.createdTs = createdTs;
 	}
 
 	/**

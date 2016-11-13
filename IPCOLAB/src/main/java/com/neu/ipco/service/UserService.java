@@ -13,7 +13,9 @@ import com.neu.ipco.entity.InstanceModule;
 import com.neu.ipco.entity.InstanceQuiz;
 import com.neu.ipco.entity.InstanceTopic;
 import com.neu.ipco.entity.QuizAnswer;
+import com.neu.ipco.entity.Status;
 import com.neu.ipco.entity.Topic;
+import com.neu.ipco.exception.ApplicationUtilException;
 import com.neu.ipco.exception.UserException;
 
 /**
@@ -56,9 +58,27 @@ public interface UserService {
 
 	void saveOrUpdateQuizAnswer(QuizAnswer currentQuizAnswer) throws UserException;
 
-	QuizAnswer getNextCurrentQuizAnswer(int nextOrderNo, String navType) throws UserException;
+	QuizAnswer getNextCurrentQuizAnswer(int instanceQuizId, int orderNo, String navType) throws UserException;
 
 	void saveOrUpdateInstanceQuiz(InstanceQuiz instanceQuiz) throws UserException;
 
 	InstanceQuiz getInstanceQuizById(int instanceQuizId) throws UserException;
+
+	void updateQuizStatus(InstanceQuiz quiz, Status statusIncomplete) throws UserException;
+
+	void updateActivityAnswerStatus(ActivityAnswer currActivity, Status incompleteStatus) throws UserException;
+
+	void updateInstanceModuleStatus(InstanceModule currModule, Status incompleteStatus) throws UserException;
+
+	void updateInstanceTopicStatus(InstanceTopic instanceTopic, Status status) throws UserException;
+
+	InstanceModule getNextCurrentInstanceModule(int instanceTopicId, int orderNo) throws UserException;
+
+	InstanceModule getPrevInstanceModuleForNavigation(InstanceModule instanceModule) throws UserException;
+
+	InstanceModule getNextInstanceModuleForNavigation(InstanceModule instanceModule) throws UserException, ApplicationUtilException;
+
+	void updateQuizAnswerStatus(QuizAnswer currentQuizAnswer, Status statusIncomplete) throws UserException;
+
+	InstanceTopic getInstanceTopicByInstanceQuizId(int instanceQuizId) throws UserException;
 }

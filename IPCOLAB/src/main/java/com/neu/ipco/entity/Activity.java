@@ -30,7 +30,6 @@ public class Activity implements Serializable {
 	private Date updatedTs;
 	
 	public Activity() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

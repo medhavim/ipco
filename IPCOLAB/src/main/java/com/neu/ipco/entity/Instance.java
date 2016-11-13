@@ -39,7 +39,6 @@ public class Instance implements Serializable, Comparable<Instance> {
 	private Date updatedTs;
 	
 	public Instance() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public void reorder(){

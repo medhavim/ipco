@@ -30,7 +30,6 @@ public class Credential implements Serializable{
 	private Date updatedTs;
 	
 	public Credential() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

@@ -43,5 +43,32 @@ $(document).on('click', '.btn-nav', function(e) {
 	$('#navType').val($(this)[0].id);
 	$('#activityForm').submit();
 });
+$(document).on('click', '.btn-nav.btn-prev', function(e) {
+	$('#navType').val($(this)[0].id);
+	$('#activityForm').attr('action', 'navigateActivity.action');
+	$('#activityForm').submit();
+});
 
 // Navigating from one activity/module to next/prev End
+
+// Navigating to module by clicking on the module button Start
+
+$(document).on("click", ".instanceModule", function(e){
+	id = $(this)[0].id.split("_")[1];
+	$('#customForm').attr('action', "gotoModule.action");
+	$("#customForm input[id=id]").val(id);
+	$('#customForm').submit();
+});
+
+// Navigating to module by clicking on the module button End
+
+// Navigating to activity answer by clicking on the activity button Start
+
+$(document).on("click", ".activityAnswer", function(e){
+	id = $(this)[0].id.split("_")[1];
+	$('#customForm').attr('action', "gotoActivityAnswer.action");
+	$("#customForm input[id=id]").val(id);
+	$('#customForm').submit();
+});
+
+// Navigating to activity answer by clicking on the activity button End

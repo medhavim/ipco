@@ -193,6 +193,69 @@ public class DiagnosticController implements Serializable {
 		return AppConstants.MANAGE_DIAGNOSTIC;
 	}
 	
+
+	@RequestMapping(value="/gotoEditDiagnostic.action")
+	public String gotoEditDiagnosticAction(@RequestParam("id") int diagnosticId, HttpSession session, Model model){
+		
+		LOGGER.debug("AdminDiagnosticController: gotoEditDiagnosticAction: Start");
+		
+		try {
+			Diagnostic diagnostic = adminDiagnosticService.getDiagnosticById(diagnosticId);
+			List<Topic> allTopics = adminDiagnosticService.loadCustomTopics();
+			
+			allTopics.removeAll(diagnostic.getTopics());
+			
+			model.addAttribute("allTopics", allTopics);
+			model.addAttribute("diagnostic", diagnostic);
+		} catch (AdminException e) {
+			return AppConstants.ERROR_PAGE;
+		} 
+		
+		LOGGER.debug("AdminDiagnosticController: gotoEditDiagnosticAction: End");
+		return AppConstants.EDIT_DIAGNOSTIC;
+	}
+	
+
+	
+	@RequestMapping(value="/editDiagnostic.action", method=RequestMethod.POST)
+	public String editDiagnosticAction(@ModelAttribute("diagnostic") Diagnostic diagnostic, 
+			@RequestParam("activityTemplate") int activityTemplateId,
+			HttpServletRequest request, HttpSession session, Model model){
+		
+		LOGGER.debug("AdminDiagnosticController: editDiagnosticAction: Start");
+		
+		try {
+			Diagnostic oldDiagnostic = adminDiagnosticService.getDiagnosticById(diagnostic.getDiagnosticId());
+			oldDiagnostic.getActivity().setActivityText(diagnostic.getActivity().getActivityText());
+			oldDiagnostic.getActivity().setActivityTitle(diagnostic.getActivity().getActivityTitle());
+			oldDiagnostic.getActivity().setUpdatedTs(new Date());
+			oldDiagnostic.setUpdatedTs(new Date());
+			
+			Set<Option> options = new TreeSet<Option>();
+			int orderNo = 0;
+			options = populateYESNOOptions(options, request, orderNo);
+			adminService.deleteOptions(diagnostic.getOptions());
+			oldDiagnostic.setOptions(options);
+			
+			
+//			diagnostic.setCategory(adminDiagnosticService.getDiagnosticCategoryById(diagnostic.getCategory().getCategoryId()));
+			
+			Set<Topic> topics = populateTopics(request);
+			oldDiagnostic.setTopics(topics);
+			
+			adminDiagnosticService.saveOrUpdateDiagnostic(oldDiagnostic);
+			
+			List<DiagnosticCategory> allCategories = adminDiagnosticService.loadAllCategories();
+			session.setAttribute("allCategories", allCategories);
+			model.addAttribute("diagnosticCategoryId", diagnostic.getCategory().getCategoryId());
+		} catch (AdminException e) {
+			return AppConstants.ERROR_PAGE;
+		} 
+		
+		LOGGER.debug("AdminDiagnosticController: editDiagnosticAction: End");
+		return AppConstants.MANAGE_DIAGNOSTIC;
+	}
+	
 	private Set<Topic> populateTopics(HttpServletRequest request) throws AdminException {
 		
 		Set<Topic> topics = new TreeSet<Topic>();
@@ -329,9 +392,10 @@ public class DiagnosticController implements Serializable {
 		LOGGER.debug("AdminDiagnosticController: manageRelatedDiagnosticAction: Start");
 		
 		try {
-			User user = (User) session.getAttribute("user");
+			User user = (User) session.getAttribute(AppConstants.SESSION_ATTRIBUTE_ADMIN);
 			
 			if(null == user){
+				LOGGER.debug("AdminDiagnosticController: manageRelatedDiagnosticAction: Exception: Admin object not found in the session, hence exiting.");
 				return AppConstants.ERROR_PAGE;
 			}
 			
@@ -382,7 +446,6 @@ public class DiagnosticController implements Serializable {
 		return AppConstants.EDIT_RELATED_DIAGNOSTIC;
 	}
 	
-
 	@RequestMapping(value="/updatedRelatedDiagnostic.action", method=RequestMethod.POST)
 	public String updateRelatedDiagnosticAction(HttpServletRequest request, HttpSession session, Model model){
 		
@@ -412,7 +475,21 @@ public class DiagnosticController implements Serializable {
 		LOGGER.debug("AdminDiagnosticController: updateRelatedDiagnosticAction: End");
 		return AppConstants.MANAGE_RELATED_DIAGNOSTIC;
 	}
-	
+
+	@RequestMapping(value="/deleteRelatedDiagnostic.action", method=RequestMethod.POST)
+	public String deleteRelatedDiagnosticAction(@RequestParam("deletableId") int deletableId, HttpSession session, Model model){
+		
+		LOGGER.debug("AdminController: deleteRelatedDiagnostic: Start");
+		
+		try {
+			adminDiagnosticService.deleteRelatedDiagnosticById(deletableId);
+			LOGGER.debug("AdminController: deleteRelatedDiagnostic: End");
+			
+			return manageRelatedDiagnosticAction(session, model);
+		} catch (AdminException e) {
+			return AppConstants.ERROR_PAGE;
+		}
+	}
 	@ResponseBody
 	@RequestMapping(value="/renameCategory.action", method=RequestMethod.POST)
 	public String renameCategory(@RequestParam("categoryTitle") String categoryTitle, @RequestParam("categoryId") int categoryId, HttpSession session){

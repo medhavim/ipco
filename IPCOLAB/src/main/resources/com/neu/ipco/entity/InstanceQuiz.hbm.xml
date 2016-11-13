@@ -5,7 +5,7 @@
 
 <hibernate-mapping package="com.neu.ipco.entity">
 
-	<class name="InstanceQuiz" table="instance_quiz">
+	<class name="InstanceQuiz" table="instance_quiz" dynamic-update="true">
 	
 		<id name="instanceQuizId" column="instance_quiz_id">
 			<generator class="increment"/>
@@ -13,7 +13,7 @@
 
 		<many-to-one name="quiz" class="Quiz" column="quiz_id" lazy="false"/>
 		
-		<list name="quizAnswers" lazy="false" cascade="all">
+		<list name="quizAnswers" fetch="select" lazy="false" cascade="all">
 			<key column="instance_quiz_id"/>
 			<list-index column="iqidx"/>
 			<one-to-many class="QuizAnswer"/>

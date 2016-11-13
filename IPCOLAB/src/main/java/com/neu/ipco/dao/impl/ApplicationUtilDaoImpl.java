@@ -73,7 +73,7 @@ public class ApplicationUtilDaoImpl implements ApplicationUtilDao {
 		return template.loadAll(UserRole.class);
 	}
 
-	public Status getStatusId(int statusId) throws ApplicationUtilException {
+	public Status getStatusById(int statusId) throws ApplicationUtilException {
 		LOGGER.debug("ApplicationUtilDaoImpl: getStatusId: Executing");
 		return template.get(Status.class, statusId);
 	}

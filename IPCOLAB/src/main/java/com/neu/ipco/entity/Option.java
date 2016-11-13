@@ -30,7 +30,6 @@ public class Option implements Serializable, Comparable<Option>{
 	private Date updatedTs;
 	
 	public Option() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

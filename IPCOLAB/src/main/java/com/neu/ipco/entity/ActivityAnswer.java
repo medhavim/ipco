@@ -34,7 +34,6 @@ public class ActivityAnswer implements Serializable, Comparable<ActivityAnswer> 
 	private Date updatedTs;
 	
 	public ActivityAnswer() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

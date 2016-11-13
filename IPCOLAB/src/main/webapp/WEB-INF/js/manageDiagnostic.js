@@ -86,6 +86,14 @@ function addRelatedDiagnostic(button){
 	
 }
 
+function editDiagnostic(id){
+	var form = document.getElementById("editForm");
+	form.action="gotoEditDiagnostic.action";
+	form.children.namedItem("id").value=id.split("_")[1];
+	form.submit();
+	
+}
+
 function editRelatedDiagnostic(id){
 	var form = document.getElementById("editForm");
 	form.action="editRelatedDiagnostic.action";
@@ -94,6 +102,14 @@ function editRelatedDiagnostic(id){
 	
 }
 
+function deleteRelatedDiagnostic(deletedTag){
+	
+	var deleteId = deletedTag.id.split("_")[1];
+	var form = document.getElementById("confirmationForm");
+	form.action = "deleteRelatedDiagnostic.action";
+	$("#deletableId").val(deleteId);
+	$("#confirmationDialog").modal("toggle");
+}
 $(document).ready(function() {
 // 		Ajax for renaming the topic name
 	$("#changeCategoryTitle").click(function() {

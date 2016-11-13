@@ -41,7 +41,7 @@
 				</button>
 			</div>
 			<div class="col-sm-3 col-centered">
-				<button class="btn btn-lg btn-circle btn-raised ripple-effect btn-primary">
+				<button id="manageUser.action" class="option btn btn-lg btn-circle btn-raised ripple-effect btn-primary">
 				<h3><span class="glyphicon glyphicon-pencil"></span>&nbsp;User</h3>
 				</button>
 			</div>

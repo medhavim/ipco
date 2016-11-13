@@ -23,7 +23,7 @@
 </head>
 <body>
 <jsp:include page="header.jsp"></jsp:include>
-<div class="jumbotron title">
+<div class="jumbotron title admin">
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item"><a href="adminHome.action">Home</a></li>
 		<li class="breadcrumb-item"><a href="manageDiagnostic.action">Manage Diagnostic</a></li>
@@ -144,13 +144,13 @@
 		<div class="row" style="overflow-y: auto; max-height:300px;">
 			<c:forEach items="${relatedDiagnostic.topics}" var="topic">
 		  	<div class="col-sm-6 input-group">
-		  		<input type="button" class="form-control btn btn-info btn-block" id="topicLabel_${topic.topicId}" value="${topic.topicName}"/>
-			   	<span class="input-group-btn"><button type="button" class="removeTopic btn info" id="topicBtn_${topic.topicId}" name="${topic.topicName}"><i class="glyphicon glyphicon-trash"></i></button></span>
+		  		<input type="button" class="removeTopicLabel form-control btn btn-info btn-block" id="topicLabel_${topic.topicId}" value="${topic.topicName}"/>
+			   	<span class="input-group-btn"><button type="button" class="removeTopic btn btn-info" id="topicBtn_${topic.topicId}" name="${topic.topicName}"><i class="glyphicon glyphicon-trash"></i></button></span>
 	 		</div>
 			</c:forEach>
 			<c:forEach items="${allTopics}" var="topic">
 		  	<div class="col-sm-6 input-group">
-		  		<input type="button" class="form-control btn btn-default btn-block" id="topicLabel_${topic.topicId}" value="${topic.topicName}"/>
+		  		<input type="button" class="addTopicLabel form-control btn btn-default btn-block" id="topicLabel_${topic.topicId}" value="${topic.topicName}"/>
 			   	<span class="input-group-btn"><button type="button" class="addTopic btn btn-default" id="topicBtn_${topic.topicId}" name="${topic.topicName}"><i class="glyphicon glyphicon-plus"></i></button></span>
 	 		</div>
 			</c:forEach>

@@ -38,7 +38,6 @@ public class Diagnostic implements Serializable, Comparable<Diagnostic> {
 	private Date updatedTs;
 	
 	public Diagnostic() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

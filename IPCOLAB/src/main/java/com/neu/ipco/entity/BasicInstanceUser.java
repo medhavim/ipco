@@ -26,7 +26,6 @@ public class BasicInstanceUser implements Serializable {
 	private Date updatedTs;
 	
 	public BasicInstanceUser() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

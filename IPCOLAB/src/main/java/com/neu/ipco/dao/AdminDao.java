@@ -3,18 +3,21 @@
  */
 package com.neu.ipco.dao;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
 import com.neu.ipco.entity.ActivityOption;
 import com.neu.ipco.entity.Diagnostic;
 import com.neu.ipco.entity.DiagnosticCategory;
+import com.neu.ipco.entity.InstanceModule;
 import com.neu.ipco.entity.InstanceTopic;
 import com.neu.ipco.entity.Module;
 import com.neu.ipco.entity.Option;
 import com.neu.ipco.entity.Quiz;
 import com.neu.ipco.entity.RelatedDiagnostic;
 import com.neu.ipco.entity.Topic;
+import com.neu.ipco.entity.User;
 import com.neu.ipco.exception.AdminException;
 
 /**
@@ -108,5 +111,17 @@ public interface AdminDao {
 	public void deleteRelatedDiagnostics(Set<RelatedDiagnostic> relatedDiagnostics) throws AdminException;
 	
 	public void deleteInstanceTopic(InstanceTopic instanceTopic) throws AdminException;
+
+	public List<InstanceTopic> getInstanceTopicsByTopcId(int topicId) throws AdminException;
+
+	public void saveOrUpdateDiagnostic(Diagnostic diagnostic) throws AdminException;
+
+	public List<InstanceModule> getInstanceModulesByModuleId(int moduleId) throws AdminException;
+
+	public void deleteInstanceModule(InstanceModule instanceModule) throws AdminException;
+
+	public List<User> loadAllUsers() throws AdminException;
+
+	public User getUserById(int userId) throws AdminException;
 
 }

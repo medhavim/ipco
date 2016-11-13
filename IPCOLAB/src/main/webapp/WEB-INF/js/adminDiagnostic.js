@@ -53,41 +53,65 @@ $(document).ready(function(){
 //Handle adding a topic to the selected-topics container Start
 
 $(document).on('click', '.addTopic', function() {
+	addTopicAction(this);
+});
+
+$(document).on('click', '.addTopicLabel', function() {
 	var topicId = $(this)[0].id.split('_')[1];
-	var topicName = $(this)[0].name;
-	$(this).removeClass('addTopic');
-	$(this).removeClass('btn-default');
-	$($(this).children()[0]).removeClass('glyphicon-plus')
+	var topicBtn = $("#topicBtn_"+topicId);
+	addTopicAction(topicBtn);
+});
+
+function addTopicAction(topicBtn){
+	var topicId = $(topicBtn)[0].id.split('_')[1];
+	var topicName = $(topicBtn)[0].name;
+	$(topicBtn).removeClass('addTopic');
+	$(topicBtn).removeClass('btn-default');
+	$($(topicBtn).children()[0]).removeClass('glyphicon-plus')
 	$('#topicLabel_'+topicId).removeClass('btn-default');
-	$(this).addClass('removeTopic');
-	$(this).addClass('btn-info');
-	$($(this).children()[0]).addClass('glyphicon-trash');
+	$('#topicLabel_'+topicId).removeClass('addTopicLabel');
+	$('#topicLabel_'+topicId).addClass('removeTopicLabel');
+	$(topicBtn).addClass('removeTopic');
+	$(topicBtn).addClass('btn-info');
+	$($(topicBtn).children()[0]).addClass('glyphicon-trash');
 	$('#topicLabel_'+topicId).addClass('btn-info');
 	var topic = '<div class="col-sm-4 form-group" id="topic_'+topicId+'">' +
 	'<input type="button" class="form-control btn btn-info btn-block" value="'+topicName+'" />' +
 	'<input type="hidden" name="topic_'+topicId+'" value="'+topicName+'" />' +
 	'</div>';
 	$('.selected-topics').append(topic);
-});
+}
 //Handle adding a topic to the selected-topics container End
 
 //Handle removing a topic from the selected-topics container Start
 
 $(document).on('click', '.removeTopic', function() {
+	removeTopicAction(this);
+});
+
+$(document).on('click', '.removeTopicLabel', function() {
 	var topicId = $(this)[0].id.split('_')[1];
-	$(this).removeClass('removeTopic');
-	$(this).removeClass('btn-info');
-	$($(this).children()[0]).removeClass('glyphicon-trash');
+	var topicBtn = $("#topicBtn_"+topicId);
+	removeTopicAction(topicBtn);
+});
+
+function removeTopicAction(topicBtn){
+	var topicId = $(topicBtn)[0].id.split('_')[1];
+	$(topicBtn).removeClass('removeTopic');
+	$(topicBtn).removeClass('btn-info');
+	$($(topicBtn).children()[0]).removeClass('glyphicon-trash');
 	$('#topicLabel_'+topicId).removeClass('btn-info');
-	$(this).addClass('addTopic');
-	$(this).addClass('btn-default');
-	$($(this).children()[0]).addClass('glyphicon-plus')
+	$('#topicLabel_'+topicId).addClass('addTopicLabel');
+	$('#topicLabel_'+topicId).removeClass('removeTopicLabel');
+	$(topicBtn).addClass('addTopic');
+	$(topicBtn).addClass('btn-default');
+	$($(topicBtn).children()[0]).addClass('glyphicon-plus')
 	$('#topicLabel_'+topicId).addClass('btn-default');
 	var topic = $('#topic_'+topicId)[0];
 	if(topic){
 		topic = $(topic).detach();
 	}
-});
+}
 //Handle removing a topic from the selected-topics container End
 
 //Handle adding a diagnostic to the selected-related-diagnostics container Start

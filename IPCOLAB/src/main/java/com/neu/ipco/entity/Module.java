@@ -40,7 +40,6 @@ public class Module implements Serializable, Comparable<Module> {
 	private Date updatedTs;
 	
 	public Module() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Module(String moduleName, Topic topic) {

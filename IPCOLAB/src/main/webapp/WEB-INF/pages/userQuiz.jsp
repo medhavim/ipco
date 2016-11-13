@@ -24,24 +24,12 @@
 <jsp:include page="header.jsp"></jsp:include>
 <div class="jumbotron title">
 	<ol class="breadcrumb">
-		<li class="breadcrumb-item"><a href="loadInstance.action?id=${instance.instanceId}">Topic</a></li>
-	  	<li class="breadcrumb-item active"><span class="h3">Activity</span></li>
+		<li class="breadcrumb-item"><a href="userProfile.action">Profile</a></li>
+		<li class="breadcrumb-item"><a href="loadInstance.action?id=${instance.instanceId}">${instance.instanceName}</a></li>
+	  	<li class="breadcrumb-item active"><span class="h3">${quiz.quiz.quizName}</span></li>
 	</ol>
 </div>
 <div class="jumbotron content">
-<!-- 	<div class="nav-bar"> -->
-<!-- 		<div class="btn-group btn-group-justified" role="group" > -->
-<%-- 			<c:forEach items="${instanceTopic.instanceModuleList}" var="instModule"> --%>
-<!-- 			<div class="btn-group" role="group"> -->
-<!-- 		    	<button type="button"  -->
-<%-- 		    	class="btn <c:if test="${instModule.status.statusId eq 1}">btn-default <c:if test="${instModule.instanceModuleId eq instanceTopic.currModule.instanceModuleId}">current-ongoing-module</c:if></c:if> --%>
-<%-- 		    	<c:if test="${instModule.status.statusId eq 2}">btn-info <c:if test="${instModule.instanceModuleId eq instanceTopic.currModule.instanceModuleId}">current-ongoing-module</c:if></c:if> --%>
-<%-- 		    	<c:if test="${instModule.status.statusId eq 3}">btn-success <c:if test="${instModule.instanceModuleId eq instanceTopic.currModule.instanceModuleId}">current-complete-module</c:if></c:if>" --%>
-<%-- 		    	<c:if test="${instModule.status.statusId eq 1}">disabled</c:if>>${instModule.module.moduleName}</button> --%>
-<!-- 		  	</div> -->
-<%-- 			</c:forEach> --%>
-<!-- 		</div> -->
-<!-- 	</div> -->
 	<div class="clear"></div>
 	<div class="jumbotron">
 		<div class="nav-bar">
@@ -62,237 +50,15 @@
 			</div>
 		<form action="saveQuiz.action" id="activityForm" method="post">
 		<input type="hidden" name="navType" id="navType"/>
-		<c:if test="${currentQuizAnswer.quizOption.activity.activityTemplate.activityTemplateId eq 1}">
-		<div class="jumbotron">
-			<div class="container-fluid text-center activity-content">
-				<div class="row mcqOptions form-group">
-					<c:forEach items="${currentQuizAnswer.userAnswers}" var="answer">
-					<div class="col-sm-6  mcqOption " id="mcqOption_${answer.optionId}">
-					   	<span style="white-space: nowrap;"> 
-						   	<input type="checkbox" name="selectedAnswer" class="chkbx" id="checkBox_${answer.optionId}" value="selectedAnswer_${answer.optionId}" ${answer.isCorrect=='true'?'checked':''}>
-							<label class="option-text h3">${answer.optionText}</label>
-						</span>
-					</div>
-					</c:forEach>
-				</div>
-			</div>
-		</div>
-		</c:if>
-		<c:if test="${currentQuizAnswer.quizOption.activity.activityTemplate.activityTemplateId eq 2}">
-		<div class="jumbotron">
-			<div class="container-fluid text-center activity-content">
-				<div class="row form-group">
-					<div class="col-md-2">
-					</div>
-					<c:forEach items="${currentQuizAnswer.userAnswers}" var="answer">
-					<div class="col-md-4 form-group">
-						<label class="btn btn-block ${answer.isCorrect=='true'?'btn-primary':'btn-default'} button-wrapper radio-inline optionRadioLabel">
-							<input style="display:none;" class="optionInput" 
-								type="radio" name="yesno-option" id="inlineRadio1" 
-								value="yesno_${answer.optionId}" ${answer.isCorrect=='true'?'checked':''}>${answer.optionText}
-						</label>
-					</div>
-					</c:forEach>
-					<div class="col-md-4">
-					</div>
-				</div>
-			</div>
-		</div>
-		</c:if>
-		<c:if test="${currentQuizAnswer.quizOption.activity.activityTemplate.activityTemplateId eq 3}">
-		<div class="jumbotron">
-			<div class="container-fluid text-center image-desc activity-content" >
-				<div class="row form-group">
-					<div class="col-sm-6">
-						<c:forEach items="${currentQuizAnswer.quizOption.correctAnswers}" var="option">
-						<c:if test="${option.orderNo eq 1}">
-						<img src="${option.optionText}" style="width:100%; height:100%;">
-						</c:if>
-						</c:forEach>
-					</div>
-					<div class="col-sm-6">
-						<div class="form-group image-options">
-							<textarea class="form-control" rows="5" name="userAnswer"
-								placeholder="Enter Answer Here."><c:forEach items="${currentQuizAnswer.userAnswers}" var="answer" varStatus="answerNo"><c:if test="${answerNo==1}">${answer.optionText}</c:if></c:forEach></textarea>
-						</div>
-						<a class="btn btn-info pull-right" data-toggle="collapse"
-							data-target="#idealAnswer">Check</a>
-						<div class="clear"></div>
-						<div id="idealAnswer" class="collapse pull-left">
-							<c:forEach items="${currentQuizAnswer.quizOption.correctAnswers}" var="option">
-							<c:if test="${option.orderNo eq 2}">
-							<label class="option-text h3">${option.optionText}</label>
-							</c:if>
-							</c:forEach>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		</c:if>
-		<c:if test="${currentQuizAnswer.quizOption.activity.activityTemplate.activityTemplateId eq 4}">
-		<div class="jumbotron">
-			<div class="container-fluid text-center image-mcq activity-content">
-				<div class="row form-group">
-					<div class="col-sm-6">
-						<c:forEach items="${currentQuizAnswer.quizOption.correctAnswers}" var="option">
-						<c:if test="${option.orderNo eq 1}">
-						<img src="${option.optionText}" style="width:100%; height:100%;">
-						</c:if>
-						</c:forEach>
-					</div>
-					<div class="col-sm-6">
-						<div class="row mcqOptions form-group image-options">
-							<c:forEach items="${currentQuizAnswer.quizOption.correctAnswers}" var="option">
-							<c:if test="${option.orderNo ne 1}">
-							<div class="col-sm-6  mcqOption " id="mcqOption_${answer.optionId}">
-							   	<span style="white-space: nowrap;"> 
-							   		<input type="checkbox" name="selectedAnswer" class="chkbx" id="checkBox_${answer.optionId}" value="selectedAnswer_${answer.optionId}" ${answer.isCorrect=='true'?'checked':''}>
-									<label class="option-text h3">${answer.optionText}</label>
-								</span>
-							</div>
-							</c:if>
-							</c:forEach>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		</c:if>
-		<c:if test="${currentQuizAnswer.quizOption.activity.activityTemplate.activityTemplateId eq 5}">
-		<div class="jumbotron">
-			<div class="container-fluid text-center image-yesno activity-content">
-				<div class="row form-group">
-					<div class="col-sm-6">
-						<c:forEach items="${currentQuizAnswer.quizOption.correctAnswers}" var="option">
-						<c:if test="${option.orderNo eq 1}">
-						<img src="${option.optionText}" style="width:100%; height:100%;">
-						</c:if>
-						</c:forEach>
-					</div>
-					<div class="col-sm-6">
-						<div class="row form-group image-options">
-							<div class="col-md-2">
-							</div>
-							<c:forEach items="${currentQuizAnswer.userAnswers}" var="answer">
-							<div class="col-md-4 form-group">
-								<label class="btn btn-block ${answer.isCorrect=='true'?'btn-primary':'btn-default'} button-wrapper radio-inline optionRadioLabel">
-									<input style="display:none;" class="optionInput" type="radio" 
-									name="yesno-option" id="inlineRadio1" value="yesno_${answer.optionId}" ${answer.isCorrect=='true'?'checked':''}>${answer.optionText}
-								</label>
-							</div>
-							</c:forEach>
-							<div class="col-md-2">
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		</c:if>
-		<c:if test="${currentQuizAnswer.quizOption.activity.activityTemplate.activityTemplateId eq 6}">
-		<div class="jumbotron">
-			<div cla ss="container-fluid text-center video-desc activity-content">
-				<div class="row form-group">
-					<div class="col-sm-6">
-						<c:forEach items="${currentQuizAnswer.quizOption.correctAnswers}" var="option">
-						<c:if test="${option.orderNo eq 1}">
-						<video width="600" controls>
-							<source src="${option.optionText}" type="video/mp4">
-							<source src="${option.optionText}" type="video/ogg">
-							<ins>Your browser does not support the video tag.</ins>
-						</video>
-						</c:if>
-						</c:forEach>
-					</div>
-					<div class="col-sm-6">
-						<div class="form-group image-options">
-							<textarea class="form-control" rows="5" name="userAnswer"
-								placeholder="Enter Answer Here." required><c:forEach items="${currentQuizAnswer.userAnswers}" var="answer" varStatus="answerNo"><c:if test="${answerNo==1}">${answer.optionText}</c:if></c:forEach></textarea>
-						</div>
-						<a class="btn btn-info pull-right" data-toggle="collapse"
-							data-target="#idealAnswer">Check</a>
-						<div class="clear"></div>
-						<div id="idealAnswer" class="collapse pull-left">
-							<c:forEach items="${currentQuizAnswer.quizOption.correctAnswers}" var="option">
-							<c:if test="${option.orderNo eq 2}">
-							<label class="option-text h3">${option.optionText}</label>
-							</c:if>
-							</c:forEach>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		</c:if>
-		<c:if test="${currentQuizAnswer.quizOption.activity.activityTemplate.activityTemplateId eq 7}">
-		<div class="jumbotron">
-			<div class="container-fluid text-center video-mcq activity-content">
-				<div class="row form-group">
-					<div class="col-sm-6">
-						<c:forEach items="${currentQuizAnswer.quizOption.correctAnswers}" var="option">
-						<c:if test="${option.orderNo eq 1}">
-						<video width="600" controls>
-							<source src="${option.optionText}" type="video/mp4">
-							<source src="${option.optionText}" type="video/ogg">
-							<ins>Your browser does not support the video tag.</ins>
-						</video>
-						</c:if>
-						</c:forEach>
-					</div>
-					<div class="col-sm-6">
-						<div class="row mcqOptions form-group image-options">
-							<c:forEach items="${currentQuizAnswer.quizOption.correctAnswers}" var="option">
-							<c:if test="${option.orderNo ne 1}">
-							<div class="col-sm-6  mcqOption " id="mcqOption_${answer.optionId}">
-							   	<span style="white-space: nowrap;"> 
-									<input type="checkbox" name="selectedAnswer" class="chkbx" id="checkBox_${answer.optionId}" value="selectedAnswer_${answer.optionId}" ${answer.isCorrect=='true'?'checked':''}>
-									<label class="option-text h3">${answer.optionText}</label>
-								</span>
-							</div>
-							</c:if>
-							</c:forEach>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		</c:if>
-		<c:if test="${currentQuizAnswer.quizOption.activity.activityTemplate.activityTemplateId eq 8}">
-		<div class="jumbotron">
-			<div class="container-fluid text-center video-yesno activity-content">
-				<div class="row form-group">
-					<div class="col-sm-6">
-						<c:forEach items="${currentQuizAnswer.quizOption.correctAnswers}" var="option">
-						<c:if test="${option.orderNo eq 1}">
-						<video width="600" controls>
-							<source src="${option.optionText}" type="video/mp4">
-							<source src="${option.optionText}" type="video/ogg">
-							<ins>Your browser does not support the video tag.</ins>
-						</video>
-						</c:if>
-						</c:forEach>
-					</div>
-					<div class="col-sm-6">
-						<div class="row form-group image-options">
-							<div class="col-md-2">
-							</div>
-							<c:forEach items="${currentQuizAnswer.userAnswers}" var="answer">
-							<div class="col-md-4 form-group">
-								<label class="btn btn-block ${answer.isCorrect=='true'?'btn-primary':'btn-default'} button-wrapper radio-inline optionRadioLabel">
-									<input style="display:none;" class="optionInput" type="radio" 
-									name="yesno-option" id="inlineRadio1" value="yesno_${answer.optionId}" ${answer.isCorrect=='true'?'checked':''}>${answer.optionText}
-								</label>
-							</div>
-							</c:forEach>
-							<div class="col-md-2">
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		</c:if>
+		<jsp:include page="helperPages/userQuizTemplateMCQ.jsp"></jsp:include>
+		<jsp:include page="helperPages/userQuizTemplateYESNO.jsp"></jsp:include>
+		<jsp:include page="helperPages/userQuizTemplateImageDesc.jsp"></jsp:include>
+		<jsp:include page="helperPages/userQuizTemplateImageMCQ.jsp"></jsp:include>
+		<jsp:include page="helperPages/userQuizTemplateImageYESNO.jsp"></jsp:include>
+		<jsp:include page="helperPages/userQuizTemplateVideoDesc.jsp"></jsp:include>
+		<jsp:include page="helperPages/userQuizTemplateVideoMCQ.jsp"></jsp:include>
+		<jsp:include page="helperPages/userQuizTemplateVideoYESNO.jsp"></jsp:include>
+		
 		<div class="jumbotron">
 			<div class="container-fluid text-center">
 				<div class="row">
@@ -301,7 +67,7 @@
 <!-- 						<a class="btn btn-primary pull-left btn-nav" id="prev-module">Previous</a> -->
 <%-- 						</c:if> --%>
 						<c:if test="${currentQuizAnswer.quizOption.orderNo ne 1}">
-						<a class="btn btn-primary pull-left btn-nav" id="prev-quiz">Previous</a>
+						<a class="btn btn-primary pull-left btn-nav btn-next" id="prev-quiz">Previous</a>
 						</c:if>
 					</div>
 					<div class="col-sm-4 pull-right text-right">
@@ -310,10 +76,10 @@
 <!-- 							data-target="#nextModuleModal">Next</a> -->
 <%-- 						</c:if> --%>
 						<c:if test="${(fn:length(quiz.quiz.quizOptions) ne currentQuizAnswer.quizOption.orderNo)}">
-						<a class="btn btn-primary pull-left btn-nav" id="next-quiz">Next</a>
+						<a class="btn btn-primary pull-left btn-nav btn-next" id="next-quiz">Next</a>
 						</c:if>
 						<c:if test="${(fn:length(quiz.quiz.quizOptions) eq currentQuizAnswer.quizOption.orderNo)}">
-						<a class="btn btn-primary pull-left btn-nav btn-finished" id="quiz-finish">Finish</a>
+						<a class="btn btn-primary pull-left btn-nav btn-finished btn-next" id="quiz-finish">Finish</a>
 						</c:if>
 					</div>
 				</div>

@@ -35,7 +35,7 @@ public interface ApplicationUtilDao {
 
 	public List<UserRole> getUserRoles() throws ApplicationUtilException;
 
-	public Status getStatusId(int statusId) throws ApplicationUtilException;
+	public Status getStatusById(int statusId) throws ApplicationUtilException;
 
 	public List<InstanceQuiz> getInstanceQuizesByQuizId(int quizId) throws ApplicationUtilException;
 

@@ -111,7 +111,9 @@ public class AuthenticationController {
 				model.addAttribute("errorMsg", "usernameerr");
 				return loadAuthPage(model, session);
 			}else{
-				session.setAttribute("user", user);
+				authenticationService.updateUserLoginTimestamp(user);
+				session.setAttribute(AppConstants.SESSION_ATTRIBUTE_USER, user);
+				session.removeAttribute(AppConstants.SESSION_ATTRIBUTE_ADMIN);
 			}
 		} catch (AuthenticationException e) {
 			return AppConstants.ERROR_PAGE;
@@ -131,7 +133,8 @@ public class AuthenticationController {
 				model.addAttribute("errorMsg", "usernameerr");
 				return loadAdminAuthPage(model, session);
 			}else{
-				session.setAttribute("user", admin);
+				session.setAttribute(AppConstants.SESSION_ATTRIBUTE_ADMIN, admin);
+				session.removeAttribute(AppConstants.SESSION_ATTRIBUTE_USER);
 			}
 		} catch (AuthenticationException e) {
 			return AppConstants.ERROR_PAGE;
@@ -147,7 +150,8 @@ public class AuthenticationController {
 		
 		try {
 			user = authenticationService.userRegister(user);
-			session.setAttribute("user", user);
+			session.setAttribute(AppConstants.SESSION_ATTRIBUTE_USER, user);
+			session.removeAttribute(AppConstants.SESSION_ATTRIBUTE_ADMIN);
 		} catch (AuthenticationException e) {
 			return AppConstants.ERROR_PAGE;
 		}
@@ -162,7 +166,8 @@ public class AuthenticationController {
 		
 		try {
 			User user = authenticationService.resetCredentials(credential, AppConstants.USER_TYPE_USER);
-			session.setAttribute("user", user);
+			session.setAttribute(AppConstants.SESSION_ATTRIBUTE_USER, user);
+			session.removeAttribute(AppConstants.SESSION_ATTRIBUTE_ADMIN);
 		} catch (AuthenticationException e) {
 			return AppConstants.ERROR_PAGE;
 		}
@@ -177,7 +182,8 @@ public class AuthenticationController {
 		
 		try {
 			User user = authenticationService.resetCredentials(credential, AppConstants.USER_TYPE_ADMIN);
-			session.setAttribute("user", user);
+			session.setAttribute(AppConstants.SESSION_ATTRIBUTE_USER, user);
+			session.removeAttribute(AppConstants.SESSION_ATTRIBUTE_ADMIN);
 		} catch (AuthenticationException e) {
 			return AppConstants.ERROR_PAGE;
 		}
@@ -190,19 +196,14 @@ public class AuthenticationController {
 		
 		LOGGER.debug("AuthenticationController: loadUserProfileAction: Start");
 		
-		User user = (User) session.getAttribute("user");
+		User user = (User) session.getAttribute(AppConstants.SESSION_ATTRIBUTE_USER);
 		
 		if(null == user){
 			return loadAuthPage(model, session);
 		}
 		
 		try {
-			BasicInstanceUser basicInstanceUser = authenticationService.getBasicInstanceByUserId(user.getUserId());
-			
-			CustomizeInstanceUser customizeInstanceUser = authenticationService.getCustomInstanceByUserId(user.getUserId());
-			
-			session.setAttribute("basicInstance", basicInstanceUser);
-			session.setAttribute("customInstance", customizeInstanceUser);
+			authenticationService.loadUserInstancesToSession(session, user);
 		} catch (AuthenticationException e) {
 			return AppConstants.ERROR_PAGE;
 		}
@@ -215,7 +216,7 @@ public class AuthenticationController {
 		
 		LOGGER.debug("AuthenticationController: loadUserTutorialAction: Start");
 		
-		User user = (User) session.getAttribute("user");
+		User user = (User) session.getAttribute(AppConstants.SESSION_ATTRIBUTE_USER);
 		
 		if(null == user){
 			return loadAuthPage(model, session);

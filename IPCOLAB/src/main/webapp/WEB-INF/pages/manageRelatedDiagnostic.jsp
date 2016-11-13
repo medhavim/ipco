@@ -21,7 +21,7 @@
 </head>
 <body>
 <jsp:include page="header.jsp"></jsp:include>
-	<div class="jumbotron title">
+	<div class="jumbotron title admin">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="adminHome.action">Home</a></li>
 		  	<li class="breadcrumb-item"><a href="manageDiagnostic.action">Manage Diagnostic</a></li>
@@ -54,8 +54,9 @@
 							<span class="container_name h2 span-category-${relatedDiagnostic.relatedDiagnosticId}" 
 								data-toggle="collapse" data-target="#relatedDiagnostics_for-${relatedDiagnostic.relatedDiagnosticId}" id="relatedDiagnostic_name_${relatedDiagnostic.relatedDiagnosticId}">${relatedDiagnostic.relatedDiagnosticTitle}</span>
 							</div>
-							<div class="col-sm-1 pull-right">
+							<div class="col-sm-4 pull-right text-right">
 								<button class="btn btn-warning" id="editRelatedDiagnostic_${relatedDiagnostic.relatedDiagnosticId}"  onclick="editRelatedDiagnostic(id)"><i class="glyphicon glyphicon-edit">&nbsp;Edit</i></button>
+								<a class="btn btn-danger" id="deleteId_${relatedDiagnostic.relatedDiagnosticId}" role="button" onclick="deleteRelatedDiagnostic(this)"><i class="glyphicon glyphicon-trash">&nbsp;Remove</i></a>
 							</div>
 						</div>
 						<div class="panel-collapse collapse in" id="relatedDiagnostics_for-${relatedDiagnostic.relatedDiagnosticId}">
@@ -102,5 +103,7 @@
 		<input type="hidden" id="id" name="id" value="" />
 	</form>
 	<!-- Edit Activity form End -->
+	
+	<jsp:include page="manageDiagnosticModal.jsp"></jsp:include>
 </body>
 </html>

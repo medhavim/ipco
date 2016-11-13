@@ -33,6 +33,7 @@ import com.neu.ipco.entity.QuizAnswer;
 import com.neu.ipco.entity.QuizOption;
 import com.neu.ipco.entity.Status;
 import com.neu.ipco.entity.Topic;
+import com.neu.ipco.exception.ApplicationUtilException;
 import com.neu.ipco.exception.UserException;
 import com.neu.ipco.service.UserService;
 
@@ -102,6 +103,7 @@ public class UserServiceImpl implements UserService {
 				instanceQuiz.setQuiz(quiz);
 				instanceQuiz.setStatus(status);
 				instanceQuiz.setCreatedTs(new Date());
+
 				populateQuizAnswer(quiz.getQuizOptions(), instanceQuiz.getQuizAnswers());
 				instanceTopic.setQuiz(instanceQuiz);
 			}
@@ -304,7 +306,7 @@ public class UserServiceImpl implements UserService {
 	public QuizAnswer getFirstQuizAnswer(InstanceQuiz quiz) throws UserException {
 		
 		LOGGER.debug("UserServiceImpl: getFirstQuizAnswer: Start");
-		QuizAnswer currentQuizAnswer = new QuizAnswer();
+		QuizAnswer currentQuizAnswer = null;
 		List<QuizAnswer> quizAnswers = quiz.getQuizAnswers();
 		Collections.sort(quizAnswers, new Comparator<QuizAnswer>() {
 
@@ -318,6 +320,9 @@ public class UserServiceImpl implements UserService {
 			}
 			currentQuizAnswer = qa;
 			break;
+		}
+		if(!quizAnswers.isEmpty() && null == currentQuizAnswer){
+			currentQuizAnswer = quizAnswers.get(0);
 		}
 		
 		LOGGER.debug("UserServiceImpl: getFirstQuizAnswer: End");
@@ -344,6 +349,7 @@ public class UserServiceImpl implements UserService {
 		if(!wrongAnswer){
 			instanceQuiz.setScore(++scoreSoFar);
 		}
+		saveOrUpdateInstanceQuiz(instanceQuiz);
 		LOGGER.debug("UserServiceImpl: updateQuizScore: End");
 	}
 
@@ -357,7 +363,7 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
-	public QuizAnswer getNextCurrentQuizAnswer(int orderNo, String navType) throws UserException {
+	public QuizAnswer getNextCurrentQuizAnswer(int instanceQuizId, int orderNo, String navType) throws UserException {
 		LOGGER.debug("UserServiceImpl: getNextCurrentQuizAnswer: Executing");
 		try {
 			if(navType.equalsIgnoreCase(AppConstants.NAV_TYPE_PREVIOUS_QUIZ)){
@@ -365,7 +371,7 @@ public class UserServiceImpl implements UserService {
 			}else if(navType.equalsIgnoreCase(AppConstants.NAV_TYPE_NEXT_QUIZ)){
 				orderNo++;
 			}
-			return userDao.getNextCurrentQuizAnswer(orderNo);
+			return userDao.getNextCurrentQuizAnswer(instanceQuizId, orderNo);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new UserException(e);
@@ -386,6 +392,110 @@ public class UserServiceImpl implements UserService {
 		LOGGER.debug("UserServiceImpl: getInstanceQuizById: Executing");
 		try {
 			return userDao.getInstanceQuizById(instanceQuizId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new UserException(e);
+		}
+	}
+
+	public void updateQuizStatus(InstanceQuiz quiz, Status statusIncomplete) throws UserException {
+
+		LOGGER.debug("UserServiceImpl: updateQuizStatus: Executing");
+		if(quiz.getStatus().getStatusId() != AppConstants.STATUS_COMPLETE_ID){
+			Status status = new Status(statusIncomplete.getStatusId(), statusIncomplete.getStatusDesc(), new Date());
+			quiz.setStatus(status);
+			saveOrUpdateInstanceQuiz(quiz);
+		}
+	}
+
+	public void updateActivityAnswerStatus(ActivityAnswer currActivity, Status status) throws UserException {
+		
+		LOGGER.debug("UserServiceImpl: updateActivityAnswerStatus: Executing");
+		if(currActivity.getStatus().getStatusId() != AppConstants.STATUS_COMPLETE_ID){
+			Status statusIncomplete = new Status(status.getStatusId(), status.getStatusDesc(), new Date());
+			currActivity.setStatus(statusIncomplete);
+			saveOrUpdateActivityAnswer(currActivity);
+		}
+	}
+
+	public void updateInstanceModuleStatus(InstanceModule currModule, Status status) throws UserException {
+		
+		LOGGER.debug("UserServiceImpl: updateInstanceModuleStatus: Executing");
+		if(currModule.getStatus().getStatusId() != AppConstants.STATUS_COMPLETE_ID){
+			Status statusIncomplete = new Status(status.getStatusId(), status.getStatusDesc(), new Date());
+			currModule.setStatus(statusIncomplete);
+			saveOrUpdateInstanceModule(currModule);
+		}
+	}
+
+	public void updateInstanceTopicStatus(InstanceTopic instanceTopic, Status status) throws UserException {
+		
+		LOGGER.debug("UserServiceImpl: updateInstanceTopicStatus: Executing");
+		if(instanceTopic.getStatus().getStatusId() != AppConstants.STATUS_COMPLETE_ID){
+			Status statusIncomplete = new Status(status.getStatusId(), status.getStatusDesc(), new Date());
+			instanceTopic.setStatus(statusIncomplete);
+			saveOrUpdateInstanceTopic(instanceTopic);
+		}
+	}
+
+	public InstanceModule getNextCurrentInstanceModule(int instanceTopicId, int orderNo) throws UserException {
+		LOGGER.debug("UserServiceImpl: getNextCurrentInstanceModule: Executing");
+		try {
+			return userDao.getNextCurrentInstanceModule(instanceTopicId, orderNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new UserException(e);
+		}
+	}
+
+	public InstanceModule getPrevInstanceModuleForNavigation(InstanceModule instanceModule) throws UserException {
+
+		LOGGER.debug("UserServiceImpl: getPrevInstanceModuleForNavigation: Executing");
+		int orderNo = instanceModule.getModule().getOrderNo();
+		int instanceTopicId = instanceModule.getInstanceTopic().getInstanceTopicId();
+		InstanceModule prevInstanceModule = getNextCurrentInstanceModule(instanceTopicId, --orderNo);
+		if(null != prevInstanceModule){
+			prevInstanceModule.reorder();
+			prevInstanceModule.preparePreviousModuleStack();
+			instanceModule = prevInstanceModule;
+		}
+		return instanceModule;
+	}
+	
+	public InstanceModule getNextInstanceModuleForNavigation(InstanceModule instanceModule) throws UserException, ApplicationUtilException {
+
+		LOGGER.debug("UserServiceImpl: getNextInstanceModuleForNavigation: Executing");
+		Status statusComplete = applicationUtilDao.getStatusById(AppConstants.STATUS_COMPLETE_ID);
+		Status statusIncomplete = applicationUtilDao.getStatusById(AppConstants.STATUS_INCOMPLETE_ID);
+		updateInstanceModuleStatus(instanceModule, statusComplete);
+		int orderNo = instanceModule.getModule().getOrderNo();
+		int instanceTopicId = instanceModule.getInstanceTopic().getInstanceTopicId();
+		InstanceModule nextInstanceModule = getNextCurrentInstanceModule(instanceTopicId, ++orderNo);
+		if(null != nextInstanceModule){
+			nextInstanceModule.reorder();
+			nextInstanceModule.prepareNextModuleStack();
+			updateActivityAnswerStatus(nextInstanceModule.getCurrActivity(), statusIncomplete);
+			updateInstanceModuleStatus(nextInstanceModule, statusIncomplete);
+			instanceModule = nextInstanceModule;
+		}
+		return instanceModule;
+	}
+
+	public void updateQuizAnswerStatus(QuizAnswer currentQuizAnswer, Status statusIncomplete) throws UserException {
+		
+		LOGGER.debug("UserServiceImpl: updateQuizAnswerStatus: Executing");
+		if(currentQuizAnswer.getStatus().getStatusId() != AppConstants.STATUS_COMPLETE_ID){
+			Status status = new Status(statusIncomplete.getStatusId(), statusIncomplete.getStatusDesc(), new Date());
+			currentQuizAnswer.setStatus(status);
+			saveOrUpdateQuizAnswer(currentQuizAnswer);
+		}
+	}
+
+	@Override
+	public InstanceTopic getInstanceTopicByInstanceQuizId(int instanceQuizId) throws UserException {
+		LOGGER.debug("UserServiceImpl: getNextCurrentInstanceModule: Executing");
+		try {
+			return userDao.getInstanceTopicByInstanceQuizId(instanceQuizId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new UserException(e);

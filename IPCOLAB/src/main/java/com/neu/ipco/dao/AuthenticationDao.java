@@ -29,4 +29,6 @@ public interface AuthenticationDao {
 	public BasicInstanceUser getBasicInstanceByUserId(Integer userId) throws AuthenticationException;
 
 	public CustomizeInstanceUser getCustomInstanceByUserId(Integer userId) throws AuthenticationException;
+
+	public void saveOrUpdateUser(User user);
 }

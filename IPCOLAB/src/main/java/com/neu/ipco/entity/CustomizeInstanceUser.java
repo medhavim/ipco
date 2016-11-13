@@ -30,7 +30,6 @@ public class CustomizeInstanceUser implements Serializable {
 	private Date updatedTs;
 	
 	public CustomizeInstanceUser() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

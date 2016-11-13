@@ -10,6 +10,14 @@
 <%@include file="../css/manageTutorial.css" %>
 </style>
 <title>Error Page</title>
+<!-- jQuery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+	<script>
+		$(document).ready(function() {
+			 window.open("userAuth.action", "_self");
+		}); 
+	</script>
 </head>
 <body>
 <div class="container" style="position: center">

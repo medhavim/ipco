@@ -5,6 +5,8 @@ package com.neu.ipco.service.impl;
 
 import java.util.Date;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,7 +37,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 * 
 	 */
 	public AuthenticationServiceImpl() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public User validUser(Credential userLogin, String userType) throws AuthenticationException {
@@ -85,6 +86,23 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	public CustomizeInstanceUser getCustomInstanceByUserId(Integer userId) throws AuthenticationException {
 		LOGGER.debug("AuthenticationServiceImpl: getBasicInstanceByUserId: Executing");
 		return authenticationDao.getCustomInstanceByUserId(userId);
+	}
+
+	@Override
+	public void updateUserLoginTimestamp(User user) throws AuthenticationException {
+		LOGGER.debug("AuthenticationServiceImpl: updateUserLoginTimestamp: Executing");
+		user.getCredential().setUpdatedTs(new Date());
+		authenticationDao.saveOrUpdateUser(user);
+	}
+	
+
+	public void loadUserInstancesToSession(HttpSession session, User user) throws AuthenticationException {
+		BasicInstanceUser basicInstanceUser = getBasicInstanceByUserId(user.getUserId());
+		
+		CustomizeInstanceUser customizeInstanceUser = getCustomInstanceByUserId(user.getUserId());
+		
+		session.setAttribute("basicInstance", basicInstanceUser);
+		session.setAttribute("customInstance", customizeInstanceUser);
 	}
 
 }

@@ -21,7 +21,7 @@
 </head>
 <body>
 <jsp:include page="header.jsp"></jsp:include>
-	<div class="jumbotron title">
+	<div class="jumbotron title admin">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="adminHome.action">Home</a></li>
 		  	<li class="breadcrumb-item active"><span class="h3">Manage Diagnostic</span></li>
@@ -49,7 +49,7 @@
 					<br>
 					<div class="row">
 						<div class="col-sm-12">
-						<span class="h2"><i class="glyphicon glyphicon-warning-sign"></i>No categories available. You might want to add the first one.</span>
+						<span class="h2"><i class="glyphicon glyphicon-warning-sign">&nbsp;&nbsp;</i>No categories available. You might want to add the first one.</span>
 						</div>
 					</div>
 					</c:if>
@@ -116,7 +116,7 @@
 									</div>
 									<div class="col-sm-4">
 									<button class="btn btn-info" id="relatedDiagnostic_${diagnostic.diagnosticId}" onclick="addRelatedDiagnostic(this)">Associate a Diagnostic Question</button>
-									<button class="btn btn-warning" id="editDiagnostic_${diagnostic.diagnosticId}" name="${diagnostic.activity.activityTitle}" onclick="editDiagnostic(this)"><i class="glyphicon glyphicon-edit">&nbsp;Edit</i></button>
+									<button class="btn btn-warning" id="editDiagnostic_${diagnostic.diagnosticId}" name="${diagnostic.activity.activityTitle}" onclick="editDiagnostic(id)"><i class="glyphicon glyphicon-edit">&nbsp;Edit</i></button>
 									<a class="btn btn-danger" id="deleteId_${diagnostic.diagnosticId}" role="button" onclick="deleteDiagnostic(this)"><i class="glyphicon glyphicon-trash">&nbsp;Remove</i></a>
 									</div>
 								</div>

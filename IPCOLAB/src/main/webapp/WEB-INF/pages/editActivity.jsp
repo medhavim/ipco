@@ -23,7 +23,7 @@
 </head>
 <body>
 <jsp:include page="header.jsp"></jsp:include>
-<div class="jumbotron title">
+<div class="jumbotron title admin">
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item"><a href="adminHome.action">Home</a></li>
 		<li class="breadcrumb-item"><a href="manageTutorial.action">Manage Tutorial</a></li>
@@ -34,31 +34,6 @@
 		<p>Add-Remove-Edit Activities, at one place.</p>
 	</div>
 </div>
-<!-- div class="jumbotron">
-	<div class="container-fluid text-left">
-		<span class="h2">Template</span>
-	</div>
-	<div class="container-fluid text-left desc-body">
-		<ul class="nav nav-pills nav-justified actTemplate">
-			<li role="presentation"><a class="smpleTmpltOptn" id="#mcq" href="#">Multiple Choice</a></li>
-			<li role="presentation"><a class="smpleTmpltOptn" id="#yesno" href="#">Yes or No</a></li>
-			<li role="presentation" class="dropdown btn-group"><a class="dropdown-toggle" data-toggle="dropdown" role="button" href="#">Image <span class="caret"></span></a>
-				<ul class="dropdown-menu nav-dropdown-menu">
-					<li role="presentation"><a class="compTmpltOptn" id="#image-mcq" href="#">Multiple Choice</a></li>
-					<li role="presentation"><a class="compTmpltOptn" id="#image-yesno"  href="#">Yes or No</a></li>
-					<li role="presentation"><a class="compTmpltOptn" id="#image-desc"  href="#">Description</a></li>
-				</ul>
-			</li>
-			<li role="presentation" class="dropdown btn-group"><a class="dropdown-toggle" data-toggle="dropdown" role="button" href="#">Video <span class="caret"></span></a>
-				<ul class="dropdown-menu nav-dropdown-menu">
-					<li role="presentation"><a class="compTmpltOptn" id="#video-mcq" href="#">Multiple Choice</a></li>
-					<li role="presentation"><a class="compTmpltOptn" id="#video-yesno" href="#">Yes or No</a></li>
-					<li role="presentation"><a class="compTmpltOptn" id="#video-desc" href="#">Description</a></li>
-				</ul>
-			</li>
-		</ul>
-	</div>
-</div-->
 <form:form action="editActivity.action" method="post" name="mcqForm" id="mcqForm" modelAttribute="activityOption" enctype="multipart/form-data">
 <form:input type="hidden" path="activityOptionId"/>
 <form:input type="hidden" path="orderNo"/>

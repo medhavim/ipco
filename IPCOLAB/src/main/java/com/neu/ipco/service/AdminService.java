@@ -16,6 +16,7 @@ import com.neu.ipco.entity.Option;
 import com.neu.ipco.entity.Quiz;
 import com.neu.ipco.entity.QuizOption;
 import com.neu.ipco.entity.Topic;
+import com.neu.ipco.entity.User;
 import com.neu.ipco.exception.AdminException;
 
 /**
@@ -64,4 +65,9 @@ public interface AdminService {
 
 	public int getNextQuizOpOrderNo(List<QuizOption> quizOptions) throws AdminException;
 
+	public List<User> loadAllUsers() throws AdminException;
+
+	public User getUserById(int userId) throws AdminException;
+
+	public void deleteOptions(Set<Option> options) throws AdminException;
 }

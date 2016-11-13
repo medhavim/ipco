@@ -50,7 +50,7 @@
   background: #fff;
   padding: 20px;
   margin-bottom: 30px;
-  border-radius: 25px;
+  border-radius: 25px !important;
 }
 .tile .title {
   margin-top: 0px;
@@ -64,4 +64,26 @@
 
 .activity-content{
 	min-height: 100px;
+}
+
+.mcqOption {
+	margin-top:15px;
+	margin-right:15px;
+	margin-left:15px;
+	border-radius: 25px !important;
+}
+
+.yesnoOption {
+	margin-top:15px;
+	margin-right:15px;
+	margin-left:15px;
+	padding-top:20px;
+	padding-right:20px;
+	padding-left:20px;
+	padding-bottom:15px;
+	border-radius: 25px !important;
+}
+
+.mcqOption.correctOption, .yesnoOption.correctOption {
+	background-color:#67f12f;
 }

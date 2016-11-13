@@ -5,7 +5,7 @@
 
 <hibernate-mapping package="com.neu.ipco.entity">
 
-	<class name="RelatedDiagnostic" table="related_diagnostic">
+	<class name="RelatedDiagnostic" table="related_diagnostic" dynamic-update="true">
 	
 		<id name="relatedDiagnosticId" column="related_diagnostic_id">
 			<generator class="increment"/>

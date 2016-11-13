@@ -47,4 +47,12 @@ public interface AdminDiagnosticService {
 	
 	void deleteDiagnosticFromRelatedDiagnostic(RelatedDiagnostic relatedDiagnostic, Integer diagnosticId) throws AdminException;
 
+	void saveOrUpdateDiagnostic(Diagnostic diagnostic) throws AdminException;
+
+	void removeTopicFromDiagnostic(Topic topic) throws AdminException;
+
+	void removeTopicFromRelatedDiagnostic(Topic topic) throws AdminException;
+	
+	public void deleteRelatedDiagnosticById(Integer relatedDiagnosticId) throws AdminException;
+
 }

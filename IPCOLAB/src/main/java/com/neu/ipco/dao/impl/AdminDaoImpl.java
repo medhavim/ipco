@@ -19,12 +19,14 @@ import com.neu.ipco.dao.AdminDao;
 import com.neu.ipco.entity.ActivityOption;
 import com.neu.ipco.entity.Diagnostic;
 import com.neu.ipco.entity.DiagnosticCategory;
+import com.neu.ipco.entity.InstanceModule;
 import com.neu.ipco.entity.InstanceTopic;
 import com.neu.ipco.entity.Module;
 import com.neu.ipco.entity.Option;
 import com.neu.ipco.entity.Quiz;
 import com.neu.ipco.entity.RelatedDiagnostic;
 import com.neu.ipco.entity.Topic;
+import com.neu.ipco.entity.User;
 import com.neu.ipco.exception.AdminException;
 
 /**
@@ -68,11 +70,6 @@ public class AdminDaoImpl implements AdminDao {
 
 	public void deleteTopic(Topic topic) throws AdminException {
 		LOGGER.debug("AdminDaoImpl: deleteTopic: Executing");
-		topic = getTopicById(topic.getTopicId());
-		Set<InstanceTopic> instanceTopics = new HashSet<InstanceTopic>(topic.getInstanceTopics());
-		for(InstanceTopic instanceTopic : instanceTopics){
-			deleteInstanceTopic(instanceTopic);
-		}
 		template.delete(topic);
 	}
 
@@ -311,6 +308,38 @@ public class AdminDaoImpl implements AdminDao {
 	public void deleteInstanceTopic(InstanceTopic instanceTopic) throws AdminException {
 		LOGGER.debug("AdminDaoImpl: deleteInstanceTopic: Executing");
 		template.delete(instanceTopic);
+	}
+
+	public List<InstanceTopic> getInstanceTopicsByTopcId(int topicId) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: loadCustomTopics: Executing");
+		return (List<InstanceTopic>) template.findByNamedParam("from InstanceTopic it where it.topic.topicId = :topicId", "topicId", topicId);
+	}
+
+	public void saveOrUpdateDiagnostic(Diagnostic diagnostic) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: saveOrUpdateDiagnostic: Executing");
+		template.saveOrUpdate(diagnostic);
+	}
+
+	public List<InstanceModule> getInstanceModulesByModuleId(int moduleId) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: loadCustomTopics: Executing");
+		return (List<InstanceModule>) template.findByNamedParam("from InstanceModule im where im.module.moduleId = :moduleId", "moduleId", moduleId);
+	}
+
+	public void deleteInstanceModule(InstanceModule instanceModule) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: deleteInstanceModule: Executing");
+		template.delete(instanceModule);
+	}
+
+	public List<User> loadAllUsers() throws AdminException {
+		
+		LOGGER.debug("AdminDaoImpl: loadAllUsers: Executing");
+		return (List<User>) template.findByNamedParam("from User user where user.userType.userTypeId = :userTypeId", "userTypeId", AppConstants.USER_TYPE_ID_USER);
+		
+	}
+
+	public User getUserById(int userId) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: getUserById: Executing");
+		return template.get(User.class, userId);
 	}
 
 }

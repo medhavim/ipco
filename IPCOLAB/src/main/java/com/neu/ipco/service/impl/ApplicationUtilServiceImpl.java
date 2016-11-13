@@ -34,6 +34,7 @@ import com.neu.ipco.entity.Topic;
 import com.neu.ipco.entity.UserRole;
 import com.neu.ipco.entity.UserType;
 import com.neu.ipco.exception.ApplicationUtilException;
+import com.neu.ipco.exception.UserException;
 import com.neu.ipco.service.ApplicationUtilService;
 
 /**
@@ -50,6 +51,12 @@ public class ApplicationUtilServiceImpl implements ApplicationUtilService {
 	
 	@Autowired
 	private UserDao userDao;
+	
+	private static Status incompleteStatus = null;
+	
+	private static Status notStartedStatus = null;
+	
+	private static Status completedStatus = null;
 
 	/* (non-Javadoc)
 	 * @see com.neu.ipco.service.ApplicationUtilService#getUesrType(com.neu.ipco.entity.UserType)
@@ -100,8 +107,8 @@ public class ApplicationUtilServiceImpl implements ApplicationUtilService {
 	}
 
 	public void updateNewTopicToBasicInstances(Topic newTopic) throws ApplicationUtilException{
-		List<Instance> basicInstances = applicationUtilDao.getInstancesByType(AppConstants.INSTANCE_TYPE_ID_BASIC);
 		try {
+			List<Instance> basicInstances = applicationUtilDao.getInstancesByType(AppConstants.INSTANCE_TYPE_ID_BASIC);
 			for(Instance instance : basicInstances){
 				InstanceTopic instanceTopic = new InstanceTopic();
 				instanceTopic.setTopic(newTopic);
@@ -120,8 +127,8 @@ public class ApplicationUtilServiceImpl implements ApplicationUtilService {
 
 	public void updateNewModuleToInstanceTopics(Module module) throws ApplicationUtilException {
 		
-		List<InstanceTopic> instanceTopics = applicationUtilDao.getInstanceTopicByTopicId(module.getTopic().getTopicId());
 		try {
+			List<InstanceTopic> instanceTopics = applicationUtilDao.getInstanceTopicByTopicId(module.getTopic().getTopicId());
 			for(InstanceTopic instanceTopic : instanceTopics){
 				InstanceModule instanceModule = new InstanceModule();
 				instanceModule.setModule(module);
@@ -130,12 +137,42 @@ public class ApplicationUtilServiceImpl implements ApplicationUtilService {
 				instanceModule.setCreatedTs(new Date());
 				instanceTopic.getInstanceModules().add(instanceModule);
 				userDao.saveOrUpdateInstanceTopic(instanceTopic);
+				changeInstanceTopicStatusIfCompleted(instanceTopic.getInstanceTopicId());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ApplicationUtilException(e);
 		}
 	}
+
+	private void changeInstanceTopicStatusIfCompleted(int instanceTopicId) throws ApplicationUtilException, UserException {
+		Status statusIncomplete = getIncompleteStatus();
+		InstanceTopic instanceTopic = userDao.getInstanceTopicById(instanceTopicId);
+		if(instanceTopic.getStatus().getStatusId() == AppConstants.STATUS_COMPLETE_ID){
+			instanceTopic.setStatus(statusIncomplete);
+		}
+		userDao.saveOrUpdateInstanceTopic(instanceTopic);
+	}
+
+	private void changeInstanceModuleStatusIfCompleted(int instanceModuleId) throws UserException, ApplicationUtilException {
+		Status statusIncomplete = getIncompleteStatus();
+		InstanceModule instanceModule = userDao.geInstanceModuleById(instanceModuleId);
+		if(instanceModule.getStatus().getStatusId() == AppConstants.STATUS_COMPLETE_ID){
+			instanceModule.setStatus(statusIncomplete);
+		}
+		userDao.saveOrUpdateInstanceModule(instanceModule);
+	}
+
+	private void changeInstanceQuizStatusIfCompleted(int instanceQuizId) throws UserException, ApplicationUtilException {
+		Status statusIncomplete = getIncompleteStatus();
+		InstanceQuiz instanceQuiz = userDao.getInstanceQuizById(instanceQuizId);
+		if(instanceQuiz.getStatus().getStatusId() == AppConstants.STATUS_COMPLETE_ID){
+			instanceQuiz.setStatus(statusIncomplete);
+		}
+		userDao.saveOrUpdateInstanceQuiz(instanceQuiz);
+	
+	}
+
 
 	public void updateNewActivityToInstanceModule(ActivityOption activityOption) throws ApplicationUtilException {
 		
@@ -154,6 +191,8 @@ public class ApplicationUtilServiceImpl implements ApplicationUtilService {
 				activityAnswer = userDao.saveActivityAnswer(activityAnswer);
 				instanceModule.getActivityAnswers().add(activityAnswer);
 				userDao.saveOrUpdateInstanceModule(instanceModule);
+				changeInstanceModuleStatusIfCompleted(instanceModule.getInstanceModuleId());
+				changeInstanceTopicStatusIfCompleted(instanceModule.getInstanceTopic().getInstanceTopicId());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -176,7 +215,7 @@ public class ApplicationUtilServiceImpl implements ApplicationUtilService {
 	public Status getStatusById(int statusId) throws ApplicationUtilException {
 		LOGGER.debug("ApplicationUtilServiceImpl: getStatusById: Executing");
 		try {
-			return applicationUtilDao.getStatusId(statusId);
+			return applicationUtilDao.getStatusById(statusId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ApplicationUtilException(e);
@@ -196,6 +235,7 @@ public class ApplicationUtilServiceImpl implements ApplicationUtilService {
 					instanceQuiz.setStatus(status);
 					instanceTopic.setQuiz(instanceQuiz);
 					userDao.saveOrUpdateInstanceTopic(instanceTopic);
+					changeInstanceTopicStatusIfCompleted(instanceTopic.getInstanceTopicId());
 				}
 			}
 		} catch (Exception e) {
@@ -222,12 +262,39 @@ public class ApplicationUtilServiceImpl implements ApplicationUtilService {
 				quizAnswer = userDao.saveQuizAnswer(quizAnswer);
 				instanceQuiz.getQuizAnswers().add(quizAnswer);
 				userDao.saveOrUpdateInstanceQuiz(instanceQuiz);
+				changeInstanceQuizStatusIfCompleted(instanceQuiz.getInstanceQuizId());
+				InstanceTopic instanceTopic = userDao.getInstanceTopicByInstanceQuizId(instanceQuiz.getInstanceQuizId());
+				changeInstanceTopicStatusIfCompleted(instanceTopic.getInstanceTopicId());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ApplicationUtilException(e);
 		}
 		
+	}
+	
+	public Status getIncompleteStatus() throws ApplicationUtilException {
+		
+		if(incompleteStatus == null){
+			incompleteStatus = getStatusById(AppConstants.STATUS_INCOMPLETE_ID);
+		}
+		return incompleteStatus;
+	}
+	
+	public Status getNotStartedStatus() throws ApplicationUtilException {
+		
+		if(notStartedStatus == null){
+			notStartedStatus = getStatusById(AppConstants.STATUS_NOT_STARTED_ID);
+		}
+		return notStartedStatus;
+	}
+
+	public Status getCompletedStatus() throws ApplicationUtilException {
+		
+		if(completedStatus == null){
+			completedStatus = getStatusById(AppConstants.STATUS_COMPLETE_ID);
+		}
+		return completedStatus;
 	}
 
 }

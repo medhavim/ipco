@@ -25,7 +25,7 @@
 <div class="jumbotron title">
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item"><a href="userProfile.action">Profile</a></li>
-	  	<li class="breadcrumb-item active"><span class="h3">Tutorial</span></li>
+	  	<li class="breadcrumb-item active"><span class="h3">${instance.instanceName}</span></li>
 	</ol>
 	<div class="container text-center">
 		<h1>Tutorial</h1>

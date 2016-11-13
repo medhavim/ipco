@@ -16,6 +16,7 @@ import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.coyote.ajp.AjpProcessor;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -76,7 +77,7 @@ public class UserController {
 		
 		try {
 			
-			User user = (User) session.getAttribute("user");
+			User user = (User) session.getAttribute(AppConstants.SESSION_ATTRIBUTE_USER);
 			
 			InstanceType instanceType = applicationUtilService.getInstanceTypeByDesc(AppConstants.INSTANCE_TYPE_BASIC);
 			BasicInstanceUser basicInstanceUser = userService.getInstanceByUserId(user.getUserId(), instanceType.getInstanceTypeId());
@@ -97,7 +98,7 @@ public class UserController {
 				basicInstanceUser.setCreatedTs(new Date());
 				basicInstanceUser = userService.saveBasicInstance(basicInstanceUser);
 			}
-			session.setAttribute("instance", basicInstanceUser.getInstance());
+			session.setAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE, basicInstanceUser.getInstance());
 			
 		} catch (UserException e) {
 			e.printStackTrace();
@@ -105,11 +106,48 @@ public class UserController {
 		} catch (ApplicationUtilException e1){
 			e1.printStackTrace();
 			return AppConstants.ERROR_PAGE;
+		} catch (Exception e){
+			e.printStackTrace();
+			return AppConstants.ERROR_PAGE;
 		}
 		
 		LOGGER.debug("UserController: gotoBasicProfileAction: End");
 		return AppConstants.USER_TOPIC;
 	}
+	
+	@RequestMapping(value="/gotoActivityAnswer.action", method=RequestMethod.POST)
+	public String gotoActivityAnswerAction(@RequestParam("id") int activityAnswerId, Model model, HttpSession session){
+		
+		LOGGER.debug("UserController: gotoActivityAnswerAction: Start");
+		
+		try {
+			
+			InstanceModule instanceModule = (InstanceModule) session.getAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_MODULE);
+			instanceModule.reorder();
+			instanceModule.prepareStack(activityAnswerId);
+			Status incompleteStatus = applicationUtilService.getIncompleteStatus();
+			userService.updateActivityAnswerStatus(instanceModule.getCurrActivity(), incompleteStatus);
+			
+			InstanceTopic instanceTopic = userService.getInstanceTopicById(instanceModule.getInstanceTopic().getInstanceTopicId());
+			instanceTopic.reorder();
+//			instanceTopic.prepareStack(instanceModule);
+			userService.updateInstanceModuleStatus(instanceModule, incompleteStatus);
+			userService.updateInstanceTopicStatus(instanceTopic, incompleteStatus);
+			
+			session.setAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_MODULE, instanceModule);
+			session.setAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_TOPIC, instanceTopic);
+		} catch (UserException e) {
+			e.printStackTrace();
+			return AppConstants.ERROR_PAGE;
+		} catch (Exception e){
+			e.printStackTrace();
+			return AppConstants.ERROR_PAGE;
+		}
+		
+		LOGGER.debug("UserController: gotoActivityAnswerAction: End");
+		return AppConstants.USER_ACTIVITY;
+	}
+	
 	
 	@RequestMapping(value="/gotoModule.action", method=RequestMethod.POST)
 	public String gotoModuleAction(@RequestParam("id") int instanceModuleId, Model model, HttpSession session){
@@ -121,14 +159,21 @@ public class UserController {
 			InstanceModule instanceModule = userService.geInstanceModuleById(instanceModuleId);
 			instanceModule.reorder();
 			instanceModule.prepareStack();
+			Status incompleteStatus = applicationUtilService.getIncompleteStatus();
+			userService.updateActivityAnswerStatus(instanceModule.getCurrActivity(), incompleteStatus);
 			
 			InstanceTopic instanceTopic = userService.getInstanceTopicById(instanceModule.getInstanceTopic().getInstanceTopicId());
 			instanceTopic.reorder();
-			instanceTopic.prepareStack(instanceModule);
+//			instanceTopic.prepareStack(instanceModule);
+			userService.updateInstanceModuleStatus(instanceModule, incompleteStatus);
+			userService.updateInstanceTopicStatus(instanceTopic, incompleteStatus);
 			
-			session.setAttribute("instanceModule", instanceModule);
-			session.setAttribute("instanceTopic", instanceTopic);
+			session.setAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_MODULE, instanceModule);
+			session.setAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_TOPIC, instanceTopic);
 		} catch (UserException e) {
+			e.printStackTrace();
+			return AppConstants.ERROR_PAGE;
+		} catch (Exception e){
 			e.printStackTrace();
 			return AppConstants.ERROR_PAGE;
 		}
@@ -144,52 +189,50 @@ public class UserController {
 		
 		try {
 			InstanceQuiz quiz = userService.getInstanceQuizById(instanceQuizId);
-			Status statusIncomplete = applicationUtilService.getStatusById(AppConstants.STATUS_INCOMPLETE_ID);
-			QuizAnswer currentQuizAnswer = userService.getFirstQuizAnswer(quiz);
-			currentQuizAnswer.setStatus(statusIncomplete);
+			if(quiz.getStatus().getStatusId() != AppConstants.STATUS_COMPLETE_ID){
+				QuizAnswer currentQuizAnswer = userService.getFirstQuizAnswer(quiz);
+				Status statusIncomplete = applicationUtilService.getStatusById(AppConstants.STATUS_INCOMPLETE_ID);
+				userService.updateQuizAnswerStatus(currentQuizAnswer, statusIncomplete);
+				userService.updateQuizStatus(quiz, statusIncomplete);
+				session.setAttribute(AppConstants.SESSION_ATTRIBUTE_CURRENT_QUIZ_ANSWER, currentQuizAnswer);
+			}
+			session.setAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_QUIZ, quiz);
 			
-			session.setAttribute("quiz", quiz);
-			session.setAttribute("currentQuizAnswer", currentQuizAnswer);
+			LOGGER.debug("UserController: gotoUserQuizAction: End");
+			if(quiz.getStatus().getStatusId() == AppConstants.STATUS_COMPLETE_ID){
+				return AppConstants.USER_QUIZ_REPORT;
+			}
+			return AppConstants.USER_QUIZ;
 		} catch (UserException e) {
 			e.printStackTrace();
 			return AppConstants.ERROR_PAGE;
 		} catch (ApplicationUtilException e) {
 			e.printStackTrace();
 			return AppConstants.ERROR_PAGE;
+		} catch (Exception e){
+			e.printStackTrace();
+			return AppConstants.ERROR_PAGE;
 		}
 		
-		LOGGER.debug("UserController: gotoUserQuizAction: End");
-		return AppConstants.USER_QUIZ;
 	}
 	
 	@RequestMapping(value="/saveActivity.action", method=RequestMethod.POST)
-	public String saveActivityAction(@RequestParam("navType") String navType, HttpServletRequest request, Model model, HttpSession session){
+	public String saveActivityAction(@RequestParam("navType") String navType, 
+			HttpServletRequest request, Model model, HttpSession session){
 		
 		LOGGER.debug("UserController: saveActivityAction: Start");
 		
 		try {
-
-//			Getting the instanceModule and instanceTopic from the session.
+			
+//			Steps to save activity:
+//			1. Get instanceModule from session.
 			InstanceModule instanceModule = (InstanceModule) session.getAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_MODULE);
-			InstanceTopic instanceTopic = (InstanceTopic) session.getAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_TOPIC);
-			Status statusIncomplete = applicationUtilService.getStatusById(AppConstants.STATUS_INCOMPLETE_ID);
-			Status statusComplete = applicationUtilService.getStatusById(AppConstants.STATUS_COMPLETE_ID);
+//			2. Get currentActivity from instanceModule
 			ActivityAnswer currActivity = instanceModule.getCurrActivity();
-			
-			instanceModule = userService.geInstanceModuleById(instanceModule.getInstanceModuleId());
-			instanceModule.reorder();
-			instanceModule.prepareStack(currActivity);
-			instanceTopic = userService.getInstanceTopicById(instanceTopic.getInstanceTopicId());
-			instanceTopic.reorder();
-			instanceTopic.prepareStack(instanceModule);
-			
-//			If this is the very first activity attempted from the topic then change the status of the topic from 
-//			NOT_STARTED to INCOMPLETE
-			if(instanceTopic.getStatus().getStatusId() == AppConstants.STATUS_NOT_STARTED_ID){
-				instanceTopic.setStatus(statusIncomplete);
-			}
-			
-//			Update the current activityAnswer object with user responses from the user and change the status to COMPLETED and also update the same with database.
+//			3. populate currActivity status to complete
+			Status statusComplete = applicationUtilService.getStatusById(AppConstants.STATUS_COMPLETE_ID);
+			userService.updateActivityAnswerStatus(currActivity, statusComplete);
+//			4. populate userAnswers to currActivity
 			int activityTemplateId = currActivity.getActivityOption().getActivity().getActivityTemplate().getActivityTemplateId();
 			currActivity.setUpdatedTs(new Date());
 			if(activityTemplateId != AppConstants.TEMPLATE_INFO){
@@ -198,86 +241,73 @@ public class UserController {
 					currActivity.setAnswers(userAnswers);
 				}
 			}
-			
-			if(navType.equalsIgnoreCase(AppConstants.NAV_TYPE_NEXT_MODULE) 
-					|| navType.equalsIgnoreCase(AppConstants.NAV_TYPE_TAKE_QUIZ)
-					|| navType.equalsIgnoreCase(AppConstants.NAV_TYPE_GOTO_DASHBOARD)
-					|| navType.equalsIgnoreCase(AppConstants.NAV_TYPE_NEXT_ACTIVITY)){
-				if(currActivity.getStatus().getStatusId() != AppConstants.STATUS_COMPLETE_ID){
-					statusComplete.setCreatedTs(new Date());
-					currActivity.setStatus(statusComplete);
-				}
-			}
-
-			//			Update the timestamps for instanceModule and instanceTopic stored in session.
-			instanceModule.setUpdatedTs(new Date());
-			instanceModule = userService.saveOrUpdateInstanceModule(instanceModule);
-			instanceTopic.setUpdatedTs(new Date());
-			instanceTopic = userService.saveOrUpdateInstanceTopic(instanceTopic);
-
-			
+//			5. update currActivity to db
 			currActivity = userService.saveOrUpdateActivityAnswer(currActivity);
-			instanceModule = userService.geInstanceModuleById(instanceModule.getInstanceModuleId());
-			instanceModule.reorder();
-			instanceModule.prepareStack(currActivity);
+//			5.1. save the instanceModule onto session.
+			session.setAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_MODULE, instanceModule);
+//			6. transfer control to navActiviyAction
+			LOGGER.debug("UserController: saveActivityAction: End");
+			return navigateActivityAction(navType, model, session);
+		} catch (ApplicationUtilException e) {
+			e.printStackTrace();
+			return AppConstants.ERROR_PAGE;
+		} catch (UserException e) {
+			e.printStackTrace();
+			return AppConstants.ERROR_PAGE;
+		} catch (Exception e){
+			e.printStackTrace();
+			return AppConstants.ERROR_PAGE;
+		}
+	}
+	
+	@RequestMapping(value="/navigateActivity.action", method=RequestMethod.POST)
+	public String navigateActivityAction(@RequestParam(value="navType", required=false) String navType, 
+			Model model, HttpSession session){
+		try {
+			Status statusIncomplete = applicationUtilService.getStatusById(AppConstants.STATUS_INCOMPLETE_ID);
+			Status statusComplete = applicationUtilService.getStatusById(AppConstants.STATUS_COMPLETE_ID);
+			InstanceModule instanceModule = (InstanceModule) session.getAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_MODULE);
+			switch (navType) {
+				case AppConstants.NAV_TYPE_PREV_ACTIVITY:
+					instanceModule.configurePrevActivity();
+					break;
+				case AppConstants.NAV_TYPE_NEXT_ACTIVITY:
+					instanceModule.configureNextActivity();
+					userService.updateActivityAnswerStatus(instanceModule.getCurrActivity(), statusIncomplete);
+					break;
+				case AppConstants.NAV_TYPE_PREV_MODULE:
+					instanceModule = userService.getPrevInstanceModuleForNavigation(instanceModule);
+					break;
+				case AppConstants.NAV_TYPE_NEXT_MODULE:
+					instanceModule = userService.getNextInstanceModuleForNavigation(instanceModule);
+					
+					break;
+				case AppConstants.NAV_TYPE_TAKE_QUIZ:
+					userService.updateInstanceModuleStatus(instanceModule, statusComplete);
+					InstanceQuiz quiz = instanceModule.getInstanceTopic().getQuiz();
+					if(quiz != null){
+						return gotoUserQuizAction(quiz.getInstanceQuizId(), model, session);
+					}else{
+						return updateInstanceTopicToCompleteGotoUserInstance(statusComplete, model, session);
+					}
+					
+				case AppConstants.NAV_TYPE_NEXT_QUIZ:
+				case AppConstants.NAV_TYPE_PREVIOUS_QUIZ:
+					return AppConstants.USER_QUIZ;
+					
+				case AppConstants.NAV_TYPE_GOTO_DASHBOARD:
+					userService.updateInstanceModuleStatus(instanceModule, statusComplete);
+					return navigateToUserInstanceFromActivityOrQuiz(model, session);
+				case AppConstants.NAV_TYPE_QUIZ_FINISH:
+					return updateInstanceTopicToCompleteGotoUserInstance(statusComplete, model, session);
+				default:
+					return navigateToUserInstanceFromActivityOrQuiz(model, session);
+			}
+			
+			InstanceTopic instanceTopic = userService.getInstanceTopicById(instanceModule.getInstanceTopic().getInstanceTopicId());
 			instanceTopic.reorder();
-			instanceTopic.prepareStack(instanceModule);
-			
-//			Navigate the page based on the navigation type.
-			
-			if(navType.equalsIgnoreCase("prev-module")){
-				instanceTopic.getNextModules().push(instanceModule);
-				InstanceModule currInstanceModule = instanceTopic.getPrevModules().pop();
-				currInstanceModule.preparePreviousModuleStack();
-				instanceTopic.setCurrModule(currInstanceModule);
-				
-				session.setAttribute("instanceModule", currInstanceModule);
-			}else if(navType.equalsIgnoreCase("prev-activity")){
-				instanceModule.getNextActivity().push(currActivity);
-				instanceModule.setCurrActivity(instanceModule.getPrevActivity().pop());
-				
-				session.setAttribute("instanceModule", instanceModule);
-			}else if(navType.equalsIgnoreCase("next-module") || navType.equalsIgnoreCase("go-to-dashboard")){
-				if(instanceModule.getStatus().getStatusId() != AppConstants.STATUS_COMPLETE_ID){
-					instanceModule.setStatus(statusComplete);
-				}
-				instanceModule.setUpdatedTs(new Date());
-				instanceModule = userService.saveOrUpdateInstanceModule(instanceModule);
-				instanceTopic.getPrevModules().push(instanceModule);
-				instanceModule = instanceTopic.getNextModules().pop();
-				if(instanceModule.getStatus().getStatusId() == AppConstants.STATUS_NOT_STARTED_ID){
-					statusIncomplete.setCreatedTs(new Date());
-					instanceModule.setStatus(statusIncomplete);
-				}
-				instanceModule.setUpdatedTs(new Date());
-				instanceModule = userService.saveOrUpdateInstanceModule(instanceModule);
-				instanceModule.prepareNextModuleStack();
-				instanceTopic.setCurrModule(instanceModule);
-				session.setAttribute("instanceModule", instanceModule);
-			}else if(navType.equalsIgnoreCase("next-activity")){
-				instanceModule.getPrevActivity().push(currActivity);
-				ActivityAnswer newCurrActivity = instanceModule.getNextActivity().pop();
-				if(newCurrActivity.getStatus().getStatusId() == AppConstants.STATUS_NOT_STARTED_ID){
-					statusIncomplete.setCreatedTs(new Date());
-					newCurrActivity.setStatus(statusIncomplete);
-				}
-				newCurrActivity = userService.saveOrUpdateActivityAnswer(newCurrActivity);
-				instanceModule.setCurrActivity(newCurrActivity);
-				
-				session.setAttribute("instanceModule", instanceModule);
-				
-			}
-			session.setAttribute("instanceTopic", instanceTopic);
-			if(navType.equalsIgnoreCase("take-quiz")){
-				InstanceQuiz quiz = instanceTopic.getQuiz();
-//				QuizAnswer currentQuizAnswer = userService.getFirstQuizAnswer(quiz);
-//				currentQuizAnswer.setStatus(statusIncomplete);
-//				
-//				session.setAttribute("quiz", quiz);
-//				session.setAttribute("currentQuizAnswer", currentQuizAnswer);
-//				return AppConstants.USER_QUIZ;
-				return gotoUserQuizAction(quiz.getInstanceQuizId(), model, session);
-			}
+			session.setAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_MODULE, instanceModule);
+			session.setAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_TOPIC, instanceTopic);
 		} catch (ApplicationUtilException e) {
 			e.printStackTrace();
 			return AppConstants.ERROR_PAGE;
@@ -285,13 +315,35 @@ public class UserController {
 			e.printStackTrace();
 			return AppConstants.ERROR_PAGE;
 		}
-		
-		String nextPage = nextNavigationQuizPage(navType, session);
-		if(null == nextPage){
-			nextPage = AppConstants.USER_ACTIVITY;
+		return AppConstants.USER_ACTIVITY;
+	}
+
+	private String updateInstanceTopicToCompleteGotoUserInstance(Status statusComplete, Model model, HttpSession session) throws UserException {
+	
+		InstanceQuiz instanceQuiz = (InstanceQuiz) session.getAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_QUIZ);
+		InstanceTopic instanceTopicFromSession = (InstanceTopic) session.getAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_TOPIC);
+		if(null != instanceTopicFromSession){
+			userService.updateInstanceTopicStatus(instanceTopicFromSession, statusComplete);
+		}else if(null != instanceQuiz){
+			InstanceTopic instanceTopic = userService.getInstanceTopicByInstanceQuizId(instanceQuiz.getInstanceQuizId());
+			if(null != instanceTopic){
+				userService.updateInstanceTopicStatus(instanceTopic, statusComplete);
+			}
 		}
-		LOGGER.debug("UserController: saveActivityAction: End");
-		return nextPage;
+		return navigateToUserInstanceFromActivityOrQuiz(model, session);
+	}
+
+	private String navigateToUserInstanceFromActivityOrQuiz(Model model, HttpSession session) {
+		Instance instance = (Instance) session.getAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE);
+		if(null != instance){
+			session.removeAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_MODULE);
+			session.removeAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_TOPIC);
+			session.removeAttribute(AppConstants.SESSION_ATTRIBUTE_CURRENT_QUIZ_ANSWER);
+			session.removeAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_QUIZ);
+			return loadInstanceAction(instance.getInstanceId(), model, session);
+		}else {
+			return AppConstants.ERROR_PAGE;
+		}
 	}
 
 	@RequestMapping(value="/saveQuiz.action", method=RequestMethod.POST)
@@ -307,22 +359,14 @@ public class UserController {
 			Status statusComplete = applicationUtilService.getStatusById(AppConstants.STATUS_COMPLETE_ID);
 			int activityTemplateId = currentQuizAnswer.getQuizOption().getActivity().getActivityTemplate().getActivityTemplateId();
 			
-			updateUserAnswersToCurrentQuizAnswer(request, activityTemplateId, currentQuizAnswer);
+			updateQuizStatusScore(currentQuizAnswer, navType, statusComplete, request, activityTemplateId, instanceQuiz, statusIncomplete);
 			
-			updateCurrentQuizStatus(currentQuizAnswer, navType, statusComplete);
-			updateInstanceQuizStatus(instanceQuiz, navType, statusIncomplete, statusComplete);
-			
-			userService.updateQuizScore(instanceQuiz, currentQuizAnswer);
-			userService.saveOrUpdateInstanceQuiz(instanceQuiz);
-			
-			QuizAnswer nextQuizAnswer = userService.getNextCurrentQuizAnswer(currentQuizAnswer.getQuizOption().getOrderNo(), navType);
-			nextQuizAnswer.setStatus(statusIncomplete);
-			userService.saveOrUpdateQuizAnswer(nextQuizAnswer);
-			session.setAttribute("currentQuizAnswer", nextQuizAnswer);
-			userService.saveOrUpdateQuizAnswer(currentQuizAnswer);
+			QuizAnswer nextQuizAnswer = userService.getNextCurrentQuizAnswer(instanceQuiz.getInstanceQuizId(), currentQuizAnswer.getQuizOption().getOrderNo(), navType);
+			userService.updateQuizAnswerStatus(nextQuizAnswer, statusIncomplete);
+			session.setAttribute(AppConstants.SESSION_ATTRIBUTE_CURRENT_QUIZ_ANSWER, nextQuizAnswer);
 			
 			instanceQuiz = userService.getInstanceQuizById(instanceQuiz.getInstanceQuizId());
-			session.setAttribute("instanceQuiz", instanceQuiz);
+			session.setAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_QUIZ, instanceQuiz);
 			
 		} catch (ApplicationUtilException e) {
 			e.printStackTrace();
@@ -330,52 +374,33 @@ public class UserController {
 		} catch (UserException e) {
 			e.printStackTrace();
 			return AppConstants.ERROR_PAGE;
+		} catch (Exception e){
+			e.printStackTrace();
+			return AppConstants.ERROR_PAGE;
 		}
 		LOGGER.debug("UserController: saveQuizAction: End");
-		String nextPage = nextNavigationQuizPage(navType, session);
-		if(null == nextPage){
-			nextPage = AppConstants.USER_QUIZ;
-		}
-		return nextPage;
+		return navigateActivityAction(navType, model, session);
 	}
 	
-	private void updateInstanceQuizStatus(InstanceQuiz instanceQuiz, String navType, Status statusIncomplete, Status statusComplete) {
-		
-		if(instanceQuiz.getStatus().getStatusId() == AppConstants.STATUS_NOT_STARTED_ID){
-			instanceQuiz.setStatus(statusIncomplete);
-		}
+	private void updateInstanceQuizStatus(InstanceQuiz instanceQuiz, String navType, Status statusIncomplete, Status statusComplete) throws UserException {
+		Status status = statusIncomplete;
 		if(navType.equalsIgnoreCase(AppConstants.NAV_TYPE_QUIZ_FINISH)){
-			instanceQuiz.setStatus(statusComplete);
+			status = statusComplete;
 		}
+		userService.updateQuizStatus(instanceQuiz, status);
 	}
 
-	private String nextNavigationQuizPage(String navType, HttpSession session) {
-		
-		if(navType.equalsIgnoreCase(AppConstants.NAV_TYPE_QUIZ_FINISH)
-				|| navType.equalsIgnoreCase(AppConstants.NAV_TYPE_GOTO_DASHBOARD)){
-			
-			Instance instance = (Instance) session.getAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE);
-			if(null != instance){
-				session.removeAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_MODULE);
-				session.removeAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_TOPIC);
-				session.removeAttribute(AppConstants.SESSION_ATTRIBUTE_CURRENT_QUIZ_ANSWER);
-				session.removeAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_QUIZ);
-				return loadInstance(session, instance.getInstanceId());
-			}else {
-				return AppConstants.ERROR_PAGE;
-			}
-			
-		}
-		return null;
-	}
+	private void updateQuizStatusScore(QuizAnswer currentQuizAnswer, String navType, Status statusComplete, 
+			HttpServletRequest request, int activityTemplateId, InstanceQuiz instanceQuiz, 
+			Status statusIncomplete) throws UserException {
 
-	private void updateCurrentQuizStatus(QuizAnswer currentQuizAnswer, String navType, Status statusComplete) {
-		
-		if(navType.equalsIgnoreCase("next-quiz") 
-				|| navType.equalsIgnoreCase("quiz-finish")){
+		if(navType.equalsIgnoreCase(AppConstants.NAV_TYPE_NEXT_QUIZ) 
+				|| navType.equalsIgnoreCase(AppConstants.NAV_TYPE_QUIZ_FINISH)){
 			if(currentQuizAnswer.getStatus().getStatusId() != AppConstants.STATUS_COMPLETE_ID){
-				statusComplete.setCreatedTs(new Date());
-				currentQuizAnswer.setStatus(statusComplete);
+				updateUserAnswersToCurrentQuizAnswer(request, activityTemplateId, currentQuizAnswer);
+				updateInstanceQuizStatus(instanceQuiz, navType, statusIncomplete, statusComplete);
+				userService.updateQuizScore(instanceQuiz, currentQuizAnswer);
+				userService.updateQuizAnswerStatus(currentQuizAnswer, statusComplete);
 			}
 		}
 	}
@@ -390,27 +415,6 @@ public class UserController {
 		}
 	}
 
-	/**
-	 * @param session
-	 * @param instanceId 
-	 * @return
-	 */
-	private String loadInstance(HttpSession session, int instanceId) {
-		try {
-			LOGGER.debug("UserController: saveActivityAction: redirecting user to the dashboard page: Start");
-			
-			Instance instance = userService.getInstanceById(instanceId);
-			instance.reorder();
-			session.setAttribute("instance", instance);
-		} catch (UserException e) {
-			e.printStackTrace();
-			return AppConstants.ERROR_PAGE;
-		}
-		
-		LOGGER.debug("UserController: saveActivityAction: redirecting user to the dashboard page: End");
-		return AppConstants.USER_TOPIC;
-	}
-	
 	private Set<Option> updateAnswers(HttpServletRequest request, Integer activityTemplateId, Set<Option> userOptions) throws UserException {
 		
 		Set<Option> userAnswers = new TreeSet<Option>();
@@ -462,6 +466,9 @@ public class UserController {
 				if(o.getOptionId() == correctAnswerId){
 					o.setIsCorrect(AppConstants.TRUE);
 					o.setUpdatedTs(new Date());
+				}else{
+					o.setIsCorrect(AppConstants.FALSE);
+					o.setUpdatedTs(new Date());
 				}
 				userAnswers.add(o);
 			}
@@ -499,7 +506,7 @@ public class UserController {
 		
 		try {
 			
-			User user = (User) session.getAttribute("user");
+			User user = (User) session.getAttribute(AppConstants.SESSION_ATTRIBUTE_USER);
 			
 			InstanceType instanceType = applicationUtilService.getInstanceTypeByDesc(AppConstants.INSTANCE_TYPE_CUSTOM);
 			Instance instance = new Instance();
@@ -529,8 +536,8 @@ public class UserController {
 			customizeInstanceUser.setUpdatedTs(new Date());
 			customizeInstanceUser = userService.saveOrUpdateCustomInstance(customizeInstanceUser);
 			
-			session.setAttribute("customInstance", customizeInstanceUser);
-			session.setAttribute("instance", instance);
+			session.setAttribute(AppConstants.SESSION_ATTRIBUTE_CUSTOM_INSTANCE, customizeInstanceUser);
+			session.setAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE, instance);
 			
 		} catch (UserException e) {
 			e.printStackTrace();
@@ -540,6 +547,9 @@ public class UserController {
 			return AppConstants.ERROR_PAGE;
 		} catch (AdminException e1){
 			e1.printStackTrace();
+			return AppConstants.ERROR_PAGE;
+		} catch (Exception e){
+			e.printStackTrace();
 			return AppConstants.ERROR_PAGE;
 		}
 		
@@ -611,8 +621,11 @@ public class UserController {
 			
 			Instance instance = userService.getInstanceById(instanceId);
 			instance.reorder();
-			session.setAttribute("instance", instance);
+			session.setAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE, instance);
 		} catch (UserException e) {
+			e.printStackTrace();
+			return AppConstants.ERROR_PAGE;
+		} catch (Exception e){
 			e.printStackTrace();
 			return AppConstants.ERROR_PAGE;
 		}
@@ -642,8 +655,11 @@ public class UserController {
 				}
 			}
 //			userService.saveOrUpdateCustomInstance(customizeInstanceUser);
-			session.setAttribute("customInstance", customizeInstanceUser);
+			session.setAttribute(AppConstants.SESSION_ATTRIBUTE_CUSTOM_INSTANCE, customizeInstanceUser);
 		} catch (UserException e) {
+			e.printStackTrace();
+			return AppConstants.ERROR_PAGE;
+		} catch (Exception e){
 			e.printStackTrace();
 			return AppConstants.ERROR_PAGE;
 		}

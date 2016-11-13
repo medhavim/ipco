@@ -63,8 +63,12 @@ public interface UserDao {
 
 	void saveOrUpdateQuizAnswer(QuizAnswer currentQuizAnswer) throws UserException;
 
-	QuizAnswer getNextCurrentQuizAnswer(int orderNo) throws UserException;
+	QuizAnswer getNextCurrentQuizAnswer(int instanceQuizId, int orderNo) throws UserException;
 
 	InstanceQuiz getInstanceQuizById(int instanceQuizId) throws UserException;
+
+	InstanceModule getNextCurrentInstanceModule(int instanceTopicId, int orderNo) throws UserException;
+
+	InstanceTopic getInstanceTopicByInstanceQuizId(int instanceQuizId) throws UserException;
 
 }

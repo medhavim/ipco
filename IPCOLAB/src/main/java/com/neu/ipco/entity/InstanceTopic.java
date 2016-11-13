@@ -52,20 +52,25 @@ public class InstanceTopic implements Serializable, Comparable<InstanceTopic> {
 	private Date updatedTs;
 	
 	public InstanceTopic() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public void reorder() {
+//		populate instanceModuleList from the instanceModules(Set) and sort them.
 		this.instanceModuleList = new ArrayList<InstanceModule>(this.instanceModules);
 		Collections.sort(this.instanceModuleList, AppConstants.INSTANCE_MODULE_COMPARATOR);
-		
-		for(InstanceModule instanceModule : this.instanceModuleList){
-//			this.instanceModuleList = new ArrayList<InstanceModule>(this.instanceModules);
-			instanceModule.reorder();
-		}
-		
+		updateTopicProgress();
 	}
 	
+	private void updateTopicProgress() {
+		double progress = 0;
+		for(InstanceModule instanceModule : instanceModuleList){
+			if(instanceModule.getStatus().getStatusId() == AppConstants.STATUS_COMPLETE_ID){
+				progress++;
+			}
+		}
+		this.progress = (int) (progress/instanceModuleList.size() * 100);
+	}
+
 	public void prepareStack() {
 		nextModules.clear();
 		prevModules.clear();
@@ -95,7 +100,7 @@ public class InstanceTopic implements Serializable, Comparable<InstanceTopic> {
 		nextModules.addAll(tempInstanceModuleList);
 		while(!nextModules.empty()){
 			currModule = nextModules.pop();
-			if(currModule.getInstanceModuleId() == instanceModule.getInstanceModuleId()){
+			if(currModule.getInstanceModuleId().equals(instanceModule.getInstanceModuleId())){
 				break;
 			}
 			prevModules.push(currModule);

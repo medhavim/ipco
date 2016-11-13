@@ -23,7 +23,7 @@
 </head>
 <body>
 <jsp:include page="header.jsp"></jsp:include>
-<div class="jumbotron title">
+<div class="jumbotron title admin">
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item"><a href="adminHome.action">Home</a></li>
 		<li class="breadcrumb-item"><a href="manageDiagnostic.action">Manage Diagnostic</a></li>
@@ -61,13 +61,13 @@
 	  		<div class="diagnostic_holder">
 	  			<div class="row">
 		  		<div class="col-sm-6 input-group">
-			  		<input type="button" class="form-control btn ${diagnostic.diagnosticId==currentDiagnostic.diagnosticId?'btn-info':'btn-default'} btn-block" 
+			  		<input type="button" class="addDiagnosticLabel form-control btn ${diagnostic.diagnosticId==currentDiagnostic.diagnosticId?'btn-info':'btn-default'} btn-block" 
 			  			data-toggle="collapse" data-target="#diagnostic_info_for-${diagnostic.diagnosticId}" id="diagnosticLabel_${diagnostic.diagnosticId}" value="${diagnostic.activity.activityTitle}"/>
 				   	<span class="input-group-btn"><button type="button" class="${diagnostic.diagnosticId==currentDiagnostic.diagnosticId?'removeDiagnostic':'addDiagnostic'} btn ${diagnostic.diagnosticId==currentDiagnostic.diagnosticId?'btn-info':'btn-default'}" id="diagnosticBtn_${diagnostic.diagnosticId}" name="${diagnostic.activity.activityTitle}"><i class="glyphicon ${diagnostic.diagnosticId==currentDiagnostic.diagnosticId?'glyphicon-trash':'glyphicon-plus'}"></i></button></span>
 			   	</div>
 			   	</div>
 		   		<div class="panel-collapse collapse" id="diagnostic_info_for-${diagnostic.diagnosticId}">
-		   			<div class="alert ${diagnostic.diagnosticId==currentDiagnostic.diagnosticId?'alert-info':''} diag-qstn_${diagnostic.diagnosticId}" role="alert">
+		   			<div class="tile gray alert ${diagnostic.diagnosticId==currentDiagnostic.diagnosticId?'alert-info':''} diag-qstn_${diagnostic.diagnosticId}" role="alert">
 						<div class="row">
 							<div class="col-sm-8">${diagnostic.activity.activityText}</div>
 							<c:forEach items="${diagnostic.options}" var="option">
@@ -118,7 +118,7 @@
 		<div class="row" style="overflow-y: auto; max-height:300px;">
 			<c:forEach items="${allTopics}" var="topic">
 		  	<div class="col-sm-6 input-group">
-		  		<input type="button" class="form-control btn btn-default btn-block" id="topicLabel_${topic.topicId}" value="${topic.topicName}"/>
+		  		<input type="button" class="addTopicLabel form-control btn btn-default btn-block" id="topicLabel_${topic.topicId}" value="${topic.topicName}"/>
 			   	<span class="input-group-btn"><button type="button" class="addTopic btn btn-default" id="topicBtn_${topic.topicId}" name="${topic.topicName}"><i class="glyphicon glyphicon-plus"></i></button></span>
 	 		</div>
 			</c:forEach>

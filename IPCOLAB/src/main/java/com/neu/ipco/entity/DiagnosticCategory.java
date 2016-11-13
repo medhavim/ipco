@@ -34,7 +34,6 @@ public class DiagnosticCategory implements Serializable, Comparable<DiagnosticCa
 	private Date updatedTs;
 	
 	public DiagnosticCategory() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public DiagnosticCategory(String categoryTitle, String categoryDesc) {

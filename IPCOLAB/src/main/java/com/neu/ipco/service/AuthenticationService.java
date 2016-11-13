@@ -3,6 +3,8 @@
  */
 package com.neu.ipco.service;
 
+import javax.servlet.http.HttpSession;
+
 import com.neu.ipco.entity.BasicInstanceUser;
 import com.neu.ipco.entity.Credential;
 import com.neu.ipco.entity.CustomizeInstanceUser;
@@ -30,5 +32,9 @@ public interface AuthenticationService {
 	public BasicInstanceUser getBasicInstanceByUserId(Integer userId) throws AuthenticationException;
 
 	public CustomizeInstanceUser getCustomInstanceByUserId(Integer userId) throws AuthenticationException;
+
+	public void updateUserLoginTimestamp(User user) throws AuthenticationException;
+
+	public void loadUserInstancesToSession(HttpSession session, User user) throws AuthenticationException;
 
 }

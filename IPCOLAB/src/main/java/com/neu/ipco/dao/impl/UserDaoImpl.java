@@ -164,14 +164,45 @@ public class UserDaoImpl implements UserDao {
 		template.saveOrUpdate(currentQuizAnswer);
 	}
 
-	public QuizAnswer getNextCurrentQuizAnswer(int orderNo) throws UserException {
+	public QuizAnswer getNextCurrentQuizAnswer(int instanceQuizId, int orderNo) throws UserException {
 		LOGGER.debug("UserDaoImpl: getNextCurrentQuizAnswer: Executing");
-		return ((List<QuizAnswer>) template.findByNamedParam("from QuizAnswer qa where qa.quizOption.orderNo = :orderNo", "orderNo", orderNo)).get(0);
+		InstanceQuiz instanceQuiz = getInstanceQuizById(instanceQuizId);
+		for(QuizAnswer qa : instanceQuiz.getQuizAnswers()){
+			if(qa.getQuizOption().getOrderNo() == orderNo){
+				return qa;
+			}
+		}
+		throw new UserException("Next Quiz Answer not found.");
 	}
 
 	public InstanceQuiz getInstanceQuizById(int instanceQuizId) throws UserException {
 		LOGGER.debug("UserDaoImpl: getInstanceQuizById: Executing");
 		return template.get(InstanceQuiz.class, instanceQuizId);
+	}
+
+	public InstanceModule getNextCurrentInstanceModule(int instanceTopicId, int orderNo) throws UserException {
+		LOGGER.debug("UserDaoImpl: getNextCurrentInstanceModule: Start");
+		List<InstanceModule> tempList = (List<InstanceModule>) template.findByNamedParam("from InstanceModule im where im.instanceTopic.instanceTopicId = :instanceTopicId "
+				+ "and im.module.orderNo = :orderNo", new String[]{"instanceTopicId", "orderNo"}, new Object[]{instanceTopicId, orderNo});
+		LOGGER.debug("UserDaoImpl: getNextCurrentInstanceModule: End");
+		if(tempList.isEmpty()){
+			return null;
+		}else{
+			return tempList.get(0);
+		}
+	}
+
+	@Override
+	public InstanceTopic getInstanceTopicByInstanceQuizId(int instanceQuizId) throws UserException {
+		LOGGER.debug("UserDaoImpl: getInstanceTopicByInstanceQuizId: Start");
+		List<InstanceTopic> tempList = (List<InstanceTopic>) template.findByNamedParam("from InstanceTopic it where it.quiz.instanceQuizId = :instanceQuizId", 
+				new String[]{"instanceQuizId"}, new Object[]{instanceQuizId});
+		LOGGER.debug("UserDaoImpl: getInstanceTopicByInstanceQuizId: End");
+		if(tempList.isEmpty()){
+			return null;
+		}else{
+			return tempList.get(0);
+		}
 	}
 
 }
