@@ -117,15 +117,27 @@ function removeTopicAction(topicBtn){
 //Handle adding a diagnostic to the selected-related-diagnostics container Start
 
 $(document).on('click', '.addDiagnostic', function() {
+	addDiagnosticAction(this);
+});
+
+$(document).on('click', '.addDiagnosticLabel', function() {
 	var diagnosticId = $(this)[0].id.split('_')[1];
-	var diagnosticTitle = $(this)[0].name;
-	$(this).removeClass('addDiagnostic');
-	$(this).removeClass('btn-default');
-	$($(this).children()[0]).removeClass('glyphicon-plus')
+	var diagnosticBtn = $("#diagnosticBtn_"+diagnosticId);
+	addDiagnosticAction(diagnosticBtn);
+});
+
+function addDiagnosticAction(diagnosticBtn){
+	var diagnosticId = $(diagnosticBtn)[0].id.split('_')[1];
+	var diagnosticTitle = $(diagnosticBtn)[0].name;
+	$(diagnosticBtn).removeClass('addDiagnostic');
+	$(diagnosticBtn).removeClass('btn-default');
+	$($(diagnosticBtn).children()[0]).removeClass('glyphicon-plus')
 	$('#diagnosticLabel_'+diagnosticId).removeClass('btn-default');
-	$(this).addClass('removeDiagnostic');
-	$(this).addClass('btn-info');
-	$($(this).children()[0]).addClass('glyphicon-trash');
+	$('#diagnosticLabel_'+diagnosticId).removeClass('addDiagnosticLabel');
+	$('#diagnosticLabel_'+diagnosticId).addClass('removeDiagnosticLabel');
+	$(diagnosticBtn).addClass('removeDiagnostic');
+	$(diagnosticBtn).addClass('btn-info');
+	$($(diagnosticBtn).children()[0]).addClass('glyphicon-trash');
 	$('#diagnosticLabel_'+diagnosticId).addClass('btn-info');
 	$('.diag-qstn_'+diagnosticId).addClass("alert-info");
 	var diagnosticInfo = $("#diagnostic_info_for-"+diagnosticId+" .diag-qstn_"+diagnosticId)[0];
@@ -139,27 +151,40 @@ $(document).on('click', '.addDiagnostic', function() {
 	'</div>' +
 	'</div>';
 	$('.selected-diagnostics').append(selectedDiagnostic);
-});
+}
 //Handle adding a diagnostic to the selected-related-diagnostics container End
 
 //Handle removing a diagnostic from selected-related-diagnostics container Start
 
 $(document).on('click', '.removeDiagnostic', function() {
+	removeDiagnosticAction(this);
+});
+
+$(document).on('click', '.removeDiagnosticLabel', function() {
 	var diagnosticId = $(this)[0].id.split('_')[1];
-	$(this).removeClass('removeDiagnostic');
-	$(this).removeClass('btn-info');
-	$($(this).children()[0]).removeClass('glyphicon-trash');
+	var diagnosticBtn = $("#diagnosticBtn_"+diagnosticId);
+	removeDiagnosticAction(diagnosticBtn);
+});
+
+function removeDiagnosticAction(diagnosticBtn){
+	var diagnosticId = $(diagnosticBtn)[0].id.split('_')[1];
+	$(diagnosticBtn).removeClass('removeDiagnostic');
+	$(diagnosticBtn).removeClass('btn-info');
+	$($(diagnosticBtn).children()[0]).removeClass('glyphicon-trash');
 	$('#diagnosticLabel_'+diagnosticId).removeClass('btn-info');
+	$('#diagnosticLabel_'+diagnosticId).removeClass('removeDiagnosticLabel');
+	$('#diagnosticLabel_'+diagnosticId).addClass('addDiagnosticLabel');
 	$('.diag-qstn_'+diagnosticId).removeClass("alert-info");
-	$(this).addClass('addDiagnostic');
-	$(this).addClass('btn-default');
-	$($(this).children()[0]).addClass('glyphicon-plus')
+	$(diagnosticBtn).addClass('addDiagnostic');
+	$(diagnosticBtn).addClass('btn-default');
+	$($(diagnosticBtn).children()[0]).addClass('glyphicon-plus')
 	$('#diagnosticLabel_'+diagnosticId).addClass('btn-default');
 	var selectedDiagnostic = $('#selectedDiagnostic_'+diagnosticId)[0];
 	if(selectedDiagnostic){
 		selectedDiagnostic = $(selectedDiagnostic).detach();
 	}
-});
+
+}
 //Handle removing a diagnostic from selected-related-diagnostics container ENds
 
 // Validating the form for adding related diagnostic questions Start

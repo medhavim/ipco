@@ -62,8 +62,8 @@
 	  		<div class="diagnostic_holder">
 	  			<div class="row">
 		  		<div class="col-sm-6 input-group">
-			  		<input type="button" class="form-control btn btn-info btn-block" 
-			  			data-toggle="collapse" data-target="#diagnostic_info_for-${diagnostic.diagnosticId}" id="diagnosticLabel_${diagnostic.diagnosticId}" value="${diagnostic.activity.activityTitle}"/>
+			  		<input type="button" class="removeDiagnosticLabel form-control btn btn-info btn-block" 
+			  			id="diagnosticLabel_${diagnostic.diagnosticId}" value="${diagnostic.activity.activityTitle}"/>
 				   	<span class="input-group-btn"><button type="button" class="removeDiagnostic btn btn-info" id="diagnosticBtn_${diagnostic.diagnosticId}" name="${diagnostic.activity.activityTitle}"><i class="glyphicon glyphicon-trash"></i></button></span>
 			   	</div>
 			   	</div>
@@ -85,8 +85,8 @@
 	  		<div class="diagnostic_holder">
 	  			<div class="row">
 		  		<div class="col-sm-6 input-group">
-			  		<input type="button" class="form-control btn btn-default btn-block" 
-			  			data-toggle="collapse" data-target="#diagnostic_info_for-${diagnostic.diagnosticId}" id="diagnosticLabel_${diagnostic.diagnosticId}" value="${diagnostic.activity.activityTitle}"/>
+			  		<input type="button" class="addDiagnosticLabel form-control btn btn-default btn-block" 
+			  			id="diagnosticLabel_${diagnostic.diagnosticId}" value="${diagnostic.activity.activityTitle}"/>
 				   	<span class="input-group-btn"><button type="button" class="addDiagnostic btn btn-default" id="diagnosticBtn_${diagnostic.diagnosticId}" name="${diagnostic.activity.activityTitle}"><i class="glyphicon glyphicon-plus"></i></button></span>
 			   	</div>
 			   	</div>

@@ -61,8 +61,8 @@
 	  		<div class="diagnostic_holder">
 	  			<div class="row">
 		  		<div class="col-sm-6 input-group">
-			  		<input type="button" class="addDiagnosticLabel form-control btn ${diagnostic.diagnosticId==currentDiagnostic.diagnosticId?'btn-info':'btn-default'} btn-block" 
-			  			data-toggle="collapse" data-target="#diagnostic_info_for-${diagnostic.diagnosticId}" id="diagnosticLabel_${diagnostic.diagnosticId}" value="${diagnostic.activity.activityTitle}"/>
+			  		<input type="button" class="${diagnostic.diagnosticId==currentDiagnostic.diagnosticId?'removeDiagnosticLabel':'addDiagnosticLabel'} form-control btn ${diagnostic.diagnosticId==currentDiagnostic.diagnosticId?'btn-info':'btn-default'} btn-block" 
+			  			id="diagnosticLabel_${diagnostic.diagnosticId}" value="${diagnostic.activity.activityTitle}"/>
 				   	<span class="input-group-btn"><button type="button" class="${diagnostic.diagnosticId==currentDiagnostic.diagnosticId?'removeDiagnostic':'addDiagnostic'} btn ${diagnostic.diagnosticId==currentDiagnostic.diagnosticId?'btn-info':'btn-default'}" id="diagnosticBtn_${diagnostic.diagnosticId}" name="${diagnostic.activity.activityTitle}"><i class="glyphicon ${diagnostic.diagnosticId==currentDiagnostic.diagnosticId?'glyphicon-trash':'glyphicon-plus'}"></i></button></span>
 			   	</div>
 			   	</div>
