@@ -27,6 +27,8 @@ public class QuizOption implements Serializable {
 	
 	private int orderNo;
 	
+	private Quiz quiz;
+	
 	private Date createdTs;
 	
 	private Date updatedTs;
@@ -88,6 +90,20 @@ public class QuizOption implements Serializable {
 	 */
 	public void setOrderNo(int orderNo) {
 		this.orderNo = orderNo;
+	}
+
+	/**
+	 * @return the quiz
+	 */
+	public Quiz getQuiz() {
+		return quiz;
+	}
+
+	/**
+	 * @param quiz the quiz to set
+	 */
+	public void setQuiz(Quiz quiz) {
+		this.quiz = quiz;
 	}
 
 	/**

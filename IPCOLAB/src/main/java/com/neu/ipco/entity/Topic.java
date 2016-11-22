@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.neu.ipco.constants.AppConstants;
+import com.neu.ipco.utility.AppConstants;
 
 /**
  * @author Harsha

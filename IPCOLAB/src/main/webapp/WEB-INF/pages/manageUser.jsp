@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page isELIgnored="false"%>
 <!DOCTYPE html>
 <html>
@@ -34,12 +35,82 @@
 	</div>
 </div>
 <div class="jumbotron content">
+	<div class="jumbotron">
 	<div class="container-fluid text-left">
-<%-- 	<span class="h2">Welcome <strong><i>${damin.firstName},</i></strong></span> --%>
+		<div class="row">
+			<span class="container_name h2" 
+				data-toggle="collapse" data-target="#manageUserRole" >Manage User Role</span>
+			<div class="panel-collapse collapse in" id="manageUserRole">
+				<div class="container-fluid text-left">
+					<div class="row">
+						<form action="addUserRole.action" method="post">
+							<div class="col-sm-6 pull-left text-left">
+								<input type="text" class="form-control" name="userRoleDesc" />
+							</div>
+							<div class="col-sm-6 pull-left text-left">
+								<input class="btn btn-primary button-wrapper" type="submit" name="Add" value="Add User Role"/>
+							</div>
+						</form>
+					</div>
+				</div>
+				<c:if test="${empty userRoles}">
+				<br>
+				<div class="row bg-danger topic-row">
+					<div class="col-sm-12">
+					<h3>There are no user roles currently with the application</h3>
+					</div>
+				</div>
+				</c:if>
+				<c:if test="${not empty userRoles}">
+				<c:forEach items="${userRoles}" var="userRole">
+				<div class="btn btn-info btn-block userRole topic-row">
+					<div class="row" id="userRoleLabel_${userRole.userRoleId}">
+						<div class="col-sm-8 text-left">
+							<span class="h3" id="userRoleDescLabel_${userRole.userRoleId}">${userRole.userRoleDesc}</span>
+						</div>
+						<div class="col-sm-4 text-right">
+							<span class="editUserRole h2" id="editUserRoleId_${userRole.userRoleId}"><i class="glyphicon glyphicon-pencil"></i></span>
+						</div>
+					</div>
+					<div class="row" id="userRoleEdit_${userRole.userRoleId}" style="display:none">
+						<form action="updateUserRole.action" method="post">
+							<input type="hidden" class="form-control" name="userRoleId" value="${userRole.userRoleId}" />
+							<div class="col-sm-6 pull-left text-left">
+								<input type="text" class="form-control" id="editUserRoleDesc_${userRole.userRoleId}" name="userRoleDesc" value="${userRole.userRoleDesc}" />
+							</div>
+							<div class="col-sm-4 pull-left text-left">
+								<input class="btn btn-primary button-wrapper" type="submit" name="update" value="Update User Role"/>
+							</div>
+							<div class="col-sm-2 text-right">
+							<span class="cancelEditUserRole h2" id="cancelEditUserRoleId_${userRole.userRoleId}"><i class="glyphicon glyphicon-remove-sign"></i></span>
+						</div>
+						</form>
+					</div>
+				</div>
+				</c:forEach>
+				</c:if>
+			</div>
+		</div>
+	</div>
 	</div>
 	<div class="jumbotron">
 	<div class="container-fluid text-left">
-		<span class="h2 strong">Users</span>
+	<span class="h2" >Review User Progress</span>
+		<div class="row">
+			<div class="col-sm-2">
+				<span class="h3">Sort By:</span>
+			</div>
+			<div class="col-sm-10">
+				<div id="sortByVal" class="${sortBy}"></div>
+				<ul class="nav nav-pills nav-justified actTemplate">
+					<li role="presentation"><a class="sortBy" id="firstName">First name</a></li>
+					<li role="presentation"><a class="sortBy" id="lastName">Last name</a></li>
+					<li role="presentation" ${sortBy eq 'lastLogin'?'class="activte"':''}><a class="sortBy" id="lastLogin">Last login</a></li>
+					<li role="presentation" ${sortBy eq 'registered'?'class="activte"':''}><a class="sortBy" id="registered">Registered</a></li>
+				</ul>
+			</div>
+		</div>
+		<h2 class="strong">Users</h2>
 		<c:if test="${empty registeredUsers}">
 		<br>
 		<div class="row bg-danger topic-row">
@@ -56,7 +127,7 @@
 					<span class="h3">${registeredUser.lastName}, ${registeredUser.firstName}</span>
 				</div>
 				<div class="col-sm-4 text-right">
-					<span class="deleteInstance h2" id="deleteRegUserId_${registeredUser.userId}"><i class="glyphicon glyphicon-remove-sign"></i></span>
+					<span class="deleteRegUser h2" id="deleteRegUserId_${registeredUser.userId}"><i class="glyphicon glyphicon-remove-sign"></i></span>
 				</div>
 			</div>
 			<div class="row">

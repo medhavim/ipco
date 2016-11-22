@@ -11,7 +11,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.neu.ipco.constants.AppConstants;
 import com.neu.ipco.dao.AuthenticationDao;
 import com.neu.ipco.entity.BasicInstanceUser;
 import com.neu.ipco.entity.Credential;
@@ -19,6 +18,7 @@ import com.neu.ipco.entity.CustomizeInstanceUser;
 import com.neu.ipco.entity.User;
 import com.neu.ipco.exception.AuthenticationException;
 import com.neu.ipco.service.AuthenticationService;
+import com.neu.ipco.utility.AppConstants;
 
 /**
  * @author Harsha

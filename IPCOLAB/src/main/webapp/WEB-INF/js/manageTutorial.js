@@ -5,6 +5,14 @@ function renameTopic(button) {
 	$('#renameTopic input[name=renameTopicId]').val(topicId);
 	$("#renameTopic").modal("toggle");
 }
+
+function renameQiuz(button) {
+	var quizName = button.name;
+	var quizId = button.id.split("_")[1];
+	$('#renameQiuz input[name=renameQuizName]').val(quizName);
+	$('#renameQiuz input[name=renameQuizId]').val(quizId);
+	$("#renameQiuz").modal("toggle");
+}
 	
 function addModule(button) {
 	var topicId = button.id.split("-")[1];
@@ -29,7 +37,31 @@ function deleteTopic(deletedTag){
 		$("#confirmationDialog").modal("toggle");
 	}
 }
+
+function deleteQuiz(deletedTag){
 	
+	var deleteId = deletedTag.id.split("_")[1];
+	var quizNotEmpty = $("#quizNotEmpty_"+deleteId).val();
+	
+	var form = document.getElementById("confirmationForm");
+	form.action = "deleteQuiz.action";
+	$("#deletableId").val(deleteId);
+	if(quizNotEmpty=="true"){
+		$("#warningDialog").modal("toggle");
+	}else{
+		$("#confirmationDialog").modal("toggle");
+	}
+}	
+
+function deleteQuizOption(id){
+	
+	var deleteId = id.split("_")[1];
+	
+	var form = document.getElementById("confirmationForm");
+	form.action = "deleteQuizOption.action";
+	$("#deletableId").val(deleteId);
+	$("#confirmationDialog").modal("toggle");
+}	
 //helper functions for module
 
 function deleteModule(deletedTag){
@@ -52,6 +84,14 @@ function editActivity(button){
 	var form = document.getElementById("editForm");
 	form.action="gotoEditActivity.action";
 	form.children.namedItem("id").value=button.id.split("_")[1];
+	form.submit();
+}
+
+function editQuizOption(id){
+	
+	var form = document.getElementById("editForm");
+	form.action="gotoEditQuizOption.action";
+	form.children.namedItem("id").value=id.split("_")[1];
 	form.submit();
 }
 
@@ -81,7 +121,7 @@ function addQuiz(button){
 }
 
 $(document).ready(function() {
-// 		Ajax for renaming the topic name
+// Ajax for renaming the topic name start
 	$("#changeTopicName").click(function() {
 		topicName = $('#renameTopic input[name=renameTopicName]').val();
 		topicId = $('#renameTopic input[name=renameTopicId]').val();
@@ -98,6 +138,25 @@ $(document).ready(function() {
 			}
 		});
 	});
+// Ajax for renaming the topic name end
+// Ajax for renaming the quiz name start
+	$("#changeQuizName").click(function() {
+		quizName = $('#renameQiuz input[name=renameQuizName]').val();
+		quizId = $('#renameQiuz input[name=renameQuizId]').val();
+		$("#loadingDiv").modal("toggle");
+		$("#renameQiuz").modal("toggle");
+		$.ajax({
+			type : "POST",
+			url : "renameQuiz.action",
+			data : "quizName=" + quizName + "&quizId=" + quizId,
+			success : function(data) {
+				$("#loadingDiv").modal("toggle");
+				$("#quizName_" + quizId)[0].innerHTML = quizName;
+				$('#renameQuiz_'+quizId).attr('name', quizName);
+			}
+		});
+	});
+// Ajax for renaming the quiz name end
 	
 	
 	$(".optionRadioLabel").unbind('click').on('click', function(e){

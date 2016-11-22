@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.neu.ipco.constants.AppConstants;
 import com.neu.ipco.entity.BasicInstanceUser;
 import com.neu.ipco.entity.Credential;
 import com.neu.ipco.entity.CustomizeInstanceUser;
@@ -29,6 +28,7 @@ import com.neu.ipco.exception.ApplicationUtilException;
 import com.neu.ipco.exception.AuthenticationException;
 import com.neu.ipco.service.ApplicationUtilService;
 import com.neu.ipco.service.AuthenticationService;
+import com.neu.ipco.utility.AppConstants;
 
 /**
  * @author Harsha

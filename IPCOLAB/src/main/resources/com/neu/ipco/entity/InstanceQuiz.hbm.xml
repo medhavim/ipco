@@ -11,15 +11,15 @@
 			<generator class="increment"/>
 		</id>
 
-		<many-to-one name="quiz" class="Quiz" column="quiz_id" lazy="false"/>
+		<many-to-one name="quiz" class="Quiz" column="quiz_id" lazy="false" fetch="select" />
 		
-		<list name="quizAnswers" fetch="select" lazy="false" cascade="all">
+		<list name="quizAnswers" lazy="false" cascade="all">
 			<key column="instance_quiz_id"/>
 			<list-index column="iqidx"/>
 			<one-to-many class="QuizAnswer"/>
 		</list>
 		
-		<many-to-one name="status" class="Status" column="status_id" lazy="false"/>
+		<many-to-one name="status" class="Status" column="status_id" lazy="false" fetch="select" />
 		
 		<property name="score" column="score"/>
 		

@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.neu.ipco.constants.AppConstants;
 import com.neu.ipco.dao.ApplicationUtilDao;
 import com.neu.ipco.dao.UserDao;
 import com.neu.ipco.entity.ActivityAnswer;
@@ -36,6 +35,7 @@ import com.neu.ipco.entity.UserType;
 import com.neu.ipco.exception.ApplicationUtilException;
 import com.neu.ipco.exception.UserException;
 import com.neu.ipco.service.ApplicationUtilService;
+import com.neu.ipco.utility.AppConstants;
 
 /**
  * @author Harsha

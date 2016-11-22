@@ -81,4 +81,6 @@ public interface UserService {
 	void updateQuizAnswerStatus(QuizAnswer currentQuizAnswer, Status statusIncomplete) throws UserException;
 
 	InstanceTopic getInstanceTopicByInstanceQuizId(int instanceQuizId) throws UserException;
+
+	CustomizeInstanceUser getCustomizeInstanceByUserId(int deleteUserId) throws UserException;
 }

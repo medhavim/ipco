@@ -15,7 +15,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.neu.ipco.constants.AppConstants;
 import com.neu.ipco.dao.ApplicationUtilDao;
 import com.neu.ipco.dao.UserDao;
 import com.neu.ipco.entity.ActivityAnswer;
@@ -36,6 +35,7 @@ import com.neu.ipco.entity.Topic;
 import com.neu.ipco.exception.ApplicationUtilException;
 import com.neu.ipco.exception.UserException;
 import com.neu.ipco.service.UserService;
+import com.neu.ipco.utility.AppConstants;
 
 
 /**
@@ -496,6 +496,17 @@ public class UserServiceImpl implements UserService {
 		LOGGER.debug("UserServiceImpl: getNextCurrentInstanceModule: Executing");
 		try {
 			return userDao.getInstanceTopicByInstanceQuizId(instanceQuizId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new UserException(e);
+		}
+	}
+
+	@Override
+	public CustomizeInstanceUser getCustomizeInstanceByUserId(int deleteUserId) throws UserException {
+		LOGGER.debug("UserServiceImpl: getCustomizeInstanceByUserId: Executing");
+		try {
+			return userDao.getCustomizeInstanceByUserId(deleteUserId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new UserException(e);

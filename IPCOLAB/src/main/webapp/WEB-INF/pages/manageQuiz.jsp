@@ -127,8 +127,8 @@
 												data-toggle="collapse" data-target="#activity_for-${quizOption.quizOptionId}" id="quizName_${quizOption.quizOptionId}">${quizOption.activity.activityTitle}</span>
 											</div>
 											<div class="col-sm-4">
-											<button class="btn btn-warning" id="editQuiz_${quizOption.quizOptionId}" name="${quizOption.activity.activityTitle}" onclick="editQuiz(this)"><i class="glyphicon glyphicon-edit">&nbsp;Edit</i></button>
-											<a class="btn btn-danger" id="deleteId_${quizOption.quizOptionId}" role="button" onclick="deleteQuiz(this)"><i class="glyphicon glyphicon-trash">&nbsp;Remove</i></a>
+											<button class="btn btn-warning" id="editQuiz_${quizOption.quizOptionId}" name="${quizOption.activity.activityTitle}" onclick="editQuizOption(id)"><i class="glyphicon glyphicon-edit">&nbsp;Edit</i></button>
+											<a class="btn btn-danger" id="deleteId_${quizOption.quizOptionId}" role="button" onclick="deleteQuizOption(id)"><i class="glyphicon glyphicon-trash">&nbsp;Remove</i></a>
 											</div>
 										</div>
 								
@@ -136,7 +136,7 @@
 											<c:if test="${quizOption.activity.activityTemplate.activityTemplateId eq 2}">
 											<div class="jumbotron activity_holder">
 												<div class="container-fluid">
-												<div class="alert alert-info diag-qstn" role="alert">
+												<div class="tile gray alert alert-info diag-qstn" role="alert">
 													<div class="row">
 														<div class="col-sm-8">${quizOption.activity.activityText}</div>
 														<c:forEach items="${quizOption.correctAnswers}" var="option">
@@ -152,7 +152,7 @@
 											<c:if test="${quizOption.activity.activityTemplate.activityTemplateId eq 1}">
 											<div class="jumbotron activity_holder">
 												<div class="container-fluid">
-												<div class="alert alert-info diag-qstn" role="alert">
+												<div class="tile gray alert alert-info diag-qstn" role="alert">
 													<div class="row">
 														<div class="col-sm-8">${quizOption.activity.activityText}</div>
 														<c:forEach items="${quizOption.correctAnswers}" var="option">
@@ -220,5 +220,85 @@
 	</div>
 </div>
 <!-- 			Adding new Quiz END -->
+<!-- 			Renaming the quiz pop up modal  START-->
+<div class="modal fade" id="renameQiuz" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2 class="modal-title">Rename Quiz</h2>
+			</div>
+			<div class="modal-body">
+				<input type="text" class="form-control" id="renameQuizName"
+					name="renameQuizName" placeholder="Enter new quiz name" /> <input
+					type="hidden" name="renameQuizId" id="renameQuizId" />
+			</div>
+			<div class="modal-footer">
+				<div class="row">
+					<div class="col-sm-5 pull-right form-group">
+						<input type="button" id="changeQuizName" class="btn btn-success btn-block"
+						role="button" value="Change Name" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 			Renaming the quiz pop up modal  END-->
+
+<!-- 			Confirmation dialog before delete START -->
+<div class="modal fade" id="confirmationDialog" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2 class="modal-title">Please confirm!</h2>
+			</div>
+			<form id="confirmationForm" name="confirmationForm" method="post">
+				<div class="modal-body">
+					<h3 class="modal-title">Do you really want to remove this?</h3>
+					<input type="hidden" class="form-control" id="deletableId"  name="deletableId" />
+				</div>
+				<div class="modal-footer">
+					<div class="row">
+						<div class="col-sm-5 pull-left form-group">
+							<a class="btn btn-success btn-block" data-dismiss="modal">No</a>
+						</div>
+						<div class="col-sm-5 pull-right form-group">
+							<input type="submit" class="btn btn-default btn-block" role="button" value="Yes"/>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<input type="hidden" name="activityModuleId" id="activityModuleId" value="${activityModuleId}" />
+<input type="hidden" name="moduleTopicId" id="moduleTopicId" value="${moduleTopicId}" />
+<!-- 			Confirmation dialog before delete END -->
+
+<!-- 		Cannot delete warning START -->
+<div class="modal fade" id="warningDialog" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2 class="modal-title">Warning!!!</h2>
+			</div>
+			<div class="modal-body">
+				<h3 class="modal-title">The container is not empty. Do you want to go ahead?</h3>
+			</div>
+			<div class="modal-footer">
+				<div class="row">
+					<div class="col-sm-5 pull-left form-group">
+						<a class="btn btn-success btn-block" data-dismiss="modal">No</a>
+					</div>
+					<div class="col-sm-5 pull-right form-group">
+						<input type="button" class="btn btn-danger btn-block" data-toggle="modal"
+										data-target="#confirmationDialog" role="button" data-dismiss="modal" value="Yes"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 		Cannot delete warning  END -->
 </body>
 </html>

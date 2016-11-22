@@ -4,7 +4,6 @@
 package com.neu.ipco.dao.impl;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -14,20 +13,27 @@ import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.neu.ipco.constants.AppConstants;
 import com.neu.ipco.dao.AdminDao;
+import com.neu.ipco.entity.ActivityAnswer;
 import com.neu.ipco.entity.ActivityOption;
+import com.neu.ipco.entity.BasicInstanceUser;
+import com.neu.ipco.entity.CustomizeInstanceUser;
 import com.neu.ipco.entity.Diagnostic;
 import com.neu.ipco.entity.DiagnosticCategory;
 import com.neu.ipco.entity.InstanceModule;
+import com.neu.ipco.entity.InstanceQuiz;
 import com.neu.ipco.entity.InstanceTopic;
 import com.neu.ipco.entity.Module;
 import com.neu.ipco.entity.Option;
 import com.neu.ipco.entity.Quiz;
+import com.neu.ipco.entity.QuizAnswer;
+import com.neu.ipco.entity.QuizOption;
 import com.neu.ipco.entity.RelatedDiagnostic;
 import com.neu.ipco.entity.Topic;
 import com.neu.ipco.entity.User;
+import com.neu.ipco.entity.UserRole;
 import com.neu.ipco.exception.AdminException;
+import com.neu.ipco.utility.AppConstants;
 
 /**
  * @author Harsha
@@ -340,6 +346,131 @@ public class AdminDaoImpl implements AdminDao {
 	public User getUserById(int userId) throws AdminException {
 		LOGGER.debug("AdminDaoImpl: getUserById: Executing");
 		return template.get(User.class, userId);
+	}
+
+	@Override
+	public void deleteQuizById(int deletableId) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: deleteQuizById: Executing");
+		Quiz quiz = template.get(Quiz.class, deletableId);
+		template.delete(quiz);
+	}
+
+	@Override
+	public List<InstanceQuiz> geInstanceQuizByQuizId(int quizId) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: geInstanceQuizByQuizId: Executing");
+		return (List<InstanceQuiz>) template.findByNamedParam("from InstanceQuiz iq where iq.quiz.quizId = :quizId", "quizId", quizId);
+	}
+
+	@Override
+	public void deleteInstanceQuizes(List<InstanceQuiz> instanceQuizes) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: deleteInstanceQuizes: Executing");
+		template.deleteAll(instanceQuizes);
+	}
+
+	@Override
+	public Topic geTopicByQuizId(int quizId) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: geTopicByQuizId: Executing");
+		List<Topic> topics = (List<Topic>) template.findByNamedParam("from Topic t where t.quiz.quizId = :quizId", "quizId", quizId);
+		if(topics.isEmpty()){
+			return null;
+		}else{
+			return topics.get(0);
+		}
+	}
+
+	@Override
+	public InstanceTopic getInstanceTopicByInstanceQuizId(Integer instanceQuizId) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: getInstanceTopicByInstanceQuizId: Executing");
+		List<InstanceTopic> instanceTopics = (List<InstanceTopic>) template.findByNamedParam("from InstanceTopic it where it.quiz.instanceQuizId = :instanceQuizId", "instanceQuizId", instanceQuizId);
+		if(instanceTopics.isEmpty()){
+			return null;
+		}else{
+			return instanceTopics.get(0);
+		}
+	}
+
+	@Override
+	public QuizOption getQuizOptionById(int quizOptionId) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: getQuizOptionById: Executing");
+		return template.get(QuizOption.class, quizOptionId);
+	}
+
+	@Override
+	public void saveOrUpdateQuizOption(QuizOption quizOption) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: saveOrUpdateQuizOption: Executing");
+		template.saveOrUpdate(quizOption);
+	}
+
+	@Override
+	public List<QuizAnswer> getQuizAnswersByQuizOptionId(int deletableId) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: getQuizAnswersByQuizOptionId: Executing");
+		return (List<QuizAnswer>) template.findByNamedParam("from QuizAnswer qa where qa.quizOption.quizOptionId = :quizOptionId", "quizOptionId", deletableId);
+	}
+
+	@Override
+	public void deleteQuizAnswer(QuizAnswer quizAnswer) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: deleteQuizAnswer: Executing");
+		template.delete(quizAnswer);
+	}
+
+	@Override
+	public void deleteQuizOption(QuizOption quizOption) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: deleteQuizOption: Executing");
+		template.delete(quizOption);
+	}
+
+	@Override
+	public List<QuizOption> getQuizOptionsByQuizId(int quizId) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: getQuizOptionsByQuizId: Executing");
+		return (List<QuizOption>) template.findByNamedParam("from QuizOption qo where qo.quiz.quizId = :quizId", "quizId", quizId);
+	}
+
+	@Override
+	public void deleteActivityAnswer(ActivityAnswer activityAnswer) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: deleteActivityAnswer: Executing");
+		template.delete(activityAnswer);
+	}
+
+	@Override
+	public List<ActivityAnswer> getActivityAnswersByActivityOptionId(int activityOptionId) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: getActivityAnswersByActivityOptionId: Executing");
+		return (List<ActivityAnswer>) template.findByNamedParam("from ActivityAnswer aa where aa.activityOption.activityOptionId = :activityOptionId", "activityOptionId", activityOptionId);
+	}
+
+	@Override
+	public void deleteBasicInstanceUser(BasicInstanceUser basicInstanceUser) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: deleteBasicInstanceUser: Executing");
+		template.delete(basicInstanceUser);
+	}
+
+	@Override
+	public void deleteCustomizeInstanceUser(CustomizeInstanceUser customizeInstanceUser) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: deleteCustomizeInstanceUser: Executing");
+		template.delete(customizeInstanceUser);
+	}
+
+	@Override
+	public void deleteUser(User deletableUser) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: deleteUser: Executing");
+		template.delete(deletableUser);
+	}
+
+	@Override
+	public List<UserRole> loadAllUserRoles() throws AdminException {
+		LOGGER.debug("AdminDaoImpl: loadAllUserRoles: Executing");
+		return template.loadAll(UserRole.class);
+	}
+
+	@Override
+	public void saveOrUpdateUserRole(UserRole userRole) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: saveOrUpdateUserRole: Executing");
+		template.saveOrUpdate(userRole);
+	}
+
+	@Override
+	public UserRole geUserRoleById(int userRoleId) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: geUserRoleById: Executing");
+		return template.get(UserRole.class, userRoleId);
 	}
 
 }

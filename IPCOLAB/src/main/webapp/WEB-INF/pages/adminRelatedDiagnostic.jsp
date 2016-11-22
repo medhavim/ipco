@@ -91,7 +91,7 @@
 	<div class="container-fluid text-left desc-body">
 		<div class="row selected-diagnostics" style="overflow-y: auto; max-height:600px;">
 			<div class="tile gray" id="selectedDiagnostic_${currentDiagnostic.diagnosticId}">
-				<input type="button" class="form-control btn btn-info  title" data-toggle="collapse" data-target="#selectedDiagnostic_info_for-${currentDiagnostic.diagnosticId}" value="${currentDiagnostic.activity.activityTitle}"/ >
+				<input type="button" class="form-control btn btn-info  title" data-toggle="collapse" data-target="#selectedDiagnostic_info_for-${currentDiagnostic.diagnosticId}" value="${currentDiagnostic.activity.activityTitle}" />
 				<div class="panel-collapse collapse in" id="selectedDiagnostic_info_for-${currentDiagnostic.diagnosticId}">
 					<div class="alert alert-info diag-qstn_${currentDiagnostic.diagnosticId}" role="alert">
 						<div class="row">

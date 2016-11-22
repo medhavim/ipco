@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.neu.ipco.constants.AppConstants;
 import com.neu.ipco.entity.Credential;
 import com.neu.ipco.entity.User;
 import com.neu.ipco.entity.UserType;
@@ -23,6 +22,7 @@ import com.neu.ipco.exception.ApplicationUtilException;
 import com.neu.ipco.exception.AuthenticationException;
 import com.neu.ipco.service.ApplicationUtilService;
 import com.neu.ipco.service.AuthenticationService;
+import com.neu.ipco.utility.AppConstants;
 
 /**
  * @author Harsha

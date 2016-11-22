@@ -71,4 +71,6 @@ public interface UserDao {
 
 	InstanceTopic getInstanceTopicByInstanceQuizId(int instanceQuizId) throws UserException;
 
+	CustomizeInstanceUser getCustomizeInstanceByUserId(int deleteUserId) throws UserException;
+
 }

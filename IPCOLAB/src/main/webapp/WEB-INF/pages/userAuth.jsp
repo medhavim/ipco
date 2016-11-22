@@ -158,7 +158,7 @@
 									</div>
 									<div class="col-xs-6 col-sm-6 col-md-6">
 										<div class="form-group input-group">
-											<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span><input type="password" name="confirm-password" id="registerConfirm-password" tabindex="2" class="form-control" placeholder="Confirm Password" required="true"/>
+											<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span><input type="password" name="confirm-password" id="registerConfirm-password" tabindex="2" class="form-control" placeholder="Confirm Password" required="true" />
 										</div>
 									</div>
 								</div>

@@ -205,4 +205,17 @@ public class UserDaoImpl implements UserDao {
 		}
 	}
 
+	@Override
+	public CustomizeInstanceUser getCustomizeInstanceByUserId(int deleteUserId) throws UserException {
+		LOGGER.debug("UserDaoImpl: getCustomizeInstanceByUserId: Start");
+		List<CustomizeInstanceUser> tempList = (List<CustomizeInstanceUser>) template.findByNamedParam("from CustomizeInstanceUser ciu where ciu.user.userId = :userId", 
+				"userId", deleteUserId);
+		LOGGER.debug("UserDaoImpl: getCustomizeInstanceByUserId: End");
+		if(tempList.isEmpty()){
+			return null;
+		}else{
+			return tempList.get(0);
+		}
+	}
+
 }

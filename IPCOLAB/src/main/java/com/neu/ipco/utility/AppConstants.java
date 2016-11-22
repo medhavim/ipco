@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.neu.ipco.constants;
+package com.neu.ipco.utility;
 
 import java.util.Comparator;
 
@@ -45,11 +45,31 @@ public class AppConstants {
 	public static final String SESSION_ATTRIBUTE_CUSTOM_INSTANCE = "customInstance";
 
 	public static final String SESSION_ATTRIBUTE_REVIEW_USER = "reviewUser";	
+
+	public static final String SESSION_ATTRIBUTE_REGISTERED_USERS = "registeredUsers";
+
+	public static final String SESSION_ATTRIBUTE_SORT_BY = "sortBy";
+
+	public static final String SESSION_ATTRIBUTE_USER_ROLES = "userRoles";
+	
 	
 //	Declaring constants
 	public static final String TRUE = "true";
 	
 	public static final String FALSE = "false";
+	
+//	Sort by constants
+	
+	public static final String SORT_BY_FIRST_NAME = "firstName";
+
+	public static final String SORT_BY_LAST_NAME = "lastName";
+
+	public static final String SORT_BY_LAST_LOGIN = "lastLogin";
+
+	public static final String SORT_BY_REGISTERED = "registered";
+
+	public static final String DEFAULT_SORT_BY = "lastLogin";
+
 	
 //	Nav Type Constants
 	
@@ -124,6 +144,8 @@ public class AppConstants {
 	public static final String REVIEW_USER_TOPIC = "manageUserPages/reviewUserTopic";
 
 	public static final String EDIT_DIAGNOSTIC = "editDiagnostic";
+
+	public static final String EDIT_QUIZ_OPTION = "editQuizOption";
 	
 //	Template ids
 	public static final Integer TEMPLATE_MCQ = 1;
@@ -313,21 +335,70 @@ public class AppConstants {
 		}
 	};
 
-	public static final Comparator<User> REGISTERED_USER_COMPARATOR = new Comparator<User>() {
+	public static final Comparator<User> SORT_FIRST_NAME_COMPARATOR = new Comparator<User>(){
 
+		@Override
+		public int compare(User user1, User user2) {
+			if(user1 == null
+					|| user2 == null){
+				return 0;
+			}else if(user1.getFirstName() == null){
+				return 1;
+			}else if(user2.getFirstName() == null){
+				return -1;
+			}else{
+				return user1.getFirstName().toLowerCase().compareTo(user2.getFirstName().toLowerCase());
+			}
+		}
+	};
+
+	public static final Comparator<User> SORT_LAST_NAME_COMPARATOR = new Comparator<User>(){
+
+		@Override
+		public int compare(User user1, User user2) {
+			if(user1 == null
+					|| user2 == null){
+				return 0;
+			}else if(user1.getLastName() == null){
+				return 1;
+			}else if(user2.getLastName() == null){
+				return -1;
+			}else{
+				return user1.getLastName().toLowerCase().compareTo(user2.getLastName().toLowerCase());
+			}
+		}
+	};
+	
+	public static final Comparator<User> SORT_LAST_LOGIN_COMPARATOR = new Comparator<User>() {
+		
 		public int compare(User user1, User user2) {
 			if(user1 == null
 					|| user1.getCredential() == null
-					|| user2 == null
-					|| user2.getCredential() == null){
-				return 0;
-			}
-			if(user1.getCredential().getUpdatedTs() == null){
+					|| user1.getCredential().getUpdatedTs() == null){
 				return 1;
-			}else if(user2.getCredential().getUpdatedTs() == null){
+			}else if(user2 == null
+					|| user2.getCredential() == null
+					|| user2.getCredential().getUpdatedTs() == null){
 				return -1;
 			}else{
-				return user1.getCredential().getUpdatedTs().compareTo(user2.getCredential().getUpdatedTs());
+				return user2.getCredential().getUpdatedTs().compareTo(user1.getCredential().getUpdatedTs());
+			}
+		}
+	};
+	
+	public static final Comparator<User> SORT_REGISTERED_COMPARATOR = new Comparator<User>() {
+		
+		public int compare(User user1, User user2) {
+			if(user1 == null
+					|| user1.getCredential() == null
+					|| user1.getCredential().getCreatedTs() == null){
+				return 1;
+			}else if(user2 == null
+					|| user2.getCredential() == null
+					|| user2.getCredential().getCreatedTs() == null){
+				return -1;
+			}else{
+				return user2.getCredential().getCreatedTs().compareTo(user1.getCredential().getCreatedTs());
 			}
 		}
 	};

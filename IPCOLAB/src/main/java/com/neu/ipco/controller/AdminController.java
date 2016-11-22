@@ -4,9 +4,8 @@
 package com.neu.ipco.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.neu.ipco.constants.AppConstants;
 import com.neu.ipco.entity.ActivityOption;
 import com.neu.ipco.entity.Module;
 import com.neu.ipco.entity.Option;
@@ -37,6 +35,8 @@ import com.neu.ipco.exception.ApplicationUtilException;
 import com.neu.ipco.service.AdminDiagnosticService;
 import com.neu.ipco.service.AdminService;
 import com.neu.ipco.service.ApplicationUtilService;
+import com.neu.ipco.utility.AppConstants;
+import com.neu.ipco.utility.ApplicationUtil;
 
 /**
  * @author Harsha
@@ -406,7 +406,7 @@ public class AdminController {
 			quizOption.setOrderNo(orderNo);
 			quiz.getQuizOptions().add(quizOption);
 			adminService.saveOrUpdateQuiz(quiz);
-
+			
 			applicationUtilService.updateNewQuizOptionToInstanceQuiz(quizOption, quizId);
 			
 			List<Topic> allTopics = adminService.loadAllTopics();
@@ -421,6 +421,41 @@ public class AdminController {
 		return AppConstants.MANAGE_QUIZ;
 	}
 	
+	
+	@RequestMapping(value="/editQuizOption.action", method=RequestMethod.POST)
+	public String editQuizOptionAction(@ModelAttribute("quizOption") QuizOption quizOption, 
+			@RequestParam("activityTemplate") int activityTemplateId,
+			@RequestParam(value="uploadFile",required=false) MultipartFile uploadFile,
+			HttpServletRequest request, HttpSession session, Model model){
+		
+		LOGGER.debug("AdminController: editQuizOptionAction: Start");
+		
+		try {
+			QuizOption oldQuizOption = adminService.getQuizOptionById(quizOption.getQuizOptionId());
+			oldQuizOption.getActivity().setActivityText(quizOption.getActivity().getActivityText());
+			oldQuizOption.getActivity().setActivityTitle(quizOption.getActivity().getActivityTitle());
+			oldQuizOption.getActivity().setUpdatedTs(new Date());
+			oldQuizOption.setUpdatedTs(new Date());
+			
+			if(activityTemplateId != AppConstants.TEMPLATE_INFO){
+				List<Option> options = new ArrayList<Option>(populateOptions(request, activityTemplateId, 
+						uploadFile));
+
+				options = (List<Option>) ApplicationUtil.updateCorrectOptions(options, oldQuizOption.getCorrectAnswers());
+				oldQuizOption.setCorrectAnswers(new ArrayList<Option>(options));
+			}
+			
+			adminService.saveOrUpdateQuizOption(oldQuizOption);
+			List<Topic> allTopics = adminService.loadAllTopics();
+			session.setAttribute("allTopics", allTopics);
+		} catch (AdminException e) {
+			return AppConstants.ERROR_PAGE;
+		} 
+		
+		LOGGER.debug("AdminController: editQuizOptionAction: End");
+		return AppConstants.MANAGE_QUIZ;
+	}
+	
 	private Set<Option> populateOptions(HttpServletRequest request, Integer activityTemplateId, 
 			MultipartFile uploadFile) throws AdminException {
 //			MultipartFile card1File, MultipartFile card2File, MultipartFile card3File) throws AdminException {
@@ -429,9 +464,9 @@ public class AdminController {
 		int orderNo = 0;
 		
 		if(activityTemplateId == AppConstants.TEMPLATE_MCQ){
-			options = populateMCQOptoins(options, request, orderNo);
+			options = ApplicationUtil.populateMCQOptoins(options, request, orderNo);
 		}else if(activityTemplateId == AppConstants.TEMPLATE_YESNO){
-			options = populateYESNOOptions(options, request, orderNo);
+			options = ApplicationUtil.populateYESNOOptions(options, request, orderNo);
 		}else{
 			if(activityTemplateId <= AppConstants.TEMPLATE_IMAGE_YESNO){
 				options = populateImageOption(options, request, uploadFile, orderNo, "image");
@@ -440,11 +475,11 @@ public class AdminController {
 			}
 			orderNo++;
 			if(activityTemplateId == AppConstants.TEMPLATE_IMAGE_DESC || activityTemplateId == AppConstants.TEMPLATE_VIDEO_DESC){
-				options = populateDescOptions(options, request, orderNo);
+				options = ApplicationUtil.populateDescOptions(options, request, orderNo);
 			}else if(activityTemplateId == AppConstants.TEMPLATE_IMAGE_MCQ || activityTemplateId == AppConstants.TEMPLATE_VIDEO_MCQ){
-				options = populateMCQOptoins(options, request, orderNo);
+				options = ApplicationUtil.populateMCQOptoins(options, request, orderNo);
 			}else if(activityTemplateId == AppConstants.TEMPLATE_IMAGE_YESNO || activityTemplateId == AppConstants.TEMPLATE_VIDEO_YESNO){
-				options = populateYESNOOptions(options, request, orderNo);
+				options = ApplicationUtil.populateYESNOOptions(options, request, orderNo);
 			}
 		}
 		return options;
@@ -459,60 +494,6 @@ public class AdminController {
 			option.setIsCorrect("true");
 			option.setCreatedTs(new Date());
 			options.add(option);
-		}
-		return options;
-	}
-
-	private Set<Option> populateDescOptions(Set<Option> options, HttpServletRequest request, int orderNo) {
-		
-		String idealAnswer = request.getParameter("idealAnswer").trim();
-		
-		Option option = new Option();
-		option.setOptionText(idealAnswer);
-		option.setOrderNo(++orderNo);
-		option.setIsCorrect("true");
-		option.setCreatedTs(new Date());
-		options.add(option);
-		return options;
-	}
-
-	private Set<Option> populateYESNOOptions(Set<Option> options, HttpServletRequest request, int orderNo) {
-		
-		Option option1 = new Option();
-		option1.setOptionText(request.getParameter("yesno-option"));
-		option1.setOrderNo(++orderNo);
-		option1.setIsCorrect("true");
-		option1.setCreatedTs(new Date());
-		
-		Option option2 = new Option();
-		option2.setOptionText(request.getParameter("yesno-option").equalsIgnoreCase("Yes")?"No":"Yes");
-		option2.setOrderNo(++orderNo);
-		option2.setIsCorrect("false");
-		option2.setCreatedTs(new Date());
-		
-		options.add(option1);
-		options.add(option2);
-		
-		return options;
-	}
-
-	private Set<Option> populateMCQOptoins(Set<Option>options, HttpServletRequest request, int orderNo) {
-		List<String> correctAnswers = new ArrayList<String>(Arrays.asList(request.getParameterValues("correctAnswer")));
-		
-		Enumeration<String> parameters = request.getParameterNames();
-		
-		while(parameters.hasMoreElements()){
-			String param = (String) parameters.nextElement();
-			if(param.contains("option")){
-				Option option = new Option();
-				option.setOptionText(request.getParameter(param).trim());
-				option.setOrderNo(orderNo + Integer.valueOf(param.split("_")[1]));
-				if(null != correctAnswers){
-					option.setIsCorrect(correctAnswers.contains(param)?"true":"false");
-				}
-				option.setCreatedTs(new Date());
-				options.add(option);
-			}
 		}
 		return options;
 	}

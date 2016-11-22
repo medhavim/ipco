@@ -11,12 +11,15 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.neu.ipco.entity.ActivityOption;
+import com.neu.ipco.entity.BasicInstanceUser;
+import com.neu.ipco.entity.CustomizeInstanceUser;
 import com.neu.ipco.entity.Module;
 import com.neu.ipco.entity.Option;
 import com.neu.ipco.entity.Quiz;
 import com.neu.ipco.entity.QuizOption;
 import com.neu.ipco.entity.Topic;
 import com.neu.ipco.entity.User;
+import com.neu.ipco.entity.UserRole;
 import com.neu.ipco.exception.AdminException;
 
 /**
@@ -70,4 +73,25 @@ public interface AdminService {
 	public User getUserById(int userId) throws AdminException;
 
 	public void deleteOptions(Set<Option> options) throws AdminException;
+
+	public void deleteQuizById(int deletableId) throws AdminException;
+
+	public QuizOption getQuizOptionById(int quizOptionId) throws AdminException;
+
+	public void saveOrUpdateQuizOption(QuizOption oldQuizOption) throws AdminException;
+
+	public void deleteQuizOptionById(int deletableId) throws AdminException;
+
+	public void deleteBasicInstanceUser(BasicInstanceUser basicInstanceUser) throws AdminException;
+
+	public void deleteCustomizeInstanceUser(CustomizeInstanceUser customizeInstanceUser) throws AdminException;
+
+	public void deleteUser(User deletableUser) throws AdminException;
+
+	public List<UserRole> loadAllUserRoles() throws AdminException;
+
+	public void saveOrUpdateUserRole(UserRole userRole) throws AdminException;
+
+	public UserRole geUserRoleById(int userRoleId) throws AdminException;
+	
 }

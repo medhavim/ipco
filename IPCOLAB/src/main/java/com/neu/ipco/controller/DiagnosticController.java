@@ -5,9 +5,11 @@ package com.neu.ipco.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -27,7 +29,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.neu.ipco.constants.AppConstants;
 import com.neu.ipco.entity.Diagnostic;
 import com.neu.ipco.entity.DiagnosticCategory;
 import com.neu.ipco.entity.Option;
@@ -37,6 +38,8 @@ import com.neu.ipco.entity.User;
 import com.neu.ipco.exception.AdminException;
 import com.neu.ipco.service.AdminDiagnosticService;
 import com.neu.ipco.service.AdminService;
+import com.neu.ipco.utility.AppConstants;
+import com.neu.ipco.utility.ApplicationUtil;
 
 /**
  * @author harsh
@@ -172,7 +175,7 @@ public class DiagnosticController implements Serializable {
 			
 			Set<Option> options = new TreeSet<Option>();
 			int orderNo = 0;
-			options = populateYESNOOptions(options, request, orderNo);
+			options = ApplicationUtil.populateYESNOOptions(options, request, orderNo);
 			diagnostic.setOptions(options);
 			
 			diagnostic.setCategory(adminDiagnosticService.getDiagnosticCategoryById(diagnostic.getCategory().getCategoryId()));
@@ -192,7 +195,6 @@ public class DiagnosticController implements Serializable {
 		LOGGER.debug("AdminDiagnosticController: addDiagnosticAction: End");
 		return AppConstants.MANAGE_DIAGNOSTIC;
 	}
-	
 
 	@RequestMapping(value="/gotoEditDiagnostic.action")
 	public String gotoEditDiagnosticAction(@RequestParam("id") int diagnosticId, HttpSession session, Model model){
@@ -215,8 +217,6 @@ public class DiagnosticController implements Serializable {
 		return AppConstants.EDIT_DIAGNOSTIC;
 	}
 	
-
-	
 	@RequestMapping(value="/editDiagnostic.action", method=RequestMethod.POST)
 	public String editDiagnosticAction(@ModelAttribute("diagnostic") Diagnostic diagnostic, 
 			@RequestParam("activityTemplate") int activityTemplateId,
@@ -233,12 +233,9 @@ public class DiagnosticController implements Serializable {
 			
 			Set<Option> options = new TreeSet<Option>();
 			int orderNo = 0;
-			options = populateYESNOOptions(options, request, orderNo);
-			adminService.deleteOptions(diagnostic.getOptions());
+			options = ApplicationUtil.populateYESNOOptions(options, request, orderNo);
+			options = new TreeSet<Option>(ApplicationUtil.updateCorrectOptions(options, oldDiagnostic.getOptions()));
 			oldDiagnostic.setOptions(options);
-			
-			
-//			diagnostic.setCategory(adminDiagnosticService.getDiagnosticCategoryById(diagnostic.getCategory().getCategoryId()));
 			
 			Set<Topic> topics = populateTopics(request);
 			oldDiagnostic.setTopics(topics);
@@ -276,25 +273,6 @@ public class DiagnosticController implements Serializable {
 		return topics;
 	}
 
-	private Set<Option> populateYESNOOptions(Set<Option> options, HttpServletRequest request, int orderNo) {
-		
-		Option option1 = new Option();
-		option1.setOptionText(request.getParameter("yesno-option"));
-		option1.setOrderNo(++orderNo);
-		option1.setIsCorrect("true");
-		option1.setCreatedTs(new Date());
-		
-		Option option2 = new Option();
-		option2.setOptionText(request.getParameter("yesno-option").equalsIgnoreCase("Yes")?"No":"Yes");
-		option2.setOrderNo(++orderNo);
-		option2.setIsCorrect("false");
-		option2.setCreatedTs(new Date());
-		
-		options.add(option1);
-		options.add(option2);
-		
-		return options;
-	}
 	
 	@RequestMapping(value="/loadDiagnostic.action")
 	public String loadDiagnosticAction(Model model, HttpSession session){

@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.neu.ipco.constants.AppConstants;
 import com.neu.ipco.entity.ActivityAnswer;
 import com.neu.ipco.entity.BasicInstanceUser;
 import com.neu.ipco.entity.CustomizeInstanceUser;
@@ -48,6 +47,7 @@ import com.neu.ipco.service.AdminDiagnosticService;
 import com.neu.ipco.service.AdminService;
 import com.neu.ipco.service.ApplicationUtilService;
 import com.neu.ipco.service.UserService;
+import com.neu.ipco.utility.AppConstants;
 
 /**
  * @author harsh

@@ -11,11 +11,13 @@
 			<generator class="increment"/>
 		</id>
 		
-		<many-to-one name="activity" class="Activity" column="acitivity_id" cascade="all" lazy="false"/>
+		<many-to-one name="activity" class="Activity" column="acitivity_id" cascade="all" lazy="false" fetch="select"/>
+		
+		<many-to-one name="quiz" class="Quiz" column="quiz_id" lazy="false" fetch="select" cascade="none"/>
 		
 		<property name="orderNo" column="order_no"/>
 		
-		<list name="correctAnswers" lazy="false" cascade="all">
+		<list name="correctAnswers" lazy="false" cascade="all"  fetch="select">
 			<key column="quiz_option_id"/>
 			<list-index column="qoidx"/>
 			<one-to-many class="Option"/>

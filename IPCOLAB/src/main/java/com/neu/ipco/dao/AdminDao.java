@@ -3,21 +3,27 @@
  */
 package com.neu.ipco.dao;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import com.neu.ipco.entity.ActivityAnswer;
 import com.neu.ipco.entity.ActivityOption;
+import com.neu.ipco.entity.BasicInstanceUser;
+import com.neu.ipco.entity.CustomizeInstanceUser;
 import com.neu.ipco.entity.Diagnostic;
 import com.neu.ipco.entity.DiagnosticCategory;
 import com.neu.ipco.entity.InstanceModule;
+import com.neu.ipco.entity.InstanceQuiz;
 import com.neu.ipco.entity.InstanceTopic;
 import com.neu.ipco.entity.Module;
 import com.neu.ipco.entity.Option;
 import com.neu.ipco.entity.Quiz;
+import com.neu.ipco.entity.QuizAnswer;
+import com.neu.ipco.entity.QuizOption;
 import com.neu.ipco.entity.RelatedDiagnostic;
 import com.neu.ipco.entity.Topic;
 import com.neu.ipco.entity.User;
+import com.neu.ipco.entity.UserRole;
 import com.neu.ipco.exception.AdminException;
 
 /**
@@ -123,5 +129,43 @@ public interface AdminDao {
 	public List<User> loadAllUsers() throws AdminException;
 
 	public User getUserById(int userId) throws AdminException;
+
+	public void deleteQuizById(int deletableId) throws AdminException;
+
+	public List<InstanceQuiz> geInstanceQuizByQuizId(int deletableId) throws AdminException;
+
+	public void deleteInstanceQuizes(List<InstanceQuiz> instanceQuizes) throws AdminException;
+
+	public Topic geTopicByQuizId(int deletableId) throws AdminException;
+
+	public InstanceTopic getInstanceTopicByInstanceQuizId(Integer instanceQuizId) throws AdminException;
+
+	public QuizOption getQuizOptionById(int quizOptionId) throws AdminException;
+
+	public void saveOrUpdateQuizOption(QuizOption quizOption) throws AdminException;
+
+	public List<QuizAnswer> getQuizAnswersByQuizOptionId(int deletableId) throws AdminException;
+
+	public void deleteQuizAnswer(QuizAnswer quizAnswer) throws AdminException;
+
+	public void deleteQuizOption(QuizOption quizOption) throws AdminException;
+
+	public List<QuizOption> getQuizOptionsByQuizId(int quizId) throws AdminException;
+
+	public void deleteActivityAnswer(ActivityAnswer activityAnswer) throws AdminException;
+
+	public List<ActivityAnswer> getActivityAnswersByActivityOptionId(int activityOptionId) throws AdminException;
+
+	public void deleteBasicInstanceUser(BasicInstanceUser basicInstanceUser) throws AdminException;
+
+	public void deleteCustomizeInstanceUser(CustomizeInstanceUser customizeInstanceUser) throws AdminException;
+
+	public void deleteUser(User deletableUser) throws AdminException;
+
+	public List<UserRole> loadAllUserRoles() throws AdminException;
+
+	public void saveOrUpdateUserRole(UserRole userRole) throws AdminException;
+
+	public UserRole geUserRoleById(int userRoleId) throws AdminException;
 
 }

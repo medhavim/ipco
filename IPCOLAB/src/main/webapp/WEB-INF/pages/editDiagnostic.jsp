@@ -62,7 +62,7 @@
 			</div>
 			<c:set var="templateActivity" scope="request" value="${diagnostic.activity}"/>
 			<c:set var="templateOptions" scope="request" value="${diagnostic.options}"/>
-			<jsp:include page="diagnosticTemplatePages/activityTemplateYESNO.jsp"></jsp:include>
+			<jsp:include page="diagnosticQuizTemplatePages/activityTemplateYESNO.jsp"></jsp:include>
 			<input type="hidden" name="activityTemplate" value="2"/>
 		</div>
 	</div>

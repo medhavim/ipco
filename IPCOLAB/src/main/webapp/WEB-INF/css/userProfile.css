@@ -71,3 +71,17 @@ a {text-decoration: none;}
 	padding-right: 50px;
 	font-size: 25px;
 }
+
+.container_name:after {
+	/* symbol for "opening" panels */
+	font-family: 'Glyphicons Halflings';
+	/* essential for enabling glyphicon */
+	content: "\e114"; /* adjust as needed, taken from bootstrap.css */
+	float: left; /* adjust as needed */
+	color: grey; /* adjust as needed */
+	padding-right: 15px;
+}
+.container_name.collapsed:after {
+	/* symbol for "collapsed" panels */
+	content: "\e080"; /* adjust as needed, taken from bootstrap.css */
+}
