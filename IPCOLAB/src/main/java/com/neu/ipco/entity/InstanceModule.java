@@ -81,6 +81,7 @@ public class InstanceModule implements Serializable, Comparable<InstanceModule> 
 				}
 			}
 		}
+		Collections.sort(nextActivity, AppConstants.ACTIVITY_ANSWER_COMPARATOR);
 	}
 	
 	public void prepareStack(int activityAnswerId) {
@@ -100,6 +101,7 @@ public class InstanceModule implements Serializable, Comparable<InstanceModule> 
 			}
 			prevActivity.push(currActivity);
 		}
+		Collections.sort(nextActivity, AppConstants.ACTIVITY_ANSWER_COMPARATOR);
 	}
 	
 	public void prepareNextModuleStack() {
@@ -113,6 +115,7 @@ public class InstanceModule implements Serializable, Comparable<InstanceModule> 
 		if(!nextActivity.isEmpty()){
 			currActivity = nextActivity.pop();
 		}
+		Collections.sort(nextActivity, AppConstants.ACTIVITY_ANSWER_COMPARATOR);
 	}
 	
 	public void preparePreviousModuleStack() {
@@ -131,14 +134,17 @@ public class InstanceModule implements Serializable, Comparable<InstanceModule> 
 				currActivity = nextActivity.pop();
 			}
 		}
+		Collections.sort(nextActivity, AppConstants.ACTIVITY_ANSWER_COMPARATOR);
 	}
 	
 
 	public void configurePrevActivity() {
 		if(null != currActivity
 				&& !prevActivity.isEmpty()){
+			Collections.sort(nextActivity, AppConstants.ACTIVITY_ANSWER_COMPARATOR_REVERSE);
 			nextActivity.push(currActivity);
 			currActivity = prevActivity.pop();
+			Collections.sort(nextActivity, AppConstants.ACTIVITY_ANSWER_COMPARATOR);
 		}
 		
 	}
@@ -146,8 +152,10 @@ public class InstanceModule implements Serializable, Comparable<InstanceModule> 
 	public void configureNextActivity() {
 		if(null != currActivity
 				&& !nextActivity.isEmpty()){
+			Collections.sort(nextActivity, AppConstants.ACTIVITY_ANSWER_COMPARATOR_REVERSE);
 			prevActivity.push(currActivity);
 			currActivity = nextActivity.pop();
+			Collections.sort(nextActivity, AppConstants.ACTIVITY_ANSWER_COMPARATOR);
 		}
 		
 	}

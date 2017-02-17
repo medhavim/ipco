@@ -5,7 +5,8 @@
 	<div class="container-fluid text-center activity-content">
 		<div class="row mcqOptions form-group">
 			<c:forEach items="${instanceModule.currActivity.answers}" var="answer">
-			<div class="col-sm-6  mcqOption " id="mcqOption_${answer.optionId}">
+			<div class="col-sm-6  mcqOption <c:forEach items="${instanceModule.currActivity.activityOption.options}" var="option">${option.orderNo eq answer.orderNo 
+					and option.isCorrect eq 'true'?'showAnswer':''}</c:forEach>" id="mcqOption_${answer.optionId}">
 			   	<span style="white-space: nowrap;"> 
 				   	<input type="checkbox" name="selectedAnswer" class="chkbx" id="checkBox_${answer.optionId}" value="selectedAnswer_${answer.optionId}" ${answer.isCorrect=='true'?'checked':''}>
 					<label class="option-text h3">${answer.optionText}</label>
@@ -13,6 +14,9 @@
 			</div>
 			</c:forEach>
 		</div>
+	</div>
+	<div class="container-fluid text-right">
+		<button class="btn btn-success checkAnswers">Check Answers</button>
 	</div>
 </div>
 </c:if>

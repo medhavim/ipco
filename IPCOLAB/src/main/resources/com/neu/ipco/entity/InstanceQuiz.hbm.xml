@@ -13,7 +13,7 @@
 
 		<many-to-one name="quiz" class="Quiz" column="quiz_id" lazy="false" fetch="select" />
 		
-		<list name="quizAnswers" lazy="false" cascade="all">
+		<list name="quizAnswers" lazy="false" cascade="all" fetch="select">
 			<key column="instance_quiz_id"/>
 			<list-index column="iqidx"/>
 			<one-to-many class="QuizAnswer"/>

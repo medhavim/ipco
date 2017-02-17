@@ -72,3 +72,23 @@ $(document).on("click", ".activityAnswer", function(e){
 });
 
 // Navigating to activity answer by clicking on the activity button End
+
+// Display correct answers to the user Start
+$(document).on("click", ".checkAnswers", function(e){
+	if($(".showAnswer").length !=0){
+		$(".showAnswer").each(function(){
+			$(this).addClass("correctOption");
+			$(this).addClass("hideAnswer");
+			$(this).removeClass("showAnswer");
+		});
+	}else{
+		$(".hideAnswer").each(function(){
+			$(this).removeClass("correctOption");
+			$(this).removeClass("hideAnswer");
+			$(this).addClass("showAnswer");
+		});
+	}
+	e.stopPropagation();
+	e.preventDefault();
+});
+// Display correct answers to the user End

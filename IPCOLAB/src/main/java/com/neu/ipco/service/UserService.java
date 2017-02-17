@@ -83,4 +83,6 @@ public interface UserService {
 	InstanceTopic getInstanceTopicByInstanceQuizId(int instanceQuizId) throws UserException;
 
 	CustomizeInstanceUser getCustomizeInstanceByUserId(int deleteUserId) throws UserException;
+
+	void updateInstanceQuizStatus(InstanceQuiz instanceQuiz, Status statusComplete) throws UserException;
 }

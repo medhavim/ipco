@@ -157,5 +157,34 @@
 <form action="#" id="customForm" method="post">
 	<input type="hidden" name="id" id="id"/>
 </form>
+
+<!-- 			Confirmation dialog before delete START -->
+<div class="modal fade" id="confirmationDialog" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2 class="modal-title">Please confirm!</h2>
+			</div>
+			<form id="confirmationForm" name="confirmationForm" method="post">
+				<div class="modal-body">
+					<h3 class="modal-title">Do you really want to remove this?</h3>
+					<input type="hidden" class="form-control" id="deletableId"  name="deletableId" />
+				</div>
+				<div class="modal-footer">
+					<div class="row">
+						<div class="col-sm-5 pull-left form-group">
+							<a class="btn btn-success btn-block" data-dismiss="modal">No</a>
+						</div>
+						<div class="col-sm-5 pull-right form-group">
+							<input type="submit" class="btn btn-default btn-block" role="button" value="Yes"/>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- 			Confirmation dialog before delete END -->
+
 </body>
 </html>

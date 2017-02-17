@@ -24,6 +24,11 @@
 <body>
 <jsp:include page="../header.jsp"></jsp:include>
 <div class="jumbotron title admin">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="adminHome.action">Home</a></li>
+	  	<li class="breadcrumb-item"><a href="manageUser.action">Manage User</a></li>
+	  	<li class="breadcrumb-item active"><span class="h3">Review progress for ${reviewUser.firstName}</span></li>
+	</ol>`
 	<div class="container text-center">
 		<h1>Reviewing Profile for: <strong><i>${reviewUser.firstName}</i></strong></h1>
 		<p>Revisit instances and review user's progress.</p>

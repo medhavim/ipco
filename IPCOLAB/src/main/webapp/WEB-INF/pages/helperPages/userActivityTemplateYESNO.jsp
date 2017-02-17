@@ -7,7 +7,8 @@
 			<div class="col-md-2">
 			</div>
 			<c:forEach items="${instanceModule.currActivity.answers}" var="answer">
-			<div class="col-md-4 form-group">
+			<div class="col-md-4 yesnoOption <c:forEach items="${instanceModule.currActivity.activityOption.options}" var="option">${option.orderNo eq answer.orderNo 
+					and option.isCorrect eq 'true'?'showAnswer':''}</c:forEach>">
 				<label class="btn btn-block ${answer.isCorrect=='true'?'btn-primary':'btn-default'} button-wrapper radio-inline optionRadioLabel">
 					<input style="display:none;" class="optionInput" 
 						type="radio" name="yesno-option" id="inlineRadio1" 
@@ -18,6 +19,9 @@
 			<div class="col-md-4">
 			</div>
 		</div>
+	</div>
+	<div class="container-fluid text-right">
+		<button class="btn btn-success checkAnswers">Check Answers</button>
 	</div>
 </div>
 </c:if>

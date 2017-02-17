@@ -513,4 +513,15 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	@Override
+	public void updateInstanceQuizStatus(InstanceQuiz instanceQuiz, Status status) throws UserException {
+		
+		LOGGER.debug("UserServiceImpl: updateInstanceQuizStatus: Executing");
+		if(instanceQuiz.getStatus().getStatusId() != AppConstants.STATUS_COMPLETE_ID){
+			Status newStatus = new Status(status.getStatusId(), status.getStatusDesc(), new Date());
+			instanceQuiz.setStatus(newStatus);
+			saveOrUpdateInstanceQuiz(instanceQuiz);
+		}
+	}
+
 }

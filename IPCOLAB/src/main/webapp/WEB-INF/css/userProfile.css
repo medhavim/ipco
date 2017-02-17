@@ -85,3 +85,12 @@ a {text-decoration: none;}
 	/* symbol for "collapsed" panels */
 	content: "\e080"; /* adjust as needed, taken from bootstrap.css */
 }
+
+.btn{
+	border-radius: 25px;
+}
+
+.modal-content{
+	margin-left: -100px;
+	margin-right: -100px;
+}

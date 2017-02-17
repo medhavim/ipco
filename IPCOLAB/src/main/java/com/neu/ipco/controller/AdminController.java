@@ -5,7 +5,6 @@ package com.neu.ipco.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -30,6 +29,7 @@ import com.neu.ipco.entity.Option;
 import com.neu.ipco.entity.Quiz;
 import com.neu.ipco.entity.QuizOption;
 import com.neu.ipco.entity.Topic;
+import com.neu.ipco.entity.User;
 import com.neu.ipco.exception.AdminException;
 import com.neu.ipco.exception.ApplicationUtilException;
 import com.neu.ipco.service.AdminDiagnosticService;
@@ -62,6 +62,11 @@ public class AdminController {
 	@RequestMapping(value="/adminHome.action", method=RequestMethod.GET)
 	public String loadAdminHomePage(Model model, HttpSession session){
 		
+		User user = (User) session.getAttribute(AppConstants.SESSION_ATTRIBUTE_ADMIN);
+		if(null == user){
+			return "redirect: adminAuth.action";
+		}
+		
 		LOGGER.debug("AuthenticationController: loadAdminHomePage: Redirecting");
 		return AppConstants.ADMIN_HOME;
 	}
@@ -76,7 +81,9 @@ public class AdminController {
 			session.setAttribute("allTopics", allTopics);
 			
 		} catch (AdminException e) {
-			return AppConstants.ERROR_PAGE;
+			return loadAdminHomePage(model, session);
+		} catch (Exception e) {
+			return loadAdminHomePage(model, session);
 		}
 		
 		LOGGER.debug("AdminController: manageTutorialAction: End");
@@ -104,10 +111,13 @@ public class AdminController {
 			session.setAttribute("allTopics", allTopics);
 		} catch (AdminException e) {
 			e.printStackTrace();
-			return AppConstants.ERROR_PAGE;
+			return loadAdminHomePage(model, session);
 		} catch (ApplicationUtilException e1){
 			e1.printStackTrace();
-			return AppConstants.ERROR_PAGE;
+			return loadAdminHomePage(model, session);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return loadAdminHomePage(model, session);
 		}
 		
 		LOGGER.debug("AdminController: addNewTopicAction: End");
@@ -129,10 +139,14 @@ public class AdminController {
 			session.setAttribute("allTopics", allTopics);
 			model.addAttribute("moduleTopicId", module.getTopic().getTopicId());
 		} catch (AdminException e) {
-			return AppConstants.ERROR_PAGE;
+			e.printStackTrace();
+			return loadAdminHomePage(model, session);
 		} catch (ApplicationUtilException e1){
 			e1.printStackTrace();
-			return AppConstants.ERROR_PAGE;
+			return loadAdminHomePage(model, session);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return loadAdminHomePage(model, session);
 		}
 		
 		LOGGER.debug("AdminController: addNewModuleAction: End");
@@ -153,7 +167,11 @@ public class AdminController {
 			List<Topic> allTopics = adminService.loadAllTopics();
 			session.setAttribute("allTopics", allTopics);
 		} catch (AdminException e) {
-			return AppConstants.ERROR_PAGE;
+			e.printStackTrace();
+			return loadAdminHomePage(model, session);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return loadAdminHomePage(model, session);
 		}
 		
 		LOGGER.debug("AdminController: deleteTopicAction: End");
@@ -173,7 +191,11 @@ public class AdminController {
 			session.setAttribute("allTopics", allTopics);
 			model.addAttribute("moduleTopicId", module.getTopic().getTopicId());
 		} catch (AdminException e) {
-			return AppConstants.ERROR_PAGE;
+			e.printStackTrace();
+			return loadAdminHomePage(model, session);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return loadAdminHomePage(model, session);
 		}
 		
 		LOGGER.debug("AdminController: deleteModuleAction: End");
@@ -274,7 +296,11 @@ public class AdminController {
 			model.addAttribute("moduleTopicId", activityOption.getModule().getTopic().getTopicId());
 			model.addAttribute("activityModuleId", activityOption.getModule().getModuleId());
 		} catch (AdminException e) {
-			return AppConstants.ERROR_PAGE;
+			e.printStackTrace();
+			return loadAdminHomePage(model, session);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return loadAdminHomePage(model, session);
 		}
 		
 		LOGGER.debug("AdminController: deleteActivityAction: End");
@@ -290,7 +316,11 @@ public class AdminController {
 			ActivityOption activityOption = adminService.getActivityOptionById(activityOptionId);
 			model.addAttribute("activityOption", activityOption);
 		} catch (AdminException e) {
-			return AppConstants.ERROR_PAGE;
+			e.printStackTrace();
+			return loadAdminHomePage(model, session);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return loadAdminHomePage(model, session);
 		}
 		
 		LOGGER.debug("AdminController: editActivityAction: End");
@@ -332,7 +362,9 @@ public class AdminController {
 			model.addAttribute("moduleTopicId", currActivityOption.getModule().getTopic().getTopicId());
 			model.addAttribute("activityModuleId", currActivityOption.getModule().getModuleId());
 		} catch (AdminException e) {
-			return AppConstants.ERROR_PAGE;
+			return gotoEditActivityAction(newActivityOption.getActivityOptionId(), session, model);
+		} catch (Exception e){
+			return loadAdminHomePage(model, session);
 		}
 		
 		LOGGER.debug("AdminController: editActivity: End");
@@ -370,10 +402,12 @@ public class AdminController {
 			model.addAttribute("moduleTopicId", activityOption.getModule().getTopic().getTopicId());
 			model.addAttribute("activityModuleId", activityOption.getModule().getModuleId());
 		} catch (AdminException e) {
-			return AppConstants.ERROR_PAGE;
+			return gotoAddActivity(activityOption.getModule().getModuleId(), session, model);
 		} catch (ApplicationUtilException e1){
 			e1.printStackTrace();
-			return AppConstants.ERROR_PAGE;
+			return gotoAddActivity(activityOption.getModule().getModuleId(), session, model);
+		} catch (Exception e){
+			return loadAdminHomePage(model, session);
 		}
 		
 		LOGGER.debug("AdminController: addActivity: End");
@@ -412,10 +446,12 @@ public class AdminController {
 			List<Topic> allTopics = adminService.loadAllTopics();
 			session.setAttribute("allTopics", allTopics);
 		} catch (AdminException e) {
-			return AppConstants.ERROR_PAGE;
+			return "redirect: gotoAddQuiz.action?quizId="+quizId;
 		} catch (ApplicationUtilException e) {
-			return AppConstants.ERROR_PAGE;
-		} 
+			return "redirect: gotoAddQuiz.action?quizId="+quizId;
+		} catch (Exception e){
+			return "redirect: manageQuiz.action";
+		}
 		
 		LOGGER.debug("AdminController: addQuizAction: End");
 		return AppConstants.MANAGE_QUIZ;
@@ -449,8 +485,10 @@ public class AdminController {
 			List<Topic> allTopics = adminService.loadAllTopics();
 			session.setAttribute("allTopics", allTopics);
 		} catch (AdminException e) {
-			return AppConstants.ERROR_PAGE;
-		} 
+			return "redirect: gotoEditQuizOption.action?id="+quizOption.getQuizOptionId();
+		} catch (Exception e){
+			return "redirect: manageQuiz.action";
+		}
 		
 		LOGGER.debug("AdminController: editQuizOptionAction: End");
 		return AppConstants.MANAGE_QUIZ;

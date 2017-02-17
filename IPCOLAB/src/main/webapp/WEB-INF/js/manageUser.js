@@ -79,11 +79,13 @@ $(document).ready(function() {
 	
 	$(".deleteRegUser").on("click", function(e){
 		id = $(this)[0].id.split("_")[1];
-		$('#customForm').attr('action', "deleteRegUser.action");
-		$("#customForm input[id=id]").val(id);
-		$('#customForm').submit();
+		var form = document.getElementById("confirmationForm");
+		form.action = "deleteRegUser.action";
+		$("#deletableId").val(id);
+		$("#confirmationDialog").modal("toggle");
 		e.stopPropagation();
 	});
+	
 	
 	$(".editUserRole").on("click", function(e){
 		id = $(this)[0].id.split("_")[1];

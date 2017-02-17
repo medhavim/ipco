@@ -16,7 +16,6 @@ import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.coyote.ajp.AjpProcessor;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,7 +43,6 @@ import com.neu.ipco.exception.AdminException;
 import com.neu.ipco.exception.ApplicationUtilException;
 import com.neu.ipco.exception.UserException;
 import com.neu.ipco.service.AdminDiagnosticService;
-import com.neu.ipco.service.AdminService;
 import com.neu.ipco.service.ApplicationUtilService;
 import com.neu.ipco.service.UserService;
 import com.neu.ipco.utility.AppConstants;
@@ -60,10 +58,7 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
-	
-	@Autowired
-	private AdminService adminService;
-	
+
 	@Autowired
 	private ApplicationUtilService applicationUtilService;
 	
@@ -283,7 +278,12 @@ public class UserController {
 					
 					break;
 				case AppConstants.NAV_TYPE_TAKE_QUIZ:
-					userService.updateInstanceModuleStatus(instanceModule, statusComplete);
+//					userService.updateInstanceModuleStatus(instanceModule, statusComplete);
+					userService.getNextInstanceModuleForNavigation(instanceModule);
+					InstanceTopic instanceTopic = userService.getInstanceTopicById(instanceModule.getInstanceTopic().getInstanceTopicId());
+					instanceTopic.reorder();
+					session.setAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_MODULE, instanceModule);
+					session.setAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_TOPIC, instanceTopic);
 					InstanceQuiz quiz = instanceModule.getInstanceTopic().getQuiz();
 					if(quiz != null){
 						return gotoUserQuizAction(quiz.getInstanceQuizId(), model, session);
@@ -296,10 +296,16 @@ public class UserController {
 					return AppConstants.USER_QUIZ;
 					
 				case AppConstants.NAV_TYPE_GOTO_DASHBOARD:
-					userService.updateInstanceModuleStatus(instanceModule, statusComplete);
+//					userService.updateInstanceModuleStatus(instanceModule, statusComplete);
+					InstanceModule newInstanceModule = userService.getNextInstanceModuleForNavigation(instanceModule);
+					if(newInstanceModule.getInstanceModuleId() == instanceModule.getInstanceModuleId()){
+						navigateActivityAction(AppConstants.NAV_TYPE_TAKE_QUIZ, model, session);
+					}
 					return navigateToUserInstanceFromActivityOrQuiz(model, session);
 				case AppConstants.NAV_TYPE_QUIZ_FINISH:
-					return updateInstanceTopicToCompleteGotoUserInstance(statusComplete, model, session);
+					InstanceQuiz instanceQuiz = (InstanceQuiz) session.getAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_QUIZ);
+					updateInstanceTopicToCompleteGotoUserInstance(statusComplete, model, session);
+					return gotoUserQuizAction(instanceQuiz.getInstanceQuizId(), model, session);
 				default:
 					return navigateToUserInstanceFromActivityOrQuiz(model, session);
 			}
@@ -321,13 +327,11 @@ public class UserController {
 	private String updateInstanceTopicToCompleteGotoUserInstance(Status statusComplete, Model model, HttpSession session) throws UserException {
 	
 		InstanceQuiz instanceQuiz = (InstanceQuiz) session.getAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_QUIZ);
-		InstanceTopic instanceTopicFromSession = (InstanceTopic) session.getAttribute(AppConstants.SESSION_ATTRIBUTE_INSTANCE_TOPIC);
-		if(null != instanceTopicFromSession){
-			userService.updateInstanceTopicStatus(instanceTopicFromSession, statusComplete);
-		}else if(null != instanceQuiz){
+		if(null != instanceQuiz){
 			InstanceTopic instanceTopic = userService.getInstanceTopicByInstanceQuizId(instanceQuiz.getInstanceQuizId());
 			if(null != instanceTopic){
 				userService.updateInstanceTopicStatus(instanceTopic, statusComplete);
+//				userService.updateInstanceQuizStatus(instanceQuiz, statusComplete);
 			}
 		}
 		return navigateToUserInstanceFromActivityOrQuiz(model, session);

@@ -18,9 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.neu.ipco.entity.BasicInstanceUser;
 import com.neu.ipco.entity.Credential;
-import com.neu.ipco.entity.CustomizeInstanceUser;
 import com.neu.ipco.entity.User;
 import com.neu.ipco.entity.UserRole;
 import com.neu.ipco.entity.UserType;
@@ -62,6 +60,9 @@ public class AuthenticationController {
 				userRoles = applicationUtilService.getUserRoles();
 			} catch (ApplicationUtilException e) {
 				LOGGER.debug("Exception: While fetching UserType");
+				return AppConstants.ERROR_PAGE;
+			} catch (Exception e1){
+				LOGGER.debug("Error occured while fetching userType and userRoles");
 				return AppConstants.ERROR_PAGE;
 			}
 			
@@ -116,7 +117,10 @@ public class AuthenticationController {
 				session.removeAttribute(AppConstants.SESSION_ATTRIBUTE_ADMIN);
 			}
 		} catch (AuthenticationException e) {
-			return AppConstants.ERROR_PAGE;
+			return loadAuthPage(model, session);
+		} catch (Exception e1){
+			LOGGER.debug("Error occured while fetching userType and userRoles");
+			return loadAuthPage(model, session);
 		}
 		LOGGER.debug("AuthenticationController: loginAction: End");
 		return loadUserProfileAction(model, session);
@@ -137,7 +141,9 @@ public class AuthenticationController {
 				session.removeAttribute(AppConstants.SESSION_ATTRIBUTE_USER);
 			}
 		} catch (AuthenticationException e) {
-			return AppConstants.ERROR_PAGE;
+			return loadAdminAuthPage(model, session);
+		} catch (Exception e) {
+			return loadAdminAuthPage(model, session);
 		}
 		LOGGER.debug("AuthenticationController: adminLoginAction: End");
 		return AppConstants.ADMIN_HOME;
@@ -153,7 +159,9 @@ public class AuthenticationController {
 			session.setAttribute(AppConstants.SESSION_ATTRIBUTE_USER, user);
 			session.removeAttribute(AppConstants.SESSION_ATTRIBUTE_ADMIN);
 		} catch (AuthenticationException e) {
-			return AppConstants.ERROR_PAGE;
+			return loadAuthPage(model, session);
+		} catch (Exception e) {
+			return loadAuthPage(model, session);
 		}
 		LOGGER.debug("AuthenticationController: signUpAction: End");
 		return loadUserProfileAction(model, session);
@@ -169,7 +177,7 @@ public class AuthenticationController {
 			session.setAttribute(AppConstants.SESSION_ATTRIBUTE_USER, user);
 			session.removeAttribute(AppConstants.SESSION_ATTRIBUTE_ADMIN);
 		} catch (AuthenticationException e) {
-			return AppConstants.ERROR_PAGE;
+			return loadAuthPage(model, session);
 		}
 		LOGGER.debug("AuthenticationController: resetCredAction: End");
 		return loadUserProfileAction(model, session);
@@ -185,7 +193,7 @@ public class AuthenticationController {
 			session.setAttribute(AppConstants.SESSION_ATTRIBUTE_USER, user);
 			session.removeAttribute(AppConstants.SESSION_ATTRIBUTE_ADMIN);
 		} catch (AuthenticationException e) {
-			return AppConstants.ERROR_PAGE;
+			return loadAdminAuthPage(model, session);
 		}
 		LOGGER.debug("AuthenticationController: resetAdminCredAction: End");
 		return AppConstants.ADMIN_HOME;
@@ -205,7 +213,9 @@ public class AuthenticationController {
 		try {
 			authenticationService.loadUserInstancesToSession(session, user);
 		} catch (AuthenticationException e) {
-			return AppConstants.ERROR_PAGE;
+			return loadAuthPage(model, session);
+		} catch (Exception e) {
+			return loadAuthPage(model, session);
 		}
 		LOGGER.debug("AuthenticationController: loadUserProfileAction: End");
 		return AppConstants.USER_PROFILE;
@@ -224,6 +234,20 @@ public class AuthenticationController {
 		
 		LOGGER.debug("AuthenticationController: loadUserTutorialAction: End");
 		return AppConstants.USER_HOME;
+	}
+	
+
+	@RequestMapping(value="/logout.action", method=RequestMethod.GET)
+	public String logoutUser(HttpSession session, Model model){
+		
+		User admin = (User) session.getAttribute(AppConstants.SESSION_ATTRIBUTE_ADMIN);
+		if(session != null)
+			session.invalidate();
+		
+		if(null != admin)
+			return loadAdminAuthPage(model, session);
+		else
+			return loadAuthPage(model, session);
 	}
 	
 	@ResponseBody
