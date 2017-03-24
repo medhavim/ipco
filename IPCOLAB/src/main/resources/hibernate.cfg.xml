@@ -9,6 +9,7 @@
 		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/ipco</property>
 		<property name="hibernate.connection.username">root</property>
 		<property name="hibernate.connection.password">Password1!</property>
+<!-- 		<property name="hibernate.connection.password">password</property> -->
 		<property name="hibernate.connection.pool_size">10</property>
 		<property name="show_sql">true</property>
 <!--         <property name="hbm2ddl.auto">create</property>  -->

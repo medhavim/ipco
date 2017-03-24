@@ -5,15 +5,25 @@
 
 <hibernate-configuration>
 	<session-factory>
-		<property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
 		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/ipco</property>
 		<property name="hibernate.connection.username">root</property>
 		<property name="hibernate.connection.password">Password1!</property>
+<!-- 		<property name="hibernate.connection.password">password</property> -->
 		<property name="hibernate.connection.pool_size">10</property>
 		<property name="show_sql">true</property>
 <!--         <property name="hbm2ddl.auto">create</property>  -->
+        <property name="hbm2ddl.auto">update</property> 
 		<property name="format_sql">true</property>
 		<property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
+		
+		<property name="hibernate.c3p0.min_size">5</property>
+		<property name="hibernate.c3p0.max_size">20</property>
+		<property name="hibernate.c3p0.timeout">1800</property>
+		<property name="hibernate.c3p0.max_statements">50</property>
+		<property name="hibernate.c3p0.idle_test_period">3000</property>
+		<property name="hibernate.cache.use_structured_entries">true</property>
+		<property name="hibernate.c3p0.testConnectionOnCheckout">true</property>
 
 		<mapping resource="com/neu/ipco/entity/Activity.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/Option.hbm.xml" />
@@ -24,16 +34,22 @@
 		<mapping resource="com/neu/ipco/entity/Credential.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/CustomizeInstanceUser.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/Diagnostic.hbm.xml" />
+		<mapping resource="com/neu/ipco/entity/DiagnosticCategory.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/Instance.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/InstanceModule.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/InstanceQuiz.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/InstanceTopic.hbm.xml" />
+		<mapping resource="com/neu/ipco/entity/InstanceType.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/Module.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/Quiz.hbm.xml" />
+		<mapping resource="com/neu/ipco/entity/QuizOption.hbm.xml" />
+		<mapping resource="com/neu/ipco/entity/QuizAnswer.hbm.xml" />
+		<mapping resource="com/neu/ipco/entity/RelatedDiagnostic.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/Status.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/Topic.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/TopicType.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/User.hbm.xml" />
+		<mapping resource="com/neu/ipco/entity/UserRole.hbm.xml" />
 		<mapping resource="com/neu/ipco/entity/UserType.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>
