@@ -316,6 +316,8 @@ public class AppConstants {
 					|| module2 == null){
 				return 0;
 			}else{
+				module1.reorder();
+				module2.reorder();
 				return module1.getOrderNo() - module2.getOrderNo();
 			}
 		}
