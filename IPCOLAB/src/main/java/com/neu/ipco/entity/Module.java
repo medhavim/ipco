@@ -55,6 +55,7 @@ public class Module implements Serializable, Comparable<Module> {
 		List<ActivityOption> tempActivityOptionList = new ArrayList<ActivityOption>(this.activityOptions);
 		Collections.sort(tempActivityOptionList, AppConstants.ACTIVITY_OPTION_COMPARATOR);
 		this.activityOptions = new TreeSet<ActivityOption>(tempActivityOptionList);
+		System.out.println("--> activity option" + this.activityOptions);
 	}
 
 	/**
