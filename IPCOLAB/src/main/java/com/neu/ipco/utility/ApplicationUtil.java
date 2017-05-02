@@ -68,16 +68,18 @@ public class ApplicationUtil {
 	
 	public static Set<Option> populateYESNOOptions(Set<Option> options, HttpServletRequest request, int orderNo) {
 		
+		String correctOption = request.getParameter("yesno-option");
+		
 		Option option1 = new Option();
-		option1.setOptionText(request.getParameter("yesno-option"));
+		option1.setOptionText("Yes");
 		option1.setOrderNo(++orderNo);
-		option1.setIsCorrect("true");
+		option1.setIsCorrect(correctOption.equalsIgnoreCase("Yes")?"true":"false");
 		option1.setCreatedTs(new Date());
 		
 		Option option2 = new Option();
-		option2.setOptionText(request.getParameter("yesno-option").equalsIgnoreCase("Yes")?"No":"Yes");
+		option2.setOptionText("No");
 		option2.setOrderNo(++orderNo);
-		option2.setIsCorrect("false");
+		option2.setIsCorrect(correctOption.equalsIgnoreCase("No")?"true":"false");
 		option2.setCreatedTs(new Date());
 		
 		options.add(option1);
