@@ -45,27 +45,29 @@
 					<div class="progress-bar <c:choose><c:when test="${instanceTopic.status.statusId eq 1}">progress-bar-info</c:when><c:when test="${instanceTopic.status.statusId eq 2}">progress-bar-danger active</c:when><c:otherwise>progress-bar-success</c:otherwise></c:choose> progress-bar-striped" 
 					 	 role="progressbar" style="width:${instanceTopic.progress}%; min-width:2.5em;">${instanceTopic.progress}% </div>
 				</div>
-				<div class="row">
-					<div class="col-md-2">
+				<div id="moduleBtnAlign" class="row">
+					<!--<div class="col-md-2">
 					</div>
-					<div class="col-md-10">
-						<div class="row">
+					  <div class="col-md-10">
+						<div id="moduleBtnAlign" class="row" >-->
 							<c:forEach items="${instanceTopic.instanceModuleList}" var="instanceModule">
-							<div class="col-md-2">
+							<!--  <div class="col-md-2"> -->
+							<div id="moduleBtn" class="btn-group">
 								<button class="instanceModule btn <c:choose><c:when test="${instanceModule.status.statusId eq 1}">btn-info</c:when><c:when test="${instanceModule.status.statusId eq 2}">btn-danger</c:when><c:otherwise>btn-success</c:otherwise></c:choose> button-wrapper btn-block"
 									    <c:if test="${instanceModule.status.statusId eq 1 and instanceModule.module.orderNo ne 1 or fn:length(instanceModule.activityAnswers)<=0}">disabled</c:if>
 									    id="moduleId_${instanceModule.instanceModuleId}">${instanceModule.module.moduleName}</button>
 							</div>
 							</c:forEach>
 							<c:if test="${instanceTopic.quiz ne null}">
-							<div class="col-md-2">
+							<!--  <div class="col-md-2"> -->
+							<div id="moduleBtn" class="btn-group">
 								<button class="instanceQuiz btn <c:choose><c:when test="${instanceTopic.quiz.status.statusId eq 1}">btn-info</c:when><c:when test="${instanceTopic.quiz.status.statusId eq 2}">btn-danger</c:when><c:otherwise>btn-success</c:otherwise></c:choose> button-wrapper btn-block"
 									    <c:if test="${instanceTopic.quiz.status.statusId eq 1 or fn:length(instanceTopic.quiz.quizAnswers)<=0}">disabled</c:if>
 									    id="quizId_${instanceTopic.quiz.instanceQuizId}">${instanceTopic.quiz.quiz.quizName}</button>
 							</div>
 							</c:if>
-						</div>
-					</div>
+						<!--</div>
+					</div>-->
 				</div>	
 			</div>
 			<div class="panel-collapse collapse" id="topicDesc_${instanceTopic.topic.topicId}">

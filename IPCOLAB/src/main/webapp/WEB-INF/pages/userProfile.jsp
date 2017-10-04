@@ -40,7 +40,7 @@
 		<br>
 		<div class="row bg-danger topic-row">
 			<div class="col-sm-12">
-			<h3>Explore this instance by starting a new tutorial</h3>
+			<h3>Explore this instance by starting a new tutorial.<br /> Click on "Start Tutorial" button below for the <strong>Overview of IP</strong>.</h3>
 			</div>
 		</div>
 		</c:if>
@@ -69,7 +69,7 @@
 		<br>
 		<div class="row bg-danger topic-row">
 			<div class="col-sm-12">
-			<h3>Customize instances by <strong>Starting a new tutorial</strong></h3>
+			<h3>Customize instances by starting a new tutorial.<br /> Click on "Start Tutorial" button below to <strong>Customize Tutorial</strong>.</h3>
 			</div>
 		</div>
 		</c:if>

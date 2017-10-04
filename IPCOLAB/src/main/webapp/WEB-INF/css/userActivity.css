@@ -71,6 +71,10 @@
 	margin-right:15px;
 	margin-left:15px;
 	border-radius: 25px !important;
+	width: 100%;		
+	text-align: left;
+	font-weight: bold;
+	color: black;
 }
 
 .yesnoOption {
@@ -86,4 +90,14 @@
 
 .mcqOption.correctOption, .yesnoOption.correctOption {
 	background-color:#67f12f;
+}
+
+// Added by Medhavi
+
+label.labelText {
+	white-space: normal;
+}
+
+label#labelText {
+	white-space: normal;
 }
