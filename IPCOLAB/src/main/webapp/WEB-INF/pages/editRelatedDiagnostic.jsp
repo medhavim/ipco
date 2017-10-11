@@ -115,7 +115,7 @@
 	<div class="container-fluid text-left desc-body">
 		<div class="row selected-diagnostics" style="overflow-y: auto; max-height:600px;">
 			<c:forEach items="${relatedDiagnostic.diagnostics}" var="diagnostic">	
-			<div class="tile gray" id="selectedDiagnostic_${diagnostic.diagnosticId}">
+			<div class="tile black" id="selectedDiagnostic_${diagnostic.diagnosticId}">
 				<input type="button" class="form-control btn btn-info  title" data-toggle="collapse" data-target="#selectedDiagnostic_info_for-${diagnostic.diagnosticId}" value="${diagnostic.activity.activityTitle}"/ >
 				<div class="panel-collapse collapse in" id="selectedDiagnostic_info_for-${diagnostic.diagnosticId}">
 					<div class="alert alert-info diag-qstn_${diagnostic.diagnosticId}" role="alert">

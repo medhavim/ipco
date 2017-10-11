@@ -9,7 +9,8 @@
 a {text-decoration: none;}
 
 .jumbotron{
-	background-color: #ccc;
+	/*background-color: #ccc;*/
+	background-color: whitesmoke; 	/* Added by Medhavi */
 	margin-bottom:0px;
 }
 .jumbotron.content, .jumbotron.title{

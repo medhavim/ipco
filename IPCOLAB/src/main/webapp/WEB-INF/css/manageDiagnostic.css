@@ -20,7 +20,8 @@
 }
 
 .jumbotron{
-	background-color: #ccc;
+	/*background-color: #ccc;*/
+	background-color: whitesmoke; 	/* Added by Medhavi */
 }
 
 .jumbotron.title{
@@ -87,4 +88,9 @@
 
 .diag-qstn{
 	border-radius: 10px;
+}
+
+/* Added by Medhavi */
+.tile.black {
+  background: black;
 }

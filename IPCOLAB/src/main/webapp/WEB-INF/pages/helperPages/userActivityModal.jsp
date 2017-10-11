@@ -32,7 +32,7 @@
 			</div>
 			<div class="modal-body form-group">
 				<h2>You are about to successfully complete this topic.</h2>
-				<h2>Do you wanna take a Quiz?</h2>
+				<h2>Do you want to take a Quiz?</h2>
 			</div>
 			<div class="modal-footer">
 			<div class="row">

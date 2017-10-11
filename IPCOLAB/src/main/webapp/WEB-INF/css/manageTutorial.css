@@ -20,7 +20,8 @@
 }
 
 .jumbotron{
-	background-color: #ccc;
+	/*background-color: #ccc;*/
+	background-color: whitesmoke; 	/* Added by Medhavi */
 }
 
 .jumbotron.title{
@@ -83,3 +84,8 @@
 .tile.gray {
   background: #57646d;
 }	
+
+/* Added by Medhavi */
+.tile.black {
+  background: black;
+}

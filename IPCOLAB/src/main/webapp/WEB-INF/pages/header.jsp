@@ -8,8 +8,9 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span> 
             </button>
-            <!--  <a target="_blank" href="#" class="navbar-brand">IP CO-LAB</a> -->
-            <a target="_blank" href="userProfile.action" class="navbar-brand">IP CO-LAB</a>
+            <!--  <a target="_blank" href="#" class="navbar-brand">IP CO-LAB</a>
+            <a target="_blank" href="userProfile.action" class="navbar-brand">IP CO-LAB</a>-->
+            <a href="userProfile.action" class="navbar-brand">IP CO-LAB</a>
             
         </div>
         <div class="collapse navbar-collapse navbar-right">

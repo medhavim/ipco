@@ -1,5 +1,6 @@
 .jumbotron{
-	background-color: #ccc;
+	/*background-color: #ccc;*/
+	background-color: whitesmoke; 	/* Added by Medhavi */
 }
 
 .unselected-tmplteOptn{

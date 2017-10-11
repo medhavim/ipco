@@ -39,7 +39,8 @@ body {
 a {text-decoration: none;}
 
 .jumbotron{
-	background-color: #ccc;
+	/*background-color: #ccc;*/
+	background-color: whitesmoke; 	/* Added by Medhavi */
 	margin-bottom:0px;
 }
 .jumbotron.content, .jumbotron.title{
@@ -93,4 +94,9 @@ a {text-decoration: none;}
 .modal-content{
 	margin-left: -100px;
 	margin-right: -100px;
+}
+
+/* Added by Medhavi */
+span.h3 {
+	font-weight: normal;
 }

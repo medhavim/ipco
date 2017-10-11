@@ -44,7 +44,7 @@
 				</c:forEach>
 			</div>
 		</div>
-		<div class="jumbotron tile gray title">
+		<div class="jumbotron tile black title">
 			<div class="container-fluid text-left activity-content">
 			<h2 class="title">${currentQuizAnswer.quizOption.activity.activityText}</h2>
 			</div>

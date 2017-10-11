@@ -67,7 +67,7 @@
 			   	</div>
 			   	</div>
 		   		<div class="panel-collapse collapse" id="diagnostic_info_for-${diagnostic.diagnosticId}">
-		   			<div class="tile gray alert ${diagnostic.diagnosticId==currentDiagnostic.diagnosticId?'alert-info':''} diag-qstn_${diagnostic.diagnosticId}" role="alert">
+		   			<div class="tile black alert ${diagnostic.diagnosticId==currentDiagnostic.diagnosticId?'alert-info':''} diag-qstn_${diagnostic.diagnosticId}" role="alert">
 						<div class="row">
 							<div class="col-sm-8">${diagnostic.activity.activityText}</div>
 							<c:forEach items="${diagnostic.options}" var="option">
@@ -90,7 +90,7 @@
 	</div>
 	<div class="container-fluid text-left desc-body">
 		<div class="row selected-diagnostics" style="overflow-y: auto; max-height:600px;">
-			<div class="tile gray" id="selectedDiagnostic_${currentDiagnostic.diagnosticId}">
+			<div class="tile black" id="selectedDiagnostic_${currentDiagnostic.diagnosticId}">
 				<input type="button" class="form-control btn btn-info  title" data-toggle="collapse" data-target="#selectedDiagnostic_info_for-${currentDiagnostic.diagnosticId}" value="${currentDiagnostic.activity.activityTitle}" />
 				<div class="panel-collapse collapse in" id="selectedDiagnostic_info_for-${currentDiagnostic.diagnosticId}">
 					<div class="alert alert-info diag-qstn_${currentDiagnostic.diagnosticId}" role="alert">

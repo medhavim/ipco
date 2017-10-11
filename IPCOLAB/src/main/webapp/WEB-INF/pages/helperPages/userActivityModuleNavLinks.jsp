@@ -8,7 +8,7 @@
 	    	class="instanceModule btn <c:if test="${instModule.status.statusId eq 1}">btn-default <c:if test="${instModule.instanceModuleId eq instanceModule.instanceModuleId}">current-ongoing-module</c:if></c:if>
 	    	<c:if test="${instModule.status.statusId eq 2}">btn-info <c:if test="${instModule.instanceModuleId eq instanceModule.instanceModuleId}">current-ongoing-module</c:if></c:if>
 	    	<c:if test="${instModule.status.statusId eq 3}">btn-success <c:if test="${instModule.instanceModuleId eq instanceModule.instanceModuleId}">current-complete-module</c:if></c:if>"
-	    	<c:if test="${instModule.status.statusId eq 1}">disabled</c:if>
+	    	<c:if test="${instModule.status.statusId eq 1}">disabled onclick="alert(You do not have access to modules you have not started. \nYou can only access this module once you have finished all the modules beofre this.")"</c:if>
 	    	id="moduleId_${instModule.instanceModuleId}">${instModule.module.moduleName}</button>
 	  	</div>
 		</c:forEach>

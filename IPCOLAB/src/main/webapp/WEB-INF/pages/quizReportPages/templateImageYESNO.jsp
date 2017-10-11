@@ -2,7 +2,7 @@
 <%@ page isELIgnored="false"%>
 <c:forEach items="${quiz.quizAnswers}" var="quizAnswer">
 <c:if test="${quizAnswer.quizOption.activity.activityTemplate.activityTemplateId eq 5}">
-<div class="jumbotron tile gray title">
+<div class="jumbotron tile black title">
 	<div class="container-fluid text-left activity-content">
 	<h2 class="title text-center">${quizAnswer.quizOption.activity.activityText}</h2>
 	</div>

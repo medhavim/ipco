@@ -1,5 +1,6 @@
 .jumbotron{
-	background-color: #ccc;
+	/*background-color: #ccc;*/
+	background-color: whitesmoke; 	/* Added by Medhavi */
 }
 
 .unselected-tmplteOptn{
@@ -72,4 +73,9 @@
 }
 .tile.gray {
   background: #57646d;
+}
+
+/* Added by Medhavi */
+.tile.black {
+  background: black;
 }

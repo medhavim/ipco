@@ -139,7 +139,7 @@
 											<c:if test="${fn:length(diagnostic.topics)>0}">
 											<c:forEach items="${diagnostic.topics}" var="topic" varStatus="topicNo">
 											<div class="col-sm-4">
-								      			<div class="tile gray">
+								      			<div class="tile black">
 								        			<h3 class="title">${topic.topicName}</h3>
 								       		 		<p>${topic.topicDesc}</p>
 								      			</div>

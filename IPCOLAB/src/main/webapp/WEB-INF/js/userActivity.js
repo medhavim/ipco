@@ -54,10 +54,15 @@ $(document).on('click', '.btn-nav.btn-prev', function(e) {
 // Navigating to module by clicking on the module button Start
 
 $(document).on("click", ".instanceModule", function(e){
-	id = $(this)[0].id.split("_")[1];
-	$('#customForm').attr('action', "gotoModule.action");
-	$("#customForm input[id=id]").val(id);
-	$('#customForm').submit();
+	if($(this)[0].disabled == true){
+	    e.preventDefault();
+	    alert("You do not have access to modules you have not started. \nYou can only access this module once you have finished all the modules beofre this.");
+	}else{
+		id = $(this)[0].id.split("_")[1];
+		$('#customForm').attr('action', "gotoModule.action");
+		$("#customForm input[id=id]").val(id);
+		$('#customForm').submit();
+	}
 });
 
 // Navigating to module by clicking on the module button End
@@ -75,13 +80,23 @@ $(document).on("click", ".activityAnswer", function(e){
 
 // Display correct answers to the user Start
 $(document).on("click", ".checkAnswers", function(e){
-	if($(".showAnswer").length !=0){
+	if($(".showAnswer").length !=0 || $(".showIncorrectAnswer").length !=0){
 		$(".showAnswer").each(function(){
 			$(this).addClass("correctOption");
 			$(this).addClass("hideAnswer");
 			$(this).removeClass("showAnswer");
 		});
-	}else{
+		$(".showIncorrectAnswer").each(function(){
+			$(this).addClass("incorrectOption");
+			$(this).addClass("hideIncorrectAnswer");
+			$(this).removeClass("showIncorrectAnswer");
+		});
+	}else if($(".hideIncorrectAnswer").length !=0 || $(".hideAnswer").length !=0){
+		$(".hideIncorrectAnswer").each(function(){
+			$(this).removeClass("incorrectOption");
+			$(this).removeClass("hideIncorrectAnswer");
+			$(this).addClass("showIncorrectAnswer");
+		});
 		$(".hideAnswer").each(function(){
 			$(this).removeClass("correctOption");
 			$(this).removeClass("hideAnswer");

@@ -39,7 +39,8 @@ body {
 a {text-decoration: none;}
 
 .jumbotron{
-	background-color: #ccc;
+	/*background-color: #ccc;*/
+	background-color: whitesmoke; 	/* Added by Medhavi */
 	margin-bottom:0px;
 }
 .jumbotron.content, .jumbotron.title{
@@ -66,7 +67,7 @@ a {text-decoration: none;}
 	margin-bottom:5px;
 }
 
-// Added by Medhavi
+/* Added by Medhavi*/
 
 div#moduleBtnAlign {
 	display: inline-flex;
@@ -85,4 +86,12 @@ div#moduleBtnAlign {
 	padding: 5px 5px;
     cursor: pointer;
     float: left;
+}
+
+span.h3 {
+	font-weight: normal;
+}
+
+button.disabled {
+    pointer-events:none;    
 }

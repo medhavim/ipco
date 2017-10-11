@@ -136,7 +136,7 @@
 											<c:if test="${quizOption.activity.activityTemplate.activityTemplateId eq 2}">
 											<div class="jumbotron activity_holder">
 												<div class="container-fluid">
-												<div class="tile gray alert alert-info diag-qstn" role="alert">
+												<div class="tile black alert alert-info diag-qstn" role="alert">
 													<div class="row">
 														<div class="col-sm-8">${quizOption.activity.activityText}</div>
 														<c:forEach items="${quizOption.correctAnswers}" var="option">
@@ -152,7 +152,7 @@
 											<c:if test="${quizOption.activity.activityTemplate.activityTemplateId eq 1}">
 											<div class="jumbotron activity_holder">
 												<div class="container-fluid">
-												<div class="tile gray alert alert-info diag-qstn" role="alert">
+												<div class="tile black alert alert-info diag-qstn" role="alert">
 													<div class="row">
 														<div class="col-sm-8">${quizOption.activity.activityText}</div>
 														<c:forEach items="${quizOption.correctAnswers}" var="option">

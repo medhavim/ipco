@@ -37,10 +37,15 @@ $(document).ready(function() {
 	});
 
 	$(".instanceModule").on("click", function(e){
-		id = $(this)[0].id.split("_")[1];
-		$('#customForm').attr('action', "manageInstanceModule.action");
-		$("#customForm input[id=id]").val(id);
-		$('#customForm').submit();
+		if($(this)[0].disabled == true){
+		    e.preventDefault();
+		    alert("You do not have access to modules you have not started. \nYou can only access this module once you have finished all the modules beofre this.");
+		}else{
+			id = $(this)[0].id.split("_")[1];
+			$('#customForm').attr('action', "manageInstanceModule.action");
+			$("#customForm input[id=id]").val(id);
+			$('#customForm').submit();
+		}
 	});
 	
 	$(".instanceQuiz").on("click", function(e){

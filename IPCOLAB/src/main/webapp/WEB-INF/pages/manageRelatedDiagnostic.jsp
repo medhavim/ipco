@@ -62,7 +62,7 @@
 						<div class="panel-collapse collapse in" id="relatedDiagnostics_for-${relatedDiagnostic.relatedDiagnosticId}">
 						<div class="container-fluid">
 						<c:forEach items="${relatedDiagnostic.diagnostics}" var="diagnostic">
-						<div class="tile gray">
+						<div class="tile black">
 							<input type="button" class="form-control btn btn-info  title" data-toggle="collapse" data-target="#selectedDiagnostic_info_for-${relatedDiagnostic.relatedDiagnosticId}_${diagnostic.diagnosticId}" value="${diagnostic.activity.activityTitle}"/ >
 							<div class="panel-collapse collapse in" id="selectedDiagnostic_info_for-${relatedDiagnostic.relatedDiagnosticId}_${diagnostic.diagnosticId}">
 								<div class="alert alert-info diag-qstn_${diagnostic.diagnosticId}" role="alert">
@@ -83,7 +83,7 @@
 							<c:if test="${fn:length(relatedDiagnostic.topics)>0}">
 							<c:forEach items="${relatedDiagnostic.topics}" var="topic" varStatus="topicNo">
 							<div class="col-sm-4">
-				      			<div class="tile gray">
+				      			<div class="tile black">
 				        			<h3 class="title">${topic.topicName}</h3>
 				       		 		<p>${topic.topicDesc}</p>
 				      			</div>

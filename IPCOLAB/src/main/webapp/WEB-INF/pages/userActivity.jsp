@@ -29,14 +29,16 @@
 	  	<li class="breadcrumb-item active"><span class="h3">${instanceModule.module.moduleName}</span></li>
 	</ol>
 </div>
-<div class="jumbotron content">
+<!--   <div class="jumbotron content">  -->
+<div class="container-fluid content">
 	<jsp:include page="helperPages/userActivityModuleNavLinks.jsp"></jsp:include>
 	
 	<div class="clear"></div>
-	<div class="jumbotron">
+	<!-- <div class="jumbotron"> -->
+	<div class="container-fluid"> 
 		<jsp:include page="helperPages/userActivityNavLinks.jsp"></jsp:include>
 		
-		<div class="jumbotron tile gray title">
+		<div class="container-fluid tile black title">
 			<div class="container-fluid text-left activity-content">
 			<h2 class="title">${instanceModule.currActivity.activityOption.activity.activityText}</h2>
 			</div>
