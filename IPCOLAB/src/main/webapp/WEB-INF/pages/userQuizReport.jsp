@@ -30,7 +30,7 @@
 	</ol>
 </div>
 <div class="content">
-	<div class="clear"></div>
+	<!-- <div class="clear"></div> -->
 	<div class="jumbotron">
 	
 		<div class="row">

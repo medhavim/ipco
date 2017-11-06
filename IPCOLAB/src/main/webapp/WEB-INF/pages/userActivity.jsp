@@ -29,13 +29,13 @@
 	  	<li class="breadcrumb-item active"><span class="h3">${instanceModule.module.moduleName}</span></li>
 	</ol>
 </div>
-<!--   <div class="jumbotron content">  -->
-<div class="container-fluid content">
+<div class="jumbotron content">
+<!-- <div class="container-fluid content"> -->
 	<jsp:include page="helperPages/userActivityModuleNavLinks.jsp"></jsp:include>
 	
-	<div class="clear"></div>
-	<!-- <div class="jumbotron"> -->
-	<div class="container-fluid"> 
+	<!-- <div class="clear"></div> -->
+	<div class="jumbotron">
+	<!-- <div class="container-fluid"> --> 
 		<jsp:include page="helperPages/userActivityNavLinks.jsp"></jsp:include>
 		
 		<div class="container-fluid tile black title">
@@ -55,6 +55,8 @@
 			
 <!-- 			TODO: be sure to test the navigation from quiz as well because you are changing the userActivity.js which is shared among userActivity.js and userQuiz.js -->
 <!-- 		<div class="jumbotron"> -->
+			
+			<br/>
 			<div class="container-fluid text-center">
 				<div class="row">
 					<div class="col-sm-4 pull-left text-left">

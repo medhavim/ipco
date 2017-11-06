@@ -30,7 +30,7 @@
 	</ol>
 </div>
 <div class="jumbotron content">
-	<div class="clear"></div>
+	<!-- <div class="clear"></div> -->
 	<div class="jumbotron">
 		<div class="nav-bar">
 			<div class="btn-group btn-group-justified" role="group" >

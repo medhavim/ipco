@@ -23,7 +23,7 @@
 </head>
 <body>
 <jsp:include page="header.jsp"></jsp:include>
-<div class="jumbotron title">
+<!-- <div class="jumbotron title">
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item"><a href="userProfile.action">Profile</a></li>
 		<li class="breadcrumb-item"><a href="startTutorial.action">Choose Tutorial</a></li>
@@ -33,9 +33,18 @@
 		<h1>Customize Tutorial</h1>
 		<p>Customize your tutorial by answering these simple questions.</p>
 	</div>
-</div>
+</div> -->
 <form action="customizeTutorial.action" method="post">
 <div class="jumbotron">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="userProfile.action">Profile</a></li>
+		<li class="breadcrumb-item"><a href="startTutorial.action">Choose Tutorial</a></li>
+	  	<li class="breadcrumb-item active"><span class="h3">Customize Tutorial</span></li>
+	</ol>
+	<div class="container-fluid text-center">
+		<span class="h2"><strong>Customize Tutorial</strong></span>
+		<p>Customize your tutorial by answering these simple questions.</p>
+	</div>
 	<div class="container-fluid text-left">
 		<span class="h2">Step 1:</span>
 		<span class="h2">Give a name to this instance</span>
@@ -44,7 +53,7 @@
 		<input type="text" name="instanceName" class="form-control" placeholder="Enter instance name here." required/>
 	</div>	
 </div>
-<div class="jumbotron">
+<div class="jumbotron bg-danger">
 	<div class="container-fluid text-left">
 		<span class="h2">Step 2:</span>
 		<span class="h2">Choose Category and answer simple questions</span>

@@ -1,9 +1,14 @@
-.navbar-default {
+/* .navbar-default {
+   Commented by Medhavi
     background-color: #2e8bcc;
     border-color: #2e8bcc;
-}
+   
+    Added by Medhavi
+    background-color: black;
+    border-color: orangered;
+} */
 
-.navbar-default .navbar-brand {
+/* .navbar-default .navbar-brand {
     color: #FFF;
 }
 
@@ -19,17 +24,19 @@
 .nav .open>a, .nav .open>a:hover, .nav .open>a:focus {
     background-color: #eee;
     border-color: #428bca;
-}
+} */
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-    font-family: "Segoe UI Light","Helvetica Neue","Segoe UI","Segoe WP",sans-serif;
-    font-weight: 100;
+    /* font-family: "Segoe UI Light","Helvetica Neue","Segoe UI","Segoe WP",sans-serif; */
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 200;
     line-height: 1.1;
     color: inherit;
 }
 
 body {
-    font-family: "Segoe UI Light","Segoe UI","Segoe WP","Helvetica Neue",sans-serif;
+    /* font-family: "Segoe UI Light","Segoe UI","Segoe WP","Helvetica Neue",sans-serif; */
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 14px;
     line-height: 1.428571429;
     color: #333;
@@ -38,22 +45,34 @@ body {
 
 a {text-decoration: none;}
 
-.jumbotron{
-	/*background-color: #ccc;*/
-	background-color: whitesmoke; 	/* Added by Medhavi */
+/* .jumbotron{
+	background-color: #ccc;
+	background-color: white; 	Added by Medhavi
 	margin-bottom:0px;
-}
+	padding-bottom: 0px;		Added by Medhavi
+} */
+
+/* Commented by Medhavi 
 .jumbotron.content, .jumbotron.title{
 	margin-top: 50px;
-}
+} 
+*/
+/* 
+.jumbotron.title{
+	margin-top: 50px;
+	margin-top: 30px;		Added by Medhavi
+} 
+
 .jumbotron.content{
+	margin-top: 0px;		Added by Medhavi
 	height: 100vh;
-}
+} */
 
 .topic-row {
 	margin-top: 20px;
 	border-radius: 10px;
-	padding-bottom: 20px;
+	padding: 20px;			/* Added by Medhavi */
+	/* padding-bottom: 20px; */
 /* 	box-shadow: 0 0 13px rgb(115, 118, 119); */
 /*     padding: 3px 0px 3px 3px; */
 /*     margin: 5px 1px 3px 0px; */
@@ -99,4 +118,18 @@ a {text-decoration: none;}
 /* Added by Medhavi */
 span.h3 {
 	font-weight: normal;
+}
+
+span.h4 {
+	font-weight: normal;
+}
+
+.btn-info {
+	background-color: #233237;
+	border-color: #EAC67A;
+}
+
+.btn-primary {
+	background-color: #EAC67A;
+	border-color: #233237;
 }

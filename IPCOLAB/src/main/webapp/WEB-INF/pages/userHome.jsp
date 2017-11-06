@@ -21,7 +21,7 @@
 </head>
 <body>
 	<jsp:include page="header.jsp"></jsp:include>
-	<div class="jumbotron title">
+	<!-- <div class="jumbotron title">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="userProfile.action">Profile</a></li>
 		  	<li class="breadcrumb-item active"><span class="h3">Choose Tutorial</span></li>
@@ -30,21 +30,29 @@
 			<h1>Choose Tutorial</h1>
 			<p>Take one of the Overview tutorial or Customize your tutorial.</p>
 		</div>
-	</div>
+	</div> -->
 	<div class="jumbotron content">
+	<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="userProfile.action">Profile</a></li>
+		  	<li class="breadcrumb-item active"><span class="h3">Choose Tutorial</span></li>
+	</ol>
+	<div class="container-fluid text-center">
+		<span class="h2">Choose Tutorial</span>
+		<p>Take one of the Overview tutorial or Customize your tutorial.</p>
+	</div>
 	<div class="container-fluid option-content">
 		<div class="row">
 			<div class="col-sm-3">
 				<div class="thumbnail tile tile-large tile-turquoise option-desc" id="option-1-desc">
 					<a href="#">
-					<h4 class="tile-text text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h4>
+					<h4 class="tile-text text-center"><strong>Overview of IP : </strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h4>
 					</a>
 				</div>
 			</div>
 			<div class="col-sm-3">
 				<div class="thumbnail tile tile-large tile-green-sea option" id="option-1">
 				<a href="#" id="gotoBasicProfile.action">
-				<h1 class="tile-text text-center">Overview of IP</h1>
+				<h1 class="tile-text text-center">Overview  <br/>of IP</h1>
 				</a>
 				</div>
 			</div>
@@ -58,7 +66,7 @@
 			<div class="col-sm-3">
 				<div class="thumbnail tile tile-large tile-belize-hole option-desc" id="option-2-desc">
 					<a href="#">
-					<h4 class="tile-text text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h4>
+					<h4 class="tile-text text-center"><strong>Customize Tutorial : </strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h4>
 					</a>
 				</div>
 			</div>

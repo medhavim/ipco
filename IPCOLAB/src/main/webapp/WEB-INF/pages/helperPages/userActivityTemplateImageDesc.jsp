@@ -18,7 +18,7 @@
 				</div>
 				<a class="btn btn-info pull-right" data-toggle="collapse"
 					data-target="#idealAnswer">Check</a>
-				<div class="clear"></div>
+				<!-- <div class="clear"></div> -->
 				<div id="idealAnswer" class="collapse pull-left">
 					<c:forEach items="${instanceModule.currActivity.activityOption.options}" var="option">
 					<c:if test="${option.orderNo eq 2}">

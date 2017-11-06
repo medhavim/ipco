@@ -23,15 +23,16 @@
 </head>
 <body>
 <jsp:include page="header.jsp"></jsp:include>
-<div class="jumbotron title">
+<!-- <div class="jumbotron title">
 	<div class="container text-center">
 		<h1>Profile</h1>
 		<p>Revisit your instances or start an new one.</p>
 	</div>
-</div>
+</div> -->
 <div class="jumbotron content">
-	<div class="container-fluid text-left">
-	<span class="h2">Welcome <strong><i>${user.firstName},</i></strong></span>
+	<div class="container-fluid text-center">
+		<span class="h2">Hi <strong>${user.firstName} ${user.lastName}!</strong></span>
+		<p>Revisit your instances or start an new one.</p>
 	</div>
 	<div class="jumbotron">
 	<div class="container-fluid text-left">
@@ -40,7 +41,7 @@
 		<br>
 		<div class="row bg-danger topic-row">
 			<div class="col-sm-12">
-			<h3>Explore this instance by starting a new tutorial.<br /> Click on "Start Tutorial" button below for the <strong>Overview of IP</strong>.</h3>
+			<h4>Explore this instance by starting a new tutorial.<br /> Click on "Start Tutorial" button below for the <strong>Overview of IP</strong>.</h4>
 			</div>
 		</div>
 		</c:if>
@@ -48,7 +49,7 @@
 			<button class="btn btn-info btn-block instance topic-row" id="instance_${basicInstance.instance.instanceId}">
 			<div class="row">
 				<div class="col-sm-8  text-left">
-					<span class="h3">${basicInstance.instance.instanceName}</span>
+					<span class="h4">${basicInstance.instance.instanceName}</span>
 				</div>
 <!-- 				<div class="col-sm-4 text-right"> -->
 <%-- 					<span class="deleteInstance h2" id="deleteInstceId_${basicInstance.instance.instanceId}"><i class="glyphicon glyphicon-remove-sign"></i></span> --%>
@@ -56,7 +57,7 @@
 			</div>
 			<div class="row">
 				<div class="col-sm-4 pull-left text-left">
-					<span class="h3"><i><fmt:formatDate value="${basicInstance.instance.createdTs}" pattern="MMM dd, yyyy hh:mm a"/></i></span>
+					<span class="h4"><i><fmt:formatDate value="${basicInstance.instance.createdTs}" pattern="MMM dd, yyyy hh:mm a"/></i></span>
 				</div>
 			</div>
 			</button>
@@ -69,7 +70,7 @@
 		<br>
 		<div class="row bg-danger topic-row">
 			<div class="col-sm-12">
-			<h3>Customize instances by starting a new tutorial.<br /> Click on "Start Tutorial" button below to <strong>Customize Tutorial</strong>.</h3>
+			<h4>Customize instances by starting a new tutorial.<br /> Click on "Start Tutorial" button below to <strong>Customize Tutorial</strong>.</h4>
 			</div>
 		</div>
 		</c:if>
@@ -78,15 +79,15 @@
 			<div class="btn btn-info btn-block instance topic-row" id="instance_${instance.instanceId}">
 			<div class="row">
 				<div class="col-sm-8 text-left">
-					<span class="h3">${instance.instanceName}</span>
+					<span class="h4">${instance.instanceName}</span>
 				</div>
 				<div class="col-sm-4 text-right">
-					<span class="deleteInstance h2" id="deleteInstceId_${instance.instanceId}"><i class="glyphicon glyphicon-remove-sign"></i></span>
+					<span class="deleteInstance h4" id="deleteInstceId_${instance.instanceId}"><i class="glyphicon glyphicon-remove-sign"></i></span>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-sm-4 pull-left text-left">
-					<span class="h3"><i><fmt:formatDate value="${instance.createdTs}" pattern="MMM dd, yyyy hh:mm a"/></i></span>
+					<span class="h4"><i><fmt:formatDate value="${instance.createdTs}" pattern="MMM dd, yyyy hh:mm a"/></i></span>
 				</div>
 			</div>
 			</div>

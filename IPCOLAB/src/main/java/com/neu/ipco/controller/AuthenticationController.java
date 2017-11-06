@@ -47,7 +47,6 @@ public class AuthenticationController {
 	public String loadAuthPage(Model model, HttpSession session){
 		
 		LOGGER.debug("AuthenticationController: loadAuthPage: Start");
-		
 		if(!model.containsAttribute("userLogin") || !model.containsAttribute("userRegister")){
 			User userRegister = new User();
 			
@@ -100,6 +99,7 @@ public class AuthenticationController {
 		LOGGER.debug("AuthenticationController: loadAdminAuthPage: End");
 		return AppConstants.ADMIN_AUTH_PAGE;
 	}
+	
 	
 	@RequestMapping(value="/login.action", method=RequestMethod.POST)
 	public String loginAction(@ModelAttribute("userLogin") Credential credential, Model model, HttpSession session){

@@ -1,17 +1,20 @@
 
-.jumbotron{
-	/*background-color: #ccc;*/
-	background-color: whitesmoke; 	/* Added by Medhavi */
+/* .jumbotron{
+	background-color: #ccc;
+	background-color: white; 	Added by Medhavi
 	margin-bottom:0px;
+	padding-bottom: 0px;		Added by Medhavi
 }
 
-.jumbotron.content, .jumbotron.title{
-	margin-top: 5px;
-	padding-bottom: 0px;		/* Added by Medhavi */
+.jumbotron.title{
+	margin-top: 50px;
+	 margin-top: 30px; 		Added by Medhavi
+	
 }
 .jumbotron.content{
+	margin-top: 0px;		Added by Medhavi
 	height: 100vh;
-}
+} */
 
 .btn-group .current-ongoing-module{
 	box-shadow: 0 0 13px rgba(81, 203, 238, 1);
@@ -53,6 +56,7 @@
   padding: 20px;
   margin-bottom: 30px;
   border-radius: 25px !important;
+  opacity: 1;
 }
 .tile .title {
   margin-top: 0px;
@@ -61,11 +65,12 @@
   color: #fff;
 }
 .tile.gray {
-  background: #57646d;
+  /* background: #57646d; */
+  background: black;
 }
 
 .activity-content{
-	min-height: 100px;
+	/* min-height: 100px; */
 }
 
 .mcqOption.correctOption {
@@ -140,4 +145,9 @@ label#labelText {
 
 button.disabled {
     pointer-events:none;    
+}
+
+/* Added by Medhavi */
+span.h3 {
+	font-weight: normal;
 }

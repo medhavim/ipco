@@ -23,7 +23,7 @@
 </head>
 <body>
 <jsp:include page="../header.jsp"></jsp:include>
-<div class="jumbotron title admin">
+<%-- <div class="jumbotron title admin">
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item"><a href="manageUserProfile.action">Back to <strong><i>${reviewUser.firstName}'s</i></strong> Profile</a></li>
 	  	<li class="breadcrumb-item active"><span class="h3">${instance.instanceName}</span></li>
@@ -32,8 +32,16 @@
 		<h1>Reviewing Tutorials for: <strong><i>${reviewUser.firstName}</i></strong></h1>
 		<p>You can see all the available topics under this tutorial. Review them all by clicking on one of the updated module.</p>
 	</div>
-</div>
+</div> --%>
 <div class="jumbotron content">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="manageUserProfile.action">Back to <strong><i>${reviewUser.firstName}'s</i></strong> Profile</a></li>
+	  	<li class="breadcrumb-item active"><span class="h3">${instance.instanceName}</span></li>
+	</ol>
+	<div class="container-fluid text-center">
+		<span class="h2">Reviewing Tutorials for: <strong><i>${reviewUser.firstName} ${reviewUser.lastName}</i></strong></span>
+		<p>You can see all the available topics under this tutorial. Review them all by clicking on one of the updated module.</p>
+	</div>
 	<div class="container-fluid">
 		<c:forEach items="${instance.instanceTopicList}" var="instanceTopic">
 		<div class="row topic-row <c:choose><c:when test="${instanceTopic.status.statusId eq 1}">bg-info</c:when><c:when test="${instanceTopic.status.statusId eq 2}">bg-danger</c:when><c:otherwise>bg-success</c:otherwise></c:choose>"

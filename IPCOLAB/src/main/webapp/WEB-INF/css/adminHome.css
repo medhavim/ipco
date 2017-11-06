@@ -8,13 +8,19 @@
 
 a {text-decoration: none;}
 
-.jumbotron{
+/* .jumbotron{
 	margin-top: 50px;
 	margin-bottom:0px;
-	/*background-color: #ccc;*/
-	background-color: whitesmoke; 	/* Added by Medhavi */
+	background-color: #ccc;
+	background-color: white; 	Added by Medhavi
+	padding-bottom: 0px;		Added by Medhavi
 	height: 100vh;
+} */
+/* Added by Medhavi */
+.tile {
+	opacity: 1;
 }
+/** End **/
 
 .option{
 	padding-top: 10px;
@@ -27,7 +33,8 @@ a {text-decoration: none;}
 }
 
 .btn {
-  font-family: "Roboto", 'Helvetica Neue, Helvetica, Arial', sans-serif; 
+  /* font-family: "Roboto", 'Helvetica Neue, Helvetica, Arial', sans-serif;  */
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   font-weight: 400;
   line-height: 1.1;

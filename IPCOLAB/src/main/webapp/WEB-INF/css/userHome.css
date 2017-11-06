@@ -8,18 +8,41 @@
 
 a {text-decoration: none;}
 
-.jumbotron{
-	/*background-color: #ccc;*/
-	background-color: whitesmoke; 	/* Added by Medhavi */
+/* .jumbotron{
+	background-color: #ccc;
+	background-color: white; 	Added by Medhavi
 	margin-bottom:0px;
+	padding-bottom: 0px;		Added by Medhavi
 }
-.jumbotron.content, .jumbotron.title{
+.jumbotron.title{
 	margin-top: 50px;
+	margin-top: 30px;		Added by Medhavi
 }
 .jumbotron.content{
+	margin-top: 0px;		Added by Medhavi
 	height: 100vh;
+} */
+
+/* Added by Medhavi */
+.tile {
+	opacity: 1;
+}
+.tile:hover {
+	opacity: 0.5;
 }
 
+.tile-green-sea {
+	opacity: 0.75;
+}
+
+.tile-peter-river{
+	opacity: 0.75;
+}
+
+.tile-text{
+	font-family: "Segoe UI Light","Helvetica Neue","Segoe UI","Segoe WP",sans-serif;
+}
+/*****/
 
 .option{
 	border-radius: 50%;
@@ -32,4 +55,9 @@ a {text-decoration: none;}
 
 .option-content{
 	margin-top: 5%;
+}
+
+/* Added by Medhavi */
+span.h3 {
+	font-weight: normal;
 }

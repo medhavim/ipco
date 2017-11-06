@@ -1,9 +1,9 @@
-.navbar-default {
-    background-color: #2e8bcc;
-    border-color: #2e8bcc;
-}
+/* .navbar-default {
+    background-color: black;
+    border-color: orangered;
+} */
 
-.navbar-default .navbar-brand {
+/* .navbar-default .navbar-brand {
     color: #FFF;
 }
 
@@ -14,41 +14,48 @@
 .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:hover, .navbar-default .navbar-nav>.open>a:focus {
     background-color: #2879b1;
     color: #fff;
-}
+} 
 
 .nav .open>a, .nav .open>a:hover, .nav .open>a:focus {
     background-color: #eee;
     border-color: #428bca;
-}
+} */
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-    font-family: "Segoe UI Light","Helvetica Neue","Segoe UI","Segoe WP",sans-serif;
-    font-weight: 100;
+    /* font-family: "Segoe UI Light","Helvetica Neue","Segoe UI","Segoe WP",sans-serif; */
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 200;
     line-height: 1.1;
     color: inherit;
 }
 
 body {
-    font-family: "Segoe UI Light","Segoe UI","Segoe WP","Helvetica Neue",sans-serif;
+    /* font-family: "Segoe UI Light","Segoe UI","Segoe WP","Helvetica Neue",sans-serif; */
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 14px;
     line-height: 1.428571429;
     color: #333;
     background-color: #fff;
 }
 
-a {text-decoration: none;}
-
-.jumbotron{
-	/*background-color: #ccc;*/
-	background-color: whitesmoke; 	/* Added by Medhavi */
-	margin-bottom:0px;
+a {
+	text-decoration: none;
 }
-.jumbotron.content, .jumbotron.title{
+
+/* .jumbotron{
+	background-color: #ccc;
+	background-color: white; 	Added by Medhavi
+	margin-bottom:0px;
+	padding-bottom: 0px;		Added by Medhavi
+}
+.jumbotron.title{
 	margin-top: 50px;
+	margin-top: 30px;		Added by Medhavi
 }
 .jumbotron.content{
+	margin-top: 0px;		Added by Medhavi
 	height: 100vh;
-}
+} */
 
 
 /* .jumbotron{ */
@@ -60,7 +67,8 @@ a {text-decoration: none;}
 
 .topic-row {
 	border-radius: 10px;
-	padding-bottom: 20px;
+	/* padding-bottom: 20px; */
+	padding: 20px;			/* Added by Medhavi */
 }
 
 .button-wrapper {

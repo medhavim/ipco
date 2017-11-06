@@ -1,15 +1,16 @@
-.jumbotron{
-	/*background-color: #ccc;*/
-	background-color: whitesmoke; 	/* Added by Medhavi */
-}
+/* .jumbotron{
+	background-color: #ccc;
+	background-color: white; 	Added by Medhavi
+	padding-bottom: 0px;		Added by Medhavi
+} */
 
 .unselected-tmplteOptn{
 	display: none;
 }
 
-.jumbotron.title{
+/* .jumbotron.title{
 	margin-top: 50px;
-}
+} */
 
 .desc-body{ 
 	padding-top:10px; 
@@ -54,4 +55,9 @@
     /* padding: 3px 0px 3px 3px; */
     /* margin: 5px 1px 3px 0px; */
     border: 3px solid rgb(178, 182, 183);
+}
+
+/* Added by Medhavi */
+span.h3 {
+	font-weight: normal;
 }

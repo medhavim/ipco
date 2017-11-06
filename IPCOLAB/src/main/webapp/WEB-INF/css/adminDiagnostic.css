@@ -1,15 +1,16 @@
-.jumbotron{
-	/*background-color: #ccc;*/
-	background-color: whitesmoke; 	/* Added by Medhavi */
-}
+/* .jumbotron{
+	background-color: #ccc;
+	background-color: white; 	Added by Medhavi
+	padding-bottom: 0px;		Added by Medhavi
+} */
 
 .unselected-tmplteOptn{
 	display: none;
 }
 
-.jumbotron.title{
+/* .jumbotron.title{
 	margin-top: 50px;
-}
+} */
 
 .diagnostic_holder{
 	margin-top: 10px;
@@ -64,6 +65,7 @@
   padding: 20px;
   margin-bottom: 30px;
   border-radius: 25px;
+  opacity: 1;
 }
 .tile .title {
   margin-top: 0px;
@@ -72,10 +74,15 @@
   color: #fff;
 }
 .tile.gray {
-  background: #57646d;
+  /* background: #57646d; */
+  background: black;
 }
 
 /* Added by Medhavi */
 .tile.black {
   background: black;
+}
+
+span.h3 {
+	font-weight: normal;
 }

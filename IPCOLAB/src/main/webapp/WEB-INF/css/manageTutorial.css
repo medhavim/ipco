@@ -19,14 +19,15 @@
 	z-index: 50;
 }
 
-.jumbotron{
-	/*background-color: #ccc;*/
-	background-color: whitesmoke; 	/* Added by Medhavi */
+/* .jumbotron{
+	background-color: #ccc;
+	background-color: white; 	Added by Medhavi
+	padding-bottom: 0px;		Added by Medhavi
 }
 
 .jumbotron.title{
 	margin-top: 50px;
-}
+} */
 
 .topic_holder{
 /*     background-color: rgba(201, 219, 52, 0.4); */
@@ -74,6 +75,7 @@
   padding: 20px;
   margin-bottom: 30px;
   border-radius: 25px;
+  opacity: 1;
 }
 .tile .title {
   margin-top: 0px;
@@ -82,10 +84,15 @@
   color: #fff;
 }
 .tile.gray {
-  background: #57646d;
+  /* background: #57646d; */
+  background: black;
 }	
 
 /* Added by Medhavi */
 .tile.black {
   background: black;
+}
+
+span.h3 {
+	font-weight: normal;
 }
