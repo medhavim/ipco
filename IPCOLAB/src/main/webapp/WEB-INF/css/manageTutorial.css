@@ -18,6 +18,9 @@
 	height: 200px;
 	z-index: 50;
 }
+.modal_btn {
+	display: block !important;
+}
 
 /* .jumbotron{
 	background-color: #ccc;
@@ -95,4 +98,58 @@
 
 span.h3 {
 	font-weight: normal;
+}
+
+#errorPage {
+	/* text-align: center; */
+	background: black;
+	color: white;
+	position: center;
+}
+
+#errorPageText {
+	text-align: center;
+	background: black;
+	color: white;
+}
+.btn {
+    width: auto;
+    padding: 5px;
+    display: inline-block; 
+}
+
+/*div.topic_holder {
+	padding-right: 0px;
+	padding-left: 0px;
+	padding-bottom: 0px;
+}
+
+div.module_holder {
+	padding-right: 10px;
+	padding-left: 10px;
+	padding-bottom: 0px;
+}
+
+div.activity_holder {
+	padding-right: 20px;
+	padding-left: 20px;
+	padding-bottom: 0px;
+} */
+
+.container-fluid .jumbotron.topic_holder {
+    padding-right: 0px;
+    padding-left: 0px;
+    padding-bottom: 0px;
+}
+
+.container-fluid .jumbotron.module_holder {
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-bottom: 0px;
+}
+
+.container-fluid .jumbotron.activity_holder {
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-bottom: 0px;
 }

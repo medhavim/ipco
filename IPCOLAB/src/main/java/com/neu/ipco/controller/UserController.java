@@ -212,7 +212,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/saveActivity.action", method=RequestMethod.POST)
-	public String saveActivityAction(@RequestParam("navType") String navType, 
+	public String saveActivityAction(@RequestParam(value="navType", required=false) String navType, 
 			HttpServletRequest request, Model model, HttpSession session){
 		
 		LOGGER.debug("UserController: saveActivityAction: Start");

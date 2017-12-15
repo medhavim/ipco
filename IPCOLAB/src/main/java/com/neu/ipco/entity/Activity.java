@@ -23,6 +23,8 @@ public class Activity implements Serializable {
 	
 	private String activityText;
 	
+	private String activityExplanation;
+	
 	private ActivityTemplate activityTemplate = new ActivityTemplate();
 	
 	private Date createdTs;
@@ -72,6 +74,20 @@ public class Activity implements Serializable {
 	 */
 	public void setActivityText(String activityText) {
 		this.activityText = activityText;
+	}
+	
+	/**
+	 * @return the activityExplanation
+	 */
+	public String getActivityExplanation() {
+		return activityExplanation;
+	}
+
+	/**
+	 * @param activityExplanation the activityExplanation to set
+	 */
+	public void setActivityExplanation(String activityExplanation) {
+		this.activityExplanation = activityExplanation;
 	}
 
 	/**
@@ -126,6 +142,7 @@ public class Activity implements Serializable {
 		result = prime * result + ((activityId == null) ? 0 : activityId.hashCode());
 		result = prime * result + ((activityTemplate == null) ? 0 : activityTemplate.hashCode());
 		result = prime * result + ((activityText == null) ? 0 : activityText.hashCode());
+		result = prime * result + ((activityExplanation == null) ? 0 : activityExplanation.hashCode());
 		result = prime * result + ((activityTitle == null) ? 0 : activityTitle.hashCode());
 		result = prime * result + ((createdTs == null) ? 0 : createdTs.hashCode());
 		result = prime * result + ((updatedTs == null) ? 0 : updatedTs.hashCode());
@@ -159,6 +176,11 @@ public class Activity implements Serializable {
 				return false;
 		} else if (!activityText.equals(other.activityText))
 			return false;
+		if (activityExplanation == null) {
+			if (other.activityExplanation != null)
+				return false;
+		} else if (!activityExplanation.equals(other.activityExplanation))
+			return false;
 		if (activityTitle == null) {
 			if (other.activityTitle != null)
 				return false;
@@ -183,7 +205,7 @@ public class Activity implements Serializable {
 	@Override
 	public String toString() {
 		return "Activity [activityId=" + activityId + ", activityTitle=" + activityTitle + ", activityText="
-				+ activityText + ", activityTemplate=" + activityTemplate + ", createdTs=" + createdTs + ", updatedTs="
+				+ activityText + ", activityExplanation=" + activityExplanation + ", activityTemplate=" + activityTemplate + ", createdTs=" + createdTs + ", updatedTs="
 				+ updatedTs + "]";
 	}
 

@@ -1,7 +1,7 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%-- <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page isELIgnored="false"%>
 <div class="nav-bar">
-	<div class="btn-group btn-group-justified" role="group" >
+	<div class="btn-group btn-group-justified" role="group" > --%>
 <%-- 				<c:forEach items="${instanceModule.activityAnswerList}" var="activityAnswer"> --%>
 <!-- 				<div class="btn-group" role="group"> -->
 <!-- 			    	<button type="button"  -->
@@ -10,7 +10,7 @@
 <%-- 			    	<c:if test="${activityAnswer.status.statusId eq 1}">disabled</c:if>>${activityAnswer.activityOption.activity.activityTitle}</button> --%>
 <!-- 			  	</div> -->
 <%-- 				</c:forEach> --%>
-		<c:forEach items="${instanceModule.prevActivity}" var="activityAnswer">
+<%-- 		<c:forEach items="${instanceModule.prevActivity}" var="activityAnswer">
 		<div class="btn-group" role="group">
 	    	<button type="button" 
    			class="activityAnswer btn <c:if test="${activityAnswer.status.statusId eq 2}">btn-info</c:if>
@@ -35,4 +35,4 @@
 	  	</div>
 		</c:forEach>
 	</div>
-</div>
+</div> --%>

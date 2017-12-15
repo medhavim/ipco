@@ -5,23 +5,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Topics</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/metro-bootstrap/3.1.1.2/css/metro-bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
-<style type="text/css">
-<%@include file="../css/header.css" %>
-<%@include file="../css/userProfile.css" %>
-</style>
-<script type="text/javascript">
-<%@include file="../js/userProfile.js" %>
-</script>
+	<!-- <meta charset="ISO-8859-1"> -->
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="IPCOLab">
+    <meta name="author" content="NEU CCIS Dept">
+    
+    <link rel="icon" type="image/png" href="https://png.icons8.com/law/ultraviolet/16/000000" />
+    
+	<title>Topics</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/metro-bootstrap/3.1.1.2/css/metro-bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	
+	<style type="text/css">
+		<%@include file="../css/header.css" %>
+		<%@include file="../css/userProfile.css" %>
+	</style>
+	<script type="text/javascript">
+		<%@include file="../js/userProfile.js" %>
+		<%@include file="../js/progress.js" %>
+	</script>
+	<script type="text/javascript">
+		setInterval("checkLoad()",1000);
+	</script>
 </head>
 <body>
+<div id="preLoaderDiv"></div>
 <jsp:include page="header.jsp"></jsp:include>
 <!-- <div class="jumbotron title">
 	<div class="container text-center">
@@ -29,12 +42,12 @@
 		<p>Revisit your instances or start an new one.</p>
 	</div>
 </div> -->
-<div class="jumbotron content">
+<div class="jumbotron content user">
 	<div class="container-fluid text-center">
 		<span class="h2">Hi <strong>${user.firstName} ${user.lastName}!</strong></span>
 		<p>Revisit your instances or start an new one.</p>
 	</div>
-	<div class="jumbotron">
+	<div class="jumbotron bg-danger">
 	<div class="container-fluid text-left">
 		<span class="h2">Overview of IP</span>
 		<c:if test="${null==basicInstance}">
@@ -109,5 +122,6 @@
 <form action="#" id="customForm" method="post">
 	<input type="hidden" name="id" id="id"/>
 </form>
+<div id="bottom"></div>
 </body>
 </html>

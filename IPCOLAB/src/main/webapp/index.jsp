@@ -6,7 +6,7 @@
     <meta name="description" content="IPCOLab">
     <meta name="author" content="NEU CCIS Dept">
     
-    <link rel="icon" href="resources/images/law.ico">
+    <link rel="icon" type="image/png" href="https://png.icons8.com/law/ultraviolet/16/000000" />
     
 	<title>Loading</title>
 	<!-- jQuery -->

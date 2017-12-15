@@ -24,7 +24,14 @@
 		</div>
 	</div>
 	<div class="container-fluid text-right">
-		<button class="btn btn-success checkAnswers">Check Answers</button>
+	<c:choose>
+		<c:when test="${not empty instanceModule.currActivity.activityOption.activity.activityExplanation}">
+			<button class="btn btn-success checkAnswers" data-toggle="popover" data-placement="left" title="Explanation" data-content="${instanceModule.currActivity.activityOption.activity.activityExplanation}">Check Answers</button>
+		</c:when>
+		<c:when test="${empty instanceModule.currActivity.activityOption.activity.activityExplanation}">
+			<button class="btn btn-success checkAnswers">Check Answers</button>
+		</c:when>	
+	</c:choose>
 	</div>
 </div>
 </c:if>

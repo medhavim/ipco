@@ -65,7 +65,7 @@ function removeAllActiveTemplate(){
 //mcq template, update checkbox value with the input of user
 $(document).on('change', '#mcqOptions .option', function() {
 	var num = this.id.split('_')[1];
-	$('#mcqOptions #checkBox_'+num).val(this.name);
+	$('#mcqOptions #radioBtn_'+num).val(this.name);
 });
 
 //adding more options inside the mcq template
@@ -75,7 +75,7 @@ $(document).on('click', '#mcqMoreOptions', function() {
 	$('.mcqOptions').append(
 		'<div class="col-sm-4 input-group  mcqOption form-group" id="mcqOption_'+nxtVal+'" > '
 			+ '<span class="input-group-addon"> '
-			+ '<input type="checkbox" name="correctAnswer" class="chkbx" id="checkBox_'+nxtVal+'" value="option_'+nxtVal+'"/> '
+			+ '<input type="radio" name="correctAnswer" class="radioBtn" id="radioBtn_'+nxtVal+'" value="option_'+nxtVal+'"/> '
 			+ '</span>'
 			+ '<input type="text" class="form-control option" name="option_'+nxtVal+'" id="option_'+nxtVal+'" placeholder="Content for this choice" required> '
 			+ '<span class="input-group-btn"> '
@@ -98,7 +98,7 @@ $(document).on('click', ".mcqOptions .removeOption", function() {
 	$(".mcqOptions .mcqOption").each(function() {
 		initVal = initVal +1;
 		this.id = "mcqOption_"+initVal;
-		$('#'+this.id+' .chkbx')[0].id = "checkBox_"+initVal;
+		$('#'+this.id+' .radioBtn')[0].id = "radioBtn_"+initVal;
 		$('#'+this.id+' .option')[0].id = "option_"+initVal;
 		$('#'+this.id+' .option')[0].name = "option_"+initVal;
 		$('#'+this.id+' .removeOption')[0].id = "removeOption_"+initVal;
@@ -107,6 +107,54 @@ $(document).on('click', ".mcqOptions .removeOption", function() {
 	$('#mcqMaxOptions').val(newVal);
 });
 // jQuery to handle mcq activity End
+
+//jQuery to handle mca activity
+//mca template, update checkbox value with the input of user
+$(document).on('change', '#mcaOptions .option', function() {
+	var num = this.id.split('_')[1];
+	$('#mcaOptions #checkBox_'+num).val(this.name);
+});
+
+//adding more options inside the mca template
+$(document).on('click', '#mcaMoreOptions', function() {
+	var maxVal = $('#mcaMaxOptions').val();
+	var nxtVal = parseInt(maxVal)+1;
+	$('.mcaOptions').append(
+		'<div class="col-sm-4 input-group  mcaOption form-group" id="mcaOption_'+nxtVal+'" > '
+			+ '<span class="input-group-addon"> '
+			+ '<input type="checkbox" name="correctAnswer" class="chkbx" id="checkBox_'+nxtVal+'" value="option_'+nxtVal+'"/> '
+			+ '</span>'
+			+ '<input type="text" class="form-control option" name="option_'+nxtVal+'" id="option_'+nxtVal+'" placeholder="Content for this choice" required> '
+			+ '<span class="input-group-btn"> '
+			+ '<button class="btn btn-default removeOption" id="removeOption_'+nxtVal+'" type="button"><i class="glyphicon glyphicon-trash"></i></button> '
+			+ '</span> '
+			+ '</div>');
+	$('#mcaMaxOptions').val(nxtVal);
+	if(nxtVal == 5){
+		$('.addOption').css("display", "none");
+	}
+});
+
+//		mca template, remove option
+$(document).on('click', ".mcaOptions .removeOption", function() {
+	var removeId = this.id.split("_")[1];
+	$('.mcaOptions #mcaOption_'+removeId).remove();
+	var maxVal = $('#mcaMaxOptions').val();
+	var newVal = parseInt(maxVal)-1;
+	var initVal = 0;
+	$(".mcaOptions .mcaOption").each(function() {
+		initVal = initVal +1;
+		this.id = "mcaOption_"+initVal;
+		$('#'+this.id+' .chkbx')[0].id = "checkBox_"+initVal;
+		$('#'+this.id+' .option')[0].id = "option_"+initVal;
+		$('#'+this.id+' .option')[0].name = "option_"+initVal;
+		$('#'+this.id+' .removeOption')[0].id = "removeOption_"+initVal;
+	});
+	$('.addOption').css("display", "block");
+	$('#mcaMaxOptions').val(newVal);
+});
+// jQuery to handle mca activity End
+
 
 // jQuery to handle video activity Start
 

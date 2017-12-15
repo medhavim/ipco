@@ -47,6 +47,7 @@ public class AuthenticationController {
 	public String loadAuthPage(Model model, HttpSession session){
 		
 		LOGGER.debug("AuthenticationController: loadAuthPage: Start");
+		
 		if(!model.containsAttribute("userLogin") || !model.containsAttribute("userRegister")){
 			User userRegister = new User();
 			
@@ -75,9 +76,7 @@ public class AuthenticationController {
 			model.addAttribute("newCredential", newCredential);
 			model.addAttribute("userRegister", userRegister);
 		}
-		
-		
-		LOGGER.debug("AuthenticationController: loadAuthPage: End");
+		LOGGER.debug("AuthenticationController: loadAuthPage: User Page: End");
 		return AppConstants.USER_AUTH_PAGE;
 	}
 

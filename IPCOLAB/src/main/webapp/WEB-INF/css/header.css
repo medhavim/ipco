@@ -1,13 +1,14 @@
 body {
 	font-family: Arial, Helvetica, sans-serif;
+	/* background: #BFD8D2;		Powder */
+	background: white;
 }
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 	font-family: Arial, Helvetica, sans-serif;
 }
 
-.navbar-login
-{
+.navbar-login {
     width: 305px;
     padding: 10px;
     padding-bottom: 0px;
@@ -20,17 +21,48 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     padding-top: 0px;
 }
 
-.icon-size
-{
+.icon-size {
     font-size: 87px;
 }
 
 .admin {
-	background-color: orange !important;
+	/* background-color: orange !important; */
+	background: #DF744A !important;	/*Warm*/
 }
 
  /* Added by Medhavi */
-.navbar-default {
+ 
+.user {
+	/* background: #BFD8D2; */
+	/* background: #fedcd2;		Peach */
+	background: white;
+}
+
+/* .jumbotron.content.jumbotron {
+	border-radius: 10px;
+	background-color: #f2dede;
+} */
+.navbar-inverse .navbar-nav>li>a {
+	border-radius: 10px;
+}
+
+.navbar-inverse {
+    /* background: #fedcd2;		Peach
+    background-color: #fedcd2;
+    border-color: #fedcd2; */
+    background: white;		/*Peach*/
+    background-color: white;
+    border-color: white;
+}
+
+.bg-danger{
+	border-radius: 10px;
+	/* background-color: #f2dede; 	/*light red*/ */
+	background: #BFD8D2;	/*Powder*/
+	background-color: #BFD8D2;	/*Powder*/
+}
+
+.navbar-default { /*Gun metal and black*/
 	background: black; /* For browsers that do not support gradients */
     background: -webkit-linear-gradient(#233237, black); /* For Safari 5.1 to 6.0 */
     background: -o-linear-gradient(#233237, black); /* For Opera 11.1 to 12.0 */
@@ -38,7 +70,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     background: linear-gradient(#233237, black); /* Standard syntax */
     
     /* background-color: black; */
-    border-color: #984B43;
+   /*  border-color: #984B43;	Rusty Red */
 }
 
 .navbar-default .navbar-brand {
@@ -56,12 +88,12 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 .nav .open>a, .nav .open>a:hover, .nav .open>a:focus {
     background-color: #fff;
-    border-color: #428bca;
+    /* border-color: #428bca; */
 }
 
 .jumbotron{
 	/*background-color: #ccc;*/
-	background-color: white; 	/* Added by Medhavi */
+	 background-color: white; 	/* Added by Medhavi */
 	margin-bottom:0px;
 }
 .jumbotron.title{
@@ -70,9 +102,119 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
 .jumbotron.content{
 	margin-top: 30px;		/* Added by Medhavi */
-	height: 100vh;
+	/* height: 100vh; */
+	height: -webkit-fill-available;
 }
 
 .jumbotron .h1, .jumbotron h1 {
 	font-size: 50px;
 }
+
+.btn-info {
+	background-color: #233237;	/*Gunmetal*/
+	/* border-color: #EAC67A;	Warm Yellow */
+	/* border-color: #DF744A;	Warm */
+	color: #fff;
+}
+
+.btn-info[disabled], .btn-info.disabled {
+	color: #fff;
+	background-color: dimgrey;
+    /* border-color: #DF744A;	Warm */
+}
+
+.btn-info:hover, .btn-info:active {
+	background-color: black;	
+	/* border-color: #EAC67A;	Warm Yellow */
+	/* border-color: #DF744A;	Warm */
+	color: #fff;
+}
+
+.btn-primary {
+	/* background-color: #EAC67A;
+	border-color: #233237; */
+	/* border-color: #DF744A; Warm */
+	background-color: #DCB239;	/*Lemon*/
+}
+
+.btn-primary[disabled], .btn-primary.disabled {
+	color: #fff;
+	background-color: dimgrey;
+    /* border-color: #DF744A;	Warm */
+}
+
+.btn-primary:hover, .btn-primary:active {
+	background-color: #DF744A; /*Warm*/
+	/* border-color: #DCB239;	Lemon */
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #57BC90; /*Marine*/
+    /* border-color: black; */
+}
+
+.btn-success[disabled], .btn-success.disabled{
+	color: #fff;
+	background-color: dimgrey;
+    /* border-color: #DF744A;	Warm */
+}
+
+.btn-default {
+	background-color: #233237;	/*Gunmetal*/
+	/* border-color: #EAC67A;	Warm Yellow */
+	/* border-color: #DF744A;	Warm */
+	color: #fff;
+}
+
+.btn-default[disabled], .btn-default.disabled {
+	color: #fff;
+	background-color: dimgrey;
+    /* border-color: #DF744A;	Warm */
+}
+
+.btn[disabled], .btn.disabled {
+	color: #fff;
+	background-color: dimgrey;
+    /* border-color: #DF744A;	Warm */
+}
+
+.progress-bar.active, .progress-bar {
+	animation: none;
+}
+
+.btn {
+	border-radius: 10px;
+	width: auto;
+    padding: 5px;
+    border: 0px;
+    display: inline-block;
+    padding-left: 10px;
+    padding-right: 10px;
+    
+}
+
+.header-btn {
+	display: block;
+}
+
+/* Progress bar css start */
+div#preLoaderDiv
+{
+	position: fixed;
+	_position: absolute;
+	_top:expression(eval(document.body.scrollTop));
+	width: 100%;
+	height: 100%;
+	top: 0px;
+	left: 0px;
+	z-index: 1000;
+}
+
+div#preLoaderDiv
+{
+	background-color: black;
+	opacity: 0.7;
+	filter: alpha(opacity=70);
+}
+/* Progress bar css end */

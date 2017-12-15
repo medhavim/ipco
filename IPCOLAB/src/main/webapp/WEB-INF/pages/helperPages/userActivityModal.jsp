@@ -6,13 +6,13 @@
 				<h2 class="modal-title">Congratulations!!!</h2>
 			</div>
 			<div class="modal-body form-group">
-				<h2>You are about to complete this module.</h2>
+				<h3>You are about to complete this module.</h3>
 			</div>
 			<div class="modal-footer">
 			<div class="row">
 				<div class="col-sm-5 pull-right form-group">
 					<input type="button" class="btn btn-info btn-block btn-lg btn-nav btn-next" role="button"
-					value="Go back to the dashboard." id="go-to-dashboard" />
+					value="Go back to dashboard." id="go-to-dashboard" />
 				</div>
 				<div class="col-sm-5 pull-left form-group">
 					<input type="button" class="btn btn-success btn-block btn-lg btn-nav btn-next" role="button"

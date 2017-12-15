@@ -4,20 +4,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Admin Page</title>
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<style type="text/css">
-<%@include file="../css/adminAuth.css" %>
-</style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script type="text/javascript">
-<%@include file="../js/adminAuth.js" %>
-</script>
+	<!-- <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"> -->
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="IPCOLab">
+    <meta name="author" content="NEU CCIS Dept">
+    
+    <link rel="icon" type="image/png" href="https://png.icons8.com/law/ultraviolet/16/000000" />
+    
+	<title>Admin Authentication</title>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<style type="text/css">
+		<%@include file="../css/adminAuth.css" %>
+	</style>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		<%@include file="../js/adminAuth.js" %>
+		<%@include file="../js/progress.js" %>
+	</script>
+	<script type="text/javascript">
+		setInterval("checkLoad()",1000);
+	</script>
 </head>
 <body>
+<div id="preLoaderDiv"></div>
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-6 col-md-6 carousel-col">
@@ -174,5 +187,6 @@
 		</div>
 	</div>
 </div>
+<div id="bottom"></div>
 </body>
 </html>

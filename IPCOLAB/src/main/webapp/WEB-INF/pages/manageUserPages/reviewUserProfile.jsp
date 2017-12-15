@@ -5,25 +5,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Topics</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/metro-bootstrap/3.1.1.2/css/metro-bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
-<style type="text/css">
-<%@include file="../../css/header.css" %>
-<%@include file="../../css/userProfile.css" %>
-</style>
-<script type="text/javascript">
-<%@include file="../../js/manageUser.js" %>
-</script>
+<!-- <meta charset="ISO-8859-1"> -->
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="IPCOLab">
+    <meta name="author" content="NEU CCIS Dept">
+    
+    <link rel="icon" type="image/png" href="https://png.icons8.com/law/ultraviolet/16/000000" />
+    
+	<title>Topics</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/metro-bootstrap/3.1.1.2/css/metro-bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	
+	<style type="text/css">
+		<%@include file="../../css/header.css" %>
+		<%@include file="../../css/userProfile.css" %>
+	</style>
+	<script type="text/javascript">
+		<%@include file="../../js/manageUser.js" %>
+	</script>
 </head>
 <body>
 <jsp:include page="../header.jsp"></jsp:include>
-<div class="jumbotron title admin">
+<%-- <div class="jumbotron title admin">
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item"><a href="adminHome.action">Home</a></li>
 	  	<li class="breadcrumb-item"><a href="manageUser.action">Manage User</a></li>
@@ -33,64 +41,71 @@
 		<h1>Reviewing Profile for: <strong><i>${reviewUser.firstName}</i></strong></h1>
 		<p>Revisit instances and review user's progress.</p>
 	</div>
-</div>
+</div> --%>
 <div class="jumbotron content">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="adminHome.action">Home</a></li>
+	  	<li class="breadcrumb-item"><a href="manageUser.action">Manage User</a></li>
+	  	<li class="breadcrumb-item active"><span class="h3">Review progress for ${reviewUser.firstName}</span></li>
+	</ol>
 	<div class="container-fluid text-left">
+		<span class="h2">Reviewing Profile for: <strong><i>${reviewUser.firstName}</i></strong></span>
+		<p>Revisit instances and review user's progress.</p>
 	</div>
 	<div class="jumbotron">
-	<div class="container-fluid text-left">
-		<span class="h2">Overview of IP</span>
-		<c:if test="${null==basicInstance}">
-		<br>
-		<div class="row bg-danger topic-row">
-			<div class="col-sm-12">
-			<h3>User has no instances in this section</h3>
+		<div class="container-fluid text-left">
+			<span class="h2">Overview of IP</span>
+			<c:if test="${null==basicInstance}">
+			<br>
+			<div class="row bg-danger topic-row">
+				<div class="col-sm-12">
+				<h3>User has no instances in this section</h3>
+				</div>
 			</div>
+			</c:if>
+			<c:if test="${not (null==basicInstance)}">
+				<button class="btn btn-info btn-block userInstance topic-row" id="instance_${basicInstance.instance.instanceId}">
+				<div class="row">
+					<div class="col-sm-8  text-left">
+						<span class="h3">${basicInstance.instance.instanceName}</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-4 pull-left text-left">
+						<span class="h3"><i><fmt:formatDate value="${basicInstance.instance.createdTs}" pattern="MMM dd, yyyy hh:mm a"/></i></span>
+					</div>
+				</div>
+				</button>
+			</c:if>
 		</div>
-		</c:if>
-		<c:if test="${not (null==basicInstance)}">
-			<button class="btn btn-info btn-block userInstance topic-row" id="instance_${basicInstance.instance.instanceId}">
-			<div class="row">
-				<div class="col-sm-8  text-left">
-					<span class="h3">${basicInstance.instance.instanceName}</span>
+		<hr>
+		<div class="container-fluid text-left">
+			<span class="h2 strong">Custom Instances of Tutorial</span>
+			<c:if test="${null==customInstance}">
+			<br>
+			<div class="row bg-danger topic-row">
+				<div class="col-sm-12">
+				<h3>User has no instances in this section</h3>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-sm-4 pull-left text-left">
-					<span class="h3"><i><fmt:formatDate value="${basicInstance.instance.createdTs}" pattern="MMM dd, yyyy hh:mm a"/></i></span>
+			</c:if>
+			<c:if test="${not (null==customInstance)}">
+			<c:forEach items="${customInstance.instances}" var="instance">
+				<div class="btn btn-info btn-block userInstance topic-row" id="instance_${instance.instanceId}">
+				<div class="row">
+					<div class="col-sm-8 text-left">
+						<span class="h3">${instance.instanceName}</span>
+					</div>
 				</div>
-			</div>
-			</button>
-		</c:if>
-	</div>
-	<hr>
-	<div class="container-fluid text-left">
-		<span class="h2 strong">Custom Instances of Tutorial</span>
-		<c:if test="${null==customInstance}">
-		<br>
-		<div class="row bg-danger topic-row">
-			<div class="col-sm-12">
-			<h3>User has no instances in this section</h3>
-			</div>
+				<div class="row">
+					<div class="col-sm-4 pull-left text-left">
+						<span class="h3"><i><fmt:formatDate value="${instance.createdTs}" pattern="MMM dd, yyyy hh:mm a"/></i></span>
+					</div>
+				</div>
+				</div>
+			</c:forEach>
+			</c:if>
 		</div>
-		</c:if>
-		<c:if test="${not (null==customInstance)}">
-		<c:forEach items="${customInstance.instances}" var="instance">
-			<div class="btn btn-info btn-block userInstance topic-row" id="instance_${instance.instanceId}">
-			<div class="row">
-				<div class="col-sm-8 text-left">
-					<span class="h3">${instance.instanceName}</span>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-4 pull-left text-left">
-					<span class="h3"><i><fmt:formatDate value="${instance.createdTs}" pattern="MMM dd, yyyy hh:mm a"/></i></span>
-				</div>
-			</div>
-			</div>
-		</c:forEach>
-		</c:if>
-	</div>
 	</div>
 	<hr>
 </div>

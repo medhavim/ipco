@@ -44,9 +44,9 @@
                                         <p class="text-left"><strong>${admin.firstName} ${admin.lastName}</strong></p>
                                         <p class="text-left small">${admin.email}</p>
                                         </c:if>
-                                        <p class="text-left">
-                                            <a href="#" class="btn btn-primary btn-block btn-sm">Edit Profile</a>
-                                        </p>
+                                        <!-- <p class="text-left">
+                                            <a href="#" class="btn btn-primary btn-block btn-sm header-btn">Edit Profile</a>
+                                        </p> -->
                                     </div>
                                 </div>
                             </div>
@@ -57,7 +57,7 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <p>
-                                            <a href="logout.action" class="btn btn-danger btn-block">Logout</a>
+                                            <a href="logout.action" class="btn btn-danger btn-block header-btn">Logout</a>
                                         </p>
                                     </div>
                                 </div>

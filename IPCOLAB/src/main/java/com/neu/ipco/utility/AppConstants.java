@@ -165,6 +165,8 @@ public class AppConstants {
 	public static final Integer TEMPLATE_VIDEO_YESNO = 8;
 
 	public static final Integer TEMPLATE_INFO = 9;
+	
+	public static final Integer TEMPLATE_MCA = 10;
 
 //	Path to save image/video
 	

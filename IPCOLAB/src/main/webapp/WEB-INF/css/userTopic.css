@@ -69,6 +69,7 @@ a {
 	border-radius: 10px;
 	/* padding-bottom: 20px; */
 	padding: 20px;			/* Added by Medhavi */
+	box-shadow: 0 0 13px rgb(115, 118, 119);  /* Added by Medhavi */
 }
 
 .button-wrapper {

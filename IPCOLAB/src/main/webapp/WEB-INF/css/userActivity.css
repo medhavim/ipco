@@ -1,20 +1,4 @@
 
-/* .jumbotron{
-	background-color: #ccc;
-	background-color: white; 	Added by Medhavi
-	margin-bottom:0px;
-	padding-bottom: 0px;		Added by Medhavi
-}
-
-.jumbotron.title{
-	margin-top: 50px;
-	 margin-top: 30px; 		Added by Medhavi
-	
-}
-.jumbotron.content{
-	margin-top: 0px;		Added by Medhavi
-	height: 100vh;
-} */
 
 .btn-group .current-ongoing-module{
 	box-shadow: 0 0 13px rgba(81, 203, 238, 1);
@@ -34,6 +18,11 @@
 }
 
 .chkbx{
+	width: 20px;
+	height: 20px;
+}
+
+.radioBtn {
 	width: 20px;
 	height: 20px;
 }
@@ -73,7 +62,7 @@
 	/* min-height: 100px; */
 }
 
-.mcqOption.correctOption {
+.mcqOption.correctOption, .mcaOption.correctOption {
 	/*background-color:#67f12f;*/
 	width: auto;
     background-color: rgba(100, 230, 45, 0.5);
@@ -83,7 +72,7 @@
     background-color: rgba(100, 230, 45, 0.5);
 }
 
-.mcqOption {
+.mcqOption, .mcaOption {
 	margin-top:15px;
 	margin-right:15px;
 	margin-left:15px;
@@ -105,7 +94,7 @@
 	border-radius: 25px !important;
 }
 
-.mcqOption.correctOption {
+.mcqOption.correctOption, .mcaOption.correctOption {
 	padding-left: 10px; 
     padding-right: 10px; 
 	width: auto;
@@ -118,7 +107,7 @@
     background-color: rgba(100, 230, 45, 0.5);
 }
 
-.mcqOption.incorrectOption {
+.mcqOption.incorrectOption, .mcaOption.incorrectOption {
 	padding-left: 10px; 
     padding-right: 10px; 
     width: auto;
@@ -140,7 +129,7 @@ label#labelText {
 }
 
 .tile.black {
-  background: black;
+  background: #233237;
 }
 
 button.disabled {
@@ -150,4 +139,76 @@ button.disabled {
 /* Added by Medhavi */
 span.h3 {
 	font-weight: normal;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #233237;
+    border-radius: 10px;
+    /* min-width: 160px; */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    border: 1px solid rgb(178, 182, 183);
+}
+.dropdown-content a:link {
+	background-color: #0FA0CE;
+	font-style: italic;
+}
+
+.dropdown-content a:hover {
+	background-color: #0FA0CE;
+	font-style: italic;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.navbar-inverse .navbar-nav>li>a:hover {
+	background-color: #0FA0CE;
+	font-style: italic;
+}
+
+.activityTitle {
+	background-color: lightblue;
+}
+
+ul#moduleList {
+	box-shadow: 0 0 13px #233237;
+}
+
+.nav>li>a {
+	border: 1px solid #233237;
+}
+
+.nav>li>a[class*=" current-"] {
+	background-color: #233237;
+	color:white;
+}
+
+.nav>li>a:hover{
+	background-color: #233237;
+	color:white;
+	font-style: italic;
+}
+
+.popover-title {
+	color: #233237 !important;
+	font-weight: bold;
+}
+
+.popover-content {
+	color: #233237;
 }

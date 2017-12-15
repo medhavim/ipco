@@ -69,21 +69,24 @@ a {text-decoration: none;}
 } */
 
 .topic-row {
+	width: -webkit-fill-available;
 	margin-top: 20px;
 	border-radius: 10px;
 	padding: 20px;			/* Added by Medhavi */
 	/* padding-bottom: 20px; */
-/* 	box-shadow: 0 0 13px rgb(115, 118, 119); */
+ 	box-shadow: 0 0 13px rgb(115, 118, 119); 
 /*     padding: 3px 0px 3px 3px; */
 /*     margin: 5px 1px 3px 0px; */
-/*     border: 3px solid rgb(178, 182, 183); */
+     border: 3px solid rgb(178, 182, 183); 
 }
 
 .button-wrapper {
 	border-radius: 10px;
 	margin-bottom:5px;
 }
-
+.modal_btn {
+	display: block !important;
+}
 .start-tutorial {
 	padding-top: 10px;
 	padding-bottom: 10px;
@@ -124,12 +127,25 @@ span.h4 {
 	font-weight: normal;
 }
 
-.btn-info {
-	background-color: #233237;
-	border-color: #EAC67A;
+/* .btn-info {
+	background-color: #233237;	Gunmetal
+	border-color: #EAC67A;	Warm Yellow
+	border-color: #DF744A;	Warm
+}
+.btn-info:hover {
+	background-color: black;	
+	border-color: #EAC67A;	Warm Yellow
+	border-color: #DF744A;	Warm
 }
 
 .btn-primary {
 	background-color: #EAC67A;
 	border-color: #233237;
+	border-color: #DF744A; Warm
+	background-color: #DCB239;	Lemon
 }
+
+.btn-primary:hover {
+	background-color: #DF744A; Warm
+	border-color: #DCB239;	Lemon
+} */

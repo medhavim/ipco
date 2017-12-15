@@ -3,9 +3,9 @@ body {
 }
 .panel-login {
 	border-color: #ccc;
-	-webkit-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);
-	-moz-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);
-	box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);
+	-webkit-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.5);
+	-moz-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.5);
+	box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.5);
 }
 .panel-login>.panel-heading {
 	color: #00415d;
@@ -175,3 +175,23 @@ body {
 	height:100vh !important;
 }
 
+/* Progress bar css start */
+div#preLoaderDiv
+{
+	position: fixed;
+	_position: absolute;
+	_top:expression(eval(document.body.scrollTop));
+	width: 100%;
+	height: 100%;
+	top: 0px;
+	left: 0px;
+	z-index: 1000;
+}
+
+div#preLoaderDiv
+{
+	background-color: black;
+	opacity: 0.7;
+	filter: alpha(opacity=70);
+}
+/* Progress bar css end */

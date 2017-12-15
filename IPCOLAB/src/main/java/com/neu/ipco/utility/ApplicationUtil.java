@@ -66,6 +66,35 @@ public class ApplicationUtil {
 		return options;
 	}
 	
+	public static Set<Option> populateMCAOptoins(Set<Option>options, HttpServletRequest request, int orderNo) {
+		String[] optionArray = request.getParameterValues("correctAnswer");
+		String optionText = "option";
+		if(null == optionArray){
+			optionArray = request.getParameterValues("selectedAnswer");
+			optionText = "selectedAnswer_";
+		}
+		if(null == optionArray){
+			return options;
+		}
+		List<String> correctAnswers = new ArrayList<String>(Arrays.asList(optionArray));
+		Enumeration<String> parameters = request.getParameterNames();
+		
+		while(parameters.hasMoreElements()){
+			String param = (String) parameters.nextElement();
+			if(param.contains(optionText)){
+				Option option = new Option();
+				option.setOptionText(request.getParameter(param).trim());
+				option.setOrderNo(orderNo + Integer.valueOf(param.split("_")[1]));
+				if(null != correctAnswers){
+					option.setIsCorrect(correctAnswers.contains(param)?"true":"false");
+				}
+				option.setCreatedTs(new Date());
+				options.add(option);
+			}
+		}
+		return options;
+	}
+	
 	public static Set<Option> populateYESNOOptions(Set<Option> options, HttpServletRequest request, int orderNo) {
 		
 		String correctOption = request.getParameter("yesno-option");

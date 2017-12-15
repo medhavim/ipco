@@ -16,3 +16,11 @@
 	<div class="col-md-2">
 	</div>
 </div>
+<br/>
+<div class="container-fluid text-left form-group">
+	<span class="h2">Step 5:</span>
+	<span class="h2">Answer Summary / Explanation</span>
+</div>
+<div class="container-fluid text-left desc-body form-group">
+	<input type="text" form="mcqForm" id="activityExplanation" name="activityExplanation" path="activity.activityExplanation" placeholder="Enter some explanation or summary for the answer." ></input>
+</div>

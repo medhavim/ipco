@@ -76,10 +76,10 @@
 			<div class="modal-footer">
 				<div class="row">
 					<div class="col-sm-5 pull-left form-group">
-						<a class="btn btn-success btn-block" data-dismiss="modal">No</a>
+						<a class="modal_btn btn btn-success btn-block " data-dismiss="modal">No</a>
 					</div>
 					<div class="col-sm-5 pull-right form-group">
-						<input type="button" class="btn btn-danger btn-block" data-toggle="modal"
+						<input type="button" class="modal_btn btn btn-danger btn-block " data-toggle="modal"
 										data-target="#confirmationDialog" role="button" data-dismiss="modal" value="Yes"/>
 					</div>
 				</div>
@@ -104,10 +104,10 @@
 				<div class="modal-footer">
 					<div class="row">
 						<div class="col-sm-5 pull-left form-group">
-							<a class="btn btn-success btn-block" data-dismiss="modal">No</a>
+							<a class="modal_btn btn btn-success btn-block " data-dismiss="modal">No</a>
 						</div>
 						<div class="col-sm-5 pull-right form-group">
-							<input type="submit" class="btn btn-default btn-block" role="button" value="Yes"/>
+							<input type="submit" class="modal_btn btn btn-default btn-block " role="button" value="Yes"/>
 						</div>
 					</div>
 				</div>

@@ -19,6 +19,9 @@
 	z-index: 50;
 }
 
+.modal_btn{
+	display:block !important;
+}
 /* .jumbotron{
 	background-color: #ccc;
 	background-color: white; 	Added by Medhavi
@@ -35,7 +38,9 @@
 
 .btn{
 	border-radius: 25px;
+	display: inline-block; 
 }
+
 .activity_holder{
 /* 	background-color: rgb(214, 196, 196); */
 	padding-top: 5px;
@@ -86,7 +91,9 @@
 }
 .tile.gray {
   /* background: #57646d; */
-  background: black;
+  /* background: black; */
+  background: #233237 !important;
+  background-color: #233237 !important; 
 }
 
 .diag-qstn{
@@ -100,4 +107,19 @@
 
 span.h3 {
 	font-weight: normal;
+}
+.category_holder {
+	padding-top: 0px;
+}
+div.jumbotron.activity_holder {
+	padding: 0px;
+	padding-top: 10px;
+}
+
+.w3-black {
+	background-color: #233237 !important;
+}
+
+span.w3-tag {
+	box-shadow: 10px 10px 5px grey;
 }

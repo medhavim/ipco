@@ -37,6 +37,10 @@ $(document).ready(function(){
 //jQuery to handle yes/no activity End
 });
 
+//jQuery to handle popover for Answer Summary when "Check Answers" button is clicked
+$(document).ready(function(){
+    $('[data-toggle="popover"]').popover();   
+});
 
 // Navigating from one activity/module to next/prev Start
 $(document).on('click', '.btn-nav', function(e) {
@@ -48,6 +52,14 @@ $(document).on('click', '.btn-nav.btn-prev', function(e) {
 	$('#activityForm').attr('action', 'navigateActivity.action');
 	$('#activityForm').submit();
 });
+
+// Added by Medhavi
+$(document).on('click', '.btn-next', function(e) {
+	var instance = $(this).data('id');
+	console.log(instance);
+	 $(".p #summary").innerHTML(instance);
+});
+
 
 // Navigating from one activity/module to next/prev End
 

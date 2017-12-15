@@ -349,6 +349,7 @@ public class AdminController {
 //					card1File, card2File, card3File);
 				currActivityOption.getOptions().clear();
 				currActivityOption.setOptions(options);
+				currActivityOption.getActivity().setActivityExplanation(newActivityOption.getActivity().getActivityExplanation());
 			}
 			
 			currActivityOption.getActivity().setUpdatedTs(new Date());
@@ -503,6 +504,8 @@ public class AdminController {
 		
 		if(activityTemplateId == AppConstants.TEMPLATE_MCQ){
 			options = ApplicationUtil.populateMCQOptoins(options, request, orderNo);
+		}else if(activityTemplateId == AppConstants.TEMPLATE_MCA){
+			options = ApplicationUtil.populateMCAOptoins(options, request, orderNo);
 		}else if(activityTemplateId == AppConstants.TEMPLATE_YESNO){
 			options = ApplicationUtil.populateYESNOOptions(options, request, orderNo);
 		}else{
