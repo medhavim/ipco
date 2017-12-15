@@ -8,3 +8,4 @@ The IP CO-LAB, led by students at the School of Law and faculty from the law and
 Project:  IP Module Website
 The IP CO-LAB is pioneering a new and unique approach that, along with other student-led activities, builds on the university’s signature cooperative education model, integrates the study of law with authentic lawyering practice, and incubates actual entrepreneurial ventures. 
 The IP Module Website is a specialized student project developed through collaboration between students in the IP CO-LAB and students in the College of Computer and Information Science.  The website’s goal is to provide a platform of basic introductory legal information on Copyright, Trademark, Patent, and Trade Secret Law.  Through a series of introductory modules, the website will serve as a resource for general intellectual property legal information for the Northeastern entrepreneurial ecosystem.
+
